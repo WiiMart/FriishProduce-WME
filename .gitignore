@@ -13,3 +13,4 @@ legacy/
 /docs/site
 /FriishProduce/bin/Debug/latest.zip
 /FriishProduce/bin/Debug/update
+*.lnk
