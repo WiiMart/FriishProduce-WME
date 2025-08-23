@@ -22,16 +22,32 @@ Some situationally benefitial updates include the 'Genre' field, output paramete
   - [ ] Full support for 'MSX' injects in North America and Europe
   - [ ] Full support for 'Flash' injects in CJK regions
 
-#
+## Building
+Half-baked batch scripts and a VSCode 'tasks.json' are included in the forked source for running and building as well. You can reconfigure these for alternative means of compiling and running.
 
-### Building
 Clone this repository instead of the original:
-
 ```bash
 git clone https://wiilab.wiimart.org/wiimart/friishproduce-wme.git
+
 cd friishproduce-wme
+
+dotnet build FriishProduce.sln
 ```
-Half-baked batch scripts and a VSCode 'tasks.json' are included in the forked source for running and building as well. You can reconfigure these for alternative means of development.
+
+## Deps:
+You can get the MdiTabCtrl dep from Jack Siro's repo
+https://github.com/JacksiroKe/MdiTabCtrl
+```bash
+git clone https://github.com/JacksiroKe/MdiTabCtrl.git
+```
+
+Alternatives:
+```bash
+dotnet add package MdiTabCtrl
+```
+```bash
+Install-Package MdiTabCtrl
+```
 
 #
 
