@@ -1,4 +1,38 @@
-<<<<<<< HEAD
+# FriishProduce-WME
+
+This is a fork of [CatmanFan/FriishProduce](https://github.com/CatmanFan/FriishProduce) maintained by the [WiiMart](https://wiimart.org/) team.
+
+## About This Fork
+The purpose of this fork was initially to extend upon features, and to improve on the overall function and quality of FriishProduce. The main purpose of this fork is now to maintain and extend a unique build of FriishProduce, primarily focusing on features that will be uniquely benefitial to WiiMart alongside any other QOL improvements.
+
+Some situationally benefitial updates include the 'Genre' field, output parameter and automatic filling/data retrieval for the 'Genre' field.
+
+#### Maintenance and extensibility includes:
+- New features for Wii VC injection workflows
+- More customization and control features
+- More online/offline compatibility features
+
+- QOL updates:
+  - [X] Genre field
+  - [X] Optionally lowercase WAD file name parameters
+  - [X] Optionally save downloaded thumbnails/banners locally
+  - [X] Optionally save downloaded WADs locally
+
+- Integrating full regional support per game and per emulator
+  - [ ] Full support for 'MSX' injects in North America and Europe
+  - [ ] Full support for 'Flash' injects in CJK regions
+
+### Building
+Clone this repository instead of the original:
+
+```bash
+git clone https://wiilab.wiimart.org/wiimart/friishproduce-wme.git
+cd friishproduce-wme
+```
+Half-baked batch scripts and a VSCode 'tasks.json' are included in the forked source for running and building as well. You can reconfigure these for alternative means of development.
+#
+<br>
+
 # FriishProduce
 <div align=center><a href=""><img src="https://github.com/CatmanFan/FriishProduce/blob/main/images/icon.png" /></a>
 
