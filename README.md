@@ -1,4 +1,5 @@
 # FriishProduce-WME
+<div align=center><a href=""><img src="https://images2.imgbox.com/33/c3/1XKWnGZ6_o.png" /></a>
 
 This is a fork of [FriishProduce](https://github.com/CatmanFan/FriishProduce) by [CatmanFan](https://github.com/CatmanFan/) maintained by the [WiiMart](https://wiimart.org/) team.
 
@@ -64,7 +65,7 @@ Install-Package MdiTabCtrl
 <br>
 
 # FriishProduce
-<div align=center><a href=""><img src="https://github.com/CatmanFan/FriishProduce/blob/main/images/icon.png" /></a>
+<div align=center><a href=""><img src="https://raw.githubusercontent.com/CatmanFan/FriishProduce/refs/heads/main/images/icon.png" /></a>
 
 ![GBAtemp thread](https://img.shields.io/badge/GBAtemp-thread-blue?link=https%3A%2F%2Fgbatemp.net%2Fthreads%2Ffriishproduce-multiplatform-wad-injector.632028%2F)
  ![Wiki](https://img.shields.io/badge/wiki-white?link=https%3A%2F%2Fcatmanfan.github.io%2FFriishProduce%2F)
