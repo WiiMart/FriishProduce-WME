@@ -1,5 +1,5 @@
 # FriishProduce-WME
-<div align=center><a href=""><img src="https://images2.imgbox.com/33/c3/1XKWnGZ6_o.png" /></a>
+<div align=center><a href=""><img src="https://images2.imgbox.com/33/c3/1XKWnGZ6_o.png" /></a></div>
 
 This is a fork of [FriishProduce](https://github.com/CatmanFan/FriishProduce) by [CatmanFan](https://github.com/CatmanFan/) maintained by the [WiiMart](https://wiimart.org/) team.
 
