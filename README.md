@@ -1,9 +1,9 @@
 # FriishProduce-WME
 <div align=center><a href=""><img src="https://images2.imgbox.com/33/c3/1XKWnGZ6_o.png" /></a></div>
 
+#
 This is a fork of [FriishProduce](https://github.com/CatmanFan/FriishProduce) by [CatmanFan](https://github.com/CatmanFan/) maintained by the [WiiMart](https://wiimart.org/) team.
 
-## About This Fork
 The purpose of this fork was initially to extend upon features, and to improve on the overall function and quality of FriishProduce. The main purpose of this fork is now to maintain and extend a unique build of FriishProduce, primarily focusing on features that will be uniquely benefitial to WiiMart alongside any other QOL improvements.
 
 Some situationally benefitial updates include the 'Genre' field, output parameter and automatic filling/data retrieval for the 'Genre' field.
