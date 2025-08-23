@@ -1,7 +1,7 @@
 ﻿{
 	"language": "ko",
 	"author": "DDinghoya",
-	"application_title": "FriishProduce",
+	"application_title": "FriishProduce v1.6.1-WME (Beta) (Debug)",
 	
 	"global": {
 		"main": {
@@ -292,6 +292,7 @@
 			"channel_metadata":					"채널 메타데이터",
 			"channel_name":						"짧은 이름:",
 			"title_id":							"타이틀 ID:",
+			"genre":							"Genre:",
 			"region":							"채널 지역:",
 			"video_mode":						"비디오 모드:",
 			"banner":							"채널 배너",

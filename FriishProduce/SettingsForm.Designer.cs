@@ -54,6 +54,11 @@ namespace FriishProduce
             this.toggleSwitch2 = new JCS.ToggleSwitch();
             this.panel2 = new System.Windows.Forms.Panel();
             this.auto_prefill = new System.Windows.Forms.CheckBox();
+            this.locsave_banner = new System.Windows.Forms.CheckBox();
+            this.locsave_banner_tb = new System.Windows.Forms.TextBox();
+            this.locsave_wad = new System.Windows.Forms.CheckBox();
+            this.locsave_wad_tb = new System.Windows.Forms.TextBox();
+            this.lowerParams = new System.Windows.Forms.CheckBox();
             this.auto_fill_save_data = new System.Windows.Forms.CheckBox();
             this.image_interpolation_mode = new FriishProduce.GroupBoxEx();
             this.image_interpolation_modes = new System.Windows.Forms.ComboBox();
@@ -183,6 +188,7 @@ namespace FriishProduce
             // 
             resources.ApplyResources(this.debug_mode, "debug_mode");
             this.debug_mode.Name = "debug_mode";
+            this.debug_mode.Tag = "debug_mode";
             this.debug_mode.UseVisualStyleBackColor = true;
             // 
             // theme
@@ -299,15 +305,46 @@ namespace FriishProduce
             // panel2
             // 
             this.panel2.Controls.Add(this.auto_prefill);
+            this.panel2.Controls.Add(this.locsave_banner);
+            this.panel2.Controls.Add(this.locsave_banner_tb);
+            this.panel2.Controls.Add(this.locsave_wad);
+            this.panel2.Controls.Add(this.locsave_wad_tb);
+            this.panel2.Controls.Add(this.lowerParams);
             this.panel2.Controls.Add(this.auto_fill_save_data);
             this.panel2.Controls.Add(this.image_interpolation_mode);
             this.panel2.Controls.Add(this.banner_region);
             this.panel2.Controls.Add(this.default_target_filename);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
+            //
+            //
+            // locsave_banner
+            resources.ApplyResources(this.locsave_banner, "locsave_banner");
+            this.locsave_banner.Name = "locsave_banner";
+            this.locsave_banner.Tag = "locsave_banner";
+            this.locsave_banner.UseVisualStyleBackColor = true;
+            //
+            resources.ApplyResources(this.locsave_banner_tb, "locsave_banner_tb");
+            this.locsave_banner_tb.Name = "locsave_banner_tb";
             // 
+            // locsave_wad
+            resources.ApplyResources(this.locsave_wad, "locsave_wad");
+            this.locsave_wad.Name = "locsave_wad";
+            this.locsave_wad.Tag = "locsave_wad";
+            this.locsave_wad.UseVisualStyleBackColor = true;
+            //
+            resources.ApplyResources(this.locsave_wad_tb, "locsave_wad_tb");
+            this.locsave_wad_tb.Name = "locsave_wad_tb";
+            //
+            //
+            // lowerParams
+            resources.ApplyResources(this.lowerParams, "lowerParams");
+            this.lowerParams.Name = "lowerParams";
+            this.lowerParams.Tag = "lowerParams";
+            this.lowerParams.UseVisualStyleBackColor = true;
+            //
+            //
             // auto_prefill
-            // 
             resources.ApplyResources(this.auto_prefill, "auto_prefill");
             this.auto_prefill.Name = "auto_prefill";
             this.auto_prefill.Tag = "auto_prefill";
@@ -625,6 +662,11 @@ namespace FriishProduce
         private System.Windows.Forms.Panel forwarder;
         private GroupBoxEx forwarder_root_device;
         private System.Windows.Forms.CheckBox auto_prefill;
+        private System.Windows.Forms.CheckBox lowerParams;
+        private System.Windows.Forms.CheckBox locsave_banner;
+        private System.Windows.Forms.TextBox locsave_banner_tb;
+        private System.Windows.Forms.CheckBox locsave_wad;
+        private System.Windows.Forms.TextBox locsave_wad_tb;
         private System.Windows.Forms.CheckBox auto_fill_save_data;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label show_bios_screen;

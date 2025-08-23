@@ -147,6 +147,11 @@ namespace FriishProduce
             bypass_rom_size.Checked = Program.Config.application.bypass_rom_size;
             auto_fill_save_data.Checked = Program.Config.application.auto_fill_save_data;
             auto_prefill.Checked = Program.Config.application.auto_prefill;
+            locsave_banner.Checked = Program.Config.application.locsave_banner;
+            locsave_banner_tb.Text = Program.Config.application.locsave_banner_tb;
+            locsave_wad.Checked = Program.Config.application.locsave_wad;
+            locsave_wad_tb.Text = Program.Config.application.locsave_wad_tb;
+            lowerParams.Checked = Program.Config.application.lowerParams;
             default_target_project_tb.Text = Program.Config.application.default_target_filename;
             default_target_wad_tb.Text = Program.Config.application.default_export_filename;
 
@@ -249,6 +254,11 @@ namespace FriishProduce
             Program.Config.application.bypass_rom_size = bypass_rom_size.Checked;
             Program.Config.application.auto_fill_save_data = auto_fill_save_data.Checked;
             Program.Config.application.auto_prefill = auto_prefill.Checked;
+            Program.Config.application.locsave_banner = locsave_banner.Checked;
+            Program.Config.application.locsave_banner_tb = locsave_banner_tb.Text;
+            Program.Config.application.locsave_wad = locsave_wad.Checked;
+            Program.Config.application.locsave_wad_tb = locsave_wad_tb.Text;
+            Program.Config.application.lowerParams = lowerParams.Checked;
             Program.Config.application.default_target_filename = default_target_project_tb.Text;
             Program.Config.application.default_export_filename = default_target_wad_tb.Text;
 
@@ -295,8 +305,13 @@ namespace FriishProduce
                 Program.MainForm.UpdateConfig();
 
             isShown = false;
+#if DEBUG
+    debug_mode.Checked = true;
+#else
+    debug_mode.Checked = false;
+#endif
 
-            if (debug_mode.Checked)
+            if ((!Program.DebugMode && debug_mode.Checked) || (Program.DebugMode && !debug_mode.Checked))
             {
                 if (MessageBox.Show("This will restart the application.\nContinue anyway?", MessageBox.Buttons.YesNo, MessageBox.Icons.Warning) == MessageBox.Result.Yes)
                 {

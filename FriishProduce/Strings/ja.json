@@ -1,7 +1,7 @@
 {
 	"language": "ja",
 	"author": "CatmanFan",
-	"application_title": "FriishProduce",
+	"application_title": "FriishProduce v1.6.1-WME (Beta) (Debug)",
 	"global": {
 		"main": {
 			"about_app": "{0}について",
@@ -205,6 +205,7 @@
 			"channel_metadata": "チャンネルのメタデータ",
 			"channel_name": "チャンネルの名前:",
 			"title_id": "タイトルID:",
+			"genre": "Genre:",
 			"region": "チャンネルの地域:",
 			"video_mode": "映像方式:",
 			"banner": "チャンネルバナー",

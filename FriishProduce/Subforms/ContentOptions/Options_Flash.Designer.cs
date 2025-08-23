@@ -39,6 +39,7 @@ namespace FriishProduce
             this.persistent_storage_total_l = new System.Windows.Forms.Label();
             this.persistent_storage_total = new System.Windows.Forms.ComboBox();
             this.save_data_enable = new System.Windows.Forms.CheckBox();
+            this.no_copy_save = new System.Windows.Forms.CheckBox();
             this.display = new FriishProduce.GroupBoxEx();
             this.anti_aliasing = new System.Windows.Forms.CheckBox();
             this.quality_l = new System.Windows.Forms.Label();
@@ -107,6 +108,7 @@ namespace FriishProduce
             this.groupBox1.Controls.Add(this.persistent_storage_total_l);
             this.groupBox1.Controls.Add(this.persistent_storage_total);
             this.groupBox1.Controls.Add(this.save_data_enable);
+            this.groupBox1.Controls.Add(this.no_copy_save);
             this.groupBox1.Location = new System.Drawing.Point(378, 10);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(360, 170);
@@ -194,6 +196,18 @@ namespace FriishProduce
             this.save_data_enable.Text = "save_data_enable";
             this.save_data_enable.UseVisualStyleBackColor = true;
             this.save_data_enable.CheckedChanged += new System.EventHandler(this.valueChanged);
+            // 
+            // no_copy_save
+            // 
+            this.no_copy_save.AutoSize = true;
+            this.no_copy_save.Location = new System.Drawing.Point(193, 20);
+            this.no_copy_save.Name = "no_copy_save";
+            this.no_copy_save.Size = new System.Drawing.Size(115, 17);
+            this.no_copy_save.TabIndex = 24;
+            this.no_copy_save.Tag = "no_copy_save";
+            this.no_copy_save.Text = "no_copy_save";
+            this.no_copy_save.UseVisualStyleBackColor = true;
+            this.no_copy_save.CheckedChanged += new System.EventHandler(this.valueChanged);
             // 
             // display
             // 
@@ -509,6 +523,7 @@ namespace FriishProduce
         private System.Windows.Forms.ComboBox vff_cache_size;
         private System.Windows.Forms.Label vff_cache_size_l;
         private System.Windows.Forms.CheckBox save_data_enable;
+        private System.Windows.Forms.CheckBox no_copy_save;
         private GroupBoxEx display;
         private GroupBoxEx controls;
         private System.Windows.Forms.CheckBox qwerty_keyboard;

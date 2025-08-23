@@ -64,7 +64,8 @@ namespace FriishProduce
 
             // Auto-set main content index if it is absolutely necessary, then load both U8 archives
             // ****************
-            if (needsManualLoaded && (mainContentIndex <= 1)) mainContentIndex = 5;
+            if (needsManualLoaded && (mainContentIndex <= 1))
+                mainContentIndex = 5;
 
             if (mainContentIndex > 1 && WAD.Contents.Length > mainContentIndex)
                 MainContent = U8.Load(WAD.Contents[mainContentIndex]);

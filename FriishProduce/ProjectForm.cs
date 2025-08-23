@@ -270,6 +270,20 @@ namespace FriishProduce
                 return value;
             }
         }
+        private string _genre
+        {
+            get
+            {
+                string value = "";
+
+                if (InvokeRequired)
+                    Invoke(new MethodInvoker(delegate { value = genre.Text; }));
+                else
+                    value = genre.Text;
+
+                return value;
+            }
+        }
         private string[] _channelTitles
         {
             get
@@ -378,7 +392,7 @@ namespace FriishProduce
                 }
 
                 // Japan/Korea: Use USA banner for C64 & Flash
-                if (value != 1 && value != 2 && (targetPlatform == Platform.C64 || targetPlatform == Platform.Flash))
+                if (value != 1 && value != 2 && (targetPlatform == Platform.C64 /*|| targetPlatform == Platform.Flash*/))
                     return libWiiSharp.Region.USA;
 
                 // International: Use Japan banner for MSX
@@ -455,6 +469,7 @@ namespace FriishProduce
                 WiiUDisplay = wiiu_display.SelectedIndex,
 
                 TitleID = _tID,
+                Genre = _genre,
                 Sound = _bannerSound,
                 ChannelTitles = _channelTitles,
                 BannerTitle = _bannerTitle,
@@ -843,6 +858,7 @@ namespace FriishProduce
                 Platform.N64,
                 Platform.SMS,
                 Platform.SMD,
+                Platform.Flash,
                 // Platform.PCE,
                 // Platform.NEO
             })
@@ -888,6 +904,7 @@ namespace FriishProduce
                 try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
                 try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
                 try { title_id.Text = project.TitleID; } catch { }
+                try { genre.Text = project.Genre; } catch { }
 
                 try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
                 try { multifile_software.Checked = project.IsMultifile; } catch { }
@@ -998,9 +1015,11 @@ namespace FriishProduce
                 && targetPlatform != Platform.RPGM
                 && rom?.FilePath != null, // LibRetro / game data (2, less strict)
 
+                /*
                 targetPlatform != Platform.Flash
                 && targetPlatform != Platform.RPGM
-                && isVirtualConsole, // Browse manual
+                && isVirtualConsole,
+                */ // Browse manual
             };
         }
 
@@ -1103,12 +1122,15 @@ namespace FriishProduce
 
             string TITLEID = title_id.Text.ToUpper();
 
+            string GENRE = genre.Text;
+            if (string.IsNullOrWhiteSpace(GENRE)) GENRE = "GENRE";
+
             string PLATFORM = targetPlatform.ToString();
 
-            string REGION = region.SelectedItem.ToString() == Program.Lang.String("region_j") ? "Japan"
+            string REGION = region.SelectedItem.ToString() == Program.Lang.String("region_j") ? "JPN"
                           : region.SelectedItem.ToString() == Program.Lang.String("region_u") ? "USA"
-                          : region.SelectedItem.ToString() == Program.Lang.String("region_e") ? "Europe"
-                          : region.SelectedItem.ToString() == Program.Lang.String("region_k") ? "Korea"
+                          : region.SelectedItem.ToString() == Program.Lang.String("region_e") ? "EUR"
+                          : region.SelectedItem.ToString() == Program.Lang.String("region_k") ? "KOR"
                           : region.SelectedIndex == 1 ? "Region-Free"
                           : null;
             if (REGION == null)
@@ -1119,10 +1141,10 @@ namespace FriishProduce
                     {
                         REGION = channels.Entries[Base.SelectedIndex].Regions[i] switch
                         {
-                            0 => "Japan",
+                            0 => "JPN",
                             1 or 2 => "USA",
-                            3 or 4 or 5 => "Europe",
-                            6 or 7 => "Korea",
+                            3 or 4 or 5 => "EUR",
+                            6 or 7 => "KOR",
                             8 => "Region-Free",
                             _ => "Original"
                         };
@@ -1130,9 +1152,23 @@ namespace FriishProduce
                 }
             }
 
-            string target = full ? Program.Config.application.default_export_filename : Program.Config.application.default_target_filename;
-            target = target.Replace("FILENAME", FILENAME).Replace("CHANNELNAME", CHANNELNAME).Replace("FULLNAME", FULLNAME).Replace("TITLEID", TITLEID).Replace("PLATFORM", PLATFORM).Replace("REGION", REGION);
-            if (target == Untitled) target = "";
+            string target = full 
+                ? Program.Config.application.default_export_filename 
+                : Program.Config.application.default_target_filename;
+
+            bool lowerOut = Program.Config.application.lowerParams;
+
+            if (target == Untitled)
+                target = "";
+
+            target = target
+                .Replace("FILENAME", lowerOut ? FILENAME.ToLower() : FILENAME)
+                .Replace("CHANNELNAME", lowerOut ? CHANNELNAME.ToLower() : CHANNELNAME)
+                .Replace("FULLNAME", lowerOut ? FULLNAME.ToLower() : FULLNAME)
+                .Replace("TITLEID", lowerOut ? TITLEID.ToLower() : TITLEID)
+                .Replace("GENRE", GENRE) // leave untouched
+                .Replace("PLATFORM", lowerOut ? PLATFORM.ToLower() : PLATFORM)
+                .Replace("REGION", lowerOut ? REGION.ToLower() : REGION);
 
             return string.Join("_", target.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
         }
@@ -1632,7 +1668,7 @@ namespace FriishProduce
         /// <param name="platform"></param>
         /// <param name="path">The ROM/ISO path.</param>
         /// <returns></returns>
-        protected (string Name, string Serial, string Year, string Players, string Image, bool IsComplete) GetGameData(Platform platform, string path)
+        protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path)
         {
             bool isDisc = platform is Platform.PCECD
                                    or Platform.GCN
@@ -1647,7 +1683,7 @@ namespace FriishProduce
                             path = item;
 
                 if (Path.GetExtension(path).ToLower() != ".bin" && Path.GetExtension(path).ToLower() != ".iso")
-                    return (null, null, null, null, null, false);
+                    return (null, null, null, null, null, null, false);
             }
 
             if (Databases.LibRetro.IsWeb(platform))
@@ -1671,10 +1707,13 @@ namespace FriishProduce
 
             try
             {
-                (string Name, string Serial, string Year, string Players, string Image, bool IsComplete) gameData = (null, null, null, null, null, false);
+                (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) gameData = (null, null, null, null, null, null, false);
                 await Task.Run(() => { gameData = GetGameData(targetPlatform, rom.FilePath); });
+                //var dt2 = Databases.LibRetro.Parse(Platform.NES);
+                //var row2 = dt2.Select("crc = '1E693A66'").FirstOrDefault();
+                //Console.WriteLine(row2?["db_genre"]);
 
-                bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, false);
+                bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, null, false);
 
                 if (retrieved)
                 {
@@ -1689,10 +1728,22 @@ namespace FriishProduce
                             var text = gameData.Name.Replace("\r", "").Split('\n');
                             if (text[0].Length <= channel_name.MaxLength) { channel_name.Text = text[0]; }
                         }
+                        
 
                         // Set year and players
                         banner_form.released.Value = !string.IsNullOrEmpty(gameData.Year) ? int.Parse(gameData.Year) : banner_form.released.Value;
                         banner_form.players.Value = !string.IsNullOrEmpty(gameData.Players) ? int.Parse(gameData.Players) : banner_form.players.Value;
+                        //genre.Text = !string.IsNullOrEmpty(gameData.Genre) ? gameData.Genre : genre.Text;
+
+                        // Set channel title text
+                        if (!string.IsNullOrEmpty(gameData.Genre))
+                        {
+                            var text = gameData.Genre.Replace("\r", "").Split('\n');
+                            if (text[0].Length <= genre.MaxLength) { genre.Text = text[0]; }
+                        }
+                        else {
+                            genre.Text = "null";
+                        }
 
                         linkSaveDataTitle();
                     }
@@ -1763,6 +1814,7 @@ namespace FriishProduce
 
                     // Manual = manual,
                     TitleID = _tID,
+                    Genre = _genre,
 
                     Out = targetFile,
                 };
@@ -2208,6 +2260,9 @@ namespace FriishProduce
 
             else if (targetPlatform == Platform.Flash)
             {
+                hasExtra = true;
+                extra.Text = Program.Lang.String(manual_type.Name, Name);
+                manual_type.Visible = true;
                 contentOptionsForm = new Options_Flash();
                 multifile_software.Visible = true;
             }
@@ -2266,11 +2321,11 @@ namespace FriishProduce
                 contentOptionsForm.Icon = Icon.FromHandle((injection_method_options.Image as Bitmap).GetHicon());
             }
 
-            if (!isVirtualConsole && manual != null)
+            /*if (!isVirtualConsole && manual != null)
             {
                 manual = null;
                 manual_type.SelectedIndex = 0;
-            }
+            }*/
 
             showSaveData = isVirtualConsole || targetPlatform == Platform.Flash;
             download_image.Enabled = Databases.LibRetro.Exists(targetPlatform);
@@ -2282,7 +2337,8 @@ namespace FriishProduce
             int space = 46;
             wiiu_display_l.Location = new Point(extra.Location.X, extra.Location.Y + (hasExtra ? space : 0));
             wiiu_display.Location = new Point(wiiu_display.Location.X, wiiu_display_l.Location.Y + 18);
-            forwarder_root_device.Location = manual_type.Location = new Point(manual_type.Location.X, extra.Location.Y + 18);
+            //int multimanu_y = targetPlatform == Platform.Flash ? 22 : 0;
+            forwarder_root_device.Location = manual_type.Location = new Point(manual_type.Location.X, (extra.Location.Y + 18));
             multifile_software.Location = new Point(multifile_software.Location.X, (hasWiiU ? wiiu_display_l.Location.Y : extra.Location.Y) + (hasExtra || hasWiiU ? space : -1));
             extra.Visible = hasExtra;
         }

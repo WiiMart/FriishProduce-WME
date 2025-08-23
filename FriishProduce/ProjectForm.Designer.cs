@@ -58,6 +58,8 @@ namespace FriishProduce
             this.region_l = new System.Windows.Forms.Label();
             this.title_id_l = new System.Windows.Forms.Label();
             this.title_id = new System.Windows.Forms.TextBox();
+            this.genre_l = new System.Windows.Forms.Label();
+            this.genre = new System.Windows.Forms.TextBox();
             this.channel_name_l = new System.Windows.Forms.Label();
             this.channel_name = new System.Windows.Forms.TextBox();
             this.title_id_random = new System.Windows.Forms.PictureBox();
@@ -262,11 +264,13 @@ namespace FriishProduce
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.title_id);
+            this.groupBox4.Controls.Add(this.genre);
             this.groupBox4.Controls.Add(this.video_mode);
             this.groupBox4.Controls.Add(this.region);
             this.groupBox4.Controls.Add(this.video_mode_l);
             this.groupBox4.Controls.Add(this.region_l);
             this.groupBox4.Controls.Add(this.title_id_l);
+            this.groupBox4.Controls.Add(this.genre_l);
             this.groupBox4.Controls.Add(this.channel_name_l);
             this.groupBox4.Controls.Add(this.channel_name);
             this.groupBox4.Controls.Add(this.title_id_random);
@@ -325,9 +329,20 @@ namespace FriishProduce
             resources.ApplyResources(this.title_id, "title_id");
             this.title_id.Name = "title_id";
             this.title_id.TextChanged += new System.EventHandler(this.TextBox_Changed);
-            // 
+            //
+            //
+            // genre
+            resources.ApplyResources(this.genre, "genre");
+            this.genre.Name = "genre";
+            this.genre.TextChanged += new System.EventHandler(this.TextBox_Changed);
+            ///
+            /// genre_l
+            resources.ApplyResources(this.genre_l, "genre_l");
+            this.genre_l.Name = "genre_l";
+            this.genre_l.Tag = "genre";
+            //
+            //
             // channel_name_l
-            // 
             resources.ApplyResources(this.channel_name_l, "channel_name_l");
             this.channel_name_l.Name = "channel_name_l";
             this.channel_name_l.Tag = "channel_name";
@@ -595,6 +610,8 @@ namespace FriishProduce
         private System.Windows.Forms.ComboBox region;
         private System.Windows.Forms.PictureBox title_id_random;
         private System.Windows.Forms.TextBox title_id;
+        private System.Windows.Forms.TextBox genre;
+        private System.Windows.Forms.Label genre_l;
         private System.Windows.Forms.ComboBox video_mode;
         private System.Windows.Forms.Label channel_name_l;
         private System.Windows.Forms.Label title_id_l;

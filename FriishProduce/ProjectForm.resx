@@ -758,6 +758,73 @@
   <data name="&gt;&gt;forwarder_root_device.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <!--==================================================================-->
+  <!--==================================================================-->
+  <data name="genre.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11px</value>
+  </data>
+  <data name="genre.Location" type="System.Drawing.Point, System.Drawing">
+    <value>387, 35</value>
+  </data>
+  <data name="genre.MaxLength" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="genre.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 21</value>
+  </data>
+  <data name="genre.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="genre.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="genre.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;genre.Name" xml:space="preserve">
+    <value>genre</value>
+  </data>
+  <data name="&gt;&gt;genre.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;genre.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;genre.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="genre_l.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="genre_l.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="genre_l.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 18</value>
+  </data>
+  <data name="genre_l.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 13</value>
+  </data>
+  <data name="genre_l.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="genre_l.Text" xml:space="preserve">
+    <value>genre</value>
+  </data>
+  <data name="&gt;&gt;genre_l.Name" xml:space="preserve">
+    <value>genre_l</value>
+  </data>
+  <data name="&gt;&gt;genre_l.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;genre_l.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;genre_l.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <!--==================================================================-->
+  <!--==================================================================-->
   <data name="title_id.Font" type="System.Drawing.Font, System.Drawing">
     <value>Lucida Console, 14px</value>
   </data>
@@ -890,6 +957,8 @@
   <data name="&gt;&gt;video_mode_l.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <!--==================================================================-->
+  <!--==================================================================-->
   <data name="region_l.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -900,7 +969,7 @@
     <value>8, 60</value>
   </data>
   <data name="region_l.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 13</value>
+    <value>39, 13</value>
   </data>
   <data name="region_l.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -918,8 +987,10 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;region_l.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
+  <!--==================================================================-->
+  <!--==================================================================-->
   <data name="title_id_l.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1025,7 +1096,7 @@
     <value>NoControl</value>
   </data>
   <data name="title_id_random.Location" type="System.Drawing.Point, System.Drawing">
-    <value>367, 37</value>
+    <value>363, 37</value>
   </data>
   <data name="title_id_random.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -1739,7 +1810,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.1-WME, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>

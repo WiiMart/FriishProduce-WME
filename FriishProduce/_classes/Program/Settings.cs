@@ -142,14 +142,21 @@ namespace FriishProduce
             public int theme { get; set; } = 0;
             public bool donotshow_000 { get; set; } = false;
             public bool donotshow_001 { get; set; } = false;
-            public bool auto_prefill { get; set; } = false;
+            public bool auto_prefill { get; set; } = true;
+
+            public bool locsave_banner { get; set; } = false;
+            static string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            public string locsave_banner_tb { get; set; } = Path.GetFullPath(Path.Combine(baseDir, "Downloads/Banners"));
+            public bool locsave_wad { get; set; } = false;
+            public string locsave_wad_tb { get; set; } = Path.GetFullPath(Path.Combine(baseDir, "Downloads/WADs"));
+            public bool lowerParams { get; set; } = true;
             public bool auto_fill_save_data { get; set; } = true;
             public bool use_online_wad_enabled { get; set; } = false;
             public bool bypass_rom_size { get; set; } = false;
             public int image_interpolation { get; set; } = 2;
             public bool image_fit_aspect_ratio { get; set; } = false;
             public string default_target_filename { get; set; } = "FULLNAME";
-            public string default_export_filename { get; set; } = "[PLATFORM] FULLNAME (REGION) (TITLEID)";
+            public string default_export_filename { get; set; } = ">PLATFORM_CHANNELNAME_REGION_GENRE_Publisher";
             public int default_banner_region { get; set; } = 0;
             public int default_wiiu_display { get; set; } = 0;
             public int default_injection_method_nes { get; set; } = 0;
@@ -259,6 +266,7 @@ namespace FriishProduce
             public string anti_aliasing { get; set; } = "on";
             public string zoom { get; set; } = "default";
             public string fullscreen { get; set; } = "no";
+            public string no_copy_save { get; set; } = "off";
         }
     }
 }

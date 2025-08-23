@@ -9,6 +9,35 @@ namespace FriishProduce.Injectors
 {
     public class Flash
     {
+
+        /*public enum FlashDefault {
+            CONTENT_DOMAIN(""),
+            QUALITY("high"),
+            MOUSE("on"),
+            QWERTY_KEYBOARD("on"),
+            SHARED_OBJECT_CAPABILITY("on"),
+            VFF_SYNC_ON_WRITE("off"),
+            VFF_CACHE_SIZE("96"),
+            PERSISTENT_STORAGE_TOTAL("96"),
+            PERSISTENT_STORAGE_PER_MOVIE("64"),
+            HBM_NO_SAVE("false"),
+            STRAP_REMINDER("none"),
+            ANTI_ALIASING("on"),
+            ZOOM("default"),
+            FULLSCREEN("no"),
+            NO_COPY_SAVE("true"),
+            ;
+
+            private final String value;
+
+            private FlashDefault(String value) {
+                this.value = value;
+            }
+            public final String getValue() {
+                return value;
+            }
+        }*/
+
         private static string[] _saveDataSizes;
         public static string[] SaveDataSizes
         {
@@ -36,6 +65,13 @@ namespace FriishProduce.Injectors
         public IDictionary<string, string> Settings { get; set; }
         public IDictionary<Buttons, string> Keymap { get; set; }
         public bool Multifile { get; set; }
+        public string Manual { get; set; }
+        protected bool UsesOrigManual { get => Manual?.ToLower().StartsWith("orig") == true; }
+        protected string origManual { get; set; }
+        /// <summary>
+        /// Determines if we need the manual app index to be set and replaced.
+        /// </summary>
+        protected bool needsManualLoaded { get; set; }
 
         #region -- Default settings for Back to Nature --
         // keymap.ini
@@ -352,6 +388,130 @@ namespace FriishProduce.Injectors
            */
         #endregion
 
+        //KirbyTV banner.ini Header
+        // # ƒ^ƒCƒgƒ‹•¶Žš—ñ‚ÆƒRƒƒ“ƒg•¶Žš—ñ‚Í UTF-8 ƒGƒ“ƒR[ƒh‚³‚ê‚½•¶Žš—ñ‚ð URL ƒGƒ“ƒR[ƒh‚µ‚Ä
+        // # ‹Lq‚·‚éB
+        #region -- Default settings for KirbyTV --
+        // keymap.ini
+        // -----------------------------------------------------
+        /* KEY_BUTTON_LEFT  KEY_LEFT
+        KEY_BUTTON_RIGHT KEY_RIGHT
+        KEY_BUTTON_DOWN  KEY_DOWN
+        KEY_BUTTON_UP    KEY_UP */
+
+        // banner.ini:
+        // -----------------------------------------------------
+        /*  # Banner setting file
+            not_copy        off
+            anim_type       bounce
+            title_text      Kirby%20TV%20Channel%20Base
+            comment_text    %20
+            banner_tpl      banner/US/EN/banner.tpl
+            icon_tpl        banner/US/EN/icons.tpl
+            icon_count      8
+            icon_speed      0, slow
+            icon_speed      1, slow
+            icon_speed      2, slow
+            icon_speed      3, slow
+            icon_speed      4, slow
+            icon_speed      5, slow
+            icon_speed      6, slow
+            icon_speed      7, slow
+            */
+
+        // config.common.pcf
+        /*
+        ##################################################################################################
+        ##### 				    GUMBALL VODF CONFIG FILE			             #####			
+        ##################################################################################################
+
+        static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]
+        dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]
+
+        mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]
+        #mp4_texture_buffer_count			32			# not currently implemented
+
+        stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]
+        stream_cache_size				512			# 2048[KB] -> 2.0[MB]
+
+        content_mem1					no
+        content_buffer_mode				copy
+
+        mouse						on
+        qwerty_keyboard					on			# hardware keyboard
+        qwerty_events					off			# hardware keyboard sends flash events
+        use_keymap					off			# determines if the region's keymap.ini is used
+        navigation_model				4way			# 2way / 4way / 4waywrap
+        quality						high			# low / medium / high
+        looping						on
+
+        text_encoding					utf-16			# should be utf-16
+
+        midi						off
+        # dls_file					dls/GM16.DLS
+
+        key_input					on			# software keyboard -- requires hardware keyboard and mouse
+
+        cursor_archive					cursor.arc
+        cursor_layout					cursor.brlyt
+
+        dialog_cursor_archive				cursor.arc
+        dialog_cursor_layout				cursor.brlyt
+
+
+
+
+        device_text					on
+
+        brfna_file					10, wbf1.brfna
+
+        brsar_file					sound/FlashPlayerSe.brsar	# sound data
+
+        embedded_vector_font				off
+        # embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf
+        # pre_installed_as_class_files			library/classes.swf
+
+
+
+        shared_object_capability			on
+        num_vff_drives					2
+        vff_cache_size					96			# 96[KB]
+        vff_sync_on_write              			off
+
+        persistent_storage_root_drive			X
+        persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format
+        persistent_storage_total			96			# 96[KB]
+        persistent_storage_per_movie			64			# 64[KB]
+
+        supported_devices				core
+
+        hbm_no_save	    				false
+
+        trace_filter					none
+        texture_filter					linear
+
+        strap_reminder					none			#normal  #no_ex  #none
+
+        background_color				115 161 216 255		# RGBA -- VODF/SWF BG Color.
+
+
+        ################################# APPLICATION CONFIGURATIONS #####################################
+
+
+        certificate_files   				GTEGI.cer rootTest.cer
+
+        update_frame_rate				30 			# 0 sets it to framerate set in content
+
+
+        ########################################## Gumball ###############################################
+
+
+        content_domain		file:///trusted/				#Local Data
+
+        content_url 		file:///trusted/Gumball2.12.RC-1.swf
+        */
+        #endregion
+
         /*  Wii buttons:
             KEY_BUTTON_LEFT
             KEY_BUTTON_RIGHT
@@ -420,14 +580,18 @@ namespace FriishProduce.Injectors
             Invalid = -1,
             BackToNature = 0,
             iPlayer = 1,
-            YouTube = 2
+            YouTube = 2,
+            KirbyTV = 3
         }
 
         private U8 MainContent { get; set; }
 
         public WAD Inject(WAD w, string[] lines, ImageHelper Img)
         {
-            MainContent = U8.Load(w.Contents[2]);
+            //handle kirby channel
+            byte[] contents = ((w.TitleID & 0xFFFFFFFFFFFF0000) == 0x0001000148434D00) ? w.Contents[4] : w.Contents[2];
+            
+            MainContent = U8.Load(contents);
             MainContent.Extract(Paths.FlashContents);
 
             #region ---------------- Determining the Flash emulator type ----------------
@@ -451,6 +615,12 @@ namespace FriishProduce.Injectors
             {
                 target = Paths.FlashContents + "trusted\\wii_shim.swf";
                 type = Type.YouTube;
+            }
+
+            else if (File.Exists(Paths.FlashContents + "trusted\\Gumball2.12.RC-1.swf"))
+            {
+                target = Paths.FlashContents + "trusted\\Gumball2.12.RC-1.swf";
+                type = Type.KirbyTV;
             }
 
             else
@@ -601,7 +771,7 @@ namespace FriishProduce.Injectors
                         type == Type.YouTube ? $"debug_content_url               file:///trusted/wii_shim.swf"
                                              : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : "file:///trusted/startup.swf")}",
                     };
-
+//                                             : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : type == Type.KirbyTV ? "file:///trusted/Gumbarusted/startup.swf" : "file:///trusted/startup.swf")}",
                     if (type == Type.iPlayer)
                     {
                         txt.AddRange(new string[]
@@ -620,6 +790,116 @@ namespace FriishProduce.Injectors
                                 "#flash_vars					dummy = 1",
                             }
                         );
+                    }
+
+                    else if (type == Type.KirbyTV)
+                    {
+                        txt = new()
+                            {
+                                "##################################################################################################",
+                                "##### 				    GUMBALL VODF CONFIG FILE			             #####			",
+                                "##################################################################################################",
+                                "",
+                                "static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]",
+                                "dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]",
+                                "",
+                                "mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]",
+                                "#mp4_texture_buffer_count			32			# not currently implemented",
+                                "",
+                                "stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]",
+                                "stream_cache_size				512			# 2048[KB] -> 2.0[MB]",
+                                "",
+                                "content_mem1					no",
+                                "content_buffer_mode				copy",
+                                "",
+                                "mouse						on",
+                                "qwerty_keyboard					on			# hardware keyboard",
+                                "qwerty_events					off			# hardware keyboard sends flash events",
+                                "use_keymap					on			# determines if the region's keymap.ini is used",
+                                "navigation_model				4way			# 2way / 4way / 4waywrap",
+                                "quality						high			# low / medium / high",
+                                "looping						on",
+                                "",
+                                "text_encoding					utf-16			# should be utf-16",
+                                "",
+                                "midi						off",
+                                "# dls_file					dls/GM16.DLS",
+                                "",
+                                "key_input					on			# software keyboard -- requires hardware keyboard and mouse",
+                                "",
+                                "cursor_archive					cursor.arc",
+                                "cursor_layout					cursor.brlyt",
+                                "",
+                                "dialog_cursor_archive				cursor.arc",
+                                "dialog_cursor_layout				cursor.brlyt",
+                                "",
+                                "device_text					on",
+                                "",
+                                "brfna_file					10, wbf1.brfna",
+                                "",
+                                "brsar_file					sound/FlashPlayerSe.brsar	# sound data",
+                                "",
+                                "embedded_vector_font				off",
+                                "# embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf",
+                                "# pre_installed_as_class_files			library/classes.swf",
+                                "",
+                                "shared_object_capability			on",
+                                "num_vff_drives					2",
+                                "vff_cache_size					96			# 96[KB]",
+                                "vff_sync_on_write              			off",
+                                "",
+                                "persistent_storage_root_drive			X",
+                                "persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format",
+                                "persistent_storage_total			96			# 96[KB]",
+                                "persistent_storage_per_movie			64			# 64[KB]",
+                                "",
+                                "supported_devices				core",
+                                "",
+                                $"hbm_no_save	    				{Settings["hbm_no_save"]}",
+                                "",
+                                "#static_module					static.sel",
+                                "",
+                                "#plugin_modules					plugin_wiinotification.rso ",
+                                "#plugin_modules					plugin_wiiremote.rso ",
+                                "#plugin_modules					plugin_wiisystem.rso ",
+                                "#plugin_modules					plugin_wiisound.rso ",
+                                "#plugin_modules					plugin_wiiurlrequest.rso ",
+                                "#plugin_modules					plugin_wiiurlloader.rso ",
+                                "#plugin_modules					plugin_wiinetwork.rso",
+                                "#plugin_modules					plugin_wiiconnect24.rso",
+                                "#plugin_modules					plugin_wiiperformance.rso",
+                                "#plugin_modules					plugin_wiikeyboard.rso",
+                                "#plugin_modules					plugin_wiisugarcalculations.rso",
+                                "#plugin_modules					plugin_wiibranching.rso",
+                                "#plugin_modules					plugin_wiiuntrustedrequest.rso",
+                                "#plugin_modules					plugin_wiimiisupport.rso ",
+                                "",
+                                "trace_filter					none",
+                                "texture_filter					linear",
+                                "",
+                                "strap_reminder					none			#normal  #no_ex  #none",
+                                "",
+                                "background_color				115 161 216 255		# RGBA -- VODF/SWF BG Color.",
+                                "",
+                                "",
+                                "################################# APPLICATION CONFIGURATIONS #####################################",
+                                "",
+                                "",
+                                "#certificate_files   				GTEGI.cer rootTest.cer",
+                                "",
+                                "update_frame_rate				30 			# 0 sets it to framerate set in content",
+                                "",
+                                "",
+                                "########################################## Gumball ###############################################",
+                                "",
+                                "",
+                                "content_domain		file:///trusted/				#Local Data",
+                                "",
+                                "content_url 		file:///trusted/Gumball2.12.RC-1.swf",
+                                "",
+                                "# GB Debug settings",
+                                "#flash_vars		APP_DEBUG=false&LOCAL_CONFIG=false&LOCAL_VIDEO=false&LOCALE_DEBUG=false&TEST_SERVER=false",
+                            };
                     }
 
                     else if (type == Type.YouTube)
@@ -798,8 +1078,7 @@ namespace FriishProduce.Injectors
 
                 else if (item.Contains("banner.ini"))
                 {
-                    var txt = new List<string>()
-                        {
+                    var txt = new List<string>() {
                             "not_copy        off",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
@@ -807,7 +1086,23 @@ namespace FriishProduce.Injectors
                             $"banner_tpl      banner{(type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"))}/banner.tpl",
                             $"icon_tpl        banner{(type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"))}/icons.tpl",
                             "icon_count      " + textures,
+                    };
+
+                    String regionFlag = (type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
+                    String langFlag = (region == 2 ? "JA" : "EN");
+                    
+                    if (type == Type.KirbyTV)
+                    {
+                        txt = new List<string>() {
+                            $"not_copy        {Settings["no_copy_save"]}",
+                            "anim_type       bounce",
+                            $"title_text      {Uri.EscapeUriString(lines[0])}",
+                            $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
+                            $"banner_tpl      banner{regionFlag + "/" + langFlag}/banner.tpl",
+                            $"icon_tpl        banner{regionFlag + "/" + langFlag}/icons.tpl",
+                            "icon_count      " + textures,
                         };
+                    }
 
                     for (int i = 0; i < textures; i++)
                     {
@@ -827,36 +1122,39 @@ namespace FriishProduce.Injectors
             if (Directory.Exists(Paths.FlashContents)) Directory.Delete(Paths.FlashContents, true);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
-
             U8 Content6 = U8.Load(w.Contents[6]);
-
-            int start = -1;
-            int end = -1;
-
-            for (int i = 0; i < Content6.NumOfNodes; i++)
+            
+            if (this.Manual != null && !this.UsesOrigManual)
             {
-                if (Content6.StringTable[i].ToLower() == "homebutton2") start = i;
-                else if (Content6.StringTable[i].ToLower() == "homebutton3") end = i;
-            }
+                int start = -1;
+                int end = -1;
 
-            try
-            {
-                if (start <= 0 && end <= 0) throw new InvalidOperationException();
-                else
+                for (int i = 0; i < Content6.NumOfNodes; i++)
                 {
-                    for (int i = 1; i < end - start; i++)
-                        Content6.ReplaceFile(i + end, Content6.Data[i + start]);
+                    if (Content6.StringTable[i].ToLower() == "homebutton2") start = i;
+                    else if (Content6.StringTable[i].ToLower() == "homebutton3") end = i;
                 }
-            }
-            catch { }
 
+                try
+                {
+                    if (start <= 0 && end <= 0) throw new InvalidOperationException();
+                    else
+                    {
+                        for (int i = 1; i < end - start; i++)
+                            Content6.ReplaceFile(i + end, Content6.Data[i + start]);
+                    }
+                }
+                catch { }
+            }
             #endregion
 
             #region ---------------- Finally, replace the relevant files ----------------
 
             w.Unpack(Paths.WAD);
             File.WriteAllBytes(Paths.WAD + "00000002.app", MainContent.ToByteArray());
-            File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
+            //if (this.manual_type.SelectedIndex == 0)
+            if (this.Manual != null && this.Manual == "orig")
+                File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
             w.CreateNew(Paths.WAD);
             Directory.Delete(Paths.WAD, true);
 

@@ -29,6 +29,7 @@ namespace FriishProduce
         public int WiiUDisplay { get; set; } = Program.Config.application.default_wiiu_display;
 
         public string TitleID { get; set; }
+        public string Genre { get; set; }
         public string[] ChannelTitles { get; set; }
         public int BannerRegion;
         public string BannerTitle { get; set; }
@@ -59,6 +60,7 @@ namespace FriishProduce
             VideoMode = 0;
 
             TitleID = null;
+            Genre = null;
             ChannelTitles = null;
             BannerRegion = 0;
             BannerTitle = null;

@@ -440,6 +440,7 @@
     <Compile Include="_classes\Program\Settings.cs" />
     <Compile Include="_classes\Utilities.cs" />
     <Compile Include="_classes\Platform.cs" />
+    <Compile Include="_classes\SettingsConstant.cs" />
     <Compile Include="_classes\Creators\WiiVC\_base.cs" />
     <Compile Include="_classes\Creators\WiiVC\N64.cs" />
     <Compile Include="_classes\Creators\WiiVC\NEO.cs" />

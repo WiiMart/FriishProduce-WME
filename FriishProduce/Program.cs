@@ -24,6 +24,13 @@ namespace FriishProduce
         [STAThread]
         static void Main(string[] args)
         {
+            #if DEBUG
+            [DllImport("kernel32.dll", SetLastError = true)]
+            static extern bool AllocConsole();
+
+            AllocConsole();
+            Console.WriteLine("FriishProduce v1.6.1-WME started in DEBUG mode...");
+            #endif
             if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0))
             {
                 System.Windows.Forms.MessageBox.Show("To use this program, please upgrade to Windows 7 or a newer version of Windows."); // , Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -46,7 +53,7 @@ namespace FriishProduce
             // **********************************************************************************
 
             Config = new(Paths.Config);
-            Logger.Log("Opening FriishProduce.");
+            Logger.Log("Opening FriishProduce v1.6.1-WME.");
             Lang = new Language();
             CleanTemp();
 
@@ -126,7 +133,8 @@ namespace FriishProduce
             // --wad-region japan usa europe korea free
             // --tid ABCD
 
-            Console.Title = "FriishProduce v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).ProductVersion.ToString() + " (CLI)";
+            //Console.Title = "FriishProduce v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).ProductVersion.ToString() + " (CLI)";
+            Console.Title = "FriishProduce v1.6.1-WME (CLI)";
             Console.WriteLine("Console version is not implemented yet.");
 
             string ROM = null, PATCH = null, WAD = null, IMAGE = null, SOUND = null, TID = null;

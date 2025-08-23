@@ -56,7 +56,7 @@ namespace FriishProduce.Databases
         private static string db_url(int i)
         {
             const string db_base = "https://raw.githubusercontent.com/libretro/libretro-database/refs/heads/master/metadat/";
-            string[] folders = new string[] { "maxusers", "releaseyear" };
+            string[] folders = new string[] { "maxusers", "releaseyear", "genre" };
 
             if (db_name != null)
             {
@@ -81,10 +81,12 @@ namespace FriishProduce.Databases
                         break;
                 }
 
-                return folders.Length == 0 ? db_base.Replace("metadat", "dat") + $"{db_name}.dat" : i < folders.Length ? db_base + folders[i] + $"/{db_name}.dat" : null;
+                return folders.Length == 0
+                    ? db_base.Replace("metadat", "dat") + $"{db_name}.dat"
+                    : i < folders.Length ? db_base + folders[i] + $"/{db_name}.dat" : null;
             }
 
-            else return null;
+            return null;
         }
 
         private static string db_img(string name, int source = 0)
@@ -112,34 +114,35 @@ namespace FriishProduce.Databases
 
         public static bool IsWeb(Platform In)
         {
-            bool result = false;
-
             if (File.Exists(Path.Combine(Paths.Databases, In.ToString().ToLower() + ".xml")))
-                return result;
+                return false;
 
-            else
+            for (int i = 0; ; i++)
             {
-                // Retrieve database from URL or file
-                // ****************
-                List<string[]> db_lines = new();
+                string url = db_url(i);
+                if (string.IsNullOrWhiteSpace(url))
+                    break;
 
-                for (int i = 0; i < 2; i++)
-                {
-                    string url = db_url(i);
-
-                    if (!string.IsNullOrWhiteSpace(url) && !File.Exists(url))
-                        result = true;
-                }
+                if (!File.Exists(Path.Combine(Paths.Databases, Path.GetFileName(url))))
+                    return true;
             }
 
-            return result;
+            return false;
         }
 
         public static DataTable Parse(Platform In)
         {
-            Top:
+        Top:
             platform = In;
             DataTable dt = new DataTable(platform.ToString().ToLower());
+
+            // Always create all expected columns first
+            string[] columns = { "crc", "name", "serial", "releaseyear", "users", "image", "db_genre" };
+            foreach (var col in columns)
+            {
+                if (!dt.Columns.Contains(col))
+                    dt.Columns.Add(col, typeof(string));
+            }
 
             string path = Path.Combine(Paths.Databases, In.ToString().ToLower() + ".xml");
 
@@ -148,7 +151,6 @@ namespace FriishProduce.Databases
                 try { dt.ReadXml(path); }
                 catch { try { File.Delete(path); } catch { } goto Top; }
             }
-
             else
             {
                 if (!Directory.Exists(Paths.Databases)) Directory.CreateDirectory(Paths.Databases);
@@ -159,36 +161,39 @@ namespace FriishProduce.Databases
                 string releaseyear = "";
                 string users = "";
                 string image = "";
-
-                dt.Columns.Add("crc", typeof(string));
-                dt.Columns.Add("name", typeof(string));
-                dt.Columns.Add("serial", typeof(string));
-                dt.Columns.Add("releaseyear", typeof(string));
-                dt.Columns.Add("users", typeof(string));
-                dt.Columns.Add("image", typeof(string));
+                string db_genre = "";
 
                 // Retrieve database from URL or file
                 // ****************
                 List<string[]> db_lines = new();
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; ; i++)
                 {
                     string url = db_url(i);
+                    if (string.IsNullOrWhiteSpace(url))
+                        break;
 
-                    if (!string.IsNullOrWhiteSpace(url))
+                    // prevent maxusers, releaseyear, genre from overwriting by appending db_name each other
+                    Uri uri = new Uri(url);
+                    string[] segments = uri.Segments;
+                    string dbFolder = segments.Length >= 2 ? segments[segments.Length - 2].TrimEnd('/') : "unknown";
+                    string localPath = Path.Combine(Paths.Databases, $"{dbFolder}_{db_name}.dat");
+
+                    if (!File.Exists(localPath) && IsWeb(In))
                     {
-                        if (File.Exists(url))
-                            db_lines.Add(File.ReadAllLines(url));
-
-                        else if (IsWeb(In))
+                        try
                         {
-                            using (WebClient c = new WebClient())
-                            {
-                                try { db_lines.Add(Encoding.UTF8.GetString(Web.Get(url)).Split('\n')); }
-                                catch { }
-                            }
+                            string text = Encoding.UTF8.GetString(Web.Get(url));
+                            File.WriteAllText(localPath, text);
+                        }
+                        catch
+                        {
+                            // ignore fetch errors
                         }
                     }
+
+                    if (File.Exists(localPath))
+                        db_lines.Add(File.ReadAllLines(localPath));
                 }
 
                 if (db_lines.Count == 0) return null;
@@ -202,7 +207,8 @@ namespace FriishProduce.Databases
                     {
                         string line = db_lines[x][y].TrimStart(' ', '\t');
 
-                        if ((line.Contains("name \"") || line.Contains("comment \"")) && !line.Contains("rom (") && !line.Contains(db_name))
+                        if ((line.Contains("name \"") || line.Contains("comment \"")) && 
+                            !line.Contains("rom (") && !line.Contains(db_name))
                         {
                             name = line.Replace("name \"", "").Replace("comment \"", "").TrimEnd('\"');
                             image = db_img(name);
@@ -216,7 +222,6 @@ namespace FriishProduce.Databases
                         if (line.Contains("year "))
                         {
                             releaseyear = line.Replace("\"", null).Substring(line.IndexOf("year ") + 5, 4);
-
                             if (!int.TryParse(releaseyear, out int _))
                                 releaseyear = null;
                         }
@@ -224,10 +229,15 @@ namespace FriishProduce.Databases
                         if (line.Contains("users "))
                         {
                             users = line.Substring(line.IndexOf("users ") + 6);
-
-
                             if (!int.TryParse(users, out int _))
                                 users = null;
+                        }
+
+                        if (line.Contains("genre "))
+                        {
+                            int startIndex = line.IndexOf("genre ") + 6;
+                            if (startIndex < line.Length)
+                                db_genre = line.Substring(startIndex).Replace("\"", "").Trim();
                         }
 
                         if (line.Contains("crc "))
@@ -241,23 +251,20 @@ namespace FriishProduce.Databases
 
                             if (rows?.Length > 0)
                             {
-                                if (!string.IsNullOrWhiteSpace(name))
-                                    rows[0][1] = name;
-                                if (!string.IsNullOrWhiteSpace(serial))
-                                    rows[0][2] = serial;
-                                if (!string.IsNullOrWhiteSpace(releaseyear))
-                                    rows[0][3] = releaseyear;
-                                if (!string.IsNullOrWhiteSpace(users))
-                                    rows[0][4] = users;
-
-                                image = users = releaseyear = name = crc = null;
+                                var row = rows[0];
+                                if (!string.IsNullOrWhiteSpace(name)) row["name"] = name;
+                                if (!string.IsNullOrWhiteSpace(serial)) row["serial"] = serial;
+                                if (!string.IsNullOrWhiteSpace(releaseyear)) row["releaseyear"] = releaseyear;
+                                if (!string.IsNullOrWhiteSpace(users)) row["users"] = users;
+                                if (!string.IsNullOrWhiteSpace(image)) row["image"] = image;
+                                if (!string.IsNullOrWhiteSpace(db_genre)) row["db_genre"] = db_genre;
                             }
-
-                            else if (rows?.Length == 0 && !string.IsNullOrWhiteSpace(name))
+                            else
                             {
-                                dt.Rows.Add(crc, name, serial, releaseyear, users, image);
-                                image = users = releaseyear = name = crc = null;
+                                // If the row doesn't exist yet (very first dat for this CRC), add it
+                                dt.Rows.Add(crc ?? "", name ?? "", serial ?? "", releaseyear ?? "", users ?? "", image ?? "", db_genre ?? "");
                             }
+                            crc = name = serial = releaseyear = users = image = db_genre = null;
                         }
                     }
                 }
@@ -271,10 +278,8 @@ namespace FriishProduce.Databases
             return dt;
         }
 
-        public static (string Name, string Serial, string Year, string Players, string Image, bool Complete) Read(string file, Platform platform)
+        public static (string Name, string Serial, string Year, string Players, string Image, string Genre, bool Complete) Read(string file, Platform platform)
         {
-            // Get current CRC32 hash of file and append to query
-            // **********************
             string crc32 = null;
             DataTable dt = Parse(platform);
 
@@ -287,47 +292,97 @@ namespace FriishProduce.Databases
                     var hash_array = crc.GetCurrentHash();
                     Array.Reverse(hash_array);
                     crc32 = db_crc(BitConverter.ToString(hash_array));
-
-                    fileStream.Close();
-                    fileStream.Dispose();
                 }
 
                 var rows = dt.Select($"crc = '{crc32}'");
                 if (rows?.Length > 0)
                 {
-                    try
-                    {
-                        using (WebClient c = new WebClient())
-                        using (Stream s = c.OpenRead(rows[0][5]?.ToString()))
-                        {
-                            // Do something
-                        }
-                    }
-                    catch
-                    {
-                        rows[0][5] = db_img(rows[0][1]?.ToString(), 1);
+                    var row = rows[0];
 
+                    // read columns by name, more stable and reliable than indexes...
+                    string name   = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null;
+                    string serial = row.Table.Columns.Contains("serial") ? row["serial"]?.ToString() : null;
+                    string year   = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null;
+                    string players = row.Table.Columns.Contains("users") ? row["users"]?.ToString() : null;
+                    string image  = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null;
+                    string db_genre  = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null;
+                    Console.WriteLine($"Image: {image}");
+
+                    // Save banners
+                    string appDir = AppDomain.CurrentDomain.BaseDirectory;
+                    string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "Banners"));
+                    string locsaveDir = Program.Config.application.locsave_banner_tb;
+                    string bannersDir = string.IsNullOrEmpty(locsaveDir) ? defaultDir : locsaveDir;
+                    
+                    if (!Directory.Exists(bannersDir))
+                        Directory.CreateDirectory(bannersDir);
+
+                    if (!string.IsNullOrEmpty(image)) {
                         try
                         {
-                            using (WebClient c = new WebClient())
-                            using (Stream s = c.OpenRead(rows[0][5]?.ToString()))
+                            using (WebClient cl = new WebClient())
                             {
-                                // Do something
+                                string fileName = Path.GetFileName(new Uri(image).LocalPath);
+                                string localPath = Path.Combine(bannersDir, fileName);
+
+                                // Only download if not already cached
+                                if (!File.Exists(localPath) && Program.Config.application.locsave_banner) {
+                                    Console.WriteLine($"Saving banner image locally: {localPath}");
+                                    cl.DownloadFile(image, localPath);
+                                }
                             }
                         }
-                        catch { rows[0][5] = null; }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Failed to fetch banner image {image}: {ex.Message}");
+                        }
                     }
 
-                    (string name, string serial, string year, string players, string image) result = (rows[0][1]?.ToString(), rows[0][2]?.ToString(), rows[0][3]?.ToString(), rows[0][4]?.ToString(), rows[0][5]?.ToString());
+                    // Fallback logic only runs if no image was found in the database
+                    if (string.IsNullOrEmpty(image) && !string.IsNullOrEmpty(name))
+                    {
+                        string[] imgdbs = { db_img(name, 0), db_img(name, 1) };
+                        foreach (string imgdb in imgdbs)
+                        {
+                            try
+                            {
+                                using (WebClient cl = new WebClient())
+                                {
+                                    string fileName = Path.GetFileName(new Uri(imgdb).LocalPath);
+                                    string localPath = Path.Combine(bannersDir, fileName);
 
-                    bool complete = !string.IsNullOrEmpty(result.name) && !string.IsNullOrEmpty(result.players) && !string.IsNullOrEmpty(result.year) && !string.IsNullOrEmpty(result.image);
-                    if (platform == Platform.C64 || platform == Platform.PCECD) complete = !string.IsNullOrEmpty(result.name) && !string.IsNullOrEmpty(result.image);
+                                    if (Program.Config.application.locsave_banner)
+                                    {
+                                        Console.WriteLine($"Downloading fallback banner: {imgdb}");
+                                        cl.DownloadFile(imgdb, localPath);
+                                    }
 
-                    return (result.name, result.serial, result.year, result.players, result.image, complete);
+                                    image = imgdb;
+                                    if (row.Table.Columns.Contains("image"))
+                                        row["image"] = image;
+
+                                    break;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Failed to download {imgdb}: {ex.Message}");
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(image) && row.Table.Columns.Contains("image"))
+                            row["image"] = null;
+                    }
+
+                    bool complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(players) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(image);
+                    if (platform == Platform.C64 || platform == Platform.PCECD)
+                        complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(image);
+
+                    return (name, serial, year, players, image, db_genre, complete);
                 }
             }
 
-            return (null, null, null, null, null, false);
+            return (null, null, null, null, null, null, false);
         }
     }
 }

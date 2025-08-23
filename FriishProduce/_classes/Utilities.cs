@@ -37,6 +37,9 @@ namespace FriishProduce
             Text += $"[{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2} {DateTime.Now.Hour:D2}:{DateTime.Now.Minute:D2}:{DateTime.Now.Second:D2}] {msg}";
 
             // File.WriteAllText(Paths.Log, Text);
+#if DEBUG
+        Console.WriteLine(msg);
+#endif
         }
     }
 

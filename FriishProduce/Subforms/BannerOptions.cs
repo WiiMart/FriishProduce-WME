@@ -40,11 +40,11 @@ namespace FriishProduce
 
             // Remove Japan option for C64 & Flash
             // ********
-            if (region.Items.Count == 4 && (platform is Platform.C64 or Platform.Flash))
+            /*if (region.Items.Count == 4 && (platform is Platform.C64 or Platform.Flash))
             {
                 if (region.SelectedIndex == 1) region.SelectedIndex = 0;
                 region.Items.RemoveAt(1);
-            }
+            }*/
 
             // Remove USA/Europe options for MSX
             // ********

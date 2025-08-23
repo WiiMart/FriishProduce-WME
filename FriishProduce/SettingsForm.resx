@@ -761,6 +761,117 @@
   <data name="&gt;&gt;forwarder.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <!--==========================================================================-->
+
+  <data name="locsave_banner.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="locsave_banner.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="locsave_banner.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 325</value>
+  </data>
+  <data name="locsave_banner.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="locsave_banner.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="locsave_banner.Text" xml:space="preserve">
+    <value>locsave_banner</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner.Name" xml:space="preserve">
+    <value>locsave_banner</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+  <data name="locsave_banner_tb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 344</value>
+  </data>
+  <data name="locsave_banner_tb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>496, 21</value>
+  </data>
+  <data name="locsave_banner_tb.TabIndex" type="System.Int32, mscorlib">
+    <value>63</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner_tb.Name" xml:space="preserve">
+    <value>locsave_wad</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner_tb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner_tb.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;locsave_banner_tb.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+  <!--==========================================================================-->
+
+  <data name="locsave_wad.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="locsave_wad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="locsave_wad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 370</value>
+  </data>
+  <data name="locsave_wad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="locsave_wad.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="locsave_wad.Text" xml:space="preserve">
+    <value>locsave_wad</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad.Name" xml:space="preserve">
+    <value>locsave_wad</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+  <data name="locsave_wad_tb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 387</value>
+  </data>
+  <data name="locsave_wad_tb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>496, 21</value>
+  </data>
+  <data name="locsave_wad_tb.TabIndex" type="System.Int32, mscorlib">
+    <value>63</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad_tb.Name" xml:space="preserve">
+    <value>locsave_wad</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad_tb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad_tb.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;locsave_wad_tb.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+  <!--==========================================================================-->
   <data name="auto_prefill.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -768,7 +879,7 @@
     <value>NoControl</value>
   </data>
   <data name="auto_prefill.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 313</value>
+    <value>12, 306</value>
   </data>
   <data name="auto_prefill.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
@@ -798,7 +909,7 @@
     <value>NoControl</value>
   </data>
   <data name="auto_fill_save_data.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 290</value>
+    <value>12, 286</value>
   </data>
   <data name="auto_fill_save_data.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 17</value>
@@ -962,14 +1073,20 @@
   <data name="&gt;&gt;default_target_project_tb.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+
+<!--============================================================================-->
+
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
   </data>
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 136</value>
+    <value>8, 135</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>300, 13</value>
@@ -978,7 +1095,7 @@
     <value>57</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>FILENAME, CHANNELNAME, FULLNAME, TITLEID, PLATFORM</value>
+    <value>FILENAME, CHANNELNAME, FULLNAME, TITLEID, PLATFORM, GENRE</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -992,6 +1109,42 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+
+<!--============================================================================-->
+
+  <data name="lowerParams.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lowerParams.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lowerParams.Location" type="System.Drawing.Point, System.Drawing">
+    <value>160, 233</value>
+  </data>
+  <data name="lowerParams.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="lowerParams.TabIndex" type="System.Int32, mscorlib">
+    <value>67</value>
+  </data>
+  <data name="lowerParams.Text" xml:space="preserve">
+    <value>lowerParams</value>
+  </data>
+  <data name="&gt;&gt;lowerParams.Name" xml:space="preserve">
+    <value>lowerParams</value>
+  </data>
+  <data name="&gt;&gt;lowerParams.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lowerParams.Parent" xml:space="preserve">
+    <value>lowerParams</value>
+  </data>
+  <data name="&gt;&gt;lowerParams.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+
+<!--============================================================================-->
+
   <data name="default_target_wad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1050,7 +1203,7 @@
     <value>NoControl</value>
   </data>
   <data name="default_target_parameters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 113</value>
+    <value>10, 110</value>
   </data>
   <data name="default_target_parameters.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>

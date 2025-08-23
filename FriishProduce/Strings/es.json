@@ -1,7 +1,7 @@
 ﻿{
 	"language": "es",
 	"author": "CatmanFan / saulfabreg",
-	"application_title": "FriishProduce",
+	"application_title": "FriishProduce v1.6.1-WME (Beta) (Debug)",
 	
 	"global": {
 		"main": {
@@ -291,6 +291,7 @@
 			"channel_metadata":					"Metadatos del canal",
 			"channel_name":						"Nombre del canal:",
 			"title_id":							"Title ID:",
+			"genre":							"Genre:",
 			"region":							"Región del canal:",
 			"video_mode":						"Modo de vídeo:",
 			"banner":							"Banner del canal",

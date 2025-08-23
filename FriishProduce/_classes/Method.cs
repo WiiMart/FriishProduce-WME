@@ -32,6 +32,7 @@ namespace FriishProduce
         public (IDictionary<string, string> List, IDictionary<Buttons, string> Keymap) Settings = (null, null);
 
         public string TitleID { get; set; } = "ABCD";
+        public string Genre { get; set; } = "Action, Platform";
         public int WadRegion { get; set; } = -1;
         public int WadVideoMode { get; set; } = 0;
         public int WiiUDisplay { get; set; } = 0;
@@ -81,6 +82,7 @@ namespace FriishProduce
             {
                 WAD = new WAD();
 
+                
                 if (!string.IsNullOrWhiteSpace(path))
                 {
                     if (File.Exists(path))
@@ -94,7 +96,43 @@ namespace FriishProduce
                         Logger.Log($"Downloading WAD with title ID {tid}.");
                         _progress.max += 1.0;
 
-                        WAD = WAD.Load(Web.Get(path));
+                        try
+                        {
+                            byte[] wadData = Web.Get(path);
+
+                            if (!Program.Config.application.locsave_wad)
+                            {
+                                // Load from memory
+                                WAD = WAD.Load(wadData);
+                            }
+                            else
+                            {
+                                string appDir = AppDomain.CurrentDomain.BaseDirectory;
+                                string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "WADs"));
+                                string saveDir = Program.Config.application.locsave_wad_tb ?? defaultDir;
+
+                                if (!Directory.Exists(saveDir))
+                                    Directory.CreateDirectory(saveDir);
+
+                                // Get filename from the URL
+                                string fileName = Path.GetFileName(new Uri(path).LocalPath);
+
+                                if (string.IsNullOrEmpty(fileName))
+                                    fileName = $"{tid}.wad"; //TID-based naming if URL name resolve fails
+
+                                string localPath = Path.Combine(saveDir, fileName);
+
+                                File.WriteAllBytes(localPath, wadData);
+                                Logger.Log($"Saved WAD locally to: {localPath}");
+
+                                // Load local instead of from memory
+                                WAD = WAD.Load(localPath);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Log($"Failed to download or save WAD from {path}: {ex.Message}");
+                        }
 
                         _updateProgress();
                     }
@@ -139,9 +177,9 @@ namespace FriishProduce
                         SWF = ROM as SWF,
                         Settings = Settings.List,
                         Keymap = Settings.Keymap,
-                        Multifile = IsMultifile
+                        Multifile = IsMultifile,
                     };
-
+                    Flash.Manual = Manual;
                     WAD = Flash.Inject(WAD, SaveDataTitle, Img);
                 }
 
@@ -377,6 +415,7 @@ namespace FriishProduce
             WadRegion = 0;
             WadVideoMode = 0;
             TitleID = null;
+            Genre = null;
             ChannelTitles = null;
 
             BannerRegion = 0;

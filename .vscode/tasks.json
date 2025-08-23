@@ -1,0 +1,46 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build FriishProduce",
+            "type": "shell",
+            "command": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
+            "args": [
+                "C:\\Users\\zSynO\\OneDrive\\DOCUME~1\\1EF71~1.EMU\\FRIISH~1\\FriishProduce.sln",
+                "/t:Build",
+                "/p:Configuration=Debug",
+                "/p:Platform=\"Any CPU\""
+            ],
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run FriishProduce",
+            "type": "shell",
+            "command": "cmd.exe",
+            "args": [
+                "/k",
+                "\"C:\\Users\\zSynO\\OneDrive\\DOCUME~1\\1EF71~1.EMU\\FRIISH~1\\FriishProduce\\bin\\Debug\\FriishProduce.exe\""
+            ],
+            "dependsOn": "Build FriishProduce",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}
