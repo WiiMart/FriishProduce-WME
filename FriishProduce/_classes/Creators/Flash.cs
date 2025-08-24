@@ -769,7 +769,7 @@ namespace FriishProduce.Injectors
                         $"hbm_no_save                     {Settings["hbm_no_save"]}",
 
                         type == Type.YouTube ? $"debug_content_url               file:///trusted/wii_shim.swf"
-                                             : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : "file:///trusted/startup.swf")}",
+                        : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : type == Type.KirbyTV ? "file:///trusted/Gumbarusted/startup.swf" : "file:///trusted/startup.swf")}",
                     };
 //                                             : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : type == Type.KirbyTV ? "file:///trusted/Gumbarusted/startup.swf" : "file:///trusted/startup.swf")}",
                     if (type == Type.iPlayer)
@@ -803,11 +803,11 @@ namespace FriishProduce.Injectors
                                 "static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]",
                                 "dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]",
                                 "",
-                                "mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]",
+                                "mp4_stream_buffer_size				512",
                                 "#mp4_texture_buffer_count			32			# not currently implemented",
                                 "",
-                                "stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]",
-                                "stream_cache_size				512			# 2048[KB] -> 2.0[MB]",
+                                "stream_cache_max_file_size			256",
+                                "stream_cache_size				512",
                                 "",
                                 "content_mem1					no",
                                 "content_buffer_mode				copy",
@@ -1088,7 +1088,7 @@ namespace FriishProduce.Injectors
                             "icon_count      " + textures,
                     };
 
-                    String regionFlag = (type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
+                    String regionFlag = ((type == Type.KirbyTV || type == Type.YouTube) ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
                     String langFlag = (region == 2 ? "JA" : "EN");
                     
                     if (type == Type.KirbyTV)
@@ -1123,9 +1123,11 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(w.Contents[6]);
-            
+            Logger.Log("Checking Operation Manual injection options for Flash inject, type = " + type);
+
             if (this.Manual != null && !this.UsesOrigManual)
             {
+                Logger.Log("Attempting to replace Operation Manual for Flash inject, type = " + type);
                 int start = -1;
                 int end = -1;
 
@@ -1152,9 +1154,7 @@ namespace FriishProduce.Injectors
 
             w.Unpack(Paths.WAD);
             File.WriteAllBytes(Paths.WAD + "00000002.app", MainContent.ToByteArray());
-            //if (this.manual_type.SelectedIndex == 0)
-            if (this.Manual != null && this.Manual == "orig")
-                File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
+            File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
             w.CreateNew(Paths.WAD);
             Directory.Delete(Paths.WAD, true);
 

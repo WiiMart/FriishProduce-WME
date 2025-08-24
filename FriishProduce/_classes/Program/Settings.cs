@@ -258,9 +258,9 @@ namespace FriishProduce
             public string qwerty_keyboard { get; set; } = "on";
             public string shared_object_capability { get; set; } = "on";
             public string vff_sync_on_write { get; set; } = "off";
-            public string vff_cache_size { get; set; } = "2048";
-            public string persistent_storage_total { get; set; } = "2048";
-            public string persistent_storage_per_movie { get; set; } = "1024";
+            public string vff_cache_size { get; set; } = "96";
+            public string persistent_storage_total { get; set; } = "96";
+            public string persistent_storage_per_movie { get; set; } = "64";
             public string hbm_no_save { get; set; } = "true";
             public string strap_reminder { get; set; } = "none";
             public string anti_aliasing { get; set; } = "on";
