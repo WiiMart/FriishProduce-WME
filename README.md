@@ -54,6 +54,10 @@ Install-Package MdiTabCtrl
 
 #### TODO
 - Verify ticket handling and fake sign procedures
+- Operation Manuals without Shop button
+- Manual ortho-rect configuring (left top right bottom)
+- In-App ROM header & byte order converting
+- Optimize ROM patching
 - FLASH
   - Fix strap reminder and config issues in Flash injects
   - Fix KirbyTV Flash injects (again)
