@@ -10,34 +10,6 @@ namespace FriishProduce.Injectors
     public class Flash
     {
 
-        /*public enum FlashDefault {
-            CONTENT_DOMAIN(""),
-            QUALITY("high"),
-            MOUSE("on"),
-            QWERTY_KEYBOARD("on"),
-            SHARED_OBJECT_CAPABILITY("on"),
-            VFF_SYNC_ON_WRITE("off"),
-            VFF_CACHE_SIZE("96"),
-            PERSISTENT_STORAGE_TOTAL("96"),
-            PERSISTENT_STORAGE_PER_MOVIE("64"),
-            HBM_NO_SAVE("false"),
-            STRAP_REMINDER("none"),
-            ANTI_ALIASING("on"),
-            ZOOM("default"),
-            FULLSCREEN("no"),
-            NO_COPY_SAVE("true"),
-            ;
-
-            private final String value;
-
-            private FlashDefault(String value) {
-                this.value = value;
-            }
-            public final String getValue() {
-                return value;
-            }
-        }*/
-
         private static string[] _saveDataSizes;
         public static string[] SaveDataSizes
         {
@@ -575,58 +547,37 @@ namespace FriishProduce.Injectors
             KEY_BUTTON_PLUS  KEY_ENTER
  */
 
-        private enum Type
-        {
-            Invalid = -1,
-            BackToNature = 0,
-            iPlayer = 1,
-            YouTube = 2,
-            KirbyTV = 3
-        }
-
         private U8 MainContent { get; set; }
 
         public WAD Inject(WAD w, string[] lines, ImageHelper Img)
         {
-            //handle kirby channel
-            byte[] contents = ((w.TitleID & 0xFFFFFFFFFFFF0000) == 0x0001000148434D00) ? w.Contents[4] : w.Contents[2];
-            
-            MainContent = U8.Load(contents);
+            MainContent = U8.Load(w.Contents[2]);
             MainContent.Extract(Paths.FlashContents);
 
             #region ---------------- Determining the Flash emulator type ----------------
 
-            Type type = Type.Invalid;
+            FlashBase flBase = FlashBase.Invalid;
             string target = null;
 
-            if (File.Exists(Paths.FlashContents + "content\\menu.swf"))
+            // Iterate over all defined FlashBase entries except Invalid
+            foreach (var itBase in FlashBase.Bases)
             {
-                target = Paths.FlashContents + "content\\menu.swf";
-                type = Type.BackToNature;
+                if (itBase == FlashBase.Invalid)
+                    continue;
+
+                Logger.Log("flBase.FullPath: " + flBase.FullPath);
+
+                string path = Paths.FlashContents + itBase.ContentPath;
+                if (File.Exists(path))
+                {
+                    flBase = itBase;
+                    target = path;
+                    break;
+                }
             }
 
-            else if (File.Exists(Paths.FlashContents + "trusted\\startup.swf"))
-            {
-                target = Paths.FlashContents + "trusted\\startup.swf";
-                type = Type.iPlayer;
-            }
-
-            else if (File.Exists(Paths.FlashContents + "trusted\\wii_shim.swf"))
-            {
-                target = Paths.FlashContents + "trusted\\wii_shim.swf";
-                type = Type.YouTube;
-            }
-
-            else if (File.Exists(Paths.FlashContents + "trusted\\Gumball2.12.RC-1.swf"))
-            {
-                target = Paths.FlashContents + "trusted\\Gumball2.12.RC-1.swf";
-                type = Type.KirbyTV;
-            }
-
-            else
-            {
+            if (flBase == FlashBase.Invalid)
                 throw new Exception(Program.Lang.Msg(13, 1));
-            }
 
             #endregion
 
@@ -726,6 +677,8 @@ namespace FriishProduce.Injectors
 
                 else if (Path.GetFileName(item).Contains("common.pcf"))
                 {
+                    Logger.Log("flBase.FullPath: " + flBase.FullPath);
+                    Logger.Log("flBase.ContentPath: " + flBase.ContentPath);
                     List<string> txt = new()
                     {
                         "# Comments (text preceded by #) and line breaks will be ignored",
@@ -752,7 +705,7 @@ namespace FriishProduce.Injectors
                         "dialog_cursor_archive           cursor.arc",
                         "dialog_cursor_layout            cursor.brlyt",
 
-                        $"shared_object_capability        {(type == Type.BackToNature ? Settings["shared_object_capability"] : "on")}",
+                        $"shared_object_capability        {(flBase == FlashBase.BackToNature ? Settings["shared_object_capability"] : "on")}",
                         "num_vff_drives                  1",
                         $"vff_cache_size                  {Settings["vff_cache_size"]}",
                         $"vff_sync_on_write               {Settings["vff_sync_on_write"]}",
@@ -768,11 +721,10 @@ namespace FriishProduce.Injectors
 
                         $"hbm_no_save                     {Settings["hbm_no_save"]}",
 
-                        type == Type.YouTube ? $"debug_content_url               file:///trusted/wii_shim.swf"
-                        : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : type == Type.KirbyTV ? "file:///trusted/Gumbarusted/startup.swf" : "file:///trusted/startup.swf")}",
+                        flBase == FlashBase.YouTube ? $"debug_content_url               file:///trusted/wii_shim.swf"
+                                                    : $"content_url                     {(flBase == FlashBase.BackToNature ? "file:///content/menu.swf" : "file:///trusted/startup.swf")}",
                     };
-//                                             : $"content_url                     {(type == Type.BackToNature ? "file:///content/menu.swf" : type == Type.KirbyTV ? "file:///trusted/Gumbarusted/startup.swf" : "file:///trusted/startup.swf")}",
-                    if (type == Type.iPlayer)
+                    if (flBase == FlashBase.iPlayer)
                     {
                         txt.AddRange(new string[]
                             {
@@ -786,13 +738,13 @@ namespace FriishProduce.Injectors
                                 "trace_filter					none",
                                 "texture_filter					linear",
                                 "certificate_files				GTEGI.cer",
-                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(Settings["content_domain"]) ? "file:///trusted/" : Settings["content_domain"])}",
+                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(Settings["content_domain"]) ? FlashBase.iPlayer.FullPath : Settings["content_domain"])}",
                                 "#flash_vars					dummy = 1",
                             }
                         );
                     }
 
-                    else if (type == Type.KirbyTV)
+                    else if (flBase == FlashBase.KirbyTV)
                     {
                         txt = new()
                             {
@@ -803,11 +755,11 @@ namespace FriishProduce.Injectors
                                 "static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]",
                                 "dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]",
                                 "",
-                                "mp4_stream_buffer_size				512",
+                                "mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]",
                                 "#mp4_texture_buffer_count			32			# not currently implemented",
                                 "",
-                                "stream_cache_max_file_size			256",
-                                "stream_cache_size				512",
+                                "stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]",
+                                "stream_cache_size				512			# 2048[KB] -> 2.0[MB]",
                                 "",
                                 "content_mem1					no",
                                 "content_buffer_mode				copy",
@@ -895,14 +847,14 @@ namespace FriishProduce.Injectors
                                 "",
                                 "content_domain		file:///trusted/				#Local Data",
                                 "",
-                                "content_url 		file:///trusted/Gumball2.12.RC-1.swf",
+                                $"content_url 		{FlashBase.KirbyTV.FullPath}",
                                 "",
                                 "# GB Debug settings",
                                 "#flash_vars		APP_DEBUG=false&LOCAL_CONFIG=false&LOCAL_VIDEO=false&LOCALE_DEBUG=false&TEST_SERVER=false",
                             };
                     }
 
-                    else if (type == Type.YouTube)
+                    else if (flBase == FlashBase.YouTube)
                     {
                         txt.AddRange(new string[]
                             {
@@ -930,7 +882,7 @@ namespace FriishProduce.Injectors
                                 $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(Settings["content_domain"]) ? "file:///trusted/" : Settings["content_domain"])}",
                                 "debug_flash_vars	dummy=1",
                                 "final_flash_vars	dummy=1",
-                                "final_content_url 	file:///trusted/wii_shim.swf",
+                                $"final_content_url 	{FlashBase.YouTube.FullPath}",
                             }
                         );
                     }
@@ -949,7 +901,7 @@ namespace FriishProduce.Injectors
                     string[] pcf = File.ReadAllLines(file);
                     List<string> txt = new();
                     bool modified = false;
-                    bool notYouTube = type != Type.YouTube && Path.GetFileNameWithoutExtension(file).Length == 11;
+                    bool notYouTube = flBase != FlashBase.YouTube && Path.GetFileNameWithoutExtension(file).Length == 11;
 
                     foreach (string line in pcf)
                     {
@@ -1078,20 +1030,20 @@ namespace FriishProduce.Injectors
 
                 else if (item.Contains("banner.ini"))
                 {
+                    String regionFlag = (flBase == FlashBase.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
+                    String langFlag = (region == 2 ? "JA" : "EN");
+
                     var txt = new List<string>() {
                             $"not_copy        {Settings["no_copy_save"]}",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
-                            $"banner_tpl      banner{(type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"))}/banner.tpl",
-                            $"icon_tpl        banner{(type == Type.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"))}/icons.tpl",
+                            $"banner_tpl      banner{regionFlag}/banner.tpl",
+                            $"icon_tpl        banner{regionFlag}/icons.tpl",
                             "icon_count      " + textures,
                     };
-
-                    String regionFlag = ((type == Type.KirbyTV || type == Type.YouTube) ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
-                    String langFlag = (region == 2 ? "JA" : "EN");
                     
-                    if (type == Type.KirbyTV)
+                    if (flBase == FlashBase.KirbyTV)
                     {
                         txt = new List<string>() {
                             $"not_copy        {Settings["no_copy_save"]}",
@@ -1123,11 +1075,11 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(w.Contents[6]);
-            Logger.Log("Checking Operation Manual injection options for Flash inject, type = " + type);
+            Logger.Log("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
 
             if (this.Manual != null && !this.UsesOrigManual)
             {
-                Logger.Log("Attempting to replace Operation Manual for Flash inject, type = " + type);
+                Logger.Log("Attempting to replace Operation Manual for Flash inject, flBase = " + flBase);
                 int start = -1;
                 int end = -1;
 
