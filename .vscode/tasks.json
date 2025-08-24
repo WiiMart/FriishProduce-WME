@@ -1,12 +1,55 @@
 {
     "version": "2.0.0",
     "tasks": [
+        // 'Workflow' task (require)-> Run (require)-> Compile
+        //      So more accurately, main task > compile > run
         {
-            "label": "Build FriishProduce",
+            "label": "Run FriishProduce-WME Workflow",
             "type": "shell",
-            "command": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
+            "command": "echo Finished FriishProduce-WME Workflow.",
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "Run FriishProduce-WME"
+        },
+//------------------------------------------------------------------------------------>
+        {
+            "label": "Run FriishProduce-WME",
+            "type": "shell",
+            "command": "${workspaceFolder}/FriishProduce/bin/Debug/FriishProduce.exe",
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            },
+            "dependsOn": "Compile FriishProduce-WME",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": "none"
+        },
+//------------------------------------------------------------------------------------>
+        {
+            "label": "Compile FriishProduce-WME",
+            "type": "shell",
+            //<---- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ---->
+            "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
             "args": [
-                "C:\\Users\\zSynO\\OneDrive\\DOCUME~1\\1EF71~1.EMU\\FRIISH~1\\FriishProduce.sln",
+                "${workspaceFolder}/FriishProduce.sln",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=\"Any CPU\""
@@ -17,30 +60,13 @@
                     "args": ["/c"]
                 }
             },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
             },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Run FriishProduce",
-            "type": "shell",
-            "command": "cmd.exe",
-            "args": [
-                "/k",
-                "\"C:\\Users\\zSynO\\OneDrive\\DOCUME~1\\1EF71~1.EMU\\FRIISH~1\\FriishProduce\\bin\\Debug\\FriishProduce.exe\""
-            ],
-            "dependsOn": "Build FriishProduce",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            }
+            "problemMatcher": "$msCompile",
+            // call debug message first then execute
+            "group": "none"
         }
     ]
 }
