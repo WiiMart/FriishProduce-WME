@@ -422,7 +422,7 @@ namespace FriishProduce.Injectors
         // config.common.pcf
         /*
         ##################################################################################################
-        ##### 				    GUMBALL VODF CONFIG FILE			             #####			
+        ##### 				    GUMBALL VODF CONFIG FILE			                                 #####			
         ##################################################################################################
 
         static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]
@@ -1079,7 +1079,7 @@ namespace FriishProduce.Injectors
                 else if (item.Contains("banner.ini"))
                 {
                     var txt = new List<string>() {
-                            "not_copy        off",
+                            $"not_copy        {Settings["no_copy_save"]}",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
