@@ -225,144 +225,82 @@ namespace FriishProduce.Injectors
         // -----------------------------------------------------
         /* # generic banner setting file
            #
-           not_copy		on
-           anim_type		loop			# loop / bounce
-           title_text		YouTube			# UTF-8/URL Encoded
-           comment_text		   %20             # UTF-8/URL Encoded
-           banner_tpl		banner/banner.tpl
-           icon_tpl		banner/icons.tpl
-           icon_count		1			# texture_index: 0 -> 0
-           icon_speed		0, normal	# texture_index, (slow|normal|fast)
-
+           not_copy        off
+           anim_type       bounce			# loop / bounce
+           title_text      YouTube          # UTF-8/URL Encoded
+           comment_text    %20              # UTF-8/URL Encoded
+           banner_tpl      banner/banner.tpl
+           icon_tpl        banner/icons.tpl
+           icon_count      8                # texture_index: 0 -> 0
+           icon_speed      0, slow          # texture_index, (slow|normal|fast)
+           icon_speed      1, slow
+           icon_speed      2, slow
+           icon_speed      3, slow
+           icon_speed      4, slow
+           icon_speed      5, slow
+           icon_speed      6, slow
+           icon_speed      7, slow
            */
 
         // common.pcf
         // -----------------------------------------------------
-        /* ##################################################################################################
-           ##### 				    GUMBALL VODF CONFIG FILE			             #####			
-           ##################################################################################################
-
-           static_heap_size				8192			# 8192[KB] -> 8[MB]
-           dynamic_heap_size				16384			# 16384[KB] -> 16[MB]
-
+        /* # Comments (text preceded by #) and line breaks will be ignored
+           static_heap_size                8192                # 8192[KB] -> 8[MB]
+           dynamic_heap_size               16384               # 16384[KB] -> 16[MB]
+           update_frame_rate               0                  # not TV-framerate(NTSC/PAL)
+           mouse                           off
+           qwerty_keyboard                 off
+           navigation_model                4way                # 2way / 4way / 4waywrap
+           quality                         high
+           looping                         on
+           text_encoding                   utf-16
+           midi                            off
+           # dls_file                      dls/GM16.DLS
+           key_input                       on
+           cursor_archive                  cursor.arc
+           cursor_layout                   cursor.brlyt
+           dialog_cursor_archive           cursor.arc
+           dialog_cursor_layout            cursor.brlyt
+           shared_object_capability        on
+           num_vff_drives                  1
+           vff_cache_size                  96
+           vff_sync_on_write               off
+           persistent_storage_root_drive   X
+           persistent_storage_vff_file     shrdobjs.vff        # 8.3 format
+           persistent_storage_total        96
+           persistent_storage_per_movie    64
+           strap_reminder                  none
+           supported_devices               core, freestyle, classic
+           hbm_no_save                     yes
+           debug_content_url               file:///trusted/wii_shim.swf
+           ##### YouTube Settings #####
            stream_cache_max_file_size			512			# 512[KB] -> 0.5[MB]
            stream_cache_size				2048			# 2048[KB] -> 2.0[MB]
-
            content_mem1					no
            content_buffer_mode				copy
-
-           mouse						on
-           qwerty_keyboard					on			# hardware keyboard
-           qwerty_events					on			# hardware keyboard sends flash events
-           use_keymap					off			# determines if the region's keymap.ini is used
-           navigation_model				4way			# 2way / 4way / 4waywrap
-           quality						high			# low / medium / high
-           looping						on
-
-           text_encoding					utf-16			# should be utf-16
-
-           midi						off
-           # dls_file					dls/GM16.DLS
-
-           key_input					on			# software keyboard -- requires hardware keyboard and mouse
-
-           cursor_archive					cursor.arc
-           cursor_layout					cursor.brlyt
-
-           dialog_cursor_archive				cursor.arc
-           dialog_cursor_layout				cursor.brlyt
-
-
+           qwerty_events					on
+           use_keymap					on
            banner_file					banner/banner.ini
-
-
            device_text					off
            brfna_file					10, wbf1.brfna
            brsar_file					sound/FlashPlayerSe.brsar	# sound data
-
            embedded_vector_font				off
-           # embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf
-           # pre_installed_as_class_files			library/classes.swf
-
-
-
-           shared_object_capability			on
-           num_vff_drives					2
-           vff_cache_size					96			# 96[KB]
-           vff_sync_on_write              			off
-
-           persistent_storage_root_drive			X
-           persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format
-           persistent_storage_total			96			# 96[KB]
-           persistent_storage_per_movie			64			# 64[KB]
-
-           supported_devices				core freestyle classic
-
-           hbm_no_save	    				true
-
            static_module					static.sel
-
-           plugin_modules					plugin_wiinotification.rso 
-           plugin_modules					plugin_wiiremote.rso 
-           plugin_modules					plugin_wiisystem.rso 
-           plugin_modules					plugin_wiisound.rso 
-           plugin_modules					plugin_wiinetwork.rso
-           #plugin_modules					plugin_wiiconnect24.rso
-           #plugin_modules					plugin_wiiperformance.rso
-           #plugin_modules					plugin_wiikeyboard.rso
-           #plugin_modules					plugin_wiisugarcalculations.rso
-           #plugin_modules					plugin_wiiuntrustedrequest.rso
-           #plugin_modules					plugin_wiimiisupport.rso 
-
+           plugin_modules					plugin_wiinotification.rso plugin_wiiremote.rso plugin_wiisystem.rso plugin_wiisound.rso plugin_wiinetwork.rso
            trace_filter					none
            texture_filter					linear
-
-           strap_reminder					none			#normal  #no_ex  #none
-
-           # set to match the loading screen's background color
-           background_color				43 43 43 255		# RGBA -- VODF/SWF BG Color.
-
-
-           ################################# APPLICATION CONFIGURATIONS #####################################
-
-
-           update_frame_rate				30 			# 0 sets it to framerate set in content
-
-
-           ########################################## MediaStream ###############################################
-
-
-           content_domain		file:///trusted/				#Local Data
-
-
-           debug_content_url 	file:///trusted/wii_dev_shim.swf
-
-           # Debug settings
-           #  load from web-trunk-qa:
-           debug_flash_vars	dev=1&app=file://trusted/remote/https://web-trunk-qa.youtube.com/wiitv
-           #  load from web-release-qa:
-           #debug_flash_vars	dev=1&app=file://trusted/remote/https://web-release-qa.youtube.com/wiitv
-           #  load from horcrux (no-auto-build):
-           #debug_flash_vars	dev=1&relax=1&app=file://trusted/remote/http://horcrux.sbo.corp.google.com/wii/leanbacklite_wii.swf&urlmap=s.ytimg.com/yts/swfbin/apiplayer%3Dhttp://horcrux.sbo.corp.google.com/wii/apiplayer.swf%3Bs.ytimg.com/yts/swfbin/vast_ads_module%3Dhttp://horcrux.sbo.corp.google.com/wii/vast_ads_module.swf
-           #  load from prod:
-           #debug_flash_vars	dev=1
-           #  load from prod/Charles-ready:
-           #debug_flash_vars	dev=1&relax=6
-
-
-           final_content_url 	file:///trusted/wii_shim.swf
-
-           # Final settings (can't be empty)
-           #  load from prod:
+           background_color				0 0 0 0		# RGBA -- VODF/SWF BG Color.
+           ##### MediaStream #####
+           content_domain					file:///trusted/
+           debug_flash_vars	dummy=1
            final_flash_vars	dummy=1
-
-
+           final_content_url 	file:///trusted/wii_shim.swf
            */
         #endregion
 
         //KirbyTV banner.ini Header
-        // # ƒ^ƒCƒgƒ‹•¶Žš—ñ‚ÆƒRƒƒ“ƒg•¶Žš—ñ‚Í UTF-8 ƒGƒ“ƒR[ƒh‚³‚ê‚½•¶Žš—ñ‚ð URL ƒGƒ“ƒR[ƒh‚µ‚Ä
-        // # ‹Lq‚·‚éB
+        // # テキストファイルとして保存されている UTF-8 の文字列を URL エンコードしている
+        // # 注意事項
         #region -- Default settings for KirbyTV --
         // keymap.ini
         // -----------------------------------------------------
@@ -546,12 +484,13 @@ namespace FriishProduce.Injectors
             KEY_BUTTON_A     88
             KEY_BUTTON_PLUS  KEY_ENTER
  */
+// Ensure ' ' space at end
 
         private U8 MainContent { get; set; }
 
-        public WAD Inject(WAD w, string[] lines, ImageHelper Img)
+        public WAD Inject(WAD wad, string[] lines, ImageHelper Img)
         {
-            MainContent = U8.Load(w.Contents[2]);
+            MainContent = U8.Load(wad.Contents[2]);
             MainContent.Extract(Paths.FlashContents);
 
             #region ---------------- Determining the Flash emulator type ----------------
@@ -565,8 +504,6 @@ namespace FriishProduce.Injectors
                 if (itBase == FlashBase.Invalid)
                     continue;
 
-                Logger.Log("flBase.FullPath: " + flBase.FullPath);
-
                 string path = Paths.FlashContents + itBase.ContentPath;
                 if (File.Exists(path))
                 {
@@ -575,6 +512,7 @@ namespace FriishProduce.Injectors
                     break;
                 }
             }
+            Logger.Log("flBase.FullPath: " + flBase.FullPath);
 
             if (flBase == FlashBase.Invalid)
                 throw new Exception(Program.Lang.Msg(13, 1));
@@ -677,8 +615,9 @@ namespace FriishProduce.Injectors
 
                 else if (Path.GetFileName(item).Contains("common.pcf"))
                 {
-                    Logger.Log("flBase.FullPath: " + flBase.FullPath);
-                    Logger.Log("flBase.ContentPath: " + flBase.ContentPath);
+                    if (flBase == FlashBase.YouTube)
+                        Settings["strap_reminder"] = "off";
+
                     List<string> txt = new()
                     {
                         "# Comments (text preceded by #) and line breaks will be ignored",
@@ -721,8 +660,10 @@ namespace FriishProduce.Injectors
 
                         $"hbm_no_save                     {Settings["hbm_no_save"]}",
 
-                        flBase == FlashBase.YouTube ? $"debug_content_url               file:///trusted/wii_shim.swf"
-                                                    : $"content_url                     {(flBase == FlashBase.BackToNature ? "file:///content/menu.swf" : "file:///trusted/startup.swf")}",
+                        flBase == FlashBase.YouTube ?
+                            $"debug_content_url               {FlashBase.YouTube.FullPath}"
+                            :
+                            $"content_url                     {flBase.FullPath}",
                     };
                     if (flBase == FlashBase.iPlayer)
                     {
@@ -1004,9 +945,10 @@ namespace FriishProduce.Injectors
 
             using TPL banner = Img.CreateSaveTPL(1);
             using TPL icons = Img.CreateSaveTPL(2);
-
-            int region = 0;
-            int textures = icons.NumOfTextures;
+            //int region = 0;
+            string banReg = "";
+            string banLang = (banReg == "JP" ? "JA" : "EN");
+            string[] regions = { "us", "eu", "jp" };
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -1016,33 +958,37 @@ namespace FriishProduce.Injectors
 
             foreach (string file in Directory.EnumerateFiles(Paths.FlashContents, "*.*", SearchOption.AllDirectories))
             {
-                string item = file.Replace(Paths.FlashContents, null).ToLower();
+                string path = file.Replace(Paths.FlashContents, null).ToLower();
+                int banIdx = path.IndexOf("banner\\") + "banner\\".Length;
 
-                if (item.Contains("banner\\us")) region = 0;
-                if (item.Contains("banner\\eu")) region = 1;
-                if (item.Contains("banner\\jp")) region = 2;
+                if (path.Length >= banIdx + 2 && regions.Contains(path.Substring(banIdx, 2)))
+                    banReg = "/" + path.Substring(banIdx, 2);
 
-                if (item.Contains("banner.tpl"))
+                //if (path.Contains("banner\\us")) region = 0;
+                //if (path.Contains("banner\\eu")) region = 1;
+                //if (path.Contains("banner\\jp")) region = 2;
+                
+                //if (path.Contains("banner\\") && (path.Contains("us") || path.Contains("eu") || path.Contains("jp")))
+
+                if (path.Contains("banner.tpl"))
                     banner.Save(file);
 
-                else if (item.Contains("icons.tpl"))
+                else if (path.Contains("icons.tpl"))
                     icons.Save(file);
 
-                else if (item.Contains("banner.ini"))
+                else if (path.Contains("banner.ini"))
                 {
-                    String regionFlag = (flBase == FlashBase.YouTube ? null : "/" + (region == 2 ? "JP" : region == 1 ? "EU" : "US"));
-                    String langFlag = (region == 2 ? "JA" : "EN");
 
                     var txt = new List<string>() {
                             $"not_copy        {Settings["no_copy_save"]}",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
-                            $"banner_tpl      banner{regionFlag}/banner.tpl",
-                            $"icon_tpl        banner{regionFlag}/icons.tpl",
-                            "icon_count      " + textures,
+                            $"banner_tpl      banner{banReg}/banner.tpl",
+                            $"icon_tpl        banner{banReg}/icons.tpl",
+                            "icon_count      " + icons.NumOfTextures,
                     };
-                    
+
                     if (flBase == FlashBase.KirbyTV)
                     {
                         txt = new List<string>() {
@@ -1050,18 +996,20 @@ namespace FriishProduce.Injectors
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
-                            $"banner_tpl      banner{regionFlag + "/" + langFlag}/banner.tpl",
-                            $"icon_tpl        banner{regionFlag + "/" + langFlag}/icons.tpl",
-                            "icon_count      " + textures,
+                            $"banner_tpl      banner{banReg + "/" + banLang}/banner.tpl",
+                            $"icon_tpl        banner{banReg + "/" + banLang}/icons.tpl",
+                            "icon_count      " + icons.NumOfTextures,
                         };
                     }
+                    txt.Insert(0, "# SHIFT-JIS Encoded");
 
-                    for (int i = 0; i < textures; i++)
+                    for (int i = 0; i < icons.NumOfTextures; i++)
                     {
                         txt.Add($"icon_speed      {i}, slow");
                     }
 
                     File.WriteAllBytes(file, Encoding.GetEncoding(932).GetBytes(string.Join("\r\n", txt) + "\r\n"));
+                    //932 = Shift-JIS
                 }
             }
 
@@ -1074,7 +1022,7 @@ namespace FriishProduce.Injectors
             if (Directory.Exists(Paths.FlashContents)) Directory.Delete(Paths.FlashContents, true);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
-            U8 Content6 = U8.Load(w.Contents[6]);
+            U8 Content6 = U8.Load(wad.Contents[6]);
             Logger.Log("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
 
             if (this.Manual != null && !this.UsesOrigManual)
@@ -1104,10 +1052,10 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Finally, replace the relevant files ----------------
 
-            w.Unpack(Paths.WAD);
+            wad.Unpack(Paths.WAD);
             File.WriteAllBytes(Paths.WAD + "00000002.app", MainContent.ToByteArray());
             File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
-            w.CreateNew(Paths.WAD);
+            wad.CreateNew(Paths.WAD);
             Directory.Delete(Paths.WAD, true);
 
             #endregion
@@ -1116,7 +1064,7 @@ namespace FriishProduce.Injectors
             MainContent.Dispose();
             Settings = null;
             Keymap = null;
-            return w;
+            return wad;
         }
     }
 }

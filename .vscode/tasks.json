@@ -3,8 +3,9 @@
     "tasks": [
         // 'Workflow' task (require)-> Run (require)-> Compile
         //      So more accurately, main task > compile > run
+//------------------------------------------------------------------------------------>
         {
-            "label": "Run FriishProduce-WME Workflow",
+            "label": "Run FPWME Workflow",
             "type": "shell",
             "command": "echo Finished FriishProduce-WME Workflow.",
             "options": {
@@ -21,11 +22,11 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "Run FriishProduce-WME"
+            "dependsOn": "Run FPWME"
         },
 //------------------------------------------------------------------------------------>
         {
-            "label": "Run FriishProduce-WME",
+            "label": "Run FPWME",
             "type": "shell",
             "command": "${workspaceFolder}/FriishProduce/bin/Debug/FriishProduce.exe",
             "options": {
@@ -34,7 +35,7 @@
                     "args": ["/c"]
                 }
             },
-            "dependsOn": "Compile FriishProduce-WME",
+            "dependsOn": "Compile FPWME",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -44,7 +45,7 @@
         },
 //------------------------------------------------------------------------------------>
         {
-            "label": "Compile FriishProduce-WME",
+            "label": "Compile FPWME",
             "type": "shell",
             //<---- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ---->
             "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
@@ -67,6 +68,26 @@
             "problemMatcher": "$msCompile",
             // call debug message first then execute
             "group": "none"
-        }
+        },
+//------------------------------------------------------------------------------------>
+//          'Test' task below for running without compiling first
+//------------------------------------------------------------------------------------>
+        {
+            "label": "Run FPWME (NRC)",
+            "type": "shell",
+            "command": "${workspaceFolder}/FriishProduce/bin/Debug/FriishProduce.exe",
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": "test"
+        },
     ]
 }
