@@ -156,7 +156,7 @@ namespace FriishProduce
             public int image_interpolation { get; set; } = 2;
             public bool image_fit_aspect_ratio { get; set; } = false;
             public string default_target_filename { get; set; } = "(PLATFORM)_CHANNELNAME_REGION";
-            public string default_export_filename { get; set; } = "PLATFORM_TITLEID_GENRE_Publisher";
+            public string default_export_filename { get; set; } = "TITLEID_GENRE_Publisher";
             public int default_banner_region { get; set; } = 0;
             public int default_wiiu_display { get; set; } = 0;
             public int default_injection_method_nes { get; set; } = 0;
