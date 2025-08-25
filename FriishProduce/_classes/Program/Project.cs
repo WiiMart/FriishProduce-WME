@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using libWiiSharp;
 
 namespace FriishProduce
 {
@@ -31,7 +32,7 @@ namespace FriishProduce
         public string TitleID { get; set; }
         public string Genre { get; set; }
         public string[] ChannelTitles { get; set; }
-        public int BannerRegion;
+        public Region BannerRegion;
         public string BannerTitle { get; set; }
         public int BannerYear { get; set; }
         public int BannerPlayers { get; set; }

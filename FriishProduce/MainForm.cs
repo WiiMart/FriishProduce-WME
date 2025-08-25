@@ -732,6 +732,7 @@ namespace FriishProduce
 
                     catch
                     {
+                        //Invalid project message?
                         MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);
                     }
                 }

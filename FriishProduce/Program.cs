@@ -29,7 +29,7 @@ namespace FriishProduce
             static extern bool AllocConsole();
 
             AllocConsole();
-            Console.WriteLine("FriishProduce v1.6.1-WME started in DEBUG mode...");
+            Console.WriteLine("FriishProduce-WME started in DEBUG mode...");
             #endif
             if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0))
             {
@@ -53,7 +53,7 @@ namespace FriishProduce
             // **********************************************************************************
 
             Config = new(Paths.Config);
-            Logger.Log("Opening FriishProduce v1.6.1-WME.");
+            Logger.Log("Opening FriishProduce-WME.");
             Lang = new Language();
             CleanTemp();
 
@@ -134,7 +134,7 @@ namespace FriishProduce
             // --tid ABCD
 
             //Console.Title = "FriishProduce v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).ProductVersion.ToString() + " (CLI)";
-            Console.Title = "FriishProduce v1.6.1-WME (CLI)";
+            Console.Title = "FriishProduce-WME (CLI)";
             Console.WriteLine("Console version is not implemented yet.");
 
             string ROM = null, PATCH = null, WAD = null, IMAGE = null, SOUND = null, TID = null;

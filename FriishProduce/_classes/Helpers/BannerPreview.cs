@@ -97,7 +97,7 @@ namespace FriishProduce
         private void resetBG(Platform platform, int target, libWiiSharp.Region region)
         {
             #region -- Define top platform header contents --
-            string platformName = "FriishProduce v1.6.1-WME";
+            string platformName = "FriishProduce-WME";
             switch (platform)
             {
                 case Platform.NES:

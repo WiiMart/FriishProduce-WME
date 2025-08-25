@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 // To increment the version number, specify a number and tag for the
 // informational version, then enter the same number for the other two
 // assembly versions.
-[assembly: AssemblyInformationalVersion("1.6-prerelease")]
-[assembly: AssemblyFileVersion("1.6")]
-[assembly: AssemblyVersion("1.6")]
+[assembly: AssemblyInformationalVersion("1.6.0.1-debug")]
+[assembly: AssemblyFileVersion("1.6.0.1")]
+[assembly: AssemblyVersion("1.6.0.1")]
 [assembly: NeutralResourcesLanguage("en")]

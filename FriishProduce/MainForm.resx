@@ -2791,7 +2791,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>FriishProduce v1.6.1-WME</value>
+    <value>FriishProduce-WME</value>
   </data>
   <data name="&gt;&gt;SaveWAD.Name" xml:space="preserve">
     <value>SaveWAD</value>

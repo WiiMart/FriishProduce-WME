@@ -390,6 +390,7 @@ namespace FriishProduce
                     if (!isVirtualConsole && Program.Lang.GetRegion() is Language.Region.Korea)
                         value = 3;
                 }
+                // Forced regions (TODO make MSX available per region at a later time)
 
                 // Japan/Korea: Use USA banner for C64 & Flash
                 if (value != 1 && value != 2 && (targetPlatform == Platform.C64 /*|| targetPlatform == Platform.Flash*/))
@@ -412,7 +413,21 @@ namespace FriishProduce
         }
         #endregion
 
+        public static libWiiSharp.Region IntToRegion(int val) => val switch
+        {
+            0 => libWiiSharp.Region.Japan,
+            2 => libWiiSharp.Region.Europe,
+            3 => libWiiSharp.Region.Korea,
+            _ => libWiiSharp.Region.USA
+        };
 
+        public static int RegToInt(libWiiSharp.Region region) => region switch
+        {
+            libWiiSharp.Region.Japan  => 0,
+            libWiiSharp.Region.Europe => 2,
+            libWiiSharp.Region.Korea  => 3,
+            _                         => 1
+        };
         // -----------------------------------
 
         private void SetRecentProjects(string project)
@@ -474,6 +489,7 @@ namespace FriishProduce
                 ChannelTitles = _channelTitles,
                 BannerTitle = _bannerTitle,
                 BannerYear = _bannerYear,
+                BannerRegion = _bannerRegion,
                 BannerPlayers = _bannerPlayers,
                 SaveDataTitle = savedata.Lines,
 
@@ -901,6 +917,12 @@ namespace FriishProduce
                 try { banner_form.title.Text = project.BannerTitle; } catch { }
                 try { banner_form.released.Value = project.BannerYear; } catch { }
                 try { banner_form.players.Value = project.BannerPlayers; } catch { }
+                try {
+                    banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1;
+                    linkSaveDataTitle();
+                    resetImages(true);
+                } catch { }
+
                 try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
                 try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
                 try { title_id.Text = project.TitleID; } catch { }

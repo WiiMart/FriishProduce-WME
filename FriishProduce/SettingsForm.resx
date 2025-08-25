@@ -417,7 +417,7 @@
     <value>theme</value>
   </data>
   <data name="&gt;&gt;theme.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;theme.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -585,7 +585,7 @@
     <value>language</value>
   </data>
   <data name="&gt;&gt;language.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;language.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -657,7 +657,7 @@
     <value>forwarder_root_device</value>
   </data>
   <data name="&gt;&gt;forwarder_root_device.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;forwarder_root_device.Parent" xml:space="preserve">
     <value>forwarder</value>
@@ -732,7 +732,7 @@
     <value>bios_settings</value>
   </data>
   <data name="&gt;&gt;bios_settings.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bios_settings.Parent" xml:space="preserve">
     <value>forwarder</value>
@@ -969,7 +969,7 @@
     <value>image_interpolation_mode</value>
   </data>
   <data name="&gt;&gt;image_interpolation_mode.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;image_interpolation_mode.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1014,7 +1014,7 @@
     <value>banner_region</value>
   </data>
   <data name="&gt;&gt;banner_region.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;banner_region.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1245,7 +1245,7 @@
     <value>default_target_filename</value>
   </data>
   <data name="&gt;&gt;default_target_filename.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;default_target_filename.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1311,7 +1311,7 @@
     <value>sega_default</value>
   </data>
   <data name="&gt;&gt;sega_default.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sega_default.Parent" xml:space="preserve">
     <value>default_injection_methods</value>
@@ -1356,7 +1356,7 @@
     <value>snes_default</value>
   </data>
   <data name="&gt;&gt;snes_default.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;snes_default.Parent" xml:space="preserve">
     <value>default_injection_methods</value>
@@ -1401,7 +1401,7 @@
     <value>nes_default</value>
   </data>
   <data name="&gt;&gt;nes_default.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;nes_default.Parent" xml:space="preserve">
     <value>default_injection_methods</value>
@@ -1446,7 +1446,7 @@
     <value>n64_default</value>
   </data>
   <data name="&gt;&gt;n64_default.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;n64_default.Parent" xml:space="preserve">
     <value>default_injection_methods</value>
@@ -1539,7 +1539,7 @@
     <value>bios_neo</value>
   </data>
   <data name="&gt;&gt;bios_neo.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bios_neo.Parent" xml:space="preserve">
     <value>bios_files</value>
@@ -1611,7 +1611,7 @@
     <value>bios_psx</value>
   </data>
   <data name="&gt;&gt;bios_psx.Type" xml:space="preserve">
-    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FriishProduce.GroupBoxEx, FriishProduce, Version=1.6.0.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bios_psx.Parent" xml:space="preserve">
     <value>bios_files</value>
