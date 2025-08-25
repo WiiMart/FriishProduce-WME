@@ -358,6 +358,7 @@
     <Compile Include="_classes\Files\CCF.cs" />
     <Compile Include="_classes\Helpers\BannerPreview.cs" />
     <Compile Include="_classes\Databases\ChannelData.cs" />
+    <Compile Include="_classes\Databases\DropboxDL.cs" />
     <Compile Include="_classes\Method.cs" />
     <Compile Include="_classes\Program\CustomGraphics.cs">
       <SubType>Component</SubType>

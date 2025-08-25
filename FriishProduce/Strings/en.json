@@ -266,7 +266,7 @@
 			"auto_prefill":						"Automatically prefill game data after opening",
 			"locsave_banner":					"Save downloaded banner images locally:",
 			"locsave_wad":						"Save downloaded WAD files locally:",
-			"lowerParams":						"Lowercase parameter values"
+			"lowerParams":						"Lowercase parameter values for exported WADs"
 		},
 
 		"projectform": {

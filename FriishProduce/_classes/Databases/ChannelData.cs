@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using FriishProduce;
 
 namespace FriishProduce
 {
@@ -98,7 +99,11 @@ namespace FriishProduce
 
                 // Load Static WAD by default
                 // ****************
+
                 if (tID == null || tID?.Length < 4 || tID == "STLB") return null;
+
+                if (DropboxDL.FindUrlFor(tID) != null)
+                    return DropboxDL.FindUrlFor(tID);
 
                 string reg = " (Japan)";
                 switch (Regions[index])

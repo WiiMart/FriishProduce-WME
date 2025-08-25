@@ -3,6 +3,8 @@
     "tasks": [
         // 'Workflow' task (require)-> Run (require)-> Compile
         //      So more accurately, main task > compile > run
+        //
+        // Includes Debug and Release options
 //------------------------------------------------------------------------------------>
         {
             "label": "Run FPWME Workflow",
@@ -28,7 +30,7 @@
         {
             "label": "Run FPWME",
             "type": "shell",
-            "command": "${workspaceFolder}/FriishProduce/bin/Debug/FriishProduce.exe",
+            "command": "${workspaceFolder}/FriishProduce/bin/${input:buildConfig}/FriishProduce.exe",
             "options": {
                 "shell": {
                     "executable": "cmd.exe",
@@ -47,12 +49,12 @@
         {
             "label": "Compile FPWME",
             "type": "shell",
-            //<---- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ---->
+//<--------- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ------------------->
             "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
             "args": [
                 "${workspaceFolder}/FriishProduce.sln",
                 "/t:Build",
-                "/p:Configuration=Debug",
+                "/p:Configuration=${input:buildConfig}",
                 "/p:Platform=\"Any CPU\""
             ],
             "options": {
@@ -75,7 +77,7 @@
         {
             "label": "Run FPWME (NRC)",
             "type": "shell",
-            "command": "${workspaceFolder}/FriishProduce/bin/Debug/FriishProduce.exe",
+            "command": "${workspaceFolder}/FriishProduce/bin/${input:buildConfig}/FriishProduce.exe",
             "options": {
                 "shell": {
                     "executable": "cmd.exe",
@@ -88,6 +90,18 @@
                 "panel": "new"
             },
             "group": "test"
-        },
+        }
+    ],
+    "inputs": [
+        {
+            "id": "buildConfig",
+            "type": "pickString",
+            "description": "Choose build configuration",
+            "options": [
+                "Debug",
+                "Release"
+            ],
+            "default": "Debug"
+        }
     ]
 }

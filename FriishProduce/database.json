@@ -84,7 +84,7 @@
 
 	    {
             "id": "00010001-464339__",
-            "region": [0],
+            "region": [0, 1, 3],
             "emu_ver": [0],
             "titles": ["メタルスレイダーグローリー", "Metal Slader Glory"]
         },
@@ -102,6 +102,30 @@
             "emu_ver": [0, 0, 0],
             "titles": ["忍者龍剣伝", "Ninja Gaiden"],
             "wad_titles": ["Ninja Ryukenden", "Ninja Gaiden"]
+        },
+
+        {
+            "id": "00010001-464351__",
+            "region": [0, 1, 5],
+            "emu_ver": [0, 0, 0],
+            "titles": ["Ninja Gaiden II"],
+            "wad_titles": ["Ninja Gaiden II"]
+        },
+
+        {
+            "id": "00010001-46444c__",
+            "region": [0, 1, 5],
+            "emu_ver": [0, 0, 0],
+            "titles": ["Ninja Gaiden III"],
+            "wad_titles": ["Ninja Gaiden III"]
+        },
+		
+        {
+            "id": "00010001-46425a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Metroid"],
+            "wad_titles": ["Metroid"]
         },
 
         {
@@ -126,12 +150,33 @@
             "emu_ver": [0, 0],
             "titles": ["StarTropics"]
         },
+		
+        {
+            "id": "00010001-464146__",
+            "region": [0, 1, 3, 6],
+            "emu_ver": [0, 0, 0, 0],
+            "titles": ["Mario Bros."]
+        },
+		
+        {
+            "id": "00010001-464147__",
+            "region": [0, 1, 3, 6],
+            "emu_ver": [0, 0, 0, 0],
+            "titles": ["スーパーマリオブラザーズ", "Super Mario Bros.", "Super Mario Bros.", "슈퍼 마리오브라더스"]
+        },
 
         {
             "id": "00010001-464357__",
             "region": [0, 1, 3, 6],
             "emu_ver": [0, 0, 0, 0],
             "titles": ["スーパーマリオブラザーズ３", "Super Mario Bros. 3", "Super Mario Bros. 3", "슈퍼 마리오브라더스 3"]
+        },
+		
+        {
+            "id": "00010001-464658__",
+            "region": [0, 1, 3],
+            "emu_ver": [0, 0, 0],
+            "titles": ["25th スーパーマリオブラザーズ", "25th Anniversary SMB", "25th Anniversary SMB"]
         },
 		
         {
@@ -166,6 +211,13 @@
         },
 		
         {
+            "id": "00010001-464139__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Zelda no Densetsu 2 - Link no Bouken", "Zelda II: The Adventure of Link"]
+        },
+		
+        {
             "id": "00010001-464552__",
             "region": [1],
             "emu_ver": [1],
@@ -181,6 +233,94 @@
             "emu_ver": [0],
             "titles": ["スーパードンキーコング２ ディクシー&ディディー", "Donkey Kong Country 2: Diddy's Kong Quest", "Donkey Kong Country 2: Diddy's Kong Quest", "동키콩 컨트리 2"],
             "wad_titles": ["Super Donkey Kong 2 - Dixie & Diddy", "Donkey Kong Country 2 - Diddy's Kong Quest"]
+        },
+		
+		{
+            "id": "00010001-4a4250__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Donkey Kong Country 3: Dixie Kong's Double Trouble!"],
+            "wad_titles": ["Donkey Kong Country 3: Dixie Kong's Double Trouble!"]
+        },
+		
+				{
+            "id": "00010001-4a4144__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Zelda no Densetsu - Kamigami no Triforce", "The Legend of Zelda: A Link to the Past"],
+            "wad_titles": ["Zelda no Densetsu - Kamigami no Triforce", "The Legend of Zelda: A Link to the Past"]
+        },
+		
+		{
+            "id": "00010001-4a4141__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Super Mario World"],
+            "wad_titles": ["Super Mario World"]
+        },
+		
+		{
+            "id": "00010001-4a4357__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Super Mario Kart"],
+            "wad_titles": ["Super Mario Kart"]
+        },
+		
+		{
+            "id": "00010001-4a4543__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Chrono Trigger"],
+            "wad_titles": ["Chrono Trigger"]
+        },
+		
+		{
+            "id": "00010001-4a4143__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["F-Zero"],
+            "wad_titles": ["F-Zero"]
+        },
+		
+		{
+            "id": "00010001-4a4445__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Final Fight 3"],
+            "wad_titles": ["Final Fight 3"]
+        },
+		
+		{
+            "id": "00010001-4a414a__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Street Fighter II: The World Warrior"],
+            "wad_titles": ["Street Fighter II: The World Warrior"]
+        },
+		
+		{
+            "id": "00010001-4a4443__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Street Fighter Alpha 2"],
+            "wad_titles": ["Street Fighter Alpha 2"]
+        },
+		
+		{
+            "id": "00010001-4a4249__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Street Fighter 2 Turbo"],
+            "wad_titles": ["Street Fighter 2 Turbo"]
+        },
+		
+		{
+            "id": "00010001-4a4344__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["Kirby's Dream Land 3"],
+            "wad_titles": ["Kirby's Dream Land 3"]
         },
 		
         {
@@ -199,6 +339,7 @@
             "wad_titles": ["Hoshi no Kirby Super Deluxe", "Kirby Super Star", "Kirby's Fun Pak"]
         },
 
+
         {
             "id": "00010001-4a4157__",
             "region": [0, 1],
@@ -212,14 +353,6 @@
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
             "titles": ["スーパーメトロイド", "Super Metroid", "Super Metroid", "슈퍼 메트로이드"]
-        },
-
-        {
-            "id": "00010001-4a4449__",
-            "region": [1, 3],
-            "emu_ver": [2],
-            "titles": ["スーパースター・ウォーズ", "Super Star Wars"],
-            "wad_titles": ["Super Star Wars"]
         },
 
         {
@@ -254,6 +387,14 @@
             "wad_titles": ["Final Fantasy VI", "Final Fantasy III"]
         },
 		
+	    {
+            "id": "00010001-4a4338__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["Final Fantasy II"],
+            "wad_titles": ["Final Fantasy II"]
+        },
+		
         {
             "id": "00010001-4a4542__",
             "region": [0, 1, 3],
@@ -271,11 +412,40 @@
         },
 		
         {
+            "id": "00010001-4a4148__",
+            "region": [0, 1, 3],
+            "emu_ver": [0],
+            "titles": ["R-Type III"],
+            "wad_titles": ["R-Type III"]
+        },
+		
+        {
             "id": "00010001-4a4436__",
             "region": [0, 1, 5],
             "emu_ver": [2],
             "titles": ["ファイヤー・ファイティング", "The Ignition Factor"],
             "wad_titles": ["Fire Fighting", "Ignition Factor, The"]
+        },
+		
+        {
+            "id": "00010001-4a4449__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["スーパースター・ウォーズ", "Super Star Wars"]
+        },
+		
+        {
+            "id": "00010001-4a444a__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["Super Star Wars - The Empire Strikes Back"]
+        },
+		
+        {
+            "id": "00010001-4a444c__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["Super Star Wars - Return of the Jedi"]
         },
 
         {
@@ -314,6 +484,22 @@
             "emu_ver": [1, 1, 1, 3],
             "titles": ["マリオカート64", "Mario Kart 64", "Mario Kart 64", "마리오 카트 64"]
         },
+		
+        {
+            "id": "00010001-4e4153__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [1, 1, 1, 3],
+            "titles": ["Cruis'n USA"],
+            "wad_titles": ["Cruis'n USA"]
+        },
+		
+        {
+            "id": "00010001-4e4154__",
+            "region": [0, 1, 3],
+            "emu_ver": [3],
+            "titles": ["マリオテニス64", "Mario Tennis"],
+            "wad_titles": ["Mario Tennis 64", "Mario Tennis"],
+        },
 
         {
             "id": "00010001-4e4143__",
@@ -322,6 +508,19 @@
             "titles": ["ゼルダの伝説 時のオカリナ", "The Legend of Zelda: Ocarina of Time"],
             "wad_titles": ["Zelda no Densetsu - Toki no Okarina", "Legend of Zelda, The - Ocarina of Time"]
         },
+		
+        {
+            "id": "00010001-4E5554__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Ultimate Trial"],
+            "wad_titles": ["Ultimate Trial"]
+        },
+			// N64:
+            // "0": Rev 1
+            // "1": Rev 1 (alternative savedata format)
+            // "2": Rev 2 (legacy configuration removed)
+            // "3": Rev 3 (ROMC)
 
         {
             "id": "00010001-4e4144__",
@@ -357,7 +556,7 @@
 
         {
             "id": "00010001-4e414b__",
-            "region": [0, 2, 4],
+            "region": [0, 1, 2, 4],
             "emu_ver": [2],
             "titles": ["ポケモンスナップ", "Pokémon Snap"],
             "wad_titles": ["Pokemon Snap"]
@@ -463,7 +662,7 @@
         {
             "id": "00010001-4c414a__",
             "region": [0, 1, 3],
-            "emu_ver": [2],
+            "emu_ver": [2, 2, 2],
             "titles": ["ソニック・ザ・ヘッジホッグ２", "Sonic the Hedgehog 2"],
             "wad_titles": ["Sonic The Hedgehog 2"],
         },
@@ -510,93 +709,518 @@
 
     "smd": [
         {
-            "id": "00010001-4d4142__",
+            "id": "00010001-4d4158__",
             "region": [0, 1, 3],
-            "emu_ver": [1],
-            "titles": ["コラムス", "Columns"]
-        },
-
-        {
-            "id": "00010001-4d4148__",
-            "region": [0, 1, 3],
-            "emu_ver": [1],
-            "titles": ["ソニック･ザ･ヘッジホッグ", "Sonic the Hedgehog"],
-            "wad_titles": ["Sonic The Hedgehog"]
-        },
-
-        {
-            "id": "00010001-4d4150__",
-            "region": [0, 1, 3],
-            "emu_ver": [1],
-            "titles": ["コミックスゾーン", "Comix Zone"],
-        },
-
-        {
-            "id": "00010001-4d4156__",
-            "region": [0, 1, 3],
-            "emu_ver": [1],
-            "titles": ["ワンダーボーイⅤ モンスターワールドⅢ", "Wonder Boy in Monster World"],
-            "wad_titles": ["Wonder Boy V - Monster World III", "Wonder Boy in Monster World"]
-        },
-
-        {
-            "id": "00010001-4d4136__",
-            "region": [0, 1, 3],
-            "emu_ver": [2],
-            "titles": ["ベア・ナックルII 死闘への鎮魂歌", "Streets of Rage 2"],
-            "wad_titles": ["Bare Knuckle II - Shitou he no Requiem", "Streets of Rage 2"]
-        },
-        
-        {
-            "id": "00010001-4d424d__",
-            "region": [0, 1, 3],
-            "emu_ver": [2],
-            "titles": ["ソニック･ザ･ヘッジホッグ3", "Sonic the Hedgehog 3"],
-            "wad_titles": ["Sonic The Hedgehog 3"]
+            "emu_ver": [1, 3],
+            "titles": ["Alex Kidd in the Enchanted Castle (1989)"],
+            "wad_titles": ["Alex Kidd in the Enchanted Castle"]
         },
 		
         {
-            "id": "00010001-4d4255__",
+            "id": "00010001-4d4254__",
             "region": [0, 1, 3],
-            "emu_ver": [2],
-            "titles": ["ソニック3Dブラスト", "Sonic 3D Blast", "Sonic 3D"],
-            "wad_titles": ["Sonic 3D Blast", "Sonic 3D Blast", "Sonic 3D - Flickies' Island"]
+            "emu_ver": [1, 3],
+            "titles": ["Alien Soldier (1995)"],
+            "wad_titles": ["Alien Soldier"]
+        },
+		
+        {
+            "id": "00010001-4d4159__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Alien Storm (1990)"],
+            "wad_titles": ["Alien Storm"]
+        },
+		
+        {
+            "id": "00010001-4d4141__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Altered Beast (1988)"],
+            "wad_titles": ["Altered Beast"]
+        },
+		
+        {
+            "id": "00010001-4d4152__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Beyond Oasis (1994)"],
+            "wad_titles": ["Beyond Oasis"]
+        },
+		
+        {
+            "id": "00010001-4d414f__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Bio-Hazard Battle (1994)"],
+            "wad_titles": ["Bio-Hazard Battle"]
+        },
+		
+        {
+            "id": "00010001-4d414c__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Bonanza Bros. (1990)"],
+            "wad_titles": ["Bonanza Bros."]
+        },
+		
+        {
+            "id": "00010001-4d4351__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Boogerman: A Pick and Flick Adventure (1994)"],
+            "wad_titles": ["Boogerman: A Pick and Flick Adventure"]
+        },
+		
+        {
+            "id": "00010001-4d4354__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Clay Fighter (1994)"],
+            "wad_titles": ["Clay Fighter"]
+        },
+		
+        {
+            "id": "00010001-4d4142__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["コラムス", "Columns (1989)"]
         },
 		
         {
             "id": "00010001-4d4257__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["コラムスⅢ 対決！コラムスワールド", "Columns III: Revenge of Columns"],
+            "titles": ["コラムスⅢ 対決！コラムスワールド", "Columns III: Revenge of Columns (1993)"],
             "wad_titles": ["Columns III - Taiketsu! Columns World", "Columns III - Revenge of Columns"]
+        },
+		
+        {
+            "id": "00010001-4d4150__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["コミックスゾーン", "Comix Zone (1995)"],
+        },
+		
+        {
+            "id": "00010001-4d4143__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Dr. Robotnik's Mean Bean Machine (1993)"],
+            "wad_titles": ["Dr. Robotnik's Mean Bean Machine"]
+        },
+		
+        {
+            "id": "00010001-4d4247__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Dynamite Headdy (1994)"],
+            "wad_titles": ["Dynamite Headdy"]
         },
 		
         {
             "id": "00010001-4d4350__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["アースワームジム", "Earthworm Jim"]
-        },
-        
-        {
-            "id": "00010001-4d4241__",
-            "region": [0, 2, 4],
-            "emu_ver": [2, 3, 3],
-            "titles": ["ファンタシースター", "Pulseman"]
+            "titles": ["アースワームジム", "Earthworm Jim (1994)"]
         },
 		
         {
             "id": "00010001-4d4332__",
             "region": [0, 1, 3],
             "emu_ver": [3],
-            "titles": ["アースワームジム２", "Earthworm Jim 2"]
+            "titles": ["アースワームジム２", "Earthworm Jim 2 (1995)"]
+        },
+		
+        {
+            "id": "00010001-4d4258__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Ecco Jr. (1995)"],
+            "wad_titles": ["Ecco Jr."]
+        },
+		
+        {
+            "id": "00010001-4d4144__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Ecco the Dolphin (1992)"],
+            "wad_titles": ["Ecco the Dolphin"]
+        },
+		
+        {
+            "id": "00010001-4d4138__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Ecco: Tides of Time (1994)"],
+            "wad_titles": ["Ecco: Tides of Time", "Ecco 2", "Ecco II"]
+        },
+		
+        {
+            "id": "00010001-4d425a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Eternal Champions (1993)"],
+            "wad_titles": ["Eternal Champions"]
+        },
+		
+        {
+            "id": "00010001-4d4347__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Forgotton Worlds (1988)"],
+            "wad_titles": ["Forgotton Worlds"]
+        },
+		
+        {
+            "id": "00010001-4d414e__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Gain Ground (1988)"],
+            "wad_titles": ["Gain Ground"]
+        },
+		
+        {
+            "id": "00010001-4d4357__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Galaxy Force II (1988)"],
+            "wad_titles": ["Galaxy Force II"]
+        },
+		
+        {
+            "id": "00010001-4d424a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Ghosts N' Ghouls (1989)"],
+            "wad_titles": ["Ghosts N' Ghouls"]
+        },
+		
+        {
+            "id": "00010001-4d4341__",
+            "region": [0, 1, 2, 3, 4, 5, 6, 7],
+            "emu_ver": [1, 3],
+            "titles": ["Gley Lancer (1992)"],
+            "wad_titles": ["Gley Lancer"]
+        },
+		
+        {
+            "id": "00010001-4d4145__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Golden Axe (1989)"],
+            "wad_titles": ["Golden Axe"]
+        },
+		
+        {
+            "id": "00010001-4d4244__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Golden Axe II (1991)"],
+            "wad_titles": ["Golden Axe II"]
+        },
+		
+        {
+            "id": "00010001-4d424f__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Golden Axe III (1993)"],
+            "wad_titles": ["Golden Axe III"]
+        },
+		
+        {
+            "id": "00010001-4d4146__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Gunstar Heroes (1993)"],
+            "wad_titles": ["Gunstar Heroes"]
+        },
+		
+        {
+            "id": "00010001-4d4243__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Kid Chameleon (1992)"],
+            "wad_titles": ["Kid Chameleon"]
+        },
+		
+        {
+            "id": "00010001-4d4249__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Landstalker - The Treasure of King Nole (1992)"],
+            "wad_titles": ["Landstalker - The Treasure of King Nole"]
+        },
+		
+        {
+            "id": "00010001-4d4259__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Light Crusader (1995)"],
+            "wad_titles": ["Light Crusader"]
+        },
+		
+        {
+            "id": "00010001-4d4348__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["M.U.S.H.A. (1990)"],
+            "wad_titles": ["M.U.S.H.A."]
+        },
+		
+        {
+            "id": "00010001-4d4237__",
+            "region": [0, 1, 3],
+            "emu_ver": [2, 3],
+            "titles": ["Mega Turrican (1994)"],
+            "wad_titles": ["メガタリカン", "Mega Turrican"]
+        },
+		
+        {
+            "id": "00010001-4d4352__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["MERCS - Wolf of the Battlefield (1990)"],
+            "wad_titles": ["MERCS - Wolf of the Battlefield"]
+        },
+		
+        {
+            "id": "00010001-4d4233__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Monster World IV (1994)"],
+            "wad_titles": ["Monster World IV"]
+        },
+		
+        {
+            "id": "00010001-4d4343__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Phantasy Star III (1990)"],
+            "wad_titles": ["Phantasy Star III"]
+        },
+		
+        {
+            "id": "00010001-4d434b__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Phantasy Star IV (1993)"],
+            "wad_titles": ["Phantasy Star IV"]
+        },
+		
+        {
+            "id": "00010001-4d4356__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Pitfall - The Mayan Adventure (1994)"],
+            "wad_titles": ["Pitfall - The Mayan Adventure"]
+        },
+        
+        {
+            "id": "00010001-4d4241__",
+            "region": [0, 2, 4],
+            "emu_ver": [2, 3, 3],
+            "titles": ["ファンタシースター", "Pulseman (1994)"]
+        },
+		
+        {
+            "id": "00010001-4d4359__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["ザ･スーパー忍", "Revenge of Shinobi (1989)"],
+            "wad_titles": ["Revenge of Shinobi"]
+        },
+		
+        {
+            "id": "00010001-4d4147__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Ristar (1995)"],
+            "wad_titles": ["Ristar"]
+        },
+		
+        {
+            "id": "00010001-4d4252__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Rolling Thunder 2 (1991)"],
+            "wad_titles": ["Rolling Thunder 2"]
+        },
+		
+        {
+            "id": "00010001-4d414b__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Shadow Dancer (1990)"],
+            "wad_titles": ["Shadow Dancer"]
+        },
+		
+        {
+            "id": "00010001-4d435a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Shanghai II - Dragon's Eye (1990)"],
+            "wad_titles": ["Shanghai II - Dragon's Eye"]
+        },
+		
+        {
+            "id": "00010001-4d4236__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Shining Force II: Ancient Sealing (1993)"],
+            "wad_titles": ["Shining Force II", "Shining Force II: Ancient Sealing"]
+        },
+		
+        {
+            "id": "00010001-4d4137__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Shining in the Darkness (1991)"],
+            "wad_titles": ["Shining in the Darkness"]
+        },
+		
+        {
+            "id": "00010001-4d4246__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Shinobi III: Return of the Ninja Master (1993)"],
+            "wad_titles": ["Shinobi III", "Shinobi III: Return of the Ninja Master"]
+        },
+		
+        {
+            "id": "00010001-4d4148__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["ソニック･ザ･ヘッジホッグ", "Sonic the Hedgehog (1991)"],
+            "wad_titles": ["Sonic The Hedgehog"]
+        },
+		
+        {
+            "id": "00010001-4d4242__",
+            "region": [0, 1, 3],
+            //"emu_ver": [1, 3],
+			"emu_ver": [1, 3],
+            "titles": ["Sonic the Hedgehog 2 (1992)"],
+            "wad_titles": ["Sonic the Hedgehog 2"]
+        },
+        
+        {
+            "id": "00010001-4d424d__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["ソニック･ザ･ヘッジホッグ3", "Sonic the Hedgehog 3 (1994)"],
+            "wad_titles": ["Sonic The Hedgehog 3"]
         },
 		
         {
             "id": "00010001-4d4344__",
-            "region": [1, 3],
+            "region": [0, 1, 3],
             "emu_ver": [3],
-            "titles": ["ソニック&ナックルズ", "Sonic & Knuckles"]
+            "titles": ["ソニック&ナックルズ", "Sonic & Knuckles (1994)"]
+        },
+		
+        {
+            "id": "00010001-4d4255__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["ソニック3Dブラスト", "Sonic 3D Blast (1996)", "Sonic 3D (1996)"],
+            "wad_titles": ["Sonic 3D Blast", "Sonic 3D Blast", "Sonic 3D - Flickies' Island"]
+        },
+		
+        {
+            "id": "00010001-4d434a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Splatterhouse 2 (1992)"],
+            "wad_titles": ["Splatterhouse 2"]
+        },
+		
+        {
+            "id": "00010001-4d434c__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Street Fighter II - Special Champion Edition (1992)"],
+            "wad_titles": ["Street Fighter II - Special Champion Edition"]
+        },
+		
+        {
+            "id": "00010001-4d4136__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["ベア・ナックルII 死闘への鎮魂歌", "Streets of Rage 2 (1992)"],
+            "wad_titles": ["Bare Knuckle II - Shitou he no Requiem", "Streets of Rage 2"]
+        },
+		
+        {
+            "id": "00010001-4d4251__",
+            "region": [0, 1, 3],
+            "emu_ver": [2, 3, 3],
+            "titles": ["Streets of Rage 3 (1994)"],
+            "wad_titles": ["Streets of Rage 3"]
+        },
+		
+        {
+            "id": "00010001-4d4333__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["Super Street Fighter II (1993)"],
+            "wad_titles": ["Super Street Fighter II"]
+        },
+		
+        {
+            "id": "00010001-4d4250__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Super Thunder Blade (1988)"],
+            "wad_titles": ["Super Thunder Blade"]
+        },
+		
+        {
+            "id": "00010001-4d414d__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Sword of Vermilion (1989)"],
+            "wad_titles": ["Sword of Vermilion"]
+        },
+		
+        {
+            "id": "00010001-4d415a__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Toejam & Earl in Panic on Funkotron (1993)", "Toejam & Earl 2 (1993)"],
+            "wad_titles": ["Toejam & Earl 2"]
+        },
+		
+        {
+            "id": "00010001-4d4153__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Vectorman (1995)"],
+            "wad_titles": ["Vectorman"]
+        },
+		
+        {
+            "id": "00010001-4d4157__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Virtua Fighter 2 (1994)"],
+            "wad_titles": ["Virtua Fighter 2"]
+        },
+		
+        {
+            "id": "00010001-4d4353__",
+            "region": [0, 1, 3],
+            "emu_ver": [1, 3],
+            "titles": ["Wonder Boy III - Monster Lair (1988)"],
+            "wad_titles": ["Wonder Boy III - Monster Lair"]
+        },
+		
+        {
+            "id": "00010001-4d4156__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["ワンダーボーイⅤ モンスターワールドⅢ", "Wonder Boy in Monster World (1991)"],
+            "wad_titles": ["Wonder Boy V - Monster World III", "Wonder Boy in Monster World"]
         }
     ],
 
@@ -711,6 +1335,27 @@
         },
 		
         {
+            "id": "00010001-454132__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Metal Slug 2"]
+        },
+		
+        {
+            "id": "00010001-454236__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Metal Slug 3"]
+        },
+		
+        {
+            "id": "00010001-454251__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["Ninja Master's: Haō Ninpō Chō", "Ninja Masters"]
+        },
+		
+        {
             "id": "00010001-454144__",
             "region": [0, 1, 3],
             "emu_ver": [0],
@@ -765,6 +1410,20 @@
         },
 
         {
+            "id": "00010001-454155__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["ティンクルスタースプライツ", "Twinkle Star Sprites"]
+        },
+		
+        {
+            "id": "00010001-454138__",
+            "region": [0, 1, 2, 3, 4, 5],
+            "emu_ver": [1],
+            "titles": ["超鉄ブリキンガー", "Ironclad"]
+        },
+
+        {
             "id": "00010001-454156__",
             "region": [0, 1, 3],
             "emu_ver": [1],
@@ -811,7 +1470,7 @@
 
         {
             "id": "00010001-584150__",
-            "region": [0],
+            "region": [0, 1, 3, 5],
             "titles": ["メタルギア２ ソリッドスネーク", "Metal Gear 2: Solid Snake"],
             "wad_titles": ["Metal Gear 2 - Solid Snake"]
         },
@@ -829,6 +1488,62 @@
             "id": "00010001-574e41__",
             "region": [3],
             "titles": ["Flash Placeholder"]
+        },
+		
+        {
+            "id": "00010001-575a31__",
+            "region": [0, 1, 3],
+            "titles": ["Flash Base '25"]
+        },
+		
+        {
+            "id": "00010001-585a31__",
+            "region": [0, 1, 3],
+            "titles": ["Kirby TV Base"]
+        },
+		
+        {
+            "id": "00010001-48434d__",
+            "region": [0, 1, 3],
+            "titles": ["Kirby TV Channel"]
+        },
+		
+        {
+            "id": "00010001-4f4131__",
+            "region": [0, 1, 3],
+            "titles": ["Punk-O-Matic"]
+        },
+		
+        {
+            "id": "00010001-57324c__",
+            "region": [0, 1, 3],
+            "titles": ["Bloons"]
+        },
+		
+        {
+            "id": "00010001-574a57__",
+            "region": [0, 1, 3],
+            "titles": ["Bejeweled 2"]
+        },
+		
+        {
+            "id": "00010001-574647__",
+            "region": [0, 1, 3],
+            "titles": ["Frogger Returns"]
+        },
+		
+        {
+            "id": "00010001-57434b__",
+            "region": [0, 1, 3],
+            "titles": ["Chick Chick BOOM"],
+			"wad_titles": ["Chick Chick BOOM", "Chicken Battle! Chick Chick BOOM"]
+        },
+		
+        {
+            "id": "00010001-57474f__",
+            "region": [0, 1, 3],
+            "titles": ["World of Goo"],
+			"wad_titles": ["World of Goo"]
         },
         
         {

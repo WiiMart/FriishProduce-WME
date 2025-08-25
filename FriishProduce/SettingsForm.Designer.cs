@@ -190,6 +190,8 @@ namespace FriishProduce
             this.debug_mode.Name = "debug_mode";
             this.debug_mode.Tag = "debug_mode";
             this.debug_mode.UseVisualStyleBackColor = true;
+            this.debug_mode.Enabled = false;
+            this.debug_mode.Checked = Program.DebugMode;
             // 
             // theme
             // 
