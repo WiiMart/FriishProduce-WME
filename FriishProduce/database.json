@@ -1498,13 +1498,13 @@
 		
         {
             "id": "00010001-585a31__",
-            "region": [0, 1, 3],
+            "region": [1, 3],
             "titles": ["Kirby TV Base"]
         },
 		
         {
             "id": "00010001-48434d__",
-            "region": [0, 1, 3],
+            "region": [1, 3],
             "titles": ["Kirby TV Channel"]
         },
 		
@@ -1513,39 +1513,7 @@
             "region": [0, 1, 3],
             "titles": ["Punk-O-Matic"]
         },
-		
-        {
-            "id": "00010001-57324c__",
-            "region": [0, 1, 3],
-            "titles": ["Bloons"]
-        },
-		
-        {
-            "id": "00010001-574a57__",
-            "region": [0, 1, 3],
-            "titles": ["Bejeweled 2"]
-        },
-		
-        {
-            "id": "00010001-574647__",
-            "region": [0, 1, 3],
-            "titles": ["Frogger Returns"]
-        },
-		
-        {
-            "id": "00010001-57434b__",
-            "region": [0, 1, 3],
-            "titles": ["Chick Chick BOOM"],
-			"wad_titles": ["Chick Chick BOOM", "Chicken Battle! Chick Chick BOOM"]
-        },
-		
-        {
-            "id": "00010001-57474f__",
-            "region": [0, 1, 3],
-            "titles": ["World of Goo"],
-			"wad_titles": ["World of Goo"]
-        },
-        
+       
         {
             "id": "00010001-48434a__",
             "region": [3],
