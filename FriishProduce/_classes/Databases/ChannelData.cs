@@ -190,18 +190,14 @@ namespace FriishProduce
                     URL = "https://repo.mariocube.com/WADs/Flash%20Injects/Base/" + Uri.EscapeDataString(name) + ".wad";
                     tID = "WNAP";
                 }
-                else if (GetUpperID(index).StartsWith("HCJ")) // BBC iPlayer
+                else if (GetUpperID(index).StartsWith("HCJ") || GetUpperID(index).StartsWith("HCX")) // BBC iPlayer/YouTube
                 {
-                    int ver = 768;
+                    int ver = (Regions[index] == 0 || GetUpperID(index).StartsWith("HCJ")) ? 768 : Regions[index] == 3 ? 1537 : 1536;
                     URL = "https://repo.mariocube.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/" + folder + "/" + Uri.EscapeDataString(name + $" (v{ver}) (Channel)") + ".wad";
                 }
-                else if (GetUpperID(index).StartsWith("HCX")) // YouTube
+                else if (GetUpperID(index).StartsWith("HCM")) // Kirby TV (EU)
                 {
-                    int ver = Regions[index] == 0 ? 768 : Regions[index] == 3 ? 1537 : 1536;
-                    URL = "https://repo.mariocube.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/" + folder + "/" + Uri.EscapeDataString(name + $" (v{ver}) (Channel)") + ".wad";
-                } else if (GetUpperID(index).StartsWith("HCM")) // Kirby TV (EU)
-                {
-                    URL = "https://repo.mariocube.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/K/Kirby%20TV%20Channel%20(Europe)%20(Channel).wad";
+                    URL = "https://repo.mariocube.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/" + folder + "/" + Uri.EscapeDataString(name+ " (Channel).wad");
                 }
                     
                return URL;
