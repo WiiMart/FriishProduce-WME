@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using libWiiSharp;
 
 namespace FriishProduce
@@ -30,13 +31,33 @@ namespace FriishProduce
         public int WiiUDisplay { get; set; } = Program.Config.application.default_wiiu_display;
 
         public string TitleID { get; set; }
-        public string Genre { get; set; }
+
+        [OptionalField]
+        private string genre;
+
+        public string Genre
+        {
+            get => genre;
+            set => genre = value;
+        }
+
         public string[] ChannelTitles { get; set; }
+
+        [OptionalField]
         public Region BannerRegion;
         public string BannerTitle { get; set; }
         public int BannerYear { get; set; }
         public int BannerPlayers { get; set; }
         public string[] SaveDataTitle { get; set; }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            if (BannerRegion.Equals(default(Region)))
+                BannerRegion = Region.USA;
+            if (Genre == null)
+                Genre = "";
+        }
 
         internal void Dispose()
         {

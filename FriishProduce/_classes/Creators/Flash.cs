@@ -615,8 +615,6 @@ namespace FriishProduce.Injectors
 
                 else if (Path.GetFileName(item).Contains("common.pcf"))
                 {
-                    if (flBase == FlashBase.YouTube)
-                        Settings["strap_reminder"] = "off";
 
                     List<string> txt = new()
                     {
@@ -923,6 +921,13 @@ namespace FriishProduce.Injectors
                             modified = true;
                         }
 
+                        else if (line.Contains("strap_reminder") && flBase == FlashBase.YouTube)
+                        {
+                            Logger.Log("Disabling strap reminder.");
+                            Settings["strap_reminder"] = "none";
+                            txt.Add($"strap_reminder                   {Settings["strap_reminder"]}");
+                            modified = true;
+                        }
                         else if (line.Contains("content_url") && notYouTube) // Does not add the line
                             modified = true;
 

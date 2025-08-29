@@ -917,11 +917,14 @@ namespace FriishProduce
                 try { banner_form.title.Text = project.BannerTitle; } catch { }
                 try { banner_form.released.Value = project.BannerYear; } catch { }
                 try { banner_form.players.Value = project.BannerPlayers; } catch { }
-                try {
-                    banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1;
+                
+                try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                catch { banner_form.region.SelectedIndex = 0; }
+                finally
+                {
                     linkSaveDataTitle();
                     resetImages(true);
-                } catch { }
+                }
 
                 try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
                 try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
