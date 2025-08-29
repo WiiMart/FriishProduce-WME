@@ -216,6 +216,7 @@ namespace FriishProduce
         private void toggleSave()
         {
             vff_sync_on_write.Enabled = save_data_enable.Checked;
+            no_copy_save.Enabled = save_data_enable.Checked;
             vff_cache_size_l.Enabled = vff_cache_size.Enabled = save_data_enable.Checked;
             persistent_storage_total_l.Enabled = persistent_storage_total.Enabled = save_data_enable.Checked;
             persistent_storage_per_movie_l.Enabled = persistent_storage_per_movie.Enabled = save_data_enable.Checked;
