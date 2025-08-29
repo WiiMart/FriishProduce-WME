@@ -36,20 +36,17 @@ dotnet build FriishProduce.sln
 ```
 
 ## Deps:
-You can get the MdiTabCtrl dep from Jack Siro's repo
-https://github.com/JacksiroKe/MdiTabCtrl
+```bash
+dotnet add package MdiTabCtrl --version 1.0.0.1
+```
+```bash
+NuGet\Install-Package MdiTabCtrl -Version 1.0.0.1
+```
+
+**Alternatively:** You can get the MdiTabCtrl dep from Jack Siro's repo
 ```bash
 git clone https://github.com/JacksiroKe/MdiTabCtrl.git
 ```
-
-Alternatives:
-```bash
-dotnet add package MdiTabCtrl
-```
-```bash
-Install-Package MdiTabCtrl
-```
-
 #
 
 #### TODO
@@ -58,6 +55,8 @@ Install-Package MdiTabCtrl
 - Manual ortho-rect configuring (left top right bottom)
 - In-App ROM header & byte order converting
 - Optimize ROM patching
+- Refactor project files
+- TID detection, better randomizing, proper region suffixing, etc
 - FLASH
   - Fix strap reminder and config issues in Flash injects
   - Fix KirbyTV Flash injects (again)
