@@ -1,4 +1,4 @@
-{
+﻿{
     // HOW TO ADD BASES
         // "id"           - The full ID of the channel in hex, except the last two characters (replace with '__' two underscores). This is the region component for the title ID and will be determined automatically by the app.
 
@@ -1507,7 +1507,7 @@
             "region": [1, 3],
             "titles": ["Kirby TV Channel"]
         },
-       
+		
         {
             "id": "00010001-48434a__",
             "region": [3],
