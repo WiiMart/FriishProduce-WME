@@ -32,11 +32,11 @@ namespace FriishProduce
 
             // Remove Korea option for non-available platforms
             // ********
-            if (region.Items.Count == 5 && (int)platform >= 3)
+            /*if (region.Items.Count == 5 && (int)platform >= 3)
             {
                 if (region.SelectedIndex == 4) region.SelectedIndex = 0;
                 region.Items.RemoveAt(4);
-            }
+            }*/
 
             // Remove Japan option for C64 & Flash
             // ********
@@ -48,12 +48,12 @@ namespace FriishProduce
 
             // Remove USA/Europe options for MSX
             // ********
-            if (region.Items.Count == 4 && platform == Platform.MSX)
+            /*if (region.Items.Count == 4 && platform == Platform.MSX)
             {
                 region.Items.Clear();
                 region.Items.Add(Program.Lang.String("region_j"));
                 region.SelectedIndex = 0;
-            }
+            }*/
 
             region.Enabled = region.Items.Count > 1;
 

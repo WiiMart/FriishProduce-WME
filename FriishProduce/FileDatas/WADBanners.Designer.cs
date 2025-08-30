@@ -159,12 +159,24 @@ namespace FriishProduce.FileDatas {
                 return ((byte[])(obj));
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] jp_flash {
+            get {
+                object obj = ResourceManager.GetObject("jp_flash", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] jp_psx {
-            get {
+        internal static byte[] jp_psx
+        {
+            get
+            {
                 object obj = ResourceManager.GetObject("jp_psx", resourceCulture);
                 return ((byte[])(obj));
             }

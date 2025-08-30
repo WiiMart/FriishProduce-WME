@@ -127,6 +127,9 @@
   <data name="flash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\banners\flash.app;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+    <data name="jp_flash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\banners\jp_flash.app;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="gen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\banners\gen.app;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

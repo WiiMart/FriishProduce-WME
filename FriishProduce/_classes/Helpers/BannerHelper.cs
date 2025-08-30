@@ -43,7 +43,7 @@ namespace FriishProduce
                     return U8.Load(tID != null && tID.ToUpper().StartsWith("XAP") ? jp_msx2 : jp_msx1); // Check if version 2 MSX WADs use a different color scheme?
 
                 case Platform.Flash:
-                    return U8.Load(flash);
+                    return U8.Load(region switch { Region.Japan => jp_flash, _ => flash });
                 #endregion
 
                 #region Forwarders

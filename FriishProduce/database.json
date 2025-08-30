@@ -1485,12 +1485,6 @@
 
     "flash": [
         {
-            "id": "00010001-574e41__",
-            "region": [3],
-            "titles": ["Flash Placeholder"]
-        },
-		
-        {
             "id": "00010001-575a31__",
             "region": [0, 1, 3],
             "titles": ["Flash Base '25"]
@@ -1498,16 +1492,22 @@
 		
         {
             "id": "00010001-585a31__",
-            "region": [1, 3],
+            "region": [0, 1, 3],
             "titles": ["Kirby TV Base"]
         },
 		
         {
-            "id": "00010001-48434d__",
-            "region": [1, 3],
-            "titles": ["Kirby TV Channel"]
+            "id": "00010001-574e41__",
+            "region": [3],
+            "titles": ["Back to Nature (Flash Placeholder)"]
         },
 		
+        {
+            "id": "00010001-48434d__",
+            "region": [0, 1, 3],
+            "titles": ["Kirby TV Channel"]
+        },
+        
         {
             "id": "00010001-48434a__",
             "region": [3],

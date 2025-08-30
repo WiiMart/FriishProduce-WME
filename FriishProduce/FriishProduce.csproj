@@ -546,6 +546,7 @@
     <None Include="Resources\banners\c64_eu.app" />
     <None Include="Resources\banners\c64_us.app" />
     <None Include="Resources\banners\flash.app" />
+    <None Include="Resources\banners\jp_flash.app" />
     <None Include="Resources\banners\gen.app" />
     <None Include="Resources\banners\jp_fc.app" />
     <None Include="Resources\banners\jp_msx1.app" />
