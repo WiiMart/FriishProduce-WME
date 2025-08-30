@@ -730,13 +730,23 @@ namespace FriishProduce
                 rom.FilePath = ROMpath;
         }
 
+        private string GetRegionSuffix(Region inWadRegion)
+        {
+            return inWadRegion switch
+            {
+                Region.Japan    => "J",
+                Region.Europe   => "P",
+                Region.Korea    => "K",
+                _ => "E"
+            };
+        }
+
         private void Setup()
         {
             AddBases();
-
             // Declare ROM and WAD metadata modifier
             // ********
-            TIDPrefix = (null, new[] { "F", "J", "N", "L", "M", "P", "Q", "E", "C", "X" });
+            TIDPrefix = (null, new[] { "F", "J", "N", "L", "M", "P", "Q", "E", "C", "X", "W" });
             switch (targetPlatform)
             {
                 case Platform.NES:
@@ -797,6 +807,7 @@ namespace FriishProduce
                     break;
 
                 case Platform.Flash:
+                    TIDPrefix = ("W", null);
                     rom = new SWF();
                     break;
 
@@ -1110,13 +1121,19 @@ namespace FriishProduce
 
         private void randomTID()
         {
-            title_id.Text = TIDPrefix.Letter != null ? TIDPrefix.Letter + GenerateTitleID().Substring(0, 3) : GenerateTitleID();
+            string baseId;
+            baseId = TIDPrefix.Letter != null ? TIDPrefix.Letter + GenerateTitleID().Substring(0, 2) : GenerateTitleID().Substring(0, 3);
+
+            // Add region suffix
+            string regionSuffix = GetRegionSuffix(inWadRegion);
+            title_id.Text = baseId + regionSuffix;
 
             // Change title ID prefix to avoid 4:3 stretching on Wii U, if a list is provided
+            //      -> Uh? No idea what this has to do with with 4:3 aspect, maybe prefix determining console? -Subnetic
             // ********
             if (TIDPrefix.Exclude?.Length > 0)
             {
-                Loop:
+            Loop:
                 int verified = TIDPrefix.Exclude?.Length ?? 0;
                 while (verified > 0)
                 {
@@ -1124,7 +1141,8 @@ namespace FriishProduce
                     {
                         if (title_id.Text[0] == TIDPrefix.Exclude[i][0])
                         {
-                            title_id.Text = GenerateTitleID().Substring(0, 1) + title_id.Text.Substring(1);
+                            // regenerate platform prefix, keep rest
+                            title_id.Text = GenerateTitleID().Substring(0, 1) + title_id.Text.Substring(1, 2) + regionSuffix;
                             goto Loop;
                         }
 
@@ -1132,6 +1150,7 @@ namespace FriishProduce
                     }
                 }
             }
+
             ValueChanged(null, new EventArgs());
         }
 
