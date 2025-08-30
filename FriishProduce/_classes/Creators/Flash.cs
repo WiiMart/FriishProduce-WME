@@ -770,7 +770,7 @@ namespace FriishProduce.Injectors
                                 "",
                                 "strap_reminder					none			#normal  #no_ex  #none",
                                 "",
-                                "background_color				115 161 216 255		# RGBA -- VODF/SWF BG Color.",
+                                $"background_color				{Settings["background_color"]}		# RGBA -- VODF/SWF BG Color.",
                                 "",
                                 "",
                                 "################################# APPLICATION CONFIGURATIONS #####################################",
