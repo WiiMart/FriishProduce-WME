@@ -778,7 +778,7 @@ namespace FriishProduce.Injectors
                                 "",
                                 "#certificate_files   				GTEGI.cer rootTest.cer",
                                 "",
-                                "update_frame_rate				30 			# 0 sets it to framerate set in content",
+                                "update_frame_rate				0 			# 0 sets it to framerate set in content",
                                 "",
                                 "",
                                 "########################################## Gumball ###############################################",
