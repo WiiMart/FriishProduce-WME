@@ -1673,6 +1673,9 @@ namespace FriishProduce
                     else IsEmpty = false;
 
                     (rom as SWF).Parse(ROMpath);
+                    genre.Text = "Flash";
+                    genre.Enabled = false;
+                    genre_l.Enabled = false;
                     break;
             }
 
@@ -1760,7 +1763,7 @@ namespace FriishProduce
                         banner_form.players.Value = !string.IsNullOrEmpty(gameData.Players) ? int.Parse(gameData.Players) : banner_form.players.Value;
                         //genre.Text = !string.IsNullOrEmpty(gameData.Genre) ? gameData.Genre : genre.Text;
 
-                        // Set channel title text
+                        // Set genre text
                         if (!string.IsNullOrEmpty(gameData.Genre))
                         {
                             var text = gameData.Genre.Replace("\r", "").Split('\n');
