@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -1154,6 +1155,53 @@ namespace FriishProduce
             ValueChanged(null, new EventArgs());
         }
 
+        private void getUniqueTID()
+        {
+            HashSet<string> existingTIDs = LoadExistingTIDs("Resources/wmtids.json");
+            string[] suffixes = { "E", "P", "J", "K" };
+            string newTID;
+
+            while (true) // repeat until we find a base ID valid for all suffixes
+            {
+                // base ID with optional prefix
+                string baseId = TIDPrefix.Letter != null ? TIDPrefix.Letter + GenerateTitleID().Substring(0, 2) : GenerateTitleID().Substring(0, 3);
+                if (TIDPrefix.Exclude?.Length > 0)
+                {
+                    for (int i = 0; i < TIDPrefix.Exclude.Length; i++)
+                    {
+                        if (baseId[0] == TIDPrefix.Exclude[i][0])
+                        {
+                            baseId = GenerateTitleID().Substring(0, 1) + baseId.Substring(1, 2);
+                            i = -1;
+                        }
+                    }
+                }
+                bool avail = true;
+                foreach (string suffix in suffixes)
+                {
+                    string checkTID = baseId + suffix;
+                    avail = existingTIDs.Contains(checkTID) ? false : true;
+                    if (avail) break;
+                }
+                newTID = avail ? baseId + GetRegionSuffix(inWadRegion) : null;
+                if (avail) break; // else: repeat loop with a new baseId
+            }
+
+            title_id.Text = newTID;
+            ValueChanged(null, new EventArgs());
+        }
+
+        // Load existing TIDs from JSON
+        private HashSet<string> LoadExistingTIDs(string jsonFilePath)
+        {
+            if (!File.Exists(jsonFilePath))
+                return new HashSet<string>();
+
+            string json = File.ReadAllText(jsonFilePath);
+            string[] tids = JsonSerializer.Deserialize<string[]>(json) ?? Array.Empty<string>();
+            return new HashSet<string>(tids);
+        }
+
         public string GetName(bool full)
         {
             string FILENAME = File.Exists(patch) ? Path.GetFileNameWithoutExtension(patch) : Path.GetFileNameWithoutExtension(rom?.FilePath);
@@ -1196,8 +1244,8 @@ namespace FriishProduce
                 }
             }
 
-            string target = full 
-                ? Program.Config.application.default_export_filename 
+            string target = full
+                ? Program.Config.application.default_export_filename
                 : Program.Config.application.default_target_filename;
 
             bool lowerOut = Program.Config.application.lowerParams;
@@ -1290,7 +1338,7 @@ namespace FriishProduce
             return true;
         }
 
-        private void Random_Click(object sender, EventArgs e) => randomTID();
+        private void Random_Click(object sender, EventArgs e) => getUniqueTID();
 
         private void linkSaveDataTitle()
         {
@@ -1700,7 +1748,7 @@ namespace FriishProduce
 
             rom.FilePath = ROMpath;
 
-            randomTID();
+            getUniqueTID();
             patch = null;
 
             Program.MainForm.toolbarGameScan.Enabled = Program.MainForm.game_scan.Enabled = ToolbarButtons[1];
