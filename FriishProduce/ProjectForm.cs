@@ -1157,9 +1157,8 @@ namespace FriishProduce
 
         private void getUniqueTID()
         {
-            HashSet<string> existingTIDs = LoadExistingTIDs("Resources/wmtids.json");
-            string[] suffixes = { "E", "P", "J", "K" };
-            string newTID;
+            HashSet<string> existingTIDs = LoadExistingTIDs();
+            string uTID;
 
             while (true) // repeat until we find a base ID valid for all suffixes
             {
@@ -1169,37 +1168,30 @@ namespace FriishProduce
                 {
                     for (int i = 0; i < TIDPrefix.Exclude.Length; i++)
                     {
-                        if (baseId[0] == TIDPrefix.Exclude[i][0])
-                        {
-                            baseId = GenerateTitleID().Substring(0, 1) + baseId.Substring(1, 2);
-                            i = -1;
-                        }
+                        baseId = baseId[0] == TIDPrefix.Exclude[i][0] ? GenerateTitleID().Substring(0, 1) + baseId.Substring(1, 2) : baseId;
+                        i = baseId[0] == TIDPrefix.Exclude[i][0] ? -1 : i;
                     }
                 }
                 bool avail = true;
-                foreach (string suffix in suffixes)
+                foreach (var suffix in new[] { "E", "P", "J", "K" })
                 {
                     string checkTID = baseId + suffix;
-                    avail = existingTIDs.Contains(checkTID) ? false : true;
-                    if (avail) break;
+                    avail = !existingTIDs.Contains(checkTID);
+                    if (!avail) break;
                 }
-                newTID = avail ? baseId + GetRegionSuffix(inWadRegion) : null;
+                uTID = avail ? baseId + GetRegionSuffix(inWadRegion) : null;
                 if (avail) break; // else: repeat loop with a new baseId
             }
 
-            title_id.Text = newTID;
+            title_id.Text = uTID;
             ValueChanged(null, new EventArgs());
         }
 
-        // Load existing TIDs from JSON
-        private HashSet<string> LoadExistingTIDs(string jsonFilePath)
+        // Load existing TIDs from JSON list compiled and deduplicated from WiiMart games.jsom
+        private HashSet<string> LoadExistingTIDs()
         {
-            if (!File.Exists(jsonFilePath))
-                return new HashSet<string>();
-
-            string json = File.ReadAllText(jsonFilePath);
-            string[] tids = JsonSerializer.Deserialize<string[]>(json) ?? Array.Empty<string>();
-            return new HashSet<string>(tids);
+            string wmtids = "Resources/wmtids.json";
+            return !File.Exists(wmtids) ? new HashSet<string>() : new HashSet<string>(JsonSerializer.Deserialize<string[]>(File.ReadAllText(wmtids)) ?? Array.Empty<string>());
         }
 
         public string GetName(bool full)
