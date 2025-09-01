@@ -151,10 +151,10 @@ namespace FriishProduce
             public string locsave_wad_tb { get; set; } = Path.GetFullPath(Path.Combine(baseDir, "Downloads/WADs"));
             public bool lowerParams { get; set; } = true;
             public bool auto_fill_save_data { get; set; } = true;
-            public bool use_online_wad_enabled { get; set; } = false;
-            public bool bypass_rom_size { get; set; } = false;
+            public bool use_online_wad_enabled { get; set; } = true;
+            public bool bypass_rom_size { get; set; } = true;
             public int image_interpolation { get; set; } = 2;
-            public bool image_fit_aspect_ratio { get; set; } = false;
+            public bool image_fit_aspect_ratio { get; set; } = true;
             public string default_target_filename { get; set; } = "(PLATFORM)_CHANNELNAME_REGION";
             public string default_export_filename { get; set; } = "TITLEID_GENRE_Publisher";
             public int default_banner_region { get; set; } = 0;
@@ -188,20 +188,20 @@ namespace FriishProduce
 
         public class NES
         {
-            public int palette { get; set; } = 0;
-            public bool palette_banner_usage { get; set; } = false;
+            public int palette { get; set; } = 1;
+            public bool palette_banner_usage { get; set; } = true;
         }
 
         public class SNES
         {
-            public bool patch_volume { get; set; } = false;
-            public bool patch_nodark { get; set; } = false;
+            public bool patch_volume { get; set; } = true;
+            public bool patch_nodark { get; set; } = true;
             public bool patch_nocc { get; set; } = false;
             public bool patch_nosuspend { get; set; } = false;
             public bool patch_nosave { get; set; } = false;
             public bool patch_widescreen { get; set; } = false;
             public bool patch_nocheck { get; set; } = false;
-            public bool patch_wiimote { get; set; } = false;
+            public bool patch_wiimote { get; set; } = true;
             public bool patch_gcremap { get; set; } = false;
         }
 
@@ -220,7 +220,7 @@ namespace FriishProduce
         {
             public string console_brightness { get; set; } = "100";
             public string console_disableresetbutton { get; set; } = null;
-            public string country { get; set; } = "jp";
+            public string country { get; set; } = "us";
             public string dev_mdpad_enable_6b { get; set; } = "1";
             public string save_sram { get; set; } = "1";
             public string nplayers { get; set; } = null;
