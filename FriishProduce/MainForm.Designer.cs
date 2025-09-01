@@ -233,15 +233,19 @@ namespace FriishProduce
             // 
             // SaveProject
             // 
-            this.SaveProject.DefaultExt = "fppj";
+            this.SaveProject.DefaultExt = "jfpp";
             this.SaveProject.RestoreDirectory = true;
             this.SaveProject.SupportMultiDottedExtensions = true;
+            this.SaveProject.Filter = Program.Lang.String("filter.project");
+            this.SaveProject.FilterIndex = 3;
             // 
             // BrowseProject
             // 
-            this.BrowseProject.DefaultExt = "fppj";
+            this.BrowseProject.DefaultExt = "jfpp";
             this.BrowseProject.Multiselect = true;
             this.BrowseProject.SupportMultiDottedExtensions = true;
+            this.BrowseProject.Filter = Program.Lang.String("filter.project");
+            this.BrowseProject.FilterIndex = 3;
             // 
             // mainMenu
             // 

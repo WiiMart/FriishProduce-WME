@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -461,6 +462,8 @@ namespace FriishProduce
         public void SaveProject(string path)
         {
             ProjectPath = path;
+            bool isLegacy = path.EndsWith(".fppj", StringComparison.OrdinalIgnoreCase);
+            string updatedExt = isLegacy ? Path.ChangeExtension(path, ".jfpp") : path;
 
             var p = new Project()
             {
@@ -471,7 +474,7 @@ namespace FriishProduce
                 ROM = rom?.FilePath,
                 Patch = patch,
                 Manual = (manual_type.SelectedIndex, manual),
-                Img = (img?.FilePath ?? null, img?.Source ?? null),
+                Img = (img?.SavePath ?? null, img?.Source ?? null),
                 ImageOptions = (image_interpolation_mode.SelectedIndex, image_resize1.Checked),
 
                 ContentOptions = contentOptions ?? null,
@@ -496,23 +499,26 @@ namespace FriishProduce
 
                 WADRegion = region.SelectedIndex,
             };
-
             p.OfflineWAD = inWadFile;
             p.OnlineWAD = (Base.SelectedIndex, 0);
 
-            for (int i = 0; i < baseRegionList.Items.Count; i++)
-                if (baseRegionList.Items[i].GetType() == typeof(ToolStripMenuItem) && (baseRegionList.Items[i] as ToolStripMenuItem).Checked) p.OnlineWAD = (Base.SelectedIndex, i);
+            for (int idx = 0; idx < baseRegionList.Items.Count; idx++)
+                if (baseRegionList.Items[idx] is ToolStripMenuItem item && item.Checked)
+                    p.OnlineWAD = (Base.SelectedIndex, idx);
 
-            using (Stream stream = File.Open(path, FileMode.Create))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, p);
-            }
+            string jfpp = JsonSerializer.Serialize(p, new JsonSerializerOptions { WriteIndented = true, 
+                Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
+            });
+
+            File.WriteAllText(updatedExt, jfpp);
+
+            if (isLegacy && File.Exists(path))
+                try { File.Delete(path); } catch (Exception ex) { Logger.Log($"Failed to delete legacy project file (.fppj, binary-serialized): {ex.Message}"); }
 
             IsModified = false;
             _isMint = true;
 
-            SetRecentProjects(path);
+            SetRecentProjects(updatedExt);
         }
 
         public void RefreshForm()
@@ -879,8 +885,8 @@ namespace FriishProduce
             RefreshForm();
 
             bool removeManual = true;
-            foreach (var manualConsole in new List<Platform>() // Confirmed to have an algorithm exist for NES, SNES, N64, SEGA, PCE, NEO
-            {
+            foreach (var manualConsole in new List<Platform>() {
+                // Confirmed to have an algorithm exist for NES, SNES, N64, SEGA, PCE, NEO
                 Platform.NES,
                 Platform.SNES,
                 Platform.N64,
@@ -897,96 +903,135 @@ namespace FriishProduce
             // LOADING PROJECT
             // *****************************************************
             bool loadProject = project != null;
-            if (loadProject)
-            {
-                Logger.Log($"Opened project at {project.ProjectPath}.");
-                SetRecentProjects(project.ProjectPath);
-                ProjectPath = project.ProjectPath;
+            if (loadProject) {
+                try {
+                    if (string.IsNullOrEmpty(project.ProjectPath) || !File.Exists(project.ProjectPath))
+                        throw new FileNotFoundException("Project file does not exist in given path.", project.ProjectPath);
 
-                video_mode.SelectedIndex = project.VideoMode;
+                    string ext = Path.GetExtension(project.ProjectPath);
+                    if (ext.Equals(".jfpp", StringComparison.OrdinalIgnoreCase)) {
+                        string jfpp = File.ReadAllText(project.ProjectPath);
+                        project = JsonSerializer.Deserialize<Project>(jfpp, new JsonSerializerOptions {
+                            Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
+                        });
+                    }
+                    else if (ext.Equals(".fppj", StringComparison.OrdinalIgnoreCase))
+                    {
+                        try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                        catch { banner_form.region.SelectedIndex = 0; }
+                        finally
+                        {
+                            linkSaveDataTitle();
+                            resetImages(true);
+                        }
+                    }
 
-                img = new ImageHelper(project.Platform, null);
-                img.LoadToSource(project.Img.Bmp);
-                LoadROM(project.ROM, false);
+                    if (project == null)
+                        throw new Exception("Failed to load project file.");
 
-                if (File.Exists(project.OfflineWAD))
-                {
-                    use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
-                    use_offline_wad.Checked = true;
-                    LoadWAD(project.OfflineWAD);
+                    Logger.Log($"Opened project at {project.ProjectPath}.");
+                    SetRecentProjects(project.ProjectPath);
+                    ProjectPath = project.ProjectPath;
+
+                    video_mode.SelectedIndex = project.VideoMode;
+
+                    img = new ImageHelper(project.Platform, null);
+                    img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
+
+                    LoadROM(project.ROM, false);
+
+                    if (File.Exists(project.OfflineWAD)) {
+                        use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
+                        use_offline_wad.Checked = true;
+                        LoadWAD(project.OfflineWAD);
+                    }
+                    else {
+                        use_online_wad.Enabled = use_online_wad.Checked = true;
+                        use_offline_wad.Checked = false;
+                        try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
+                        catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
+                    }
+
+                    patch = File.Exists(project.Patch) ? project.Patch : null;
+
+                    try { channel_name.Text = project.ChannelTitles[1]; } catch { }
+                    try { banner_form.title.Text = project.BannerTitle; } catch { }
+                    try { banner_form.released.Value = project.BannerYear; } catch { }
+                    try { banner_form.players.Value = project.BannerPlayers; } catch { }
+
+                    try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                    catch { banner_form.region.SelectedIndex = 0; }
+                    finally {
+                        linkSaveDataTitle();
+                        resetImages(true);
+                    }
+
+                    try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
+                    try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
+                    try { title_id.Text = project.TitleID; } catch { }
+                    try { genre.Text = project.Genre; } catch { }
+
+                    try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
+                    try { multifile_software.Checked = project.IsMultifile; } catch { }
+                    try { image_interpolation_mode.SelectedIndex = project.ImageOptions.Item1; } catch { }
+                    try { image_resize0.Checked = !project.ImageOptions.Item2; } catch { }
+                    try { image_resize1.Checked = project.ImageOptions.Item2; } catch { }
+                    try { region.SelectedIndex = project.WADRegion; } catch { }
+                    try { video_mode.SelectedIndex = project.VideoMode; } catch { }
+                    try { wiiu_display.SelectedIndex = project.WiiUDisplay; } catch { }
+
+                    if (contentOptionsForm != null) {
+                        contentOptionsForm.Options = project.ContentOptions;
+                        contentOptionsForm.UsesKeymap = project.Keymap.Enabled;
+                        contentOptionsForm.Keymap = project.Keymap.List;
+                    }
+
+                    LoadImage();
+                    LoadManual(project.Manual.Type, project.Manual.File);
+                    banner_form.LoadSound(project.Sound);
+                    setFilesText();
                 }
-                else
-                {
-                    use_online_wad.Enabled = use_online_wad.Checked = true;
-                    use_offline_wad.Checked = false;
-                    try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
-                    catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
+                catch (Exception ex) {
+                    MessageBox.Show($"Error loading project: {ex.Message}", "Error", MessageBox.Buttons.Ok, MessageBox.Icons.Warning);
+                    loadProject = false;
                 }
-
-                patch = File.Exists(project.Patch) ? project.Patch : null;
-
-                try { channel_name.Text = project.ChannelTitles[1]; } catch { }
-                try { banner_form.title.Text = project.BannerTitle; } catch { }
-                try { banner_form.released.Value = project.BannerYear; } catch { }
-                try { banner_form.players.Value = project.BannerPlayers; } catch { }
-                
-                try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
-                catch { banner_form.region.SelectedIndex = 0; }
-                finally
-                {
-                    linkSaveDataTitle();
-                    resetImages(true);
-                }
-
-                try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
-                try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
-                try { title_id.Text = project.TitleID; } catch { }
-                try { genre.Text = project.Genre; } catch { }
-
-                try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
-                try { multifile_software.Checked = project.IsMultifile; } catch { }
-                try { image_interpolation_mode.SelectedIndex = project.ImageOptions.Item1; } catch { }
-                try { image_resize0.Checked = !project.ImageOptions.Item2; } catch { }
-                try { image_resize1.Checked = project.ImageOptions.Item2; } catch { }
-                try { region.SelectedIndex = project.WADRegion; } catch { }
-                try { video_mode.SelectedIndex = project.VideoMode; } catch { }
-                try { wiiu_display.SelectedIndex = project.WiiUDisplay; } catch { }
-
-                if (contentOptionsForm != null)
-                {
-                    contentOptionsForm.Options = project.ContentOptions;
-                    contentOptionsForm.UsesKeymap = project.Keymap.Enabled;
-                    contentOptionsForm.Keymap = project.Keymap.List;
-                }
-
-                LoadImage();
-                LoadManual(project.Manual.Type, project.Manual.File);
-                banner_form.LoadSound(project.Sound);
-                setFilesText();
             }
-            else
-            {
+            else {
                 Logger.Log($"Created new {targetPlatform} project.");
                 use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
-                if (use_online_wad.Checked && !use_online_wad.Enabled) use_online_wad.Checked = false;
-                if (!use_offline_wad.Checked && !use_online_wad.Checked) use_offline_wad.Checked = true;
+
+                if (use_online_wad.Enabled) {
+                    if (!use_offline_wad.Checked && !use_online_wad.Checked)
+                        use_online_wad.Checked = true;
+
+                    if (use_online_wad.Checked) {
+                        Base.SelectedIndex = 0; // base wad
+                        UpdateBaseForm(1); // region (usa default)
+                    }
+                }
+                else {
+                    use_online_wad.Checked = false;
+                    use_offline_wad.Checked = true;
+                }
             }
 
-            savedata.Fill.Checked = project != null ? project.LinkSaveDataTitle : Program.Config.application.auto_fill_save_data;
+            savedata.Fill.Checked = loadProject ? project.LinkSaveDataTitle : Program.Config.application.auto_fill_save_data;
             if (savedata.Fill.Checked) linkSaveDataTitle();
             forwarder_root_device.SelectedIndex = loadProject ? project.ForwarderStorageDevice : Program.Config.forwarder.root_storage_device;
 
             IsVisible = true;
 
-            IsEmpty = project == null;
+            IsEmpty = !loadProject;
             IsModified = false;
             _isMint = true;
 
             // Error messages for not found files
             // ********
-            if (loadProject)
+            if (loadProject) {
                 foreach (var item in new string[] { project.ROM, project.Patch, project.OfflineWAD, project.Sound })
-                    if (!File.Exists(item) && !string.IsNullOrWhiteSpace(item)) MessageBox.Show(string.Format(Program.Lang.Msg(11, 1), Path.GetFileName(item)));
+                    if (!File.Exists(item) && !string.IsNullOrWhiteSpace(item))
+                        MessageBox.Show(string.Format(Program.Lang.Msg(11, 1), Path.GetFileName(item)));
+            }
             project = null;
 
             if (File.Exists(rom?.FilePath) && IsEmpty)

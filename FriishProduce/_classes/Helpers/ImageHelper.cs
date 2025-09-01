@@ -15,8 +15,9 @@ namespace FriishProduce
         private Platform platform { get; set; }
 
         public Bitmap Source { get; protected set; }
-        private string SourcePath { get; set; }
+        public string SourcePath { get; private set; }
         public string FilePath { get; protected set; }
+        public string SavePath => FilePath ?? SourcePath;
         public Bitmap VCPic { get; protected set; }
         public Bitmap IconVCPic { get; protected set; }
         private Bitmap SaveIconPic { get; set; }
@@ -85,7 +86,7 @@ namespace FriishProduce
         {
             platform = console;
             if (SourcePath == null) Source = null;
-            if (path != null) LoadToSource(path);
+            if (path != null) LoadImage(path);
 
             VCPic = null;
             IconVCPic = null;
@@ -97,61 +98,57 @@ namespace FriishProduce
         private CompositingQuality CompositingQ;
 
         /// <summary>
-        /// Gets source based on path given to URL or disk file
+        /// Loads an image from local path, a URL, or an existing Bitmap
+        /// Updates Source, FilePath, and SourcePath for saving
         /// </summary>
-        /// <returns>Image file if successful, blank if otherwise</returns>
-        public Bitmap LoadToSource(string path)
+        public Bitmap LoadImage(object source)
         {
-            if (path == SourcePath && Source != null) return Source;
+            if (source == null) return null;
 
-            try
-            {
-                if (path.ToLower().StartsWith("http"))
+            try {
+                if (source is Bitmap bmp) {
+                    Source = bmp;
+                    FilePath = null;
+                    SourcePath = null;
+                    return Source;
+                }
+                if (source is string path)
                 {
-                    // Prevent certificate error (LibRetro thumbnails website certificate is currently expired and will throw an exception by default)
-                    // ****************
-                    ServicePointManager.ServerCertificateValidationCallback = delegate
-                        (object sender,
-                        System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                        System.Security.Cryptography.X509Certificates.X509Chain chain,
-                        System.Net.Security.SslPolicyErrors sslPolicyErrors)
-                    { return true; };
-
-                    using (WebClient c = new())
-                    using (Stream s = c.OpenRead(path))
+                    if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        Source = new Bitmap(s);
-                        SourcePath = path;
-                        FilePath = null;
+                        ServicePointManager.ServerCertificateValidationCallback = delegate(object sender,
+                            System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+                            System.Security.Cryptography.X509Certificates.X509Chain chain,
+                            System.Net.Security.SslPolicyErrors sslPolicyErrors)
+                        { return true; };
+                        
+                        using (WebClient client = new())
+                        using (Stream stream = client.OpenRead(path))
+                        {
+                            Source = new Bitmap(stream);
+                            SourcePath = path;
+                            FilePath = path; // url
+                            return Source;
+                        }
+                    }
+                    else if (File.Exists(path))
+                    {
+                        Source = (Bitmap)Image.FromFile(path);
+                        FilePath = SourcePath = path; // local path
                         return Source;
                     }
                 }
-
-                else if (File.Exists(path))
-                {
-                    Source = (Bitmap)Image.FromFile(path);
-                    FilePath = SourcePath = path;
-                    return Source;
-                }
             }
-
-            catch (Exception ex)
-            {
-                if (Program.DebugMode || !Program.GUI)
-                    throw ex;
-                else
-                {
-                    string message = ex.GetType() == typeof(WebException) ? ex.Message.TrimEnd('.') + "." : ex.Message;
+            catch (Exception ex) {
+                if (Program.DebugMode || !Program.GUI) throw;
+                else {
+                    string message = ex is WebException ? ex.Message.TrimEnd('.') + "." : ex.Message;
                     MessageBox.Error(message);
                 }
-
-                return null;
             }
 
             return null;
         }
-
-        public Bitmap LoadToSource(Bitmap b) => Source = b;
 
         /// <summary>
         /// Generates VCPic, IconVCPic and saveicon bitmaps for use in injection.
@@ -260,6 +257,24 @@ namespace FriishProduce
                 g.DrawImage(src, 0, 0, SaveIconPic.Width, SaveIconPic.Height);
                 g.Dispose();
             }
+        }
+
+        public static string BmpToB64(Bitmap bmp)
+        {
+            if (bmp == null) return null;
+
+            using var ms = new MemoryStream();
+            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return Convert.ToBase64String(ms.ToArray());
+        }
+
+        public static Bitmap BmpFromB64(string base64)
+        {
+            if (string.IsNullOrEmpty(base64)) return null;
+            
+            byte[] bytes = Convert.FromBase64String(base64);
+            using var ms = new MemoryStream(bytes);
+            return new Bitmap(ms);
         }
 
         private readonly float[] opacity4 = { 0F, 0.32F, 0.64F, 1F };

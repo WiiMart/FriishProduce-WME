@@ -369,6 +369,7 @@
     <Compile Include="_classes\Creators\Forwarder.cs" />
     <Compile Include="_classes\Creators\WiiVC\PCE.cs" />
     <Compile Include="_classes\Program\Project.cs" />
+    <Compile Include="_classes\Program\LegacyProject.cs" />
     <Compile Include="_classes\Files\ROM\Disc.cs" />
     <Compile Include="_classes\Creators\WiiVC\MSX.cs" />
     <Compile Include="_classes\Files\ROM\MSX.cs" />
@@ -742,9 +743,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <FileAssociation Include=".jfpp">
+      <Visible>False</Visible>
+      <Description>JSON FriishProduce Project</Description>
+      <Progid>FriishProduce</Progid>
+      <DefaultIcon>icon.ico</DefaultIcon>
+    </FileAssociation>
     <FileAssociation Include=".fppj">
       <Visible>False</Visible>
-      <Description>FriishProduce Project</Description>
+      <Description>Legacy FriishProduce Project</Description>
       <Progid>FriishProduce</Progid>
       <DefaultIcon>icon.ico</DefaultIcon>
     </FileAssociation>

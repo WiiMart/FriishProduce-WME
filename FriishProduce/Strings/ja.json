@@ -66,7 +66,7 @@
 		},
 		"filters": {
 			"filter": "|すべてのファイル (*.*)|*.*",
-			"filter.project": "FriishProduceプロジェクト (*.fppj)|*.fppj",
+			"filter.project": "FriishProduce-WMEプロジェクト (*.jfpp)|*.jfpp|レガシープロジェクト (*.fppj)|*.fppj|FPWME & レガシープロジェクト (*.jfpp, *.fppj)|*.jfpp;*.fppj",
 			"filter.wad": "Wii チャンネル (*.wad)|*.wad",
 			"filter.zip": "zip 形式 (*.zip)|*.zip",
 			"filter.swf": "SWF ファイル (*.swf)|*.swf",

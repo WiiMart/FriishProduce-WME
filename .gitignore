@@ -11,6 +11,7 @@ legacy/
 /FriishProduce_v2.0
 
 /docs/site
+.vscode/settings.json
 /FriishProduce/bin/Debug/latest.zip
 /FriishProduce/bin/Debug/update
 /FriishProduce/bin/Debug/Downloads

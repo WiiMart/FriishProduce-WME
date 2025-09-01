@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
 namespace FriishProduce
 {
@@ -112,7 +115,7 @@ namespace FriishProduce
             if (Theme.ChangeColors(this, false))
             {
                 // if (mainPanel.BackgroundImage == null)
-                    tabControl.BackgroundImage = mainPanel.BackgroundImage = Theme.GenerateBG(ClientRectangle);
+                tabControl.BackgroundImage = mainPanel.BackgroundImage = Theme.GenerateBG(ClientRectangle);
                 // tabControl.BackgroundImageLayout = mainPanel.BackgroundImageLayout = ImageLayout.Stretch;
 
                 // toolStrip.Renderer = new Theme.CustomToolStrip();
@@ -204,7 +207,7 @@ namespace FriishProduce
 
             try { BrowseProject.Filter = SaveProject.Filter = Program.Lang.String("filter.project"); }
             catch { MessageBox.Show("Warning!\nThe language strings have not been loaded correctly.\n\nSeveral items may show up as 'undefined'.\n\nOther exceptions related to strings or filters can also occur!", MessageBox.Buttons.Ok, MessageBox.Icons.Warning, false); }
-            
+
             #endregion
 
             if (Program.DebugMode)
@@ -404,13 +407,13 @@ namespace FriishProduce
 
             // Sync toolbar buttons
             // ********
-            toolbarImportGameFile.Text      = import_game_file.Text;
-            toolbarImportGameFile.Enabled   = import_game_file.Enabled;
-            toolbarSave.Enabled             = save_project.Enabled;
-            toolbarSaveAs.Enabled           = save_project_as.Enabled;
-            toolbarCloseProject.Enabled     = close_project.Enabled;
-            toolbarGameScan.Enabled         = game_scan.Enabled;
-            toolbarExport.Enabled           = export.Enabled;
+            toolbarImportGameFile.Text = import_game_file.Text;
+            toolbarImportGameFile.Enabled = import_game_file.Enabled;
+            toolbarSave.Enabled = save_project.Enabled;
+            toolbarSaveAs.Enabled = save_project_as.Enabled;
+            toolbarCloseProject.Enabled = close_project.Enabled;
+            toolbarGameScan.Enabled = game_scan.Enabled;
+            toolbarExport.Enabled = export.Enabled;
         }
 
         /// <summary>
@@ -706,65 +709,100 @@ namespace FriishProduce
 
         private void OpenProject(string[] files)
         {
-            foreach (var file in files)
-            {
-                if (!File.Exists(file))
-                {
+            foreach (var file in files) {
+                if (!File.Exists(file)) {
                     MessageBox.Show(string.Format(Program.Lang.Msg(11, 1), Path.GetFileName(file)));
                     if (CleanupRecent())
                         RefreshRecent();
+                    continue;
                 }
 
-                else
-                {
-                    var project = new Project();
+                bool legacy = Path.GetExtension(file).Equals(".fppj", StringComparison.OrdinalIgnoreCase);
 
-                    try
-                    {
+                try {
+                    Project project;
+
+                    if (legacy) {
+                        Logger.Log($"Opening legacy project: {file}");
                         using Stream stream = File.Open(file, FileMode.Open);
                         var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                        project = (Project)binaryFormatter.Deserialize(stream);
-
-                        if (project.ProjectPath != file) project.ProjectPath = file;
-
-                        addTab(project.Platform, project);
+                        binaryFormatter.Binder = new ProjectSerializationBinder();
+                        var legacyProject = (LegacyProject)binaryFormatter.Deserialize(stream);
+                        project = MapLegacyProject(legacyProject);
                     }
-
-                    catch
-                    {
-                        //Invalid project message?
-                        MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);
+                    else {
+                        // JSON loader
+                        string jfpp = File.ReadAllText(file);
+                        project = JsonSerializer.Deserialize<Project>(jfpp, new JsonSerializerOptions {
+                            Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
+                        }) ?? throw new Exception($"[!] Project deserialized to null.");
                     }
+                    // Sync project path
+                    project.ProjectPath = file;
+                    addTab(project.Platform, project);
+                }
+                catch (Exception exc) {
+                    MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);
+                    Logger.Log($"Failed to open project '{file}': {exc.Message}\n{exc.StackTrace}");
                 }
             }
         }
+        
+        private Project MapLegacyProject(LegacyProject lpj)
+        {
+            return new Project
+            {
+                ProjectPath = lpj.ProjectPath,
+                Platform = lpj.Platform,
+                ROM = lpj.ROM,
+                OnlineWAD = lpj.OnlineWAD,
+                OfflineWAD = lpj.OfflineWAD,
+                Patch = lpj.Patch,
+                Manual = lpj.Manual,
+                Img = (lpj.Img.File, lpj.Img.Bmp),
+                Sound = lpj.Sound,
+                InjectionMethod = lpj.InjectionMethod,
+                ForwarderStorageDevice = lpj.ForwarderStorageDevice,
+                IsMultifile = lpj.IsMultifile,
+                ContentOptions = lpj.ContentOptions,
+                Keymap = lpj.Keymap,
+                WADRegion = lpj.WADRegion,
+                LinkSaveDataTitle = lpj.LinkSaveDataTitle,
+                ImageOptions = lpj.ImageOptions,
+                VideoMode = lpj.VideoMode,
+                WiiUDisplay = lpj.WiiUDisplay,
+                TitleID = lpj.TitleID,
+                Genre = lpj.Genre,
+                ChannelTitles = lpj.ChannelTitles,
+                BannerRegion = ProjectForm.IntToRegion(lpj.BannerRegion + 1),
+                BannerTitle = lpj.BannerTitle,
+                BannerYear = lpj.BannerYear,
+                BannerPlayers = lpj.BannerPlayers,
+                SaveDataTitle = lpj.SaveDataTitle
+            };
+        }
 
-        private void Form_DragEnter(object sender, DragEventArgs e) { if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy; }
+        private void Form_DragEnter(object sender, DragEventArgs e) {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetData(DataFormats.FileDrop) is string[] files)
-            {
-                if (tabControl.SelectedForm == null)
-                {
-                    foreach (string file in files)
-                    {
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] files) {
+                if (tabControl.SelectedForm == null) {
+                    foreach (string file in files) {
                         var value = Path.GetExtension(file).ToLower();
-                        switch (value)
-                        {
+                        switch (value) {
                             default:
-                                foreach (var tuple in Platforms.Filters)
-                                {
-                                    foreach (var extension in tuple.Value)
-                                    {
-                                        if (extension.ToLower().Contains(value))
-                                        {
+                                foreach (var tuple in Platforms.Filters) {
+                                    foreach (var extension in tuple.Value) {
+                                        if (extension.ToLower().Contains(value)) {
                                             addTab(tuple.Key ?? Platform.NES, null, file);
                                             return;
                                         }
                                     };
                                 }
-
                                 System.Media.SystemSounds.Beep.Play();
                                 break;
 
@@ -782,41 +820,33 @@ namespace FriishProduce
 
                             case ".zip":
                                 ROM rom = new RPGM();
-                                if (new RPGM().CheckValidity(file)) addTab(Platform.RPGM, null, file);
-
-                                else
-                                {
+                                if (new RPGM().CheckValidity(file))
+                                    addTab(Platform.RPGM, null, file);
+                                else {
                                     rom = new ROM_NEO();
-                                    if (new ROM_NEO().CheckValidity(file)) addTab(Platform.NEO, null, file);
-
-                                    else
-                                    {
+                                    if (new ROM_NEO().CheckValidity(file))
+                                        addTab(Platform.NEO, null, file);
+                                    else {
                                         rom.Dispose();
                                         System.Media.SystemSounds.Beep.Play();
                                     }
                                 }
                                 break;
 
+                            case ".jfpp":
                             case ".fppj":
                                 OpenProject(new string[] { file });
                                 break;
                         }
                     }
                 }
-
-                else
-                {
-                    foreach (string file in files)
-                    {
-                        if (Path.GetExtension(file).ToLower() == ".fppj")
-                        {
+                else {
+                    foreach (string file in files) {
+                        if (Path.GetExtension(file).ToLower() == ".jfpp" || Path.GetExtension(file).ToLower() == ".fppj")
                             OpenProject(new string[] { file });
-                        }
 
                         else
-                        {
                             (tabControl.SelectedForm as ProjectForm).LoadROM(files[0], Program.Config.application.auto_prefill, true);
-                        }
                     }
                 }
             }
@@ -1014,7 +1044,7 @@ namespace FriishProduce
                     {
                         for (int i = Math.Min(w.Contents.Length, 5); i < w.Contents.Length; i++)
                         {
-                            Loop:
+                        Loop:
                             if (i != w.Contents.Length)
                             {
                                 try { u8 = U8.Load(w.Contents[i]); } catch { i++; goto Loop; }
@@ -1064,9 +1094,9 @@ namespace FriishProduce
                                             catch // File is compressed
                                             {
                                                 int type = item.ToLower().Contains("lzh8") ? 1 : 0;
-                                                // 0 = LZ77, 1 = LZH8
+                                            // 0 = LZ77, 1 = LZH8
 
-                                                Decompress:
+                                            Decompress:
                                                 // Create temporary files at working folder
                                                 // ****************
                                                 File.WriteAllBytes(Paths.WorkingFolder + "emanual.arc", file);
@@ -1138,7 +1168,7 @@ namespace FriishProduce
 
                 goto End;
 
-                Failed:
+            Failed:
                 if (error == null)
                     MessageBox.Show(Program.Lang.Msg(16, 1));
                 else
@@ -1150,11 +1180,11 @@ namespace FriishProduce
                 }
                 goto End;
 
-                Succeeded:
+            Succeeded:
                 System.Media.SystemSounds.Beep.Play();
                 goto End;
 
-                End:
+            End:
                 if (w != null) w.Dispose();
             }
         }
@@ -1263,6 +1293,18 @@ namespace FriishProduce
                 else
                     MessageBox.Show(Program.Lang.Msg(12));
             }
+        }
+    }
+    class ProjectSerializationBinder : SerializationBinder
+    {
+        public override Type BindToType(string assemblyName, string typeName)
+        {
+            if (typeName == "FriishProduce.Project")
+            {
+                return typeof(LegacyProject);
+            }
+
+            return Type.GetType($"{typeName}, {assemblyName}");
         }
     }
 }
