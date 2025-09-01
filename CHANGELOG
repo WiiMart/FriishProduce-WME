@@ -1,0 +1,44 @@
+# Changelog
+All notable changes to this project will be documented here.<br>
+This project uses [Semantic Versioning](https://semver.org/).
+
+---
+
+## [Debug-v1.6.0.1_083125] – 2025-08-31
+### Added
+- JSON Project file support (`.jfpp`)
+    - Proper Banner region saving
+- Legacy Project file support (binary serialization `.fppj`)
+    - Legacy Project files are converted upon saving
+    - Legacy Project files Banner region still default to USA
+    - Adjusting the region & saving the project(converts) will allow for loading & storing the Banner region correctly
+- `Genre` field
+- `Genre` field autofill, & 'Flash' genre autofill for `WiiWare Flash injects`
+- Support locally saving downloaded WAD bases & Banner images
+- Flash Operation Manuals (WIP, roughly 60%?)
+- JP-specific `00.app` banner file for Flash injects (WIP)
+- MIDI support for Kirby TV (experimental, untested)
+- Dropbox WAD download support
+    - Support for `Flash Base ’25` & `KirbyTV (by idkwhereisthisname)`
+- Friish + WiiMart logo assets.
+
+### Changed
+- Updated `banner.ini` for Flash injects
+- Improved 4-char TID randomizer
+    - Checks existing TIDs in WiiMart
+    - Fetches the proper Region suffix
+    - Fetches the proper Platform prefix
+- Refactored Flash Base handling
+- Removed Region locks on various Platforms
+
+### Fixed
+- Saving/loading of project Banner Region
+- Kirby TV (EUR), added Kirby TV (USA)
+- Background color for Kirby TV
+- SWF frame rate handling (`update_frame_rate = 0`)
+- Config & `banner.ini` defaults for Flash injects
+- Bug with `not_copy` always off
+- Various `database.json` additions & corrections
+- defaults in `Settings.cs` for Flash injects
+
+---
