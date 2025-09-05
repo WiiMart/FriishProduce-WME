@@ -187,23 +187,16 @@ namespace FriishProduce
                 string repoMain = repo + "_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/";
                 string folder = int.TryParse(name[0].ToString(), out int result) ? "0-9" : name[0].ToString().ToUpper();
                 string URL = repoMain + folder + "/" + Uri.EscapeDataString(name + " (Virtual Console)") + ".wad";
+                bool ytOrBBC = GetUpperID(index).StartsWith("HCJ") || GetUpperID(index).StartsWith("HCX");
 
                 if (GetUpperID(index).StartsWith("WNA")) // Flash Placeholder
-                {
                     URL = repo + "Flash%20Injects/Base/" + Uri.EscapeDataString(name) + ".wad";
-                    tID = "WNAP";
-                }
-                else if (GetUpperID(index).StartsWith("HCJ") || GetUpperID(index).StartsWith("HCX")) // BBC iPlayer/YouTube
-                {
-                    int ver = (Regions[index] == 0 || GetUpperID(index).StartsWith("HCJ")) ? 768 : Regions[index] == 3 ? 1537 : 1536;
-                    URL = repoMain + folder + "/" + Uri.EscapeDataString(name + $" (v{ver}) (Channel)") + ".wad";
-                }
-                else if (GetUpperID(index).StartsWith("HCM")) // Kirby TV (EU)
-                {
-                    URL = repoMain + folder + "/" + Uri.EscapeDataString(name+ " (Channel).wad");
-                }
                     
-               return URL;
+                else if (ytOrBBC || GetUpperID(index).StartsWith("HCM")) {
+                    int ver = (Regions[index] == 0 || GetUpperID(index).StartsWith("HCJ")) ? 768 : Regions[index] == 3 ? 1537 : 1536;
+                    URL = repoMain + folder + "/" + Uri.EscapeDataString(name + (ytOrBBC ? $" (v{ver})" : "") + " (Channel).wad");
+                }
+                return URL;
             }
         }
 

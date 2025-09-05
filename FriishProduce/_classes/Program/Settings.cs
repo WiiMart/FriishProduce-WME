@@ -144,19 +144,23 @@ namespace FriishProduce
             public bool donotshow_001 { get; set; } = false;
             public bool auto_prefill { get; set; } = true;
 
+            public string publisher_opt { get; set; }
+            public string publisher_opt_tb {get; set;} = "Username";
+
             public bool locsave_banner { get; set; } = false;
-            static string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            public string locsave_banner_tb { get; set; } = Path.GetFullPath(Path.Combine(baseDir, "Downloads/Banners"));
+            public string locsave_banner_tb { get; set; } = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads/Banners"));
             public bool locsave_wad { get; set; } = false;
-            public string locsave_wad_tb { get; set; } = Path.GetFullPath(Path.Combine(baseDir, "Downloads/WADs"));
+            public string locsave_wad_tb { get; set; } = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads/WADs"));
             public bool lowerParams { get; set; } = true;
+            public bool transParams { get; set; } = true;
             public bool auto_fill_save_data { get; set; } = true;
             public bool use_online_wad_enabled { get; set; } = true;
+            public bool write_metadata { get; set; } = true;
             public bool bypass_rom_size { get; set; } = true;
             public int image_interpolation { get; set; } = 2;
-            public bool image_fit_aspect_ratio { get; set; } = true;
-            public string default_target_filename { get; set; } = "(PLATFORM)_CHANNELNAME_REGION";
-            public string default_export_filename { get; set; } = "TITLEID_GENRE_Publisher";
+            public bool image_fit_aspect_ratio { get; set; } = false;
+            public string default_target_filename = "(PLATFORM)_CHANNELNAME_REGION";
+            public string default_export_filename { get; set; } = "PLATFORM_TITLEID_REGION";
             public int default_banner_region { get; set; } = 0;
             public int default_wiiu_display { get; set; } = 0;
             public int default_injection_method_nes { get; set; } = 0;

@@ -377,6 +377,97 @@
   <data name="&gt;&gt;debug_mode.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+<!--======================================================================================================-->
+
+  <data name="publisher_opt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="publisher_opt.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 7.50pt, style=Bold</value>
+  </data>
+  <data name="publisher_opt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="publisher_opt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 238</value>
+  </data>
+  <data name="publisher_opt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 13</value>
+  </data>
+  <data name="publisher_opt.TabIndex" type="System.Int32, mscorlib">
+    <value>68</value>
+  </data>
+  <data name="publisher_opt.Text" xml:space="preserve">
+    <value>publisher_opt</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt.Name" xml:space="preserve">
+    <value>Author/Publisher Tag:</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="publisher_opt_tb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 252</value>
+  </data>
+  <data name="publisher_opt_tb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 21</value>
+  </data>
+  <data name="publisher_opt_tb.TabIndex" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt_tb.Name" xml:space="preserve">
+    <value>publisher_opt_tb</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt_tb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt_tb.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;publisher_opt_tb.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+<!--======================================================================================================-->
+
+  <data name="write_metadata.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="write_metadata.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="write_metadata.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 280</value>
+  </data>
+  <data name="write_metadata.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 17</value>
+  </data>
+  <data name="write_metadata.TabIndex" type="System.Int32, mscorlib">
+    <value>52</value>
+  </data>
+  <data name="write_metadata.Text" xml:space="preserve">
+    <value>write_metadata</value>
+  </data>
+  <data name="&gt;&gt;write_metadata.Name" xml:space="preserve">
+    <value>write_metadata</value>
+  </data>
+  <data name="&gt;&gt;write_metadata.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;write_metadata.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;write_metadata.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+
+<!--======================================================================================================-->
   <data name="themes.Items" xml:space="preserve">
     <value>Default</value>
   </data>
@@ -1140,6 +1231,37 @@
     <value>lowerParams</value>
   </data>
   <data name="&gt;&gt;lowerParams.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+
+  <data name="transParams.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="transParams.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="transParams.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 233</value>
+  </data>
+  <data name="transParams.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="transParams.TabIndex" type="System.Int32, mscorlib">
+    <value>67</value>
+  </data>
+  <data name="transParams.Text" xml:space="preserve">
+    <value>transParams</value>
+  </data>
+  <data name="&gt;&gt;transParams.Name" xml:space="preserve">
+    <value>transParams</value>
+  </data>
+  <data name="&gt;&gt;transParams.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;transParams.Parent" xml:space="preserve">
+    <value>transParams</value>
+  </data>
+  <data name="&gt;&gt;transParams.ZOrder" xml:space="preserve">
     <value>67</value>
   </data>
 

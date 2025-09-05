@@ -1,0 +1,463 @@
+{
+	"language": "it",
+	"author": "Subnetic",
+	"application_title": "FriishProduce-WME",
+	
+	"global": {
+		"main": {
+			"about_app": "Informazioni su {0}",
+			"authors": "Autore/i: {0}",
+
+			"kilobytes": "KB",
+			"megabytes": "MB",
+
+			"b_ok": "&OK",
+			"b_cancel": "&Annulla",
+			"b_close": "&Chiudi",
+			"b_yes": "&Sì",
+			"b_no": "&No",
+			"b_save": "&Salva",
+			"b_dont_save": "&Non salvare",
+			"do_not_show": "Non mostrare più questo messaggio",
+			
+			"by_default": "Predefinito",
+			"disabled": "Disabilitato",
+			"enabled": "Abilitato",
+			"original": "Originale",
+			"automatic": "Automatico",
+			"unknown": "Sconosciuto",
+			"none": "N/D",
+			"not_available": "Non disponibile",
+
+			"region": "Regione di sistema",
+			"region_j": "Giappone",
+			"region_u": "Stati Uniti",
+			"region_e": "Europa/Australia",
+			"region_k": "Corea del Sud",
+			"region_rf": "Regione libera",
+			
+			"preferences": "Preferenze",
+			"system": "Sistema",
+			"display": "Schermo",
+			"debug_mode": "In esecuzione in modalità debug",
+
+			"vc": "Console Virtuale",
+			"vc_options": "Opzioni Console Virtuale",
+			"additional": "Queste impostazioni si applicano anche a {0}.",
+			"continue": "L'iniezione continuerà come previsto."
+		},
+
+		"platforms": {
+			"group0": "Nintendo",
+			"group1": "SEGA",
+			"group2": "NEC",
+			"forwarders": "Forwarders",
+
+			"nes": "NES/Famicom",
+			"snes": "SNES/Super Famicom",
+			"n64": "Nintendo 64",
+			"sms": "Master System",
+			"smd": "Mega Drive/Genesis",
+			"pce": "TurboGrafx-16/PC Engine",
+			"pcecd": "TurboGrafx-CD/PC Engine CD",
+			"neo": "NEO-GEO",
+			"c64": "Commodore 64",
+			"msx": "MSX/MSX2",
+			"flash": "Adobe Flash",
+			"gb": "Game Boy",
+			"gbc": "Game Boy Color",
+			"gba": "Game Boy Advance",
+			"gcn": "GameCube",
+			"s32x": "32X",
+			"smcd": "SEGA CD/MEGA CD",
+			"psx": "PlayStation",
+			"rpgm": "RPG Maker 2000/2003"
+		},
+
+		"filters": {
+			"filter": "|Tutti i file (*.*)|*.*",
+			"filter.project": "Progetti FriishProduce-WME (*.jfpp)|*.jfpp|Progetti Legacy (*.fppj)|*.fppj|Progetti FPWME e Legacy (*.jfpp, *.fppj)|*.jfpp;*.fppj",
+			"filter.wad": "Canali Wii (*.wad)|*.wad",
+			"filter.img": "Immagini (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
+			"filter.zip": "Archivi ZIP (*.zip)|*.zip",
+			"filter.disc": "Immagini disco (*.cue, *.bin)|*.cue;*.bin|  File Cue Sheet (*.cue)|*.cue|  File BIN (*.bin)|*.bin",
+			"filter.swf": "File Adobe Flash (*.swf)|*.swf",
+			"filter.rpgm": "File database RPG Maker 2000/2003 (*.ldb)|*.ldb",
+			"filter.rom": "File ROM {0} ({1})|{2}",
+			"filter.patch": "File patch (*.bps, *.ips, *.xdelta)|*.bps;*.ips;*.xdelta"
+		},
+
+		"messages": {
+			"000": "È necessario riavviare l'applicazione affinché tutte le modifiche abbiano effetto.",
+			"001": "{0} contiene modifiche non salvate.\nVuoi salvare questo progetto?",
+			"002": "Il file selezionato ha un formato non valido.",
+			"003": "Completato con successo.\nAprire la cartella di output?",
+			"004": "Impossibile recuperare tutti i dati di gioco per il software selezionato.\nAlcuni campi potrebbero dover essere compilati manualmente.",
+			"005": "Il WAD selezionato (ID titolo: {0}) non è valido.\nCiò può essere dovuto a uno dei seguenti motivi:\n  • La console attualmente selezionata non corrisponde a quella utilizzata dal WAD.\n  • Il WAD non è ancora disponibile nel database.\n  • Il WAD è già stato modificato (ad es. iniettato o convertito in forwarder).",
+			"006": "Puoi sostituire il manuale della Guida alle Operazioni del gioco Virtual Console originale.\nPer farlo, hai bisogno di uno ZIP contenente i contenuti estratti/modificati di un manuale .arc da un WAD VC.",
+			"007": "L'archivio del manuale Virtual Console selezionato non è valido.",
+			"008": "Attualmente sei già aggiornato.",
+			"009": "Estrarre opening.bnr (inclusa intestazione IMET)?",
+			"010": "Questo ripristinerà tutte le impostazioni ai valori di fabbrica.\nSei sicuro di voler continuare?",
+			"011": "Controllare tutte le voci del database per verificare se ce ne sono di non valide?\nQuesta operazione potrebbe richiedere del tempo.",
+			"012": "Non sono state trovate voci non valide nel database.",
+			"013": "Trovate voci non valide nel database:\n{0}\n\nRimuovi queste voci da database.json.",
+			"014": "Le opzioni del metodo di iniezione sono state ripristinate.\nConfigura nuovamente.",
+			"015": "La configurazione è stata ripristinata.\nConfigura nuovamente le tue impostazioni.",
+
+			"b_000": "Attendere...",
+			"b_001": "Esportazione in corso...",
+			"b_002": "Verifica connessione Internet...",
+			"b_003": "Verifica del database {0}...",
+			"b_004": "Aggiornamento...",
+			"b_x": "Premi Shift per annullare il processo corrente.",
+
+			"error": "Si è verificato un errore",
+			"e_000": "Impossibile connettersi a Internet.\n{0}",
+			"e_001": "Impossibile generare l'immagine.\nPotrebbe dipendere da un problema con GDI+.",
+			"e_002": "Impossibile iniettare o sostituire contenuti all'interno del WAD.",
+			"e_003": "La ROM fornita è troppo grande (limite dimensione: {0} {1}).",
+			"e_004": "Impossibile modificare le opzioni dei contenuti interni del VC WAD.\n{continue}",
+			"e_005": "Impossibile modificare le seguenti opzioni dei contenuti.\n{0}\n{continue}",
+			"e_006": "L'applicazione necessaria ({0}) non è stata trovata nella sottodirectory resources\\tools.",
+			"e_007": "Impossibile creare WAD o ZIP.",
+			"e_008": "Impossibile applicare la patch. Il file patch e la ROM di destinazione non corrispondono, oppure il checksum della ROM non è valido.",
+			"e_009": "Impossibile scaricare il WAD.",
+			"e_010": "Impossibile sostituire il manuale interno Virtual Console.\n{continue}",
+			"e_011": "Il file \"{0}\" non è stato trovato nel percorso originale. Potrebbe essere stato eliminato o spostato.",
+			"e_012": "La cartella \"{0}\" non è stata trovata nel percorso originale. Potrebbe essere stata eliminata o spostata.",
+			"e_013": "Non è stato trovato un punto di ingresso ROM iniettabile. Ciò potrebbe essere dovuto al fatto che il metodo di iniezione utilizzato per questo WAD non è ancora supportato.",
+			"e_014": "Impossibile trovare il file BIOS richiesto per questa console.\nImposta questo file nelle preferenze di FriishProduce.",
+			"e_015": "Impossibile creare il TPL dei dati salvati.",
+			"e_016": "Nessun manuale Virtual Console è stato trovato nel WAD fornito.",
+			"e_017": "\"{0}\" non è un file di progetto valido.",
+			"e_018": "Impossibile salvare {0}.",
+			"e_019": "Impossibile scaricare l'aggiornamento.",
+			"e_020": "Impossibile trovare modalità video WAD modificabili.\n{continue}",
+			"e_021": "Impossibile scaricare il file."
+		},
+
+		"html": {
+			"000": "L'emulatore Frodo si aprirà ora.<ol type=\"1\"><li>Inserisci il seguente comando nell'emulatore: <b>LOAD\"*\",8</b>\nSe la console C64 si blocca e non c'è alcun indicatore LED del drive, apri Frodo.fpr da <i>File > Apri</i>, poi premi F12 per riavviare l'emulatore e riprovare.</li><li>Una volta caricato il software, inserisci <b>RUN</b>.</li><li>Non appena il gioco viene caricato, clicca su <i>Strumenti > Patch e Salva Snapshot</i> e salva il file come \"snap.fss\". Puoi anche salvare una copia aggiuntiva per usarla in seguito.</li></ol>Tentativi rimanenti: <b>{0}</b>",
+			"001": "Informazioni su SNES VC (in costruzione)",
+			"002": "Informazioni su N64 VC (in costruzione)",
+			"t_use_online_wad_enabled": "Questa funzione può essere usata per recuperare qualsiasi WAD disponibile dal database corrente senza aver già un file WAD. Utilizza solo la funzionalità di download Web, poiché il client NUS di libWiiSharp non permette di decrittare i WAD VC.\n\nLa legalità di questa operazione è dubbia, quindi è meglio tenere questa opzione disabilitata.",
+			"t_write_metadata": "Scrive un file meta.json nell'archivio Banner U8 contenente i dati di ciascun inject. WiiMart richiede questo per automatizzare il recupero dei dati.",
+			"t_publisher_opt": "Specifica il creatore di questo WAD/inject. Usato nel meta.json scritto nell'archivio Banner U8.",
+			"t_use_custom_database": "Usa un database WAD personalizzato specificando il tuo 'database.json' da caricare di default nell'applicazione.",
+			"t_lowerParams": "Converte in minuscolo eventuali parametri di output usati nel nome del file WAD, come \"TITLEID\". Ad esempio, un TID come 'XXXX' diventerebbe 'xxxx' nel nome del file WAD di output se il parametro \"TITLEID\" viene usato.",
+			"t_transParams": "Traduci i parametri usati nel nome del file WAD, come \"CHANNELNAME\". Questo tenterà di tradurre automaticamente qualsiasi CJK in inglese. RICHIEDE UNA CONNESSIONE INTERNET.",
+			"t_locsave_banner": "Salva localmente l'immagine del banner scaricata dal nostro database nel percorso specificato, o in \"FriishProduce/Downloads/Banners/\" di default.",
+			"t_locsave_wad": "Salva localmente la base WAD scaricata nel percorso specificato, o in \"FriishProduce/Downloads/WADs/\" di default.",
+			"t_bypass_rom_size": "Rimuove tutti i limiti di dimensione dei file ROM della Virtual Console. Questo può essere utile per testare.",
+			"t_channel_name": "Il nome utilizzato per l'icona del canale nel Menu Wii.\nPer titoli più lunghi, si consiglia una versione abbreviata di 20 caratteri o meno.<hr><b>Esempio:</b>\nZelda: Ocarina",
+			"t_banner_title": "Il nome completo del software, come mostrato nell'anteprima del banner.<hr><b>Esempio:</b>\nThe Legend of Zelda:\nOcarina of Time",
+			"t_banner_region": "La regione da utilizzare per il banner e l'icona del canale.\n\nQuesto può essere utile se il nome della console è diverso nella tua regione o se vuoi usare un banner giapponese/coreano.\nSe la regione del banner è impostata su automatico, corrisponderà alla regione del WAD.",
+			"t_video_mode": "La modalità video con cui il canale Wii verrà eseguito (NTSC, PAL o MPAL). Alcune modalità video potrebbero non funzionare correttamente in certe regioni.",
+			"t_injection_method_options": "Modifica le impostazioni avanzate dell'emulatore.",
+			"t_multifile_software": "Se questa opzione è abilitata, il programma considererà tutti i file nella stessa cartella del file selezionato come parte del software da iniettare.\n\nAssicurati che i file del software siano in una cartella separata.",
+			"t_vff_cache_size": "Dimensione della cache di memorizzazione SWF.\n\nSe stai iniettando in YouTube o BBC iPlayer e il canale si blocca durante la creazione dei dati di salvataggio, prova a impostarla a 96 kB, il valore predefinito.",
+			"t_persistent_storage_total": "Dimensione totale dello spazio di archiviazione necessaria per salvare i dati di gioco.\n\nSe stai iniettando in YouTube o BBC iPlayer e il canale si blocca durante la creazione dei dati di salvataggio, prova a impostarla a 96 kB, il valore predefinito.",
+			"t_persistent_storage_per_movie": "Spazio di archiviazione necessario per ciascun SWF per salvare i dati di gioco.\n\nSe stai iniettando in YouTube o BBC iPlayer e il canale si blocca durante la creazione dei dati di salvataggio, prova a impostarla a 64 kB, il valore predefinito.",
+
+			"t_unsure": "Se non sei sicuro, {0}.",
+			"t_unsure_s": "seleziona {0}",
+			"t_unsure_u": "lascia deselezionato",
+			"t_unsure_c": "lascia selezionato",
+
+			"t_publisher_opt_tb": "{t_publisher_opt}",
+			"t_locsave_banner_tb": "{t_locsave_banner}",
+			"t_locsave_wad_tb": "{t_locsave_wad}",
+			"t_channel_name_l": "{t_channel_name}"
+		}
+	},
+
+	"strings": {
+		"mainform": {
+			"file": "&File",
+			"project": "&Progetto",
+			"tools": "&Strumenti",
+			"help": "&Aiuto",
+
+			"new_project": "&Nuovo...",
+			"open_project": "&Apri progetto...",
+			"open_recent": "Apri &recenti",
+			"clear_recent": "&Cancella elenco",
+			"save_project": "&Salva progetto",
+			"save_project_as": "Salva &progetto con nome...",
+			"close_project": "&Chiudi progetto",
+			"close_all": "Chiudi tutto",
+
+			"import_game_file": "&Importa {0}...",
+			"game_scan": "&Compila i dati di gioco",
+			"export": "&Esporta...",
+
+			"extract_from_wad": "&Estrai da WAD...",
+			"extract_wad_banner": "&Banner del canale",
+			"extract_wad_icon": "&Icona del canale",
+			"extract_wad_sound": "&Suono del canale",
+			"extract_wad_manual": "&Manuale delle operazioni",
+
+			"updater": "&Aggiornamenti",
+			"check_for_updates": "Controlla &ora",
+			"auto_update": "&Controlla aggiornamenti automaticamente all’avvio",
+			"clear_update": "&Cancella file di aggiornamento",
+			"advanced": "&Avanzate",
+			"test_database": "&Verifica voci del database",
+			"clear_database": "&Cancella tutti i database",
+			"reset_preferences": "&Ripristina tutte le preferenze",
+
+			"wiki": "&Wiki online",
+			"exit": "&Esci",
+
+			"project_type": "{0} WAD",
+			"untitled_project": "{0} WAD senza titolo",
+
+			"update": "È disponibile un aggiornamento",
+			"update1": "FriishProduce v{0} è ora disponibile per il download.\nStai utilizzando la versione v{1}.",
+			"update2": "Aggiornare ora?"
+		},
+
+		"settingsform": {
+			"general": "Generale",
+			"language": "Lingua",
+			"system_default": "Predefinita di sistema",
+			"theme": "Tema",
+			"theme0": "Chiaro",
+			"theme1": "Scuro",
+			"reset_all_dialogs": "Ripristina tutte le finestre di dialogo",
+			"use_custom_database": "Usa un file database WAD personalizzato",
+			"bypass_rom_size": "Ignora limite dimensione ROM",
+
+			"bios_files": "File BIOS",
+			"browse_bios": "Seleziona un file BIOS...",
+
+			"default_settings": "Impostazioni predefinite",
+			"default_settings_app": "Applicazione",
+			"default_settings_plat": "Piattaforme",
+			"default_injection_methods": "Metodi di iniezione predefiniti",
+			"default_target_filename": "Nomi file di destinazione",
+			"default_target_project": "Progetti:",
+			"default_target_wad": "WAD esportati:",
+			"default_target_parameters": "Parametri sostituibili:",
+
+			"default_content_options": "Opzioni contenuto predefinite",
+			"default_content_options_l": "Seleziona una piattaforma dall’elenco, poi fai clic su \"{0}\" per modificarne le opzioni predefinite.",
+			"default_content_options_e": "Modifica...",
+
+			"use_online_wad_enabled": "Abilita funzione WAD scaricabili",
+            "write_metadata": "Write WAD/Inject Metadata",
+
+			"auto_fill_save_data": "Compila automaticamente il titolo dei dati salvati",
+			"auto_prefill": "Precompila automaticamente i dati di gioco all’apertura",
+			"publisher_opt": "Tag Autore/Editore:",
+			"locsave_banner": "Salva in locale le immagini banner scaricate:",
+			"locsave_wad": "Salva in locale i file WAD scaricati:",
+			"lowerParams": "Nomi di esportazione in minuscolo",
+			"transParams": "Tradurre i nomi di esportazione"
+		},
+
+		"projectform": {
+			"main": "File principali",
+			"rom_label": "{0} attuale:",
+			"rom_label1": "file di gioco",
+			"rom_label2": "immagine disco",
+			"include_patch": "Includi una patch",
+
+			"wad_base": "WAD di base",
+			"import_wad": "Importa WAD da file...",
+			"use_online_wad": "...oppure usa un WAD scaricabile",
+			"using_default_wad": "WAD vuoto in uso",
+			"current_wad": "WAD attuale:",
+
+			"image": "Immagine",
+			"import_image": "Importa immagine da file...",
+			"download_image": "Scarica immagine schermata titolo",
+			"image_interpolation_mode": "Modalità di interpolazione",
+			"image_interpolation_mode0": "{by_default}",
+			"image_interpolation_mode1": "Bassa",
+			"image_interpolation_mode2": "Alta",
+			"image_interpolation_mode3": "Bilineare",
+			"image_interpolation_mode4": "Bicubica",
+			"image_interpolation_mode5": "Vicini più prossimi",
+			"image_interpolation_mode6": "Bilineare alta qualità",
+			"image_interpolation_mode7": "Bicubica alta qualità",
+			"image_resize0": "Allunga immagine",
+			"image_resize1": "Adatta proporzioni",
+
+			"channel_metadata": "Metadati del canale",
+			"channel_name": "Nome canale:",
+			"title_id": "ID titolo:",
+			"genre": "Genere:",
+			"region": "Regione del canale:",
+			"video_mode": "Modalità video:",
+			"banner": "Banner del canale",
+			"banner_tip": "Clicca sull’anteprima sopra per accedere alle opzioni di personalizzazione del banner.",
+			"banner_details": "&Dettagli banner...",
+
+			"injection_method": "Metodo di iniezione",
+			"injection_method_options": "Opzioni metodo di iniezione...",
+			"controller": "Controller",
+			"controller_mapping": "Modifica mappatura controller...",
+
+			"save_data": "Dati salvati",
+			"save_data_enable": "Abilita salvataggio",
+			"edit_save_data": "Modifica titolo dati salvati...",
+			"edit_save_data_1": "Titolo:",
+			"edit_save_data_2": "Sottotitolo:",
+			"edit_save_data_max": "Lunghezza massima per riga: {0}",
+			"fill_save_data": "Compila automaticamente",
+
+			"manual_type": "Manuale operazioni:",
+			"manual_type0": "{disabled}",
+			"manual_type1": "{original}",
+			"manual_type2": "Importa manuale personalizzato",
+			"forwarder_root_device": "Dispositivo di archiviazione principale:",
+			"wiiu_display": "Formato display Wii U:",
+			"wiiu_display0": "{original}",
+			"wiiu_display1": "4:3 con bande nere",
+			"wiiu_display2": "Allungato",
+			"multifile_software": "Software con più file",
+			"no_copy_save": "Disattiva copie salvataggio"
+		},
+
+		"banner": {
+			"full_name": "Nome completo:",
+			"year": "Anno:",
+			"players": "Giocatori:",
+			"banner_region": "Regione banner:",
+			"banner_sound": "Sostituisci suono banner...",
+			"banner_sound_play": "Riproduci suono banner attuale",
+			"banner_sound_restore": "Ripristina suono banner originale"
+		},
+
+		"controller": {
+			"page1": "Wii Remote",
+			"page2": "Controller Classico",
+			"page3": "Controller GameCube",
+			"vertical_layout": "Disposizione verticale",
+
+			"presets": "Preset",
+			"preset_load": "Carica",
+			"preset_blank": "Vuoto",
+			"preset_basic": "Base",
+			"preset_basic_h": "Base (orizzontale)",
+			"preset_basic_v": "Base (verticale)",
+
+			"up": "Su",
+			"left": "Sinistra",
+			"right": "Destra",
+			"down": "Giu"
+		},
+
+		"vc_nes": {
+			"palette": "Tavolozza",
+			"palette0": "{by_default}",
+			"palette1": "Restaurata",
+			"palette2": "{vc} (Nintendo 3DS)",
+			"palette3": "NES Classic (FBX)",
+			"palette4": "NES Remix U",
+			"palette5": "YUV (Nestopia)",
+			"palette6": "RGB (Nestopia)",
+			"palette7": "FCEUX",
+			"palette8": "Wavebeam (FBX)",
+			"palette9": "Composite Direct (FBX)",
+
+			"palette_banner_usage": "Usa anche per immagine banner"
+		},
+
+		"vc_snes": {
+			"patch_volume": "Aumenta volume",
+			"patch_noopera": "Rimuovi file manuale",
+			"patch_wiimote": "Abilita supporto Wii Remote nativo",
+			"patch_gcremap": "Ruota mappatura pulsanti GC ABXY",
+			"patch_nocheck": "Disabilita controlli ROM",
+			"patch_nodark": "Disattiva filtro scuro",
+			"patch_nocc": "Disattiva schermata Controller Classico",
+			"patch_nosave": "Disattiva salvataggio",
+			"patch_nosuspend": "Disattiva Punto di sospensione",
+			"patch_widescreen": "Menu HOME widescreen"
+		},
+
+		"vc_n64": {
+			"patch_fixbrightness": "Rimuovi filtro scuro",
+			"patch_fixcrashes": "Correggi crash",
+			"patch_expandedram": "Abilita RAM estesa",
+			"patch_autosizerom": "Assegna dimensione ROM",
+			"patch_cleantextures": "Pulisci texture non usate",
+			"patch_remap": "Rimappa controlli",
+			"patch_widescreen": "Widescreen",
+
+			"romc_type": "Metodo compressione ROM",
+			"romc_type0": "ROMC (Tipo 0)",
+			"romc_type1": "ROMC (Tipo 1)"
+		},
+
+		"vc_sega": {
+			"console_disableresetbutton": "Disattiva pulsante reset",
+			"dev_mdpad_enable_6b": "Abilita Controller Sei Tasti per {0}"
+		},
+
+		"vc_pce": {
+			"hide_overscan": "Nascondi overscan",
+			"raster": "Raster di sfondo",
+			"sprline": "Limite sprite",
+			"y_offset": "Spostamento Y",
+			"sgenable": "Abilita funzionalità SuperGrafx",
+			"region0": "{region_j}",
+			"region1": "Stati Uniti/Europa",
+			"padbutton0": "Uso Pad a 2 tasti",
+			"padbutton1": "Uso Pad a 6 tasti"
+		},
+
+		"vc_neo": {
+			"bios": "BIOS di sistema",
+			"bios0": "Importa da file",
+			"bios1": "{vc} (versione 1)",
+			"bios2": "{vc} (versione 2)",
+			"bios3": "{vc} (versione 3)"
+		},
+
+		"vc_c64": {
+			"rom_notice": "Questo metodo di iniezione richiede uno snapshot creato all’avvio con l’emulatore Frodo.\nCosa vuoi fare?",
+			"rom_notice1": "&Crea un nuovo snapshot",
+			"rom_notice2": "&Usa uno snapshot esistente"
+		},
+
+		"adobe_flash": {
+			"vff_sync_on_write": "Sincronizza VFF durante la scrittura dei dati",
+			"vff_cache_size": "Dimensione cache VFF ({kilobytes})",
+			"persistent_storage_total": "Archiviazione persistente totale ({kilobytes})",
+			"persistent_storage_per_movie": "Archiviazione persistente per SWF ({kilobytes})",
+			"controls": "Controlli",
+			"mouse": "Mouse",
+			"qwerty_keyboard": "Tastiera QWERTY",
+			"midi": "Abilita riproduzione MIDI con soundfont DLS",
+			"quality": "Qualità",
+			"quality0": "Alta",
+			"quality1": "Media",
+			"quality2": "Bassa",
+			"strap_reminder": "Schermata avviso cinturino",
+			"strap_reminder0": "{disabled}",
+			"strap_reminder1": "{enabled}",
+			"strap_reminder2": "{enabled} (senza controller aggiuntivo)",
+			"swf_metadata": "Metadati SWF",
+			"content_domain": "Dominio contenuti",
+			"background_color": "Colore sfondo",
+			"anti_aliasing": "Anti-aliasing",
+			"zoom": "Ingrandimento",
+			"zoom0": "{by_default}",
+			"zoom1": "{automatic}",
+			"zoom2": "Personalizzato",
+			"standard": "Forza display 4:3"
+		},
+
+		"forwarder": {
+			"bios_settings": "Impostazioni BIOS",
+			"use_bios": "Abilita BIOS",
+			"show_bios_screen": "Mostra schermata BIOS all’avvio",
+			"rpgm_settings": "Impostazioni RPG Maker",
+			"use_rtp": "Usa RTP (Run-Time Package) esterno"
+		}
+	}
+}

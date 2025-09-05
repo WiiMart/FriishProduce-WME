@@ -2,6 +2,7 @@
 using libWiiSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -65,6 +66,7 @@ namespace FriishProduce
 
         public ROM ROM { get; set; } = null;
         public WAD WAD { get; set; } = null;
+        public string SrcBase { get; set; } = null;
         public ImageHelper Img { get; set; } = null;
 
         public int EmuVersion { get; set; } = 0;
@@ -76,86 +78,74 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
-        public void GetWAD(string path, string tid)
+        public void GetWAD(string path, string tid, bool localFile)
         {
-            try
-            {
+            try{
                 WAD = new WAD();
 
-                
-                if (!string.IsNullOrWhiteSpace(path))
-                {
-                    if (File.Exists(path))
-                    {
-                        Logger.Log($"Loading WAD file with title ID {tid}.");
+                if (!string.IsNullOrWhiteSpace(path)) {
+                    if (File.Exists(path)) {
+                        Logger.Log($"\nLoading imported WAD with title ID: {tid}");
                         WAD = WAD.Load(path);
+                        SrcBase = path;
                     }
+                    else if (path.ToLower().StartsWith("http")) {
+                        string appDir = AppDomain.CurrentDomain.BaseDirectory;
+                        string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "WADs"));
+                        string saveDir = Program.Config.application.locsave_wad_tb ?? defaultDir;
 
-                    else if (path.ToLower().StartsWith("http"))
-                    {
-                        Logger.Log($"Downloading WAD with title ID {tid}.");
-                        _progress.max += 1.0;
+                        if (!Directory.Exists(saveDir))
+                            Directory.CreateDirectory(saveDir);
 
-                        try
-                        {
-                            byte[] wadData = Web.Get(path);
+                        string fileName = Path.GetFileName(new Uri(path).LocalPath);
+                        if (string.IsNullOrEmpty(fileName))
+                            fileName = $"{tid}.wad";
 
-                            if (!Program.Config.application.locsave_wad)
-                            {
-                                // Load from memory
-                                WAD = WAD.Load(wadData);
-                            }
-                            else
-                            {
-                                string appDir = AppDomain.CurrentDomain.BaseDirectory;
-                                string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "WADs"));
-                                string saveDir = Program.Config.application.locsave_wad_tb ?? defaultDir;
+                        string localPath = Path.Combine(saveDir, fileName);
 
-                                if (!Directory.Exists(saveDir))
-                                    Directory.CreateDirectory(saveDir);
-
-                                // Get filename from the URL
-                                string fileName = Path.GetFileName(new Uri(path).LocalPath);
-
-                                if (string.IsNullOrEmpty(fileName))
-                                    fileName = $"{tid}.wad"; //TID-based naming if URL name resolve fails
-
-                                string localPath = Path.Combine(saveDir, fileName);
-
-                                File.WriteAllBytes(localPath, wadData);
-                                Logger.Log($"Saved WAD locally to: {localPath}");
-
-                                // Load local instead of from memory
-                                WAD = WAD.Load(localPath);
-                            }
+                        if (File.Exists(localPath)) {
+                            Logger.Log($"\nLoading existing downloaded WAD with title ID: {tid}");
+                            WAD = WAD.Load(localPath);
+                            SrcBase = localPath;
                         }
-                        catch (Exception ex)
-                        {
-                            Logger.Log($"Failed to download or save WAD from {path}: {ex.Message}");
-                        }
+                        else {
+                            if (!localFile) Web.InternetTest();
+                            Program.MainForm.Wait(true, true, true, 0, 1);
+                            _progress.max += 1.0;
+                            try {
+                                byte[] wadData = Web.Get(path, "\nDownloading WAD from URL:\n");
 
-                        _updateProgress();
+                                if (!Program.Config.application.locsave_wad) {
+                                    WAD = WAD.Load(wadData);
+                                    SrcBase = path;
+                                }
+                                else {
+                                    File.WriteAllBytes(localPath, wadData);
+                                    Logger.Log($"Saved WAD locally to:\n\"{localPath}\"\n");
+
+                                    WAD = WAD.Load(localPath);
+                                    SrcBase = localPath;
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.Log($"Failed to download or save WAD from {path}: {ex.Message}");
+                            }
+                            _updateProgress();
+                        }
                     }
                 }
-
-                else
-                {
+                else {
                     Logger.Log($"Loading blank WAD.");
                     WAD = WAD.Load(Properties.Resources.StaticBase);
                 }
 
-
-                // Title ID check
-                // ****************
                 if (WAD.UpperTitleID.ToUpper() != tid || !WAD.HasBanner)
                     WAD.Dispose();
 
-                // Contents check
-                // ****************
                 if (WAD == null || WAD?.NumOfContents <= 1)
                     throw new Exception(Program.Lang.Msg(9, 1));
 
-                Logger.Log($"WAD loaded.");
+                Logger.Log($"WAD base loaded.");
             }
 
             catch (Exception ex)
@@ -180,6 +170,7 @@ namespace FriishProduce
                         Multifile = IsMultifile,
                     };
                     Flash.Manual = Manual;
+                    Logger.Log("Injecting Adobe Flash, Small Web File.");
                     WAD = Flash.Inject(WAD, SaveDataTitle, Img);
                 }
 
@@ -188,7 +179,7 @@ namespace FriishProduce
                     // Create Wii VC injector to use
                     // *******
                     InjectorWiiVC VC = null;
-
+                    Logger.Log($"Injecting VC data for {Platform}.");
                     switch (Platform)
                     {
                         default:
@@ -258,18 +249,20 @@ namespace FriishProduce
                     // Get settings from relevant form
                     // *******
                     VC.Settings = Settings.List;
+                    Logger.Log("Applied injection method settings.");
                     VC.Keymap = Settings.Keymap;
+                    Logger.Log("Keymap.ini settings applied.");
 
                     // Set path to manual (if it exists) and load WAD
                     //// *******
                     VC.Manual = Manual;
+                    Logger.Log("Operations Manual settings applied.");
 
                     // Actually inject everything
                     // *******
                     WAD = VC.Inject(WAD, ROM, SaveDataTitle, Img);
+                    Logger.Log("Flashed ROM data.\nSave data titles written.\nRecompressed channel, banner, and save images.");
                 }
-
-                Logger.Log("Created injected WAD.");
                 _updateProgress();
             }
 
@@ -318,12 +311,9 @@ namespace FriishProduce
         {
             if (WadRegion >= 0) WAD.Region = (Region)WadRegion;
             Utils.ChangeVideoMode(WAD, WadVideoMode, /* WiiUDisplay */ 0);
-
             WAD.ChangeChannelTitles(ChannelTitles_Limit);
             WAD.ChangeTitleID(LowerTitleID.Channel, TitleID);
             WAD.FakeSign = true;
-
-            Logger.Log("Changed channel titles.");
             Logger.Log($"Changed WAD title ID to {TitleID}.");
             Logger.Log("Fakesigned WAD.");
         }
@@ -354,8 +344,6 @@ namespace FriishProduce
                 // Image
                 // *******
                 if (Img?.VCPic != null) Img.ReplaceBanner(WAD);
-
-                Logger.Log("Added VC banner.");
                 _updateProgress();
             }
 
@@ -389,7 +377,7 @@ namespace FriishProduce
 
                 else WAD.Save(Out);
 
-                Logger.Log($"SUCCESS: Exported to {Out}.");
+                Logger.Log($"\nSUCCESS! Exported WAD to:\n\"{Out}\"");
                 _updateProgress();
                 _progress.step = _progress.max;
 

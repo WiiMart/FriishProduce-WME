@@ -211,7 +211,7 @@ namespace FriishProduce
                 if (!URL.StartsWith("https://") && !URL.StartsWith("http://")) URL = "https://" + URL;
                 if (!URL.EndsWith("/")) URL += "/";
 
-                Logger.Log($"Sending initial Web request to URL: {URL}");
+                Logger.Log($"\nSending initial Web request to URL:\n\"{URL}\"");
                 var request = (HttpWebRequest)WebRequest.Create(URL);
 
                 URL = request.Address.Authority;
@@ -333,11 +333,11 @@ namespace FriishProduce
             }
         }
 
-        public static byte[] Get(string URL, int timeout = 200)
+        public static byte[] Get(string URL, string msg = "\nDownloading from URL:\n", int timeout = 200)
         {
             Start:
             bool invalid = false;
-            Logger.Log("Downloading from URL: " + URL);
+            Logger.Log($"{msg}\"{URL}\"\n");
 
             // Actual web connection is done here
             // ****************
@@ -452,6 +452,45 @@ namespace FriishProduce
 
     public static class Utils
     {
+
+        /// <summary>
+        ///     Lazy get file name without extension shortname utility
+        /// </summary>
+        /// <returns>The filename in the path without extension</returns>
+        public static string GetFileCN(string path) {
+            return Path.GetFileNameWithoutExtension(path);
+        }
+
+        /// <summary>
+        ///     Levenshtein distance public domain algorithm adapted for C#
+        ///         - Computes the Levenshtein distance between two strings.
+        /// </summary>
+        public static int LevenshteinDistance(string src, string tar) {
+            if (string.IsNullOrEmpty(src)) return tar?.Length ?? 0;
+            if (string.IsNullOrEmpty(tar)) return src.Length;
+
+            int[] previousRow = new int[tar.Length + 1];
+            int[] currentRow = new int[tar.Length + 1];
+
+            // Initialize first row (distance from empty string)
+            for (int targetIndex = 0; targetIndex <= tar.Length; targetIndex++)
+                previousRow[targetIndex] = targetIndex;
+
+            for (int sourceIndex = 1; sourceIndex <= src.Length; sourceIndex++) {
+                currentRow[0] = sourceIndex; // distance from empty target string
+                for (int targetIndex = 1; targetIndex <= tar.Length; targetIndex++) {
+                    int cost = (src[sourceIndex - 1] == tar[targetIndex - 1]) ? 0 : 1;
+                    currentRow[targetIndex] = Math.Min(
+                        Math.Min(currentRow[targetIndex - 1] + 1, previousRow[targetIndex] + 1),
+                        previousRow[targetIndex - 1] + cost
+                    );
+                }
+                // Swap rows for next iteration
+                (previousRow, currentRow) = (currentRow, previousRow);
+            }
+            return previousRow[tar.Length];
+        }
+        
         public static string Run(byte[] app, string appName, string arguments, bool showWindow = false, bool redirectOutput = true)
         {
             string targetPath = Paths.WorkingFolder + Path.GetFileNameWithoutExtension(appName) + ".exe";

@@ -14,8 +14,6 @@
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <IsTestProject>false</IsTestProject>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -90,6 +88,9 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Octokit, Version=14.0.0.0, Culture=neutral, PublicKeyToken=0be8860aee462442, processorArchitecture=MSIL">
       <HintPath>..\packages\Octokit.14.0.0\lib\netstandard2.0\Octokit.dll</HintPath>
     </Reference>
@@ -357,6 +358,7 @@
     <Compile Include="_classes\Helpers\BannerSchemes.cs" />
     <Compile Include="_classes\Files\CCF.cs" />
     <Compile Include="_classes\Helpers\BannerPreview.cs" />
+    <Compile Include="_classes\Helpers\GoogleTrans.cs" />
     <Compile Include="_classes\Databases\ChannelData.cs" />
     <Compile Include="_classes\Databases\DropboxDL.cs" />
     <Compile Include="_classes\Method.cs" />
@@ -442,6 +444,7 @@
     <Compile Include="_classes\Helpers\SoundHelper.cs" />
     <Compile Include="_classes\Program\Settings.cs" />
     <Compile Include="_classes\Utilities.cs" />
+    <Compile Include="_classes\WadMeta.cs" />
     <Compile Include="_classes\Platform.cs" />
     <Compile Include="_classes\SettingsConstant.cs" />
     <Compile Include="_classes\Creators\WiiVC\_base.cs" />
@@ -543,7 +546,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="database.json" />
     <None Include="Resources\banners\c64_eu.app" />
     <None Include="Resources\banners\c64_us.app" />
     <None Include="Resources\banners\flash.app" />
@@ -601,6 +603,11 @@
     <None Include="Strings\ja.json" />
     <None Include="Strings\ko.json" />
     <None Include="Strings\en.json" />
+    <None Include="Strings\it.json" />
+    <None Include="Strings\de.json" />
+    <None Include="Strings\pt-BR.json" />
+    <None Include="Strings\zh-Hans.json" />
+    <None Include="Strings\zh-Hant.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -742,6 +749,23 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\apps\sharpii_1.7.3\Sharpii.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\apps\sharpii_1.7.3\LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\apps\sharpii_1.7.3\WadInstaller.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="database.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Target Name="CopySharpiiLibs" AfterTargets="Build">
+    <Copy SourceFiles="Resources\apps\sharpii_1.7.3\libWiiSharp.dll" DestinationFolder="$(OutputPath)\Resources\apps\sharpii_1.7.3" />
+  </Target>
   <ItemGroup>
     <FileAssociation Include=".jfpp">
       <Visible>False</Visible>

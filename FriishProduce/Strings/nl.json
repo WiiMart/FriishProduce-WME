@@ -1,0 +1,463 @@
+{
+	"language": "nl",
+	"author": "Subnetic",
+	"application_title": "FriishProduce-WME",
+	
+	"global": {
+		"main": {
+			"about_app": "Over {0}",
+			"authors": "Auteur(s): {0}",
+
+			"kilobytes": "KB",
+			"megabytes": "MB",
+
+			"b_ok": "&OK",
+			"b_cancel": "&Annuleren",
+			"b_close": "&Sluiten",
+			"b_yes": "&Ja",
+			"b_no": "&Nee",
+			"b_save": "&Opslaan",
+			"b_dont_save": "&Niet opslaan",
+			"do_not_show": "Niet opnieuw weergeven",
+			
+			"by_default": "Standaard",
+			"disabled": "Uitgeschakeld",
+			"enabled": "Ingeschakeld",
+			"original": "Oorspronkelijk",
+			"automatic": "Automatisch",
+			"unknown": "Onbekend",
+			"none": "N.v.t.",
+			"not_available": "Niet beschikbaar",
+
+			"region": "Systeemregio",
+			"region_j": "Japan",
+			"region_u": "Verenigde Staten",
+			"region_e": "Europa/Australië",
+			"region_k": "Republiek Korea",
+			"region_rf": "Regiovrij",
+			
+			"preferences": "Voorkeuren",
+			"system": "Systeem",
+			"display": "Beeldscherm",
+			"debug_mode": "Draait in debugmodus",
+
+			"vc": "Virtuele Console",
+			"vc_options": "Opties voor Virtuele Console",
+			"additional": "Deze instellingen gelden ook voor {0}.",
+			"continue": "Injectie gaat verder zoals bedoeld."
+		},
+
+		"platforms": {
+			"group0": "Nintendo",
+			"group1": "SEGA",
+			"group2": "NEC",
+			"forwarders": "Doorstuurkanalen",
+
+			"nes": "NES/Famicom",
+			"snes": "SNES/Super Famicom",
+			"n64": "Nintendo 64",
+			"sms": "Master System",
+			"smd": "Mega Drive/Genesis",
+			"pce": "TurboGrafx-16/PC Engine",
+			"pcecd": "TurboGrafx-CD/PC Engine CD",
+			"neo": "NEO-GEO",
+			"c64": "Commodore 64",
+			"msx": "MSX/MSX2",
+			"flash": "Adobe Flash",
+			"gb": "Game Boy",
+			"gbc": "Game Boy Color",
+			"gba": "Game Boy Advance",
+			"gcn": "GameCube",
+			"s32x": "32X",
+			"smcd": "SEGA CD/MEGA CD",
+			"psx": "PlayStation",
+			"rpgm": "RPG Maker 2000/2003"
+		},
+
+		"filters": {
+			"filter": "|Alle bestanden (*.*)|*.*",
+			"filter.project": "FriishProduce-WME Projecten (*.jfpp)|*.jfpp|Legacy Projecten (*.fppj)|*.fppj|FPWME & Legacy Projecten (*.jfpp, *.fppj)|*.jfpp;*.fppj",
+			"filter.wad": "Wii-kanalen (*.wad)|*.wad",
+			"filter.img": "Afbeeldingen (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
+			"filter.zip": "ZIP-archieven (*.zip)|*.zip",
+			"filter.disc": "Schijfimages (*.cue, *.bin)|*.cue;*.bin|  Cue Sheet bestanden (*.cue)|*.cue|  BIN bestanden (*.bin)|*.bin",
+			"filter.swf": "Adobe Flash-bestanden (*.swf)|*.swf",
+			"filter.rpgm": "RPG Maker 2000/2003 databasebestanden (*.ldb)|*.ldb",
+			"filter.rom": "{0} ROM-bestanden ({1})|{2}",
+			"filter.patch": "Patchbestanden (*.bps, *.ips, *.xdelta)|*.bps;*.ips;*.xdelta"
+		},
+
+		"messages": {
+			"000": "Een herstart van de applicatie is nodig om alle wijzigingen door te voeren.",
+			"001": "{0} heeft niet-opgeslagen wijzigingen.\nDit project opslaan?",
+			"002": "Het geselecteerde bestand heeft een ongeldig formaat.",
+			"003": "Succesvol voltooid.\nUitvoermap openen?",
+			"004": "Kan niet alle spelgegevens ophalen voor de geselecteerde software.\nSommige velden moeten handmatig worden ingevuld.",
+			"005": "De geselecteerde WAD (titel-ID: {0}) is ongeldig.\nDit kan een van de volgende redenen hebben:\n  • De geselecteerde console komt niet overeen met die van de WAD.\n  • De WAD is nog niet beschikbaar in de database.\n  • De WAD is al gewijzigd (bijv. geïnjecteerd of omgezet naar een forwarder).",
+			"006": "U kunt de originele handleiding van de Virtual Console-game vervangen.\nHiervoor heeft u een ZIP nodig die de uitgepakte/aangepaste inhoud van een handleiding .arc uit een VC WAD bevat.",
+			"007": "Het geselecteerde Virtual Console-handleidingarchief is ongeldig.",
+			"008": "U heeft momenteel al de nieuwste versie.",
+			"009": "De opening.bnr (inclusief IMET-header) uitpakken?",
+			"010": "Hiermee worden alle instellingen teruggezet naar fabrieksinstellingen.\nWeet u zeker dat u wilt doorgaan?",
+			"011": "Alle database-items controleren op ongeldigheid?\nDit kan even duren.",
+			"012": "Geen ongeldige database-items gevonden.",
+			"013": "Ongeldige database-items gevonden:\n{0}\n\nVerwijder deze items uit database.json.",
+			"014": "De opties voor de injectiemethode zijn opnieuw ingesteld.\nConfigureer ze opnieuw.",
+			"015": "De configuratie is opnieuw ingesteld.\nStel uw instellingen opnieuw in.",
+
+			"b_000": "Even geduld...",
+			"b_001": "Bezig met exporteren...",
+			"b_002": "Internetverbinding testen...",
+			"b_003": "Database {0} controleren...",
+			"b_004": "Bezig met bijwerken...",
+			"b_x": "Druk op Shift om het huidige proces te annuleren.",
+
+			"error": "Er is een fout opgetreden",
+			"e_000": "Kan geen verbinding maken met het internet.\n{0}",
+			"e_001": "Kan geen afbeelding genereren.\nDit kan te wijten zijn aan een probleem met GDI+.",
+			"e_002": "Mislukt om inhoud in de WAD te injecteren of te vervangen.",
+			"e_003": "De opgegeven ROM is te groot (limiet: {0} {1}).",
+			"e_004": "Kan de interne inhoudsopties van de VC WAD niet wijzigen.\n{continue}",
+			"e_005": "Kan de volgende inhoudsopties niet wijzigen.\n{0}\n{continue}",
+			"e_006": "De vereiste applicatie ({0}) is niet gevonden in de map resources\\tools.",
+			"e_007": "Mislukt om WAD of ZIP te maken.",
+			"e_008": "Patch toepassen mislukt. Het patchbestand en de doel-ROM komen niet overeen, of de checksum van de ROM is ongeldig.",
+			"e_009": "Kan WAD niet downloaden.",
+			"e_010": "Mislukt om de interne Virtual Console-handleiding te vervangen.\n{continue}",
+			"e_011": "Het bestand \"{0}\" is niet gevonden op het oorspronkelijke pad. Het is mogelijk verwijderd of verplaatst.",
+			"e_012": "De map \"{0}\" is niet gevonden op het oorspronkelijke pad. Het is mogelijk verwijderd of verplaatst.",
+			"e_013": "Er is geen injecteerbaar ROM-entrypoint gevonden. Mogelijk wordt de gebruikte injectiemethode voor deze WAD nog niet ondersteund.",
+			"e_014": "Het vereiste BIOS-bestand voor deze console is niet gevonden.\nStel dit bestand in bij de voorkeuren van FriishProduce.",
+			"e_015": "Mislukt om savedata TPL te maken.",
+			"e_016": "Geen Virtual Console-handleiding gevonden in de opgegeven WAD.",
+			"e_017": "\"{0}\" is geen geldig projectbestand.",
+			"e_018": "Kan {0} niet opslaan.",
+			"e_019": "Kan update niet downloaden.",
+			"e_020": "Geen aanpasbare WAD-videomodi gevonden.\n{continue}",
+			"e_021": "Kan bestand niet downloaden."
+		},
+
+		"html": {
+			"000": "De Frodo-emulator wordt nu geopend.<ol type=\"1\"><li>Voer de volgende opdracht in de emulator in: <b>LOAD\"*\",8</b>\nAls de C64-console vastloopt en er geen LED-indicator van de drive brandt, open dan Frodo.fpr via <i>Bestand > Openen</i> en druk vervolgens op F12 om de emulator opnieuw te starten en probeer het opnieuw.</li><li>Zodra de software is geladen, voer <b>RUN</b> in.</li><li>Zodra het spel is geladen, klik op <i>Extra > Patch en Snapshot Opslaan</i> en sla het bestand op als \"snap.fss\". Je kunt ook een extra kopie opslaan voor later gebruik.</li></ol>Resterende pogingen: <b>{0}</b>",
+			"001": "Over SNES VC (in aanbouw)",
+			"002": "Over N64 VC (in aanbouw)",
+			"t_use_online_wad_enabled": "Dit kan worden gebruikt om een WAD op te halen die beschikbaar is in de huidige database zonder dat je al een WAD-bestand nodig hebt. Het gebruikt alleen webdownloadfunctionaliteit, aangezien de NUS-client van libWiiSharp VC WADs niet kan ontsleutelen.\n\nDe legaliteit hiervan is twijfelachtig, dus het is beter deze optie uit te schakelen.",
+			"t_write_metadata": "Schrijft een meta.json-bestand naar het Banner U8-archief met de gegevens van elke injectie. WiiMart heeft dit nodig om gegevens automatisch op te halen.",
+			"t_publisher_opt": "Specificeert de maker van deze WAD/inject. Wordt gebruikt in het meta.json-bestand dat naar het Banner U8-archief wordt geschreven.",
+			"t_use_custom_database": "Gebruik een aangepaste WAD-database door je eigen 'database.json' op te geven zodat de applicatie deze standaard laadt.",
+			"t_lowerParams": "Zet alle uitvoerparameters die in de WAD-bestandsnaam worden gebruikt, zoals \"TITLEID\", om in kleine letters. Een TID zoals 'XXXX' wordt 'xxxx' in de uitvoer WAD-bestandsnaam als de parameter \"TITLEID\" wordt gebruikt.",
+			"t_transParams": "Vertaal parameters die in de WAD-bestandsnaam worden gebruikt, zoals \"CHANNELNAME\". Dit probeert automatisch elke CJK naar het Engels te vertalen. VEREIST EEN INTERNETVERBINDING.",
+			"t_locsave_banner": "Sla de bannerafbeelding die uit onze database is gedownload lokaal op het opgegeven pad op, of standaard in \"FriishProduce/Downloads/Banners/\".",
+			"t_locsave_wad": "Sla de gedownloade WAD-basis lokaal op het opgegeven pad op, of standaard in \"FriishProduce/Downloads/WADs/\".",
+			"t_bypass_rom_size": "Verwijdert alle bestandsgroottebeperkingen voor Virtual Console ROMs. Dit kan nuttig zijn voor tests.",
+			"t_channel_name": "De naam die wordt gebruikt voor het kanaalpictogram in het Wii-menu.\nVoor langere titels wordt een verkorte versie van 20 tekens of minder aanbevolen.<hr><b>Voorbeeld:</b>\nZelda: Ocarina",
+			"t_banner_title": "De volledige naam van de software, zoals weergegeven in de bannerpreview.<hr><b>Voorbeeld:</b>\nThe Legend of Zelda:\nOcarina of Time",
+			"t_banner_region": "De regio die wordt gebruikt voor het kanaalbanners en pictogram.\n\nDit kan handig zijn als de naam van de console anders is in jouw regio of als je bijvoorbeeld een Japanse/Koreaanse banner wilt gebruiken.\nAls de bannerregio op automatisch staat, komt deze overeen met de regio van de WAD.",
+			"t_video_mode": "De videomodus waarin het Wii-kanaal wordt uitgevoerd (NTSC, PAL of MPAL). Sommige videomodi werken mogelijk niet correct in de juiste regio.",
+			"t_injection_method_options": "Wijzig geavanceerde emulatorinstellingen.",
+			"t_multifile_software": "Wanneer deze optie is ingeschakeld, behandelt het programma alle bestanden in dezelfde map als het momenteel geselecteerde bestand als onderdeel van de software die wordt geïnjecteerd.\n\nZorg ervoor dat je softwarebestanden zich in een aparte map bevinden.",
+			"t_vff_cache_size": "Grootte van de SWF-opslagcache.\n\nAls je injecteert in YouTube of BBC iPlayer en het kanaal vastloopt bij het maken van opgeslagen gegevens, probeer dit in te stellen op 96 kB, wat de standaardwaarde is.",
+			"t_persistent_storage_total": "Totale opslagruimte die nodig is voor het opslaan van gamegegevens.\n\nAls je injecteert in YouTube of BBC iPlayer en het kanaal vastloopt bij het maken van opgeslagen gegevens, probeer dit in te stellen op 96 kB, wat de standaardwaarde is.",
+			"t_persistent_storage_per_movie": "Opslagruimte die nodig is per SWF voor het opslaan van gamegegevens.\n\nAls je injecteert in YouTube of BBC iPlayer en het kanaal vastloopt bij het maken van opgeslagen gegevens, probeer dit in te stellen op 64 kB, wat de standaardwaarde is.",
+
+			"t_unsure": "Als je het niet zeker weet, {0}.",
+			"t_unsure_s": "selecteer {0}",
+			"t_unsure_u": "laat dit uitgevinkt",
+			"t_unsure_c": "laat dit aangevinkt",
+
+			"t_publisher_opt_tb": "{t_publisher_opt}",
+			"t_locsave_banner_tb": "{t_locsave_banner}",
+			"t_locsave_wad_tb": "{t_locsave_wad}",
+			"t_channel_name_l": "{t_channel_name}"
+		}
+	},
+
+	"strings": {
+		"mainform": {
+			"file": "&Bestand",
+			"project": "&Project",
+			"tools": "&Extra",
+			"help": "&Help",
+
+			"new_project": "&Nieuw...",
+			"open_project": "&Project openen...",
+			"open_recent": "&Recent openen",
+			"clear_recent": "&Lijst wissen",
+			"save_project": "&Project opslaan",
+			"save_project_as": "Project &opslaan als...",
+			"close_project": "&Project sluiten",
+			"close_all": "Alles sluiten",
+
+			"import_game_file": "&{0} importeren...",
+			"game_scan": "&Spelgegevens invullen",
+			"export": "&Exporteren...",
+			
+			"extract_from_wad": "&Uit WAD extraheren...",
+			"extract_wad_banner": "Kanaal&banner",
+			"extract_wad_icon": "Kanaal&icoon",
+			"extract_wad_sound": "Kan&aalgeluid",
+			"extract_wad_manual": "Gebruiks&handleiding",
+			
+			"updater": "&Updates",
+			"check_for_updates": "&Nu controleren",
+			"auto_update": "&Automatisch controleren bij opstarten",
+			"clear_update": "&Updatebestanden wissen",
+			"advanced": "&Geavanceerd",
+			"test_database": "Database&verificatie",
+			"clear_database": "&Alle databases wissen",
+			"reset_preferences": "&Alle voorkeuren resetten",
+
+			"wiki": "Online &Wiki",
+			"exit": "A&fsluiten",
+
+			"project_type": "{0} WAD",
+			"untitled_project": "Naamloos {0} WAD",
+			
+			"update": "Een update is beschikbaar",
+			"update1": "FriishProduce v{0} is nu beschikbaar om te downloaden.\nU gebruikt momenteel v{1}.",
+			"update2": "Nu updaten?"
+		},
+
+		"settingsform": {
+		    "general": "Algemeen",
+			"language": "Taal",
+			"system_default": "Systeemstandaard",
+			"theme": "Thema",
+			"theme0": "Licht",
+			"theme1": "Donker",
+			"reset_all_dialogs": "Alle dialogen resetten",
+			"use_custom_database": "Aangepaste WAD-database gebruiken",
+			"bypass_rom_size": "ROM-bestandsgrootte beperken overslaan",
+
+			"bios_files": "BIOS-bestanden",
+			"browse_bios": "Selecteer een BIOS-bestand...",
+			
+			"default_settings": "Standaardinstellingen",
+			"default_settings_app": "Applicatie",
+			"default_settings_plat": "Platformen",
+			"default_injection_methods": "Standaard injectiemethoden",
+			"default_target_filename": "Doelbestandsnamen",
+			"default_target_project": "Projecten:",
+			"default_target_wad": "Geëxporteerde WADs:",
+			"default_target_parameters": "Vervangbare parameters:",
+
+			"default_content_options": "Standaard inhoudsopties",
+			"default_content_options_l": "Selecteer een platform uit de lijst en klik op \"{0}\" om de standaard inhoudsopties te wijzigen.",
+			"default_content_options_e": "Bewerken...",
+
+			"use_online_wad_enabled": "Functie voor downloadbare WADs inschakelen",
+            "write_metadata": "Write WAD/Inject Metadata",
+
+			"auto_fill_save_data": "Opslaggegevens automatisch invullen",
+			"auto_prefill": "Spelgegevens automatisch vooraf invullen bij openen",
+			"publisher_opt": "Auteur/Uitgever Tag:",
+			"locsave_banner": "Downloadbannerafbeeldingen lokaal opslaan:",
+			"locsave_wad": "Downloadbare WAD-bestanden lokaal opslaan:",
+			"lowerParams": "Exportnamen in kleine letters",
+			"transParams": "Exportnamen vertalen"
+		},
+
+		"projectform": {
+			"main": "Hoofd bestanden",
+			"rom_label": "Huidige {0}:",
+			"rom_label1": "spelbestand",
+			"rom_label2": "schijfimage",
+			"include_patch": "Patch toevoegen",
+
+			"wad_base": "Basis WAD",
+			"import_wad": "WAD uit bestand importeren...",
+			"use_online_wad": "...of gebruik een downloadbare basis",
+			"using_default_wad": "Lege WAD wordt gebruikt",
+			"current_wad": "Huidige WAD:",
+			
+			"image": "Afbeelding",
+			"import_image": "Afbeelding importeren...",
+			"download_image": "Titelafbeelding downloaden",
+			"image_interpolation_mode": "Interpolatiemodus",
+			"image_interpolation_mode0": "{by_default}",
+			"image_interpolation_mode1": "Laag",
+			"image_interpolation_mode2": "Hoog",
+			"image_interpolation_mode3": "Bilineair",
+			"image_interpolation_mode4": "Bicubisch",
+			"image_interpolation_mode5": "Dichtsbijzijnde buur",
+			"image_interpolation_mode6": "Hoge kwaliteit bilineair",
+			"image_interpolation_mode7": "Hoge kwaliteit bicubisch",
+			"image_resize0": "Afbeelding uitrekken",
+			"image_resize1": "Beeldverhouding behouden",
+			
+			"channel_metadata": "Kanaal metadata",
+			"channel_name": "Kanaalnaam:",
+			"title_id": "Titel-ID:",
+			"genre": "Genre:",
+			"region": "Regio:",
+			"video_mode": "Videomodus:",
+			"banner": "Kanaalbanner",
+			"banner_tip": "Klik op de bovenstaande voorbeeldafbeelding voor banneropties.",
+			"banner_details": "Banner&details...",
+
+			"injection_method": "Injectiemethode",
+			"injection_method_options": "Injectiemethode opties...",
+			"controller": "Controllers",
+			"controller_mapping": "Controllerindeling bewerken...",
+
+			"save_data": "Opslaggegevens",
+			"save_data_enable": "Opslaan inschakelen",
+			"edit_save_data": "Opslagtitel bewerken...",
+			"edit_save_data_1": "Titel:",
+			"edit_save_data_2": "Ondertitel:",
+			"edit_save_data_max": "Max. lengte per regel: {0}",
+			"fill_save_data": "Automatisch invullen",
+			
+			"manual_type": "Gebruikershandleiding:",
+			"manual_type0": "{disabled}",
+			"manual_type1": "{original}",
+			"manual_type2": "Aangepaste handleiding importeren",
+			"forwarder_root_device": "Root opslagapparaat:",
+			"wiiu_display": "Wii U weergaveformaat:",
+			"wiiu_display0": "{original}",
+			"wiiu_display1": "4:3 met zwarte balken",
+			"wiiu_display2": "Uitgerekt",
+			"multifile_software": "Software bestaat uit meerdere bestanden",
+			"no_copy_save": "Opslag kopiëren uitschakelen"
+		},
+
+		"banner": {
+			"full_name": "Volledige naam:",
+			"year": "Jaar:",
+			"players": "Spelers:",
+			"banner_region": "Bannerregio:",
+			"banner_sound": "Banner geluid vervangen...",
+			"banner_sound_play": "Huidig geluid afspelen",
+			"banner_sound_restore": "Oorspronkelijk geluid herstellen"
+		},
+
+		"controller": {
+			"page1": "Wii-afstandsbediening",
+			"page2": "Classic Controller",
+			"page3": "GameCube Controller",
+			"vertical_layout": "Verticale indeling",
+
+			"presets": "Voorinstellingen",
+			"preset_load": "Laden",
+			"preset_blank": "Leeg",
+			"preset_basic": "Eenvoudig",
+			"preset_basic_h": "Eenvoudig (horizontaal)",
+			"preset_basic_v": "Eenvoudig (verticaal)",
+
+			"up": "Omhoog",
+			"left": "Links",
+			"right": "Rechts",
+			"down": "Omlaag"
+		},
+
+		"vc_nes": {
+			"palette": "Palet",
+			"palette0": "{by_default}",
+			"palette1": "Hersteld",
+			"palette2": "{vc} (Nintendo 3DS)",
+			"palette3": "NES Classic (FBX)",
+			"palette4": "NES Remix U",
+			"palette5": "YUV (Nestopia)",
+			"palette6": "RGB (Nestopia)",
+			"palette7": "FCEUX",
+			"palette8": "Wavebeam (FBX)",
+			"palette9": "Composite Direct (FBX)",
+
+			"palette_banner_usage": "Ook gebruiken voor bannerafbeelding"
+		},
+
+		"vc_snes": {
+			"patch_volume": "Volume verhogen",
+			"patch_noopera": "Handleidingsbestanden verwijderen",
+			"patch_wiimote": "Ingebouwde Wii-afstandsbediening inschakelen",
+			"patch_gcremap": "GC ABXY-knoppen draaien",
+			"patch_nocheck": "Alle ROM-controles uitschakelen",
+			"patch_nodark": "Donker filter uitschakelen",
+			"patch_nocc": "Classic Controller-scherm uitschakelen",
+			"patch_nosave": "Opslaan uitschakelen",
+			"patch_nosuspend": "Opslagpunten uitschakelen",
+			"patch_widescreen": "Bredescherm HOME-menu"
+		},
+
+		"vc_n64": {
+			"patch_fixbrightness": "Donker filter verwijderen",
+			"patch_fixcrashes": "Crashes verhelpen",
+			"patch_expandedram": "Uitgebreid RAM inschakelen",
+			"patch_autosizerom": "ROM-grootte toewijzen",
+			"patch_cleantextures": "Ongebruikte textures wissen",
+			"patch_remap": "Besturing opnieuw toewijzen",
+			"patch_widescreen": "Bredescherm",
+			
+			"romc_type": "ROM-compressiemethode",
+			"romc_type0": "ROMC (Type 0)",
+			"romc_type1": "ROMC (Type 1)"
+		},
+
+		"vc_sega": {
+			"console_disableresetbutton": "Resetknop uitschakelen",
+			"dev_mdpad_enable_6b": "Zesknopscontroller inschakelen voor {0}"
+		},
+
+		"vc_pce": {
+			"hide_overscan": "Overscan verbergen",
+			"raster": "Achtergrondraster",
+			"sprline": "Sprite-limiet",
+			"y_offset": "Y-offset",
+			"sgenable": "SuperGrafx functionaliteit inschakelen",
+			"region0": "{region_j}",
+			"region1": "Verenigde Staten/Europa",
+			"padbutton0": "2-knopscontroller gebruiken",
+			"padbutton1": "6-knopscontroller gebruiken"
+		},
+
+		"vc_neo": {
+			"bios": "Systeem BIOS",
+			"bios0": "Uit bestand importeren",
+			"bios1": "{vc} (versie 1)",
+			"bios2": "{vc} (versie 2)",
+			"bios3": "{vc} (versie 3)"
+		},
+
+		"vc_c64": {
+			"rom_notice": "Deze injectiemethode vereist een snapshot bij opstart met de Frodo-emulator.\nWat wilt u doen?",
+			"rom_notice1": "&Nieuwe snapshot maken",
+			"rom_notice2": "&Bestaande snapshot gebruiken"
+		},
+
+		"adobe_flash": {
+			"vff_sync_on_write": "VFF synchroniseren bij schrijven",
+			"vff_cache_size": "VFF cachegrootte ({kilobytes})",
+			"persistent_storage_total": "Totaal persistente opslag ({kilobytes})",
+			"persistent_storage_per_movie": "Persistente opslag per SWF ({kilobytes})",
+			"controls": "Besturing",
+			"mouse": "Muis",
+			"qwerty_keyboard": "QWERTY-toetsenbord",
+			"midi": "MIDI-afspeelbaarheid met DLS-soundfont inschakelen",
+			"quality": "Kwaliteit",
+			"quality0": "Hoog",
+			"quality1": "Middel",
+			"quality2": "Laag",
+			"strap_reminder": "Polsbandherinnering",
+			"strap_reminder0": "{disabled}",
+			"strap_reminder1": "{enabled}",
+			"strap_reminder2": "{enabled} (zonder uitbreiding)",
+			"swf_metadata": "SWF metadata",
+			"content_domain": "Inhoudsdomein",
+			"background_color": "Achtergrondkleur",
+			"anti_aliasing": "Anti-aliasing",
+			"zoom": "Zoomen",
+			"zoom0": "{by_default}",
+			"zoom1": "{automatic}",
+			"zoom2": "Aangepast",
+			"standard": "Forceer 4:3 weergave"
+		},
+
+		"forwarder": {
+			"bios_settings": "BIOS-instellingen",
+			"use_bios": "BIOS inschakelen",
+			"show_bios_screen": "BIOS opstartscherm tonen",
+			"rpgm_settings": "RPG Maker-instellingen",
+			"use_rtp": "Extern RTP (Run-Time Package) gebruiken"
+		}
+	}
+}

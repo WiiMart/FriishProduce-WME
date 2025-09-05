@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace FriishProduce
@@ -85,10 +86,7 @@ namespace FriishProduce
                 string[] files = Directory.GetFiles(Paths.WorkingFolder, "*.*", SearchOption.AllDirectories);
                 string[] folders = Directory.GetDirectories(Paths.WorkingFolder);
                 
-                if (files?.Length > 0 || folders?.Length > 0)
-                {
-                    Logger.Log("Cleaning temporary files.");
-
+                if (files?.Length > 0 || folders?.Length > 0) {
                     foreach (var item in files)
                         if (!Path.GetFileName(item).ToLower().Contains("readme.md"))
                             try { File.Delete(item); } catch { }

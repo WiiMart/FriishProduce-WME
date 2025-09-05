@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FriishProduce
 {
     public class DropboxDL
     {
-        public string wTID { get; }
-        public string wName { get; }
+        public string TID { get; }
+        public string Name { get; }
         public string Fi { get; }
         public string RlKey { get; }
         public string St { get; }
@@ -18,43 +19,31 @@ namespace FriishProduce
             new DropboxDL("WZ1P", "Flash-Base-25", "n48qzbfjn4h7haqzexk4b", "bv789t33hhopm1cldq4yma4tq", "a14t9ueg"),
             new DropboxDL("XZ1E", "Kirby-TV-Channel-Base-v4", "rlm60x81w011vyk8wl95q", "8qycrnvpicipnttorx4qi3co2", "wcjlreeg"),
             new DropboxDL("XZ1P", "Kirby-TV-Channel-Base-v4", "68yu4pn7ubftt2lruwfgc", "spmnc1kjhukcjg6oztxbcv90v", "nz1jpbjh"),
-            new DropboxDL("HCME", "Kirby-TV-Channel-USA", "llfa8dejqgdudxp9t8buo", "mp0m84feovo6urr0vvmpxp2fa", "yznvdz92")
+            new DropboxDL("HCME", "Kirby-TV-Channel-USA", "llfa8dejqgdudxp9t8buo", "mp0m84feovo6urr0vvmpxp2fa", "yznvdz92"),
+            new DropboxDL("WNAE", "Flash-Placeholder-USA", "j4rvyxxbaatz1xa6oghwq", "pvawxkk3sd7jg35sqdtpdh7ta", "cqrem2a3")
         };
 
-        public DropboxDL(string fileName, string wadName, string fi, string rlKey, string st)
-        {
-            wTID = fileName;
-            wName = wadName;
+        public DropboxDL(string tid, string name, string fi, string rlKey, string st) {
+
+            TID = tid;
+            Name = name;
             Fi = fi;
             RlKey = rlKey;
             St = st;
         }
 
-        public string GetUrlFor(string tID)
-        {
-            if (tID != wTID)
-                return null;
-
-            string baseUrl = "https://www.dropbox.com/scl/fi/";
-            return $"{baseUrl}{Fi}/{wName}-{wTID}.wad?rlkey={RlKey}&st={St}&dl=1";
+        public string BuildUrlFor(string tid) {
+            return tid != TID ? null : "https://www.dropbox.com/scl/fi/" + $"{Fi}/{Name}-{TID}.wad?rlkey={RlKey}&st={St}&dl=1";
         }
 
-        // Search a provided list
-        public static string FindUrlFor(List<DropboxDL> list, string tID)
-        {
-            foreach (var dbp in list)
-            {
-                var url = dbp.GetUrlFor(tID);
-                if (url != null)
-                    return url;
-            }
-            return null;
+        // Search provided list for TID match
+        public static string FindUrlFor(List<DropboxDL> list, string tid) {
+            return list.Select(dbp => dbp.BuildUrlFor(tid)).FirstOrDefault(url => url != null);
         }
 
-        // Search our internal list
-        public static string FindUrlFor(string tID)
-        {
-            return FindUrlFor(dbParams, tID);
+        // Search our internal list for a TID match
+        public static string FindUrlFor(string tid) {
+            return FindUrlFor(dbParams, tid);
         }
     }
 }

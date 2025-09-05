@@ -12,8 +12,11 @@ legacy/
 
 /docs/site
 .vscode/settings.json
-/FriishProduce/bin/Debug/latest.zip
-/FriishProduce/bin/Debug/update
-/FriishProduce/bin/Debug/Downloads
+/FriishProduce/obj
+/FriishProduce/FriishProduce/obj
+/FriishProduce/packages
+/FriishProduce/FriishProduce/packages
+/FriishProduce/bin/Debug
+/FriishProduce/bin/Release
 /FriishProduce/Resources/banners/jp_flash_app_out
 *.lnk

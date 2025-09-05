@@ -19,6 +19,12 @@ namespace FriishProduce
         private readonly SettingsForm settings = new();
         private Wait wait = new(false);
 
+        protected override void OnShown(EventArgs e) {
+            base.OnShown(e);
+            if (Program.Config.application.publisher_opt_tb == "Username")
+                MessageBox.Show("Please take a moment to set your Author/Publisher name in Preferences.");
+        }
+
         #region //////////////////// Platforms ////////////////////
         private static readonly string[] platformsList = new string[]
         {
@@ -292,6 +298,11 @@ namespace FriishProduce
         {
             new_project_menu.Show(toolStrip, new(Cursor.Position.X - Left - (Width - ClientSize.Width) + 8, Cursor.Position.Y - Top - (Height - ClientSize.Height) + 8), LeftRightAlignment.Right);
         }
+
+        /// <summary>
+        /// Typical wait/load message box, with input message
+        /// </summary>
+        public void Wait(string msg) => Wait(true, true, false, 0, msg);
 
         /// <summary>
         /// Displays wait dialog.
@@ -740,6 +751,11 @@ namespace FriishProduce
                     // Sync project path
                     project.ProjectPath = file;
                     addTab(project.Platform, project);
+                    if (!string.IsNullOrWhiteSpace(project.ProjectPath))
+                        (tabControl.SelectedForm as ProjectForm).SaveProject(project.ProjectPath);
+                    if (!string.IsNullOrWhiteSpace(project.ROM))
+                        (tabControl.SelectedForm as ProjectForm).LoadROM(project.ROM, false);
+                    //Fixes 'undefined' bug - ROM path accessible but not loaded into memory
                 }
                 catch (Exception exc) {
                     MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);

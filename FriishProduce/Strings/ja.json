@@ -111,14 +111,37 @@
 			"e_021": "ファイルをダウンロードできませんでした。"
 		},
 		"html": {
-			"000": "Frodoエミュレーターが開きます。<ol type=\"1\"><li>\nまず、エミュレーターで「<b>LOAD\"*\",8</b>」と入力してください。\nC64画面がフリーズし、ドライブLEDインジケーターの色が変わらない場合は、「File > Open」でFrodo.fprを開き、F12キーを押してエミュレーターを再起動してから、もう一度お試し下さい。</li><li>\nソフトウェアが読み込まれたら、「<b>RUN</b>」と入力してください。</li><li>\nC64ゲームが起動したら、「Tools > Patch and Save Snapshot」をクリックし、スナップショットを「snap.fss」として保存してください。また、後で使用するためにコピーを保存しておくこともできます。</li></ol>\残り<b>{0}回</b>",
-			"t_channel_name": "Wiiメニューのチャンネルアイコンに使用される名前。<hr><b>例:</b> ゼルダの伝説\u3000時のオカリナ",
-			"t_banner_title": "チャンネルバナーに使用される名前。<hr><b>例:</b> ゼルダの伝説\n時のオカリナ",
-			"t_injection_method_options": "エミュレーションの設定を変更する。",
-			"t_unsure": "よく分からなければ、{0}ください。",
-			"t_unsure_s": "「{0}」を選んで",
-			"t_unsure_u": "チェックを入れないで",
-			"t_unsure_c": "チェックを入れで"
+			"000": "Frodo エミュレーターをこれから起動します。<ol type=\"1\"><li>エミュレーターで次のコマンドを入力してください: <b>LOAD\"*\",8</b>\nC64 コンソールがフリーズし、ドライブの LED が点灯しない場合は、<i>ファイル > 開く</i> から Frodo.fpr を開き、F12 を押してエミュレーターを再起動し、再試行してください。</li><li>ソフトウェアが読み込まれたら、<b>RUN</b> を入力します。</li><li>ゲームが読み込まれたら、<i>ツール > パッチとスナップショット保存</i> をクリックし、ファイルを \"snap.fss\" として保存します。後で使用するために別のコピーを保存することもできます。</li></ol>残りの試行回数: <b>{0}</b>",
+			"001": "SNES VC について（開発中）",
+			"002": "N64 VC について（開発中）",
+			"t_use_online_wad_enabled": "この機能は、既に WAD ファイルを持っていなくても、現在のデータベースから利用可能な WAD を取得するために使用できます。Web ダウンロード機能のみを使用します。libWiiSharp の NUS クライアントでは VC WAD の復号はできません。\n\nこの操作の合法性は不明瞭なため、このオプションは無効にしておくことをおすすめします。",
+			"t_write_metadata": "各インジェクトのデータを含む meta.json ファイルを Banner U8 アーカイブに書き込みます。WiiMart ではデータ取得の自動化に必要です。",
+			"t_publisher_opt": "この WAD/inject の作成者を指定します。Banner U8 アーカイブに書き込まれる meta.json で使用されます。",
+			"t_use_custom_database": "カスタム WAD データベースを使用するには、自分の 'database.json' を指定し、アプリケーションがデフォルトで読み込むようにします。",
+			"t_lowerParams": "WAD ファイル名で使用される出力パラメーター（例: \"TITLEID\"）を小文字に変換します。\"TITLEID\" パラメーターが使用されている場合、出力 WAD ファイル名の TID（例: 'XXXX'）は 'xxxx' になります。",
+			"t_transParams": "WADファイル名で使用されるパラメータ（例: \"CHANNELNAME\"）を翻訳します。CJKを自動的に英語に翻訳しようとします。インターネット接続が必要です。",
+			"t_locsave_banner": "データベースからダウンロードしたバナー画像を指定パスにローカル保存します。デフォルトは \"FriishProduce/Downloads/Banners/\" です。",
+			"t_locsave_wad": "ダウンロードした WAD ベースを指定パスにローカル保存します。デフォルトは \"FriishProduce/Downloads/WADs/\" です。",
+			"t_bypass_rom_size": "Virtual Console ROM のファイルサイズ制限をすべて解除します。テスト時に便利です。",
+			"t_channel_name": "Wii メニュー上のチャンネルアイコンに使用される名前です。\n長いタイトルの場合、20 文字以下の短縮版を推奨します。<hr><b>例:</b>\nゼルダの伝説：時のオカリナ",
+			"t_banner_title": "バナープレビューに表示されるソフトウェアの正式名称です。<hr><b>例:</b>\nゼルダの伝説：\n時のオカリナ",
+			"t_banner_region": "チャンネルバナーとアイコンに使用するリージョンです。\n\nコンソール名が地域によって異なる場合や、日本/韓国のバナーを使用したい場合に便利です。\nバナーリージョンが自動に設定されている場合は、WAD のリージョンに対応します。",
+			"t_video_mode": "Wii チャンネルを実行するビデオモード（NTSC、PAL、MPAL）です。一部のビデオモードは、正しいリージョンで動作しない場合があります。",
+			"t_injection_method_options": "高度なエミュレーター設定を変更します。",
+			"t_multifile_software": "このオプションが有効の場合、現在選択されているファイルと同じフォルダー内のすべてのファイルを、注入するソフトウェアの一部として扱います。\n\nソフトウェアファイルは別のフォルダーにまとめてください。",
+			"t_vff_cache_size": "SWF ストレージキャッシュのサイズです。\n\nYouTube や BBC iPlayer に注入している際に、チャンネルが保存データ作成時にフリーズする場合は、デフォルト値である 96 kB に設定してみてください。",
+			"t_persistent_storage_total": "ゲームデータの保存に必要な総ストレージ容量です。\n\nYouTube や BBC iPlayer に注入している際に、チャンネルが保存データ作成時にフリーズする場合は、デフォルト値である 96 kB に設定してみてください。",
+			"t_persistent_storage_per_movie": "SWF ごとにゲームデータ保存に必要なストレージ容量です。\n\nYouTube や BBC iPlayer に注入している際に、チャンネルが保存データ作成時にフリーズする場合は、デフォルト値である 64 kB に設定してみてください。",
+			
+			"t_unsure": "不明な場合は、{0}。",
+			"t_unsure_s": "{0} を選択",
+			"t_unsure_u": "チェックを外す",
+			"t_unsure_c": "チェックを入れる",
+
+			"t_publisher_opt_tb": "{t_publisher_opt}",
+			"t_locsave_banner_tb": "{t_locsave_banner}",
+			"t_locsave_wad_tb": "{t_locsave_wad}",
+			"t_channel_name_l": "{t_channel_name}"
 		}
 	},
 	"strings": {
@@ -176,7 +199,10 @@
 			"default_content_options_l": "リストからプラットフォームを選択して「{0}」をクリックすると、\nそのデフォルト設定を変更できます。",
 			"default_content_options_e": "変更(&E)",
 			"use_online_wad_enabled": "「ダウンロード可能なWADを使用」の機能を有効にする",
-			"auto_fill_save_data": "セーブデータの名前の自動入力"
+			"auto_fill_save_data": "セーブデータの名前の自動入力",
+			"publisher_opt": "作者／出版社タグ (さくしゃ／しゅっぱんしゃタグ)",
+			"lowerParams": "エクスポート名を小文字にする",
+			"transParams": "エクスポート名を翻訳する"
 		},
 		"projectform": {
 			"main": "{0}ファイル",

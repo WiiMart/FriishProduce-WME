@@ -185,6 +185,20 @@
   </data>
   <data name="toolbarNewProject.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAINSURBVBgZBcG/r55zGAfg6/4+z3va01NHlYgzEfE7M
+        dCIGISFgS4Gk8ViYyM2Mdlsko4GSf8Do0FLRCIkghhYJA3aVBtEz3nP89wf11VJvPDepdd390+8Nso5nE
+        SBQoq0pfvXm9fzWf19453LF85vASqJlz748vInb517dIw6EyYBIIG49u+xi9/c9MdvR//99MPPZ7+4cP4
+        IZhhTPbwzT2d+vGoaVRRp1rRliVvHq+cfvM3TD82+7mun0o/ceO7NT+/4/KOXjwZU1ekk0840bAZzMQ2m
+        ooqh0A72d5x/6sB9D5zYnff3PoYBoWBgFKPKqDKqjCpjKr//dcu9p489dra88cydps30KswACfNEKanSax
+        hlntjJ8Mv12Paie+vZ+0+oeSwwQ0Iw1xAR1CiFNJkGO4wu3ZMY1AAzBI0qSgmCNJsJUEOtJSMaCTBDLyQ0
+        CknAGOgyTyFFiLI2awMzdEcSQgSAAKVUmAeNkxvWJWCGtVlDmgYQ0GFtgg4pNtOwbBcwQy/Rife/2yrRRV
+        I0qYCEBly8Z+P4qMEMy7JaVw72N568e+iwhrXoECQkfH91kY7jwwXMsBx1L93ZruqrK6uuiAIdSnTIKKPL
+        PFcvay8ww/Hh+ufeznTXu49v95IMoQG3784gYXdTqvRmqn/Wpa/ADFX58MW3L71SVU9ETgEIQQQIOOzub+
+        fhIvwPRDgeVjWDahIAAAAASUVORK5CYII=
+    </value>
+  </data>
+  <!--
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEGSURBVDhPlZOLCoJAEEWt7yjoHwz/M0T8Q8UXvt/aNHdx
         ty2NdOFQ7M49zQxkLOfCmIz1hxtzZlbHbJom67punqaJtuA3sm37wbWbEgvhqqqormtFnueUpikFQSAk
@@ -192,8 +206,7 @@
         MbccJY5j0Ynneb8F3+gSdIJ9JEmyXwCkBONgJxDhfrcADMMg9gIJwN0hAbqQy0U3uPsrQEiCDgDChwUy
         rLNLAPQudPC2EvB8z2/BL7h2XgTq3Hm7NR62Ajqo4dqSM/j3qnNl7gyse0CYM4bxAv7Ui6stp+I3AAAA
         AElFTkSuQmCC
-</value>
-  </data>
+  -->
   <data name="toolbarNewProject.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -217,7 +230,7 @@
         7Qly4i1IqWsQkyMQE5cgxIfQ0kpggy6dhNuV8J5WTJ0j4UWov71Qco8hZydpyzQUGwQfPYPG+gnUvx8h
         k+bAzrm0TpxhUk9OFpR6qt5gl1tiegEC+wxCchZCYhr81iPwsYdobE6iEZ1AY+MOlNqmmfKd4jtxhklO
         O+4lPcdC8Zmj5bjnuNKXGfpuJKcc/naaYf4A1aOMprp/hK4AAAAASUVORK5CYII=
-</value>
+    </value>
   </data>
   <data name="toolbarOpenProject.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -350,6 +363,19 @@
   </data>
   <data name="toolbarExport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHMSURBVDjLlZLBSyJhGMa/UxTUIWJ0ZVmlwxLLEiEh
+        urCoKeqCOtZN7J4ZRZdd9rSG6NFbSOegDp5aqWWI3UGm6KBUxsq2LLj+CzV9jDOH8NlvJtqLjuXhBy/z
+        8Xvel4chAMhTKGfOMeVsbqXf2wBp3s5Yf5hno8rp24YxS9PTVHq18mTAgzj3k4mCIs0cqZeLUCTHJ1q1
+        3VKRSz0v4PRNVr1KQfu9Aa31BZ2LKKg42aHfJ8ZNA9i5L9hWUZFeQ73kof3N42SPR6OyjFZ1FZ36AuQf
+        o5CPyc7gDiRHttNYwsl+Apqmodvt4uJrCur1GmSB/GI4TAOo9JKjVasQi8VQr9ehqiqazSaqu1Fofz5C
+        /kYow9M3gJVkp+JUJZFIIJ1Oo1gsolwu42hngcmfdfmecS4fki3TC3ieN2SPx4NAIIB4PA7lPIo70YY7
+        YQJyhdhNS3yU3W43/H4/LBaLvnWbbbxnvGNyQz4gmb4ByWQShULBkH0+HziOg/6die+ZKOjzzQEZYXzo
+        CYhEIsjn8z3yI0wKmf7KwWAQuVwOLpcLXq+3Rx4EyWQyaLfbcDqdCIVCQ8n/A2q1GkqlklHYMLIREA6H
+        N/WzrVbr0LLOP1AMs7UPAa92AAAAAElFTkSuQmCC
+    </value>
+  </data>
+<!--
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEjSURBVDhPYxh8oH71iy91K160Q7mkg4bVr/7XLHv6r3jR
         I/IMqVz+7P/aE+//t2948T9+6p0+qDDxIG/Bo/8rjr/7v/jQ2/+lSx7/d2+5Ng8qRRxImv7w/8KDb/5P
@@ -357,8 +383,7 @@
         8/8lix/8L1/yAGjIo//O9Zf/S0Yc2wxVgh+Yll/6377+yf+ihff/16x8+N++6sJ/8eADaxjs97NAleAH
         ynln/9etePi/ctmD/7blF/6L+e1ZCZUiDkglnfxfuvj+f5uS8//FPHYvggoTDyQij/y3LjzzX8Rl+wKo
         EGlAzO/Af2HHbbOh3EEPGBgAXyWSyDD18v4AAAAASUVORK5CYII=
-</value>
-  </data>
+-->
   <data name="toolbarExport.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>

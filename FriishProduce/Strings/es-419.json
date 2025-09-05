@@ -31,7 +31,7 @@
 
 		"adobe_flash": {
 			"strap_reminder":					"Advertencia de correa del control remoto Wii",
-			"strap_reminder2":					"{enabled} (sin pantalla de controles complementarios)",
-		},
+			"strap_reminder2":					"{enabled} (sin pantalla de controles complementarios)"
+		}
 	}
 }

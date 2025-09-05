@@ -89,11 +89,12 @@ namespace FriishProduce.Databases
             return null;
         }
 
-        private static string db_img(string name, int source = 0)
-        {
-            return source == 1
-                ? "https://archive.org/download/No-Intro_Thumbnails_2016-04-10/" + Uri.EscapeUriString(db_name) + ".zip/" + Uri.EscapeUriString(db_name) + "/Named_Titles/" + Uri.EscapeUriString(name.Replace('/', '_').Replace('&', '_')) + ".png"
-                : "https://thumbnails.libretro.com/" + Uri.EscapeUriString(db_name) + "/Named_Titles/" + Uri.EscapeUriString(name.Replace('/', '_').Replace('&', '_') + ".png");
+        private static string db_img(string name, int source = 0) {
+            string dbUri = Uri.EscapeUriString(db_name);
+            string imgUri = Uri.EscapeUriString(name.Replace('/', '_').Replace('&', '_')) + ".png";
+            string archiveorg = "https://archive.org/download/No-Intro_Thumbnails_2016-04-10/";
+            string libretro = "https://thumbnails.libretro.com/";
+            return source == 1 ? archiveorg + dbUri + ".zip/" + dbUri + "/Named_Titles/" + imgUri : libretro + dbUri + "/Named_Titles/" + imgUri;
         }
 
         private static string db_crc(string input) => input.Replace("-", "").Trim().Substring(0, 8).ToUpper();
@@ -130,29 +131,25 @@ namespace FriishProduce.Databases
             return false;
         }
 
-        public static DataTable Parse(Platform In)
-        {
+        public static DataTable Parse(Platform In) {
         Top:
             platform = In;
             DataTable dt = new DataTable(platform.ToString().ToLower());
 
             // Always create all expected columns first
             string[] columns = { "crc", "name", "serial", "releaseyear", "users", "image", "db_genre" };
-            foreach (var col in columns)
-            {
+            foreach (var col in columns) {
                 if (!dt.Columns.Contains(col))
                     dt.Columns.Add(col, typeof(string));
             }
 
             string path = Path.Combine(Paths.Databases, In.ToString().ToLower() + ".xml");
 
-            if (File.Exists(path))
-            {
+            if (File.Exists(path)) {
                 try { dt.ReadXml(path); }
                 catch { try { File.Delete(path); } catch { } goto Top; }
             }
-            else
-            {
+            else {
                 if (!Directory.Exists(Paths.Databases)) Directory.CreateDirectory(Paths.Databases);
 
                 string crc = "";
@@ -179,17 +176,12 @@ namespace FriishProduce.Databases
                     string dbFolder = segments.Length >= 2 ? segments[segments.Length - 2].TrimEnd('/') : "unknown";
                     string localPath = Path.Combine(Paths.Databases, $"{dbFolder}_{db_name}.dat");
 
-                    if (!File.Exists(localPath) && IsWeb(In))
-                    {
-                        try
-                        {
+                    if (!File.Exists(localPath) && IsWeb(In)) {
+                        try {
                             string text = Encoding.UTF8.GetString(Web.Get(url));
                             File.WriteAllText(localPath, text);
                         }
-                        catch
-                        {
-                            // ignore fetch errors
-                        }
+                        catch {/*ignore fetch errors*/}
                     }
 
                     if (File.Exists(localPath))
@@ -207,50 +199,26 @@ namespace FriishProduce.Databases
                     {
                         string line = db_lines[x][y].TrimStart(' ', '\t');
 
-                        if ((line.Contains("name \"") || line.Contains("comment \"")) && 
-                            !line.Contains("rom (") && !line.Contains(db_name))
-                        {
-                            name = line.Replace("name \"", "").Replace("comment \"", "").TrimEnd('\"');
-                            image = db_img(name);
-                        }
+                        bool nameOrComment = (line.Contains("name \"") || line.Contains("comment \"")) && !line.Contains("rom (") && !line.Contains(db_name);
+                        name = nameOrComment ? line.Replace("name \"", "").Replace("comment \"", "").TrimEnd('\"') : name;
+                        image = nameOrComment ? db_img(name) : image;
 
-                        if (line.Contains("serial "))
-                        {
-                            serial = line.Substring(line.IndexOf("serial ") + 7);
-                        }
+                        serial = line.Contains("serial ") ? line.Substring(line.IndexOf("serial ") + 7) : serial;
 
-                        if (line.Contains("year "))
-                        {
-                            releaseyear = line.Replace("\"", null).Substring(line.IndexOf("year ") + 5, 4);
-                            if (!int.TryParse(releaseyear, out int _))
-                                releaseyear = null;
-                        }
+                        string date = line.Contains("year ") ? line.Replace("\"", null).Substring(line.IndexOf("year ") + 5, 4) : null;
+                        releaseyear = line.Contains("year ") ? (!int.TryParse(date, out int _) ? null : date) : releaseyear;
 
-                        if (line.Contains("users "))
-                        {
-                            users = line.Substring(line.IndexOf("users ") + 6);
-                            if (!int.TryParse(users, out int _))
-                                users = null;
-                        }
+                        string userCount = line.Contains("users ") ? line.Substring(line.IndexOf("users ") + 6) : null;
+                        users = line.Contains("users ") ? (!int.TryParse(userCount, out int _) ? null : userCount) : users;
 
-                        if (line.Contains("genre "))
-                        {
-                            int startIndex = line.IndexOf("genre ") + 6;
-                            if (startIndex < line.Length)
-                                db_genre = line.Substring(startIndex).Replace("\"", "").Trim();
-                        }
+                        int startIndex = line.Contains("genre ") ? line.IndexOf("genre ") + 6 : 0;
+                        db_genre = line.Contains("genre ") ? (startIndex < line.Length ? line.Substring(startIndex).Replace("\"", "").Trim() : db_genre) : db_genre;
 
-                        if (line.Contains("crc "))
-                        {
-                            crc = db_crc(line.Substring(line.IndexOf("crc ") + 4));
-                        }
+                        crc = line.Contains("crc ") ? db_crc(line.Substring(line.IndexOf("crc ") + 4)) : crc;
 
-                        if (line == ")" && !string.IsNullOrEmpty(crc))
-                        {
+                        if (line == ")" && !string.IsNullOrEmpty(crc)) {
                             var rows = dt.Select($"crc = '{crc}'");
-
-                            if (rows?.Length > 0)
-                            {
+                            if (rows?.Length > 0) {
                                 var row = rows[0];
                                 if (!string.IsNullOrWhiteSpace(name)) row["name"] = name;
                                 if (!string.IsNullOrWhiteSpace(serial)) row["serial"] = serial;
@@ -259,22 +227,18 @@ namespace FriishProduce.Databases
                                 if (!string.IsNullOrWhiteSpace(image)) row["image"] = image;
                                 if (!string.IsNullOrWhiteSpace(db_genre)) row["db_genre"] = db_genre;
                             }
-                            else
-                            {
-                                // If the row doesn't exist yet (very first dat for this CRC), add it
+                            else // If the row doesn't exist yet (very first dat for this CRC), add it
                                 dt.Rows.Add(crc ?? "", name ?? "", serial ?? "", releaseyear ?? "", users ?? "", image ?? "", db_genre ?? "");
-                            }
+
                             crc = name = serial = releaseyear = users = image = db_genre = null;
                         }
                     }
                 }
-
                 using DataView dv = dt.DefaultView;
                 dv.Sort = "name";
                 dt = dv.ToTable();
                 dt.WriteXml(path, XmlWriteMode.WriteSchema);
             }
-
             return dt;
         }
 

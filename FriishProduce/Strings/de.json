@@ -1,0 +1,462 @@
+{
+	"language": "de",
+	"author": "Subnetic",
+	"application_title": "FriishProduce-WME",
+	
+	"global": {
+		"main": {
+			"about_app":						"Über {0}",
+			"authors":							"Autor(en): {0}",
+
+			"kilobytes":						"KB",
+			"megabytes":						"MB",
+
+			"b_ok":								"&OK",
+			"b_cancel":							"&Abbrechen",
+			"b_close":							"&Schließen",
+			"b_yes":							"&Yes",
+			"b_no":								"&No",
+			"b_save":							"&Speichern",
+			"b_dont_save":						"&Nicht speichern",
+			"do_not_show":						"Nicht mehr anzeigen",
+			
+			"by_default":						"Standard",
+			"disabled":							"Deaktiviert",
+			"enabled":							"Aktiviert",
+			"original":							"Original",
+			"automatic":						"Automatisch",
+			"unknown":							"Unbekannt",
+			"none":								"N/V",
+			"not_available":					"Nicht verfügbar",
+
+			"region":							"Systemregion",
+			"region_j":							"Japan",
+			"region_u":							"Vereinigte Staaten",
+			"region_e":							"Europa/Australien",
+			"region_k":							"Republik Korea",
+			"region_rf":						"Region Free",
+			
+			"preferences":						"Einstellungen",
+			"system":							"System",
+			"display":							"Anzeige",
+			"debug_mode":						"Im Debug-Modus ausgeführt",
+
+			"vc":								"Virtual Console",
+			"vc_options":						"Virtual Console-Optionen",
+			"additional":						"Diese Einstellungen gelten ebenfalls für {0}.",
+			"continue":							"Die Injektion wird wie vorgesehen fortgesetzt."
+		},
+
+		"platforms": {
+			"group0":							"Nintendo",
+			"group1":							"SEGA",
+			"group2":							"NEC",
+			"forwarders":						"Forwarder",
+
+			"nes":								"NES/Famicom",
+			"snes":								"SNES/Super Famicom",
+			"n64":								"Nintendo 64",
+			"sms":								"Master System",
+			"smd":								"Mega Drive/Genesis",
+			"pce":								"TurboGrafx-16/PC Engine",
+			"pcecd":							"TurboGrafx-CD/PC Engine CD",
+			"neo":								"NEO-GEO",
+			"c64":								"Commodore 64",
+			"msx":								"MSX/MSX2",
+			"flash":							"Adobe Flash",
+			"gb":								"Game Boy",
+			"gbc":								"Game Boy Color",
+			"gba":								"Game Boy Advance",
+			"gcn":								"GameCube",
+			"s32x":								"32X",
+			"smcd":								"SEGA CD/MEGA CD",
+			"psx":								"PlayStation",
+			"rpgm":								"RPG Maker 2000/2003"
+		},
+
+		"filters": {
+			"filter":							"|Alle Dateien (*.*)|*.*",
+			"filter.project":					"FriishProduce-WME Projekte (*.jfpp)|*.jfpp|Legacy-Projekte (*.fppj)|*.fppj|FPWME & Legacy-Projekte (*.jfpp, *.fppj)|*.jfpp;*.fppj",
+			"filter.wad":						"Wii-Kanäle (*.wad)|*.wad",
+			"filter.img":						"Bilder (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
+			"filter.zip":						"ZIP-Archive (*.zip)|*.zip",
+			"filter.disc":						"Disc-Images (*.cue, *.bin)|*.cue;*.bin|  Cue-Sheet-Dateien (*.cue)|*.cue|  BIN-Dateien (*.bin)|*.bin",
+			"filter.swf":						"Adobe Flash-Dateien (*.swf)|*.swf",
+			"filter.rpgm":						"RPG Maker 2000/2003 Datenbankdateien (*.ldb)|*.ldb",
+			"filter.rom":						"{0}-ROM-Dateien ({1})|{2}",
+			"filter.patch":						"Patch-Dateien (*.bps, *.ips, *.xdelta)|*.bps;*.ips;*.xdelta"
+		},
+
+		"messages": {
+			"000":								"Ein Neustart der Anwendung ist erforderlich, damit alle Änderungen wirksam werden.",
+			"001":								"{0} hat ungespeicherte Änderungen.\nProjekt speichern?",
+			"002":								"Die ausgewählte Datei hat ein ungültiges Format.",
+			"003":								"Erfolgreich abgeschlossen.\nAusgabeordner öffnen?",
+			"004":								"Es konnten nicht alle Spieldaten für die ausgewählte Software abgerufen werden.\nEinige Felder müssen möglicherweise manuell ausgefüllt werden.",
+			"005":								"Das ausgewählte WAD (Titel-ID: {0}) ist ungültig.\nDies kann folgende Gründe haben:\n  • Die derzeit ausgewählte Konsole stimmt nicht mit der des WAD überein.\n  • Das WAD ist noch nicht in der Datenbank verfügbar.\n  • Das WAD wurde bereits geändert (z. B. injiziert oder in einen Forwarder umgewandelt).",
+			"006":								"Sie können das Originalhandbuch des Virtual Console-Spiels ersetzen.\nDazu benötigen Sie eine ZIP-Datei mit den extrahierten/geänderten Inhalten einer .arc-Handbuchdatei aus einem VC-WAD.",
+			"007":								"Das ausgewählte Virtual Console-Handbucharchiv ist ungültig.",
+			"008":								"Sie sind bereits auf dem neuesten Stand.",
+			"009":								"opening.bnr extrahieren (enthält IMET-Header)?",
+			"010":								"Dies setzt alle Einstellungen auf die Werkseinstellungen zurück.\nSind Sie sicher, dass Sie fortfahren möchten?",
+			"011":								"Alle Datenbankeinträge auf Ungültigkeit überprüfen?\nDies kann einige Zeit dauern.",
+			"012":								"Keine ungültigen Datenbankeinträge gefunden.",
+			"013":								"Ungültige Datenbankeinträge gefunden:\n{0}\n\nBitte entfernen Sie diese Einträge aus database.json.",
+			"014":								"Die Injektionsmethode-Optionen wurden zurückgesetzt.\nBitte konfigurieren Sie sie erneut.",
+			"015":								"Die Konfiguration wurde zurückgesetzt.\nBitte konfigurieren Sie Ihre Einstellungen erneut.",
+
+			"b_000":							"Bitte warten...",
+			"b_001":							"Exportiere...",
+			"b_002":							"Internetverbindung wird getestet...",
+			"b_003":							"{0}-Datenbank wird überprüft...",
+			"b_004":							"Aktualisiere...",
+			"b_x":								"Drücken Sie Umschalt, um den aktuellen Vorgang abzubrechen.",
+
+			"error":							"Ein Fehler ist aufgetreten",
+			"e_000":							"Keine Verbindung zum Internet möglich.\n{0}",
+			"e_001":							"Bild konnte nicht erstellt werden.\nDies kann an einem Problem mit GDI+ liegen.",
+			"e_002":							"Inhalt konnte nicht in das WAD injiziert oder ersetzt werden.",
+			"e_003":							"Das bereitgestellte ROM ist zu groß (Größenlimit: {0} {1}).",
+			"e_004":							"Die internen Optionen des VC-WADs konnten nicht geändert werden.\n{continue}",
+			"e_005":							"Die folgenden Inhaltsoptionen konnten nicht geändert werden.\n{0}\n{continue}",
+			"e_006":							"Die benötigte Anwendung ({0}) wurde im Unterverzeichnis resources\\tools nicht gefunden.",
+			"e_007":							"WAD oder ZIP konnte nicht erstellt werden.",
+			"e_008":							"Patch konnte nicht angewendet werden. Entweder stimmen Patch-Datei und Ziel-ROM nicht überein, oder die Prüfsumme des ROMs ist ungültig.",
+			"e_009":							"WAD konnte nicht heruntergeladen werden.",
+			"e_010":							"Internes Virtual Console-Handbuch konnte nicht ersetzt werden.\n{continue}",
+			"e_011":							"Die Datei \"{0}\" konnte am ursprünglichen Pfad nicht gefunden werden. Sie wurde möglicherweise gelöscht oder verschoben.",
+			"e_012":							"Der Ordner \"{0}\" konnte am ursprünglichen Pfad nicht gefunden werden. Er wurde möglicherweise gelöscht oder verschoben.",
+			"e_013":							"Kein injizierbarer ROM-Einsprungpunkt gefunden. Möglicherweise wird die verwendete Injektionsmethode für dieses WAD noch nicht unterstützt.",
+			"e_014":							"Die erforderliche BIOS-Datei für diese Konsole wurde nicht gefunden.\nBitte legen Sie diese Datei in den FriishProduce-Einstellungen fest.",
+			"e_015":							"Gespeicherte TPL konnte nicht erstellt werden.",
+			"e_016":							"Im bereitgestellten WAD wurde kein Virtual Console-Handbuch gefunden.",
+			"e_017":							"\"{0}\" ist keine gültige Projektdatei.",
+			"e_018":							"{0} konnte nicht gespeichert werden.",
+			"e_019":							"Aktualisierung konnte nicht heruntergeladen werden.",
+			"e_020":							"Es konnten keine änderbaren WAD-Videomodi gefunden werden.\n{continue}",
+			"e_021":							"Datei konnte nicht heruntergeladen werden."
+		},
+
+        "html": {
+            "000": "Der Frodo-Emulator wird nun gestartet.<ol type=\"1\"><li>Geben Sie im Emulator folgenden Befehl ein: <b>LOAD\"*\",8</b>\nWenn die C64-Konsole einfriert und keine Laufwerks-LED leuchtet, öffnen Sie Frodo.fpr über <i>Datei > Öffnen</i> und drücken Sie dann F12, um den Emulator neu zu starten, und versuchen Sie es erneut.</li><li>Sobald die Software geladen ist, geben Sie <b>RUN</b> ein.</li><li>Sobald das Spiel geladen ist, klicken Sie auf <i>Werkzeuge > Patchen und Snapshot speichern</i> und speichern Sie die Datei als \"snap.fss\". Sie können auch eine weitere Kopie für später speichern.</li></ol>Verbleibende Versuche: <b>{0}</b>",
+            "001": "Über SNES VC (im Aufbau)",
+            "002": "Über N64 VC (im Aufbau)",
+            "t_use_online_wad_enabled": "Dies kann verwendet werden, um beliebige WADs aus der aktuellen Datenbank abzurufen, ohne bereits eine WAD-Datei besitzen zu müssen. Es wird nur die Web-Download-Funktion genutzt, da der NUS-Client von libWiiSharp keine VC-WADs entschlüsseln kann.\n\nDie Rechtmäßigkeit ist fragwürdig, daher ist es besser, diese Option deaktiviert zu lassen.",
+            "t_write_metadata": "Schreibt eine meta.json-Datei in das Banner-U8-Archiv, die die Daten jeder Injektion enthält. WiiMart benötigt dies zur automatisierten Datenerfassung.",
+            "t_publisher_opt": "Gibt den Ersteller dieses WAD/Inject an. Wird in der meta.json verwendet, die ins Banner-U8-Archiv geschrieben wird.",
+            "t_use_custom_database": "Verwenden Sie eine benutzerdefinierte WAD-Datenbank, indem Sie Ihre eigene 'database.json' angeben, die die Anwendung standardmäßig laden soll.",
+            "t_lowerParams": "Wandelt alle Ausgabeparameter, die im WAD-Dateinamen verwendet werden, z. B. \"TITLEID\", in Kleinbuchstaben um. Ein TID wie 'XXXX' würde in einem Ausgabewad-Dateinamen zu 'xxxx', wenn der Parameter \"TITLEID\" verwendet wird.",
+            "t_transParams": "Übersetze Parameter, die im WAD-Dateinamen verwendet werden, wie \"CHANNELNAME\". Dies versucht, alle CJK automatisch ins Englische zu übersetzen. ERFORDERT EINE INTERNETVERBINDUNG.",
+            "t_locsave_banner": "Speichern Sie das aus unserer Datenbank heruntergeladene Bannerbild lokal im angegebenen Pfad oder standardmäßig in \"FriishProduce/Downloads/Banners/\".",
+            "t_locsave_wad": "Speichern Sie die heruntergeladene WAD-Basis lokal im angegebenen Pfad oder standardmäßig in \"FriishProduce/Downloads/WADs/\".",
+            "t_bypass_rom_size": "Entfernt alle Dateigrößenbeschränkungen für Virtual-Console-ROMs. Dies kann für Tests nützlich sein.",
+            "t_channel_name": "Der Name, der für das Kanal-Symbol im Wii-Menü verwendet wird.\nFür längere Titel wird eine verkürzte Version mit maximal 20 Zeichen empfohlen.<hr><b>Beispiel:</b>\nZelda: Ocarina",
+            "t_banner_title": "Der vollständige Name der Software, wie in der Banner-Vorschau angezeigt.<hr><b>Beispiel:</b>\nThe Legend of Zelda:\nOcarina of Time",
+            "t_banner_region": "Die Region, die für das Kanalbanner und das Symbol verwendet werden soll.\n\nDies kann nützlich sein, wenn der Name der Konsole in Ihrer Region anders ist oder wenn Sie z. B. ein japanisches/koreanisches Banner verwenden möchten.\nWenn die Bannerregion auf automatisch eingestellt ist, entspricht sie der Region der WAD.",
+            "t_video_mode": "Der Videomodus, unter dem der Wii-Kanal ausgeführt wird (NTSC, PAL oder MPAL). Einige Videomodi funktionieren möglicherweise nicht korrekt in der richtigen Region.",
+            "t_injection_method_options": "Erweiterte Emulator-Einstellungen ändern.",
+            "t_multifile_software": "Wenn diese Option aktiviert ist, behandelt das Programm alle Dateien im selben Ordner wie die aktuell ausgewählte Datei als Teil der zu injizierenden Software.\n\nStellen Sie sicher, dass Ihre Softwaredateien in einem separaten Ordner liegen.",
+            "t_vff_cache_size": "Größe des SWF-Speichercaches.\n\nWenn Sie in YouTube oder BBC iPlayer injizieren und der Kanal beim Erstellen von Spieldaten einfriert, versuchen Sie, ihn auf 96 kB zu setzen, was der Standardwert ist.",
+            "t_persistent_storage_total": "Gesamtspeichergröße, die zum Speichern von Spieldaten benötigt wird.\n\nWenn Sie in YouTube oder BBC iPlayer injizieren und der Kanal beim Erstellen von Spieldaten einfriert, versuchen Sie, ihn auf 96 kB zu setzen, was der Standardwert ist.",
+            "t_persistent_storage_per_movie": "Speichergröße pro SWF, die zum Speichern von Spieldaten benötigt wird.\n\nWenn Sie in YouTube oder BBC iPlayer injizieren und der Kanal beim Erstellen von Spieldaten einfriert, versuchen Sie, ihn auf 64 kB zu setzen, was der Standardwert ist.",
+
+            "t_unsure": "Wenn Sie unsicher sind, {0}.",
+            "t_unsure_s": "{0} auswählen",
+            "t_unsure_u": "dieses Feld nicht markieren",
+            "t_unsure_c": "dieses Feld markieren",
+
+            "t_publisher_opt_tb": "{t_publisher_opt}",
+            "t_locsave_banner_tb": "{t_locsave_banner}",
+            "t_locsave_wad_tb": "{t_locsave_wad}",
+            "t_channel_name_l": "{t_channel_name}"
+        }
+	},
+    "strings": {
+        "mainform": {
+            "file": "&Datei",
+            "project": "&Projekt",
+            "tools": "&Werkzeuge",
+            "help": "&Hilfe",
+
+            "new_project": "&Neu...",
+            "open_project": "Projekt &öffnen...",
+            "open_recent": "&Zuletzt verwendet",
+            "clear_recent": "Liste &leeren",
+            "save_project": "Projekt &speichern",
+            "save_project_as": "Projekt speichern &unter...",
+            "close_project": "Projekt &schließen",
+            "close_all": "Alle schließen",
+
+            "import_game_file": "{0} &importieren...",
+            "game_scan": "Spieldaten &ausfüllen",
+            "export": "&Exportieren...",
+
+            "extract_from_wad": "Aus WAD e&xtrahieren...",
+            "extract_wad_banner": "Kanal-&Banner",
+            "extract_wad_icon": "Kanal-&Icon",
+            "extract_wad_sound": "Kanal-&Sound",
+            "extract_wad_manual": "Bedienungs&anleitung",
+
+            "updater": "&Updates",
+            "check_for_updates": "&Jetzt suchen",
+            "auto_update": "Beim Start &automatisch nach Updates suchen",
+            "clear_update": "Update-Dateien &löschen",
+            "advanced": "&Erweitert",
+            "test_database": "Datenbankeinträge &prüfen",
+            "clear_database": "Alle Datenbanken &leeren",
+            "reset_preferences": "Alle Einstellungen zu&rücksetzen",
+
+            "wiki": "Online-&Wiki",
+            "exit": "&Beenden",
+
+            "project_type": "{0}-WAD",
+            "untitled_project": "Unbenanntes {0}-WAD",
+
+            "update": "Ein Update ist verfügbar",
+            "update1": "FriishProduce v{0} ist jetzt zum Download verfügbar.\nDerzeit verwendete Version: v{1}.",
+            "update2": "Jetzt aktualisieren?"
+        },
+
+        "settingsform": {
+            "general": "Allgemein",
+            "language": "Sprache",
+            "system_default": "Systemstandard",
+            "theme": "Design",
+            "theme0": "Hell",
+            "theme1": "Dunkel",
+            "reset_all_dialogs": "Alle Dialoge zurücksetzen",
+            "use_custom_database": "Eigene WAD-Datenbankdatei verwenden",
+            "bypass_rom_size": "ROM-Größenbeschränkung umgehen",
+
+            "bios_files": "BIOS-Dateien",
+            "browse_bios": "BIOS-Datei auswählen...",
+
+            "default_settings": "Standardeinstellungen",
+            "default_settings_app": "Anwendung",
+            "default_settings_plat": "Plattformen",
+            "default_injection_methods": "Standard-Injektionsmethoden",
+            "default_target_filename": "Zieldateinamen",
+            "default_target_project": "Projekte:",
+            "default_target_wad": "Exportierte WADs:",
+            "default_target_parameters": "Ersetzbare Parameter:",
+
+            "default_content_options": "Standard-Inhaltsoptionen",
+            "default_content_options_l": "Wähle eine Plattform aus der Liste und klicke dann auf \"{0}\", um die Standard-Inhaltsoptionen zu ändern.",
+            "default_content_options_e": "Bearbeiten...",
+
+            "use_online_wad_enabled": "Funktion für herunterladbare WADs aktivieren",
+            "write_metadata": "Write WAD/Inject Metadata",
+
+            "auto_fill_save_data": "Speicherdaten-Titel automatisch ausfüllen",
+            "auto_prefill": "Spieldaten nach dem Öffnen automatisch ausfüllen",
+            "publisher_opt": "Autor/Publisher-Tag:",
+            "locsave_banner": "Heruntergeladene Bannerbilder lokal speichern:",
+            "locsave_wad": "Heruntergeladene WAD-Dateien lokal speichern:",
+            "lowerParams": "Exportnamen in Kleinbuchstaben",
+            "transParams": "Exportnamen übersetzen"
+        },
+
+        "projectform": {
+            "main": "Hauptdateien",
+            "rom_label": "Aktuelle {0}:",
+            "rom_label1": "Spieldatei",
+            "rom_label2": "Disc-Image",
+            "include_patch": "Patch einfügen",
+
+            "wad_base": "Basis-WAD",
+            "import_wad": "WAD aus Datei importieren...",
+            "use_online_wad": "...oder eine herunterladbare Basis verwenden",
+            "using_default_wad": "Leeres WAD wird verwendet",
+            "current_wad": "Aktuelles WAD:",
+
+            "image": "Bild",
+            "import_image": "Bild aus Datei importieren...",
+            "download_image": "Titelbild herunterladen",
+            "image_interpolation_mode": "Interpolationsmodus",
+            "image_interpolation_mode0": "{by_default}",
+            "image_interpolation_mode1": "Niedrig",
+            "image_interpolation_mode2": "Hoch",
+            "image_interpolation_mode3": "Bilinear",
+            "image_interpolation_mode4": "Bikubisch",
+            "image_interpolation_mode5": "Nächster Nachbar",
+            "image_interpolation_mode6": "Hohe Qualität (Bilinear)",
+            "image_interpolation_mode7": "Hohe Qualität (Bikubisch)",
+            "image_resize0": "Bild strecken",
+            "image_resize1": "Seitenverhältnis beibehalten",
+
+            "channel_metadata": "Kanal-Metadaten",
+            "channel_name": "Kanalname:",
+            "title_id": "Titel-ID:",
+            "genre": "Genre:",
+            "region": "Kanalregion:",
+            "video_mode": "Videomodus:",
+            "banner": "Kanal-Banner",
+            "banner_tip": "Klicke auf das Vorschaubild, um die Banneroptionen zu bearbeiten.",
+            "banner_details": "Banner-&Details...",
+
+            "injection_method": "Injektionsmethode",
+            "injection_method_options": "Optionen für Injektionsmethode...",
+            "controller": "Controller",
+            "controller_mapping": "Controller-Belegung bearbeiten...",
+
+            "save_data": "Speicherdaten",
+            "save_data_enable": "Speichern aktivieren",
+            "edit_save_data": "Titel der Speicherdaten bearbeiten...",
+            "edit_save_data_1": "Titel:",
+            "edit_save_data_2": "Untertitel:",
+            "edit_save_data_max": "Max. Länge pro Zeile: {0}",
+            "fill_save_data": "Automatisch ausfüllen",
+
+            "manual_type": "Bedienungsanleitung:",
+            "manual_type0": "{disabled}",
+            "manual_type1": "{original}",
+            "manual_type2": "Eigene Anleitung importieren",
+            "forwarder_root_device": "Root-Speichergerät:",
+            "wiiu_display": "Wii U-Anzeigeformat:",
+            "wiiu_display0": "{original}",
+            "wiiu_display1": "4:3 mit Balken",
+            "wiiu_display2": "Gestreckt",
+            "multifile_software": "Software besteht aus mehreren Dateien",
+            "no_copy_save": "Kopieren von Speicherdaten deaktivieren"
+        },
+
+        "banner": {
+            "full_name": "Vollständiger Name:",
+            "year": "Jahr:",
+            "players": "Spieler:",
+            "banner_region": "Banner-Region:",
+            "banner_sound": "Banner-Sound ersetzen...",
+            "banner_sound_play": "Aktuellen Banner-Sound abspielen",
+            "banner_sound_restore": "Original-Banner-Sound wiederherstellen"
+        },
+
+        "controller": {
+            "page1": "Wii-Fernbedienung",
+            "page2": "Classic Controller",
+            "page3": "GameCube-Controller",
+            "vertical_layout": "Vertikales Layout",
+
+            "presets": "Voreinstellungen",
+            "preset_load": "Laden",
+            "preset_blank": "Leer",
+            "preset_basic": "Einfach",
+            "preset_basic_h": "Einfach (horizontal)",
+            "preset_basic_v": "Einfach (vertikal)",
+
+            "up": "Hoch",
+            "left": "Links",
+            "right": "Rechts",
+            "down": "Runter"
+        },
+
+        "vc_nes": {
+            "palette": "Palette",
+            "palette0": "{by_default}",
+            "palette1": "Wiederhergestellt",
+            "palette2": "{vc} (Nintendo 3DS)",
+            "palette3": "NES Classic (FBX)",
+            "palette4": "NES Remix U",
+            "palette5": "YUV (Nestopia)",
+            "palette6": "RGB (Nestopia)",
+            "palette7": "FCEUX",
+            "palette8": "Wavebeam (FBX)",
+            "palette9": "Composite Direct (FBX)",
+
+            "palette_banner_usage": "Auch für Bannerbild verwenden"
+        },
+
+        "vc_snes": {
+            "patch_volume": "Lautstärke erhöhen",
+            "patch_noopera": "Handbuch-Dateien entfernen",
+            "patch_wiimote": "Native Wii-Fernbedienung aktivieren",
+            "patch_gcremap": "GC-Controller ABXY-Belegung drehen",
+            "patch_nocheck": "Alle ROM-Prüfungen deaktivieren",
+            "patch_nodark": "Dunkelfilter deaktivieren",
+            "patch_nocc": "Classic-Controller-Bildschirm deaktivieren",
+            "patch_nosave": "Speichern deaktivieren",
+            "patch_nosuspend": "Suspend-Punkt deaktivieren",
+            "patch_widescreen": "Breitbild-HOME-Menü"
+        },
+
+        "vc_n64": {
+            "patch_fixbrightness": "Dunkelfilter entfernen",
+            "patch_fixcrashes": "Abstürze beheben",
+            "patch_expandedram": "Erweiterten RAM aktivieren",
+            "patch_autosizerom": "ROM-Größe zuweisen",
+            "patch_cleantextures": "Ungenutzte Texturen bereinigen",
+            "patch_remap": "Steuerung neu zuweisen",
+            "patch_widescreen": "Breitbild",
+
+            "romc_type": "ROM-Komprimierungsmethode",
+            "romc_type0": "ROMC (Typ 0)",
+            "romc_type1": "ROMC (Typ 1)"
+        },
+
+        "vc_sega": {
+            "console_disableresetbutton": "Reset-Taste deaktivieren",
+            "dev_mdpad_enable_6b": "Sechs-Tasten-Controller für {0} aktivieren"
+        },
+
+        "vc_pce": {
+            "hide_overscan": "Overscan ausblenden",
+            "raster": "Hintergrundraster",
+            "sprline": "Sprite-Limit",
+            "y_offset": "Y-Verschiebung",
+            "sgenable": "SuperGrafx-Funktionalität aktivieren",
+            "region0": "{region_j}",
+            "region1": "USA/Europa",
+            "padbutton0": "Mit 2-Tasten-Controller",
+            "padbutton1": "Mit 6-Tasten-Controller"
+        },
+
+        "vc_neo": {
+            "bios": "System-BIOS",
+            "bios0": "Aus Datei importieren",
+            "bios1": "{vc} (Version 1)",
+            "bios2": "{vc} (Version 2)",
+            "bios3": "{vc} (Version 3)"
+        },
+
+        "vc_c64": {
+            "rom_notice": "Diese Injektionsmethode benötigt ein Snapshot, das beim Start mit dem Frodo-Emulator erstellt wurde.\nWas möchtest du tun?",
+            "rom_notice1": "&Neues Snapshot erstellen",
+            "rom_notice2": "&Vorhandenes Snapshot verwenden"
+        },
+
+        "adobe_flash": {
+            "vff_sync_on_write": "VFF beim Schreiben synchronisieren",
+            "vff_cache_size": "VFF-Cache-Größe ({kilobytes})",
+            "persistent_storage_total": "Gesamter Speicherbedarf ({kilobytes})",
+            "persistent_storage_per_movie": "Speicherbedarf pro SWF ({kilobytes})",
+            "controls": "Steuerung",
+            "mouse": "Maus",
+            "qwerty_keyboard": "QWERTY-Tastatur",
+            "midi": "MIDI-Wiedergabe mit DLS-Soundfont aktivieren",
+            "quality": "Qualität",
+            "quality0": "Hoch",
+            "quality1": "Mittel",
+            "quality2": "Niedrig",
+            "strap_reminder": "Handschlaufen-Erinnerung",
+            "strap_reminder0": "{disabled}",
+            "strap_reminder1": "{enabled}",
+            "strap_reminder2": "{enabled} (ohne Erweiterungscontroller)",
+            "swf_metadata": "SWF-Metadaten",
+            "content_domain": "Inhaltsdomain",
+            "background_color": "Hintergrundfarbe",
+            "anti_aliasing": "Kantenglättung",
+            "zoom": "Zoom",
+            "zoom0": "{by_default}",
+            "zoom1": "{automatic}",
+            "zoom2": "Benutzerdefiniert",
+            "standard": "4:3-Anzeige erzwingen"
+        },
+
+        "forwarder": {
+            "bios_settings": "BIOS-Einstellungen",
+            "use_bios": "BIOS aktivieren",
+            "show_bios_screen": "BIOS-Startbildschirm anzeigen",
+            "rpgm_settings": "RPG-Maker-Einstellungen",
+            "use_rtp": "Externes RTP (Run-Time Package) verwenden"
+        }
+    }
+}

@@ -51,6 +51,20 @@ namespace FriishProduce
 
             Program.Lang.ToolTip(tip, use_online_wad_enabled, null, use_online_wad_enabled.Text);
             Program.Lang.ToolTip(tip, bypass_rom_size, null, bypass_rom_size.Text);
+            Program.Lang.ToolTip(tip, write_metadata, null, write_metadata.Text);
+            
+            Program.Lang.ToolTip(tip, publisher_opt, null, publisher_opt.Text);
+            Program.Lang.ToolTip(tip, publisher_opt_tb, null, publisher_opt.Text);
+
+            Program.Lang.ToolTip(tip, use_custom_database, null, use_custom_database.Text);
+            Program.Lang.ToolTip(tip, lowerParams, null, lowerParams.Text);
+            Program.Lang.ToolTip(tip, transParams, null, transParams.Text);
+
+            Program.Lang.ToolTip(tip, locsave_banner, null, locsave_banner.Text);
+            Program.Lang.ToolTip(tip, locsave_banner_tb, null, locsave_banner.Text);
+
+            Program.Lang.ToolTip(tip, locsave_wad, null, locsave_wad.Text);
+            Program.Lang.ToolTip(tip, locsave_wad_tb, null, locsave_wad.Text);
 
             #endregion
 
@@ -144,14 +158,17 @@ namespace FriishProduce
             toggleSwitch2.Checked = Program.Config.forwarder.show_bios_screen;
             forwarder_type.SelectedIndex = Program.Config.forwarder.root_storage_device;
             use_online_wad_enabled.Checked = Program.Config.application.use_online_wad_enabled;
+            write_metadata.Checked = Program.Config.application.write_metadata;
             bypass_rom_size.Checked = Program.Config.application.bypass_rom_size;
             auto_fill_save_data.Checked = Program.Config.application.auto_fill_save_data;
             auto_prefill.Checked = Program.Config.application.auto_prefill;
+            publisher_opt_tb.Text = Program.Config.application.publisher_opt_tb;
             locsave_banner.Checked = Program.Config.application.locsave_banner;
             locsave_banner_tb.Text = Program.Config.application.locsave_banner_tb;
             locsave_wad.Checked = Program.Config.application.locsave_wad;
             locsave_wad_tb.Text = Program.Config.application.locsave_wad_tb;
             lowerParams.Checked = Program.Config.application.lowerParams;
+            transParams.Checked = Program.Config.application.transParams;
             default_target_project_tb.Text = Program.Config.application.default_target_filename;
             default_target_wad_tb.Text = Program.Config.application.default_export_filename;
 
@@ -253,14 +270,17 @@ namespace FriishProduce
             bool toggledOnline = Program.Config.application.use_online_wad_enabled != use_online_wad_enabled.Checked;
             Program.Config.application.image_interpolation = image_interpolation_modes.SelectedIndex;
             Program.Config.application.use_online_wad_enabled = use_online_wad_enabled.Checked;
+            Program.Config.application.write_metadata = write_metadata.Checked;
             Program.Config.application.bypass_rom_size = bypass_rom_size.Checked;
             Program.Config.application.auto_fill_save_data = auto_fill_save_data.Checked;
             Program.Config.application.auto_prefill = auto_prefill.Checked;
+            Program.Config.application.publisher_opt_tb = publisher_opt_tb.Text;
             Program.Config.application.locsave_banner = locsave_banner.Checked;
             Program.Config.application.locsave_banner_tb = locsave_banner_tb.Text;
             Program.Config.application.locsave_wad = locsave_wad.Checked;
             Program.Config.application.locsave_wad_tb = locsave_wad_tb.Text;
             Program.Config.application.lowerParams = lowerParams.Checked;
+            Program.Config.application.transParams = transParams.Checked;
             Program.Config.application.default_target_filename = default_target_project_tb.Text;
             Program.Config.application.default_export_filename = default_target_wad_tb.Text;
 

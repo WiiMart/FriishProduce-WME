@@ -764,13 +764,13 @@
     <value>Tahoma, 11px</value>
   </data>
   <data name="genre.Location" type="System.Drawing.Point, System.Drawing">
-    <value>387, 35</value>
+    <value>367, 35</value>
   </data>
   <data name="genre.MaxLength" type="System.Int32, mscorlib">
     <value>36</value>
   </data>
   <data name="genre.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 21</value>
+    <value>181, 21</value>
   </data>
   <data name="genre.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -800,7 +800,7 @@
     <value>NoControl</value>
   </data>
   <data name="genre_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>386, 18</value>
+    <value>366, 18</value>
   </data>
   <data name="genre_l.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 13</value>
@@ -992,7 +992,7 @@
   <!--==================================================================-->
   <!--==================================================================-->
   <data name="title_id_l.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+    <value>true</value>
   </data>
   <data name="title_id_l.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1001,7 +1001,7 @@
     <value>280, 18</value>
   </data>
   <data name="title_id_l.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>45, 13</value>
   </data>
   <data name="title_id_l.TabIndex" type="System.Int32, mscorlib">
     <value>44</value>
@@ -1080,6 +1080,16 @@
   </data>
   <data name="title_id_random.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAAHhQTFRFR3BMRJY5RZc6a8VeI2QgZ8BaKGskZLxXLHAoPo00UKBHO5AxVq1KOYAzOo8u
+        JmkjZb1XTJhFMnYsP5QzY7pWLXEoT5xHqteintmTl9SMks2Ier9wcLNnY7xWbLBiXLNPZ6leVqxJX6JY
+        UKVDP4g5OIAzMncsLG8nP/9imQAAABd0Uk5TAAIJQECZmaqqs7m7wcHCxsrS0tfg4OkGfF8SAAAAcUlE
+        QVR42nVP1w6AIBADt7g3CILb//9DMREJJvTp2muvOWBFCH9CmerZLadJUIo0J8MD3ryCPw502RhPlKMV
+        QuabHDr6imyIzRZkMAeiCoDsOLtvz/h+rGQOXt4zjDEhrPCUI57X87o0l/kamICR/esbUroGYBFeykQA
+        AAAASUVORK5CYII=
+    </value>
+  </data>
+<!--
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
         dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGwSURBVDhPpZHrK4NhGMbFJ3+EmphjCNEiDJljcijn
         DZsxhhlTDiWnUjKiaU0kchwSU6yht3dylloR8sFXf8XleT88b++rN5EPv7rv676vp6778QPwLyRFIR3n
@@ -1090,13 +1100,12 @@
         LeRNwQ7hvshM8n4aNhtgf7DCdjeJ2dsJTN+MY+p6BJweqpPdB9cHKYUe0QMc6WMKt2apAjWOcsSZoxBt
         DEN4cwhCtDJGphGbOUQNheRlSF7+Bj8hKcZ0RgREtsqdUrPvSIq/B35fNau2t2lUBQAAAAAASUVORK5C
         YII=
-</value>
-  </data>
+-->
   <data name="title_id_random.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="title_id_random.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 37</value>
+    <value>324, 17</value>
   </data>
   <data name="title_id_random.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Media;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,7 +18,7 @@ namespace FriishProduce
 {
     public partial class ProjectForm : Form
     {
-        protected Platform targetPlatform { get; set; }
+        protected Platform TargetPlatform { get; set; }
         private readonly BannerOptions banner_form;
         private readonly Savedata savedata;
         private MessageBoxHTML htmlDialog;
@@ -40,7 +41,7 @@ namespace FriishProduce
                 return value;
             }
         }
-        public bool IsForwarder { get => !isVirtualConsole && targetPlatform != Platform.Flash; }
+        public bool IsForwarder { get => !isVirtualConsole && TargetPlatform != Platform.Flash; }
 
         protected bool showPatch = false;
         private bool _showSaveData;
@@ -133,7 +134,7 @@ namespace FriishProduce
         public string ProjectPath { get; set; }
         #endregion
 
-        private new enum Region
+        public new enum Region
         {
             America,
             Europe,
@@ -149,7 +150,7 @@ namespace FriishProduce
         protected ChannelDatabase channels { get; set; }
         protected (int baseNumber, int region) inWad { get; set; }
         protected string inWadFile { get; set; }
-        private Region inWadRegion
+        public Region InWadRegion
         {
             get
             {
@@ -189,7 +190,7 @@ namespace FriishProduce
                      : index == Program.Lang.String("region_u") ? libWiiSharp.Region.USA
                      : index == Program.Lang.String("region_e") ? libWiiSharp.Region.Europe
                      : index == Program.Lang.String("region_k") ? libWiiSharp.Region.Korea
-                     : indexNum == 0 ? inWadRegion switch { Region.Japan => libWiiSharp.Region.Japan, Region.Korea => libWiiSharp.Region.Korea, Region.Europe => libWiiSharp.Region.Europe, Region.America => libWiiSharp.Region.USA, _ => libWiiSharp.Region.Free }
+                     : indexNum == 0 ? InWadRegion switch { Region.Japan => libWiiSharp.Region.Japan, Region.Korea => libWiiSharp.Region.Korea, Region.Europe => libWiiSharp.Region.Europe, Region.America => libWiiSharp.Region.USA, _ => libWiiSharp.Region.Free }
                      : libWiiSharp.Region.Free;
             }
         }
@@ -384,7 +385,7 @@ namespace FriishProduce
 
                 if (value == -1)
                 {
-                    value = channels != null ? inWadRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
+                    value = channels != null ? InWadRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
 
                     if (!isVirtualConsole && Program.Lang.GetRegion() is Language.Region.Japan)
                         value = 0;
@@ -395,19 +396,19 @@ namespace FriishProduce
                 // Forced regions (TODO make MSX available per region at a later time)
 
                 // Japan/Korea: Use USA banner for C64 & Flash
-                if (value != 1 && value != 2 && (targetPlatform == Platform.C64 /*|| targetPlatform == Platform.Flash*/))
+                if (value != 1 && value != 2 && (TargetPlatform == Platform.C64 /*|| targetPlatform == Platform.Flash*/))
                     return libWiiSharp.Region.USA;
 
                 // International: Use Japan banner for MSX
-                else if (value != 0 && targetPlatform == Platform.MSX)
+                else if (value != 0 && TargetPlatform == Platform.MSX)
                     return libWiiSharp.Region.Japan;
 
                 // Korea: Use Europe banner for SMD
-                else if (value == 3 && targetPlatform == Platform.SMD)
+                else if (value == 3 && TargetPlatform == Platform.SMD)
                     return libWiiSharp.Region.Europe;
 
                 // Korea: Use USA banner for non-available platforms
-                else if (value == 3 && (int)targetPlatform >= 3)
+                else if (value == 3 && (int)TargetPlatform >= 3)
                     return libWiiSharp.Region.USA;
 
                 return value switch { 0 => libWiiSharp.Region.Japan, 2 => libWiiSharp.Region.Europe, 3 => libWiiSharp.Region.Korea, _ => libWiiSharp.Region.USA };
@@ -465,11 +466,10 @@ namespace FriishProduce
             bool isLegacy = path.EndsWith(".fppj", StringComparison.OrdinalIgnoreCase);
             string updatedExt = isLegacy ? Path.ChangeExtension(path, ".jfpp") : path;
 
-            var p = new Project()
-            {
+            var p = new Project() {
                 ProjectPath = path,
 
-                Platform = targetPlatform,
+                Platform = TargetPlatform,
 
                 ROM = rom?.FilePath,
                 Patch = patch,
@@ -543,7 +543,7 @@ namespace FriishProduce
             // BrowseManualZIP.Filter = Program.Lang.String("filter.zip");
 
             // Change title text to untitled string
-            Untitled = Program.Lang.Format(("untitled_project", "mainform"), Program.Lang.String(Enum.GetName(typeof(Platform), targetPlatform).ToLower(), "platforms"));
+            Untitled = Program.Lang.Format(("untitled_project", "mainform"), Program.Lang.String(Enum.GetName(typeof(Platform), TargetPlatform).ToLower(), "platforms"));
             Text = string.IsNullOrWhiteSpace(channel_name.Text) ? Untitled : channel_name.Text;
 
             checkImg1.Location = new Point(import_wad.Location.X + import_wad.Width + 4, checkImg1.Location.Y);
@@ -598,6 +598,7 @@ namespace FriishProduce
 
             #region ------------------------------------------ Localization: Tooltips ------------------------------------------
             Program.Lang.ToolTip(tip, channel_name, null, channel_name_l.Text);
+            Program.Lang.ToolTip(tip, channel_name_l, null, channel_name_l.Text);
             Program.Lang.ToolTip(tip, video_mode, null, video_mode_l.Text, Program.Lang.Format(("t_unsure_s", "html"), video_mode.Items[0].ToString()));
             Program.Lang.ToolTip(tip, injection_method_options);
             Program.Lang.ToolTip(tip, multifile_software);
@@ -629,7 +630,7 @@ namespace FriishProduce
             // Injection methods list
             injection_methods.Items.Clear();
 
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 case Platform.NES:
                     injection_methods.Items.Add(Program.Lang.String("vc"));
@@ -687,7 +688,7 @@ namespace FriishProduce
                     break;
             }
 
-            injection_methods.SelectedIndex = targetPlatform switch
+            injection_methods.SelectedIndex = TargetPlatform switch
             {
                 Platform.NES => Program.Config.application.default_injection_method_nes,
                 Platform.SNES => Program.Config.application.default_injection_method_snes,
@@ -702,16 +703,29 @@ namespace FriishProduce
             image_resize0.Checked = !image_resize1.Checked;
             resetImages();
             if (isMint && IsModified) IsModified = false;
+
+            /*LoadROM(project.ROM, false);
+            if (File.Exists(project.OfflineWAD)) {
+                use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
+                use_offline_wad.Checked = true;
+                LoadWAD(project.OfflineWAD);
+            }
+            else {
+                use_online_wad.Enabled = use_online_wad.Checked = true;
+                use_offline_wad.Checked = false;
+                try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
+                catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
+            }*/
         }
 
         private void LoadChannelDatabase()
         {
-            try { channels = new ChannelDatabase(targetPlatform); }
+            try { channels = new ChannelDatabase(TargetPlatform); }
             catch (Exception ex)
             {
-                if ((int)targetPlatform < 10 || targetPlatform == Platform.Flash)
+                if ((int)TargetPlatform < 10 || TargetPlatform == Platform.Flash)
                 {
-                    System.Windows.Forms.MessageBox.Show($"A fatal error occurred retrieving the {targetPlatform} WADs database.\n\nException: {ex.GetType().FullName}\nMessage: {ex.Message}\n\nThe application will now shut down.", "Halt", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    System.Windows.Forms.MessageBox.Show($"A fatal error occurred retrieving the {TargetPlatform} WADs database.\n\nException: {ex.GetType().FullName}\nMessage: {ex.Message}\n\nThe application will now shut down.", "Halt", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.FailFast("Database initialization failed.");
                 }
                 else { channels = new ChannelDatabase(); }
@@ -720,7 +734,7 @@ namespace FriishProduce
 
         public ProjectForm(Platform platform, string ROMpath = null, Project project = null)
         {
-            targetPlatform = platform;
+            TargetPlatform = platform;
             IsEmpty = true;
             banner_form = new BannerOptions(platform);
             savedata = new Savedata(platform);
@@ -754,7 +768,7 @@ namespace FriishProduce
             // Declare ROM and WAD metadata modifier
             // ********
             TIDPrefix = (null, new[] { "F", "J", "N", "L", "M", "P", "Q", "E", "C", "X", "W" });
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 case Platform.NES:
                     TIDPrefix = ("F", null);
@@ -829,17 +843,17 @@ namespace FriishProduce
                     break;
             }
 
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 // ROM formats
                 default:
                     try
                     {
-                        var extensions = Platforms.Filters.Where(x => x.Key == (targetPlatform == Platform.S32X ? Platform.SMD : targetPlatform)).ToArray()[0];
+                        var extensions = Platforms.Filters.Where(x => x.Key == (TargetPlatform == Platform.S32X ? Platform.SMD : TargetPlatform)).ToArray()[0];
                         for (int i = 0; i < extensions.Value.Length; i++)
                             if (!extensions.Value[i].StartsWith("*")) extensions.Value[i] = "*" + extensions.Value[i];
 
-                        browseROM.Filter = Program.Lang.Format(("filter.rom", null), Program.Lang.Console(targetPlatform), string.Join(", ", extensions.Value), string.Join(";", extensions.Value));
+                        browseROM.Filter = Program.Lang.Format(("filter.rom", null), Program.Lang.Console(TargetPlatform), string.Join(", ", extensions.Value), string.Join(";", extensions.Value));
                     }
                     catch
                     {
@@ -878,7 +892,7 @@ namespace FriishProduce
             // Set icon
             // ********
             if (Program.GUI)
-                Icon = Icon.FromHandle(Platforms.Icons[targetPlatform].GetHicon());
+                Icon = Icon.FromHandle(Platforms.Icons[TargetPlatform].GetHicon());
 
             // Cosmetic
             // ********
@@ -896,7 +910,7 @@ namespace FriishProduce
                 // Platform.PCE,
                 // Platform.NEO
             })
-                if (targetPlatform == manualConsole) removeManual = false;
+                if (TargetPlatform == manualConsole) removeManual = false;
             if (removeManual) manual_type.Items.RemoveAt(2);
 
             // *****************************************************
@@ -919,8 +933,7 @@ namespace FriishProduce
                     {
                         try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
                         catch { banner_form.region.SelectedIndex = 0; }
-                        finally
-                        {
+                        finally {
                             linkSaveDataTitle();
                             resetImages(true);
                         }
@@ -929,7 +942,7 @@ namespace FriishProduce
                     if (project == null)
                         throw new Exception("Failed to load project file.");
 
-                    Logger.Log($"Opened project at {project.ProjectPath}.");
+                    Logger.Log($"\nOpened project at:\n\"{project.ProjectPath}\"");
                     SetRecentProjects(project.ProjectPath);
                     ProjectPath = project.ProjectPath;
 
@@ -997,7 +1010,7 @@ namespace FriishProduce
                 }
             }
             else {
-                Logger.Log($"Created new {targetPlatform} project.");
+                Logger.Log($"Created new {TargetPlatform} project.");
                 use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
 
                 if (use_online_wad.Enabled) {
@@ -1090,11 +1103,11 @@ namespace FriishProduce
         {
             get => new bool[]
             {
-                targetPlatform != Platform.Flash
-                && targetPlatform != Platform.RPGM, // LibRetro / game data (1)
+                TargetPlatform != Platform.Flash
+                && TargetPlatform != Platform.RPGM, // LibRetro / game data (1)
 
-                targetPlatform != Platform.Flash
-                && targetPlatform != Platform.RPGM
+                TargetPlatform != Platform.Flash
+                && TargetPlatform != Platform.RPGM
                 && rom?.FilePath != null, // LibRetro / game data (2, less strict)
 
                 /*
@@ -1109,7 +1122,7 @@ namespace FriishProduce
         {
             get
             {
-                return targetPlatform switch
+                return TargetPlatform switch
                 {
                     Platform.NEO => Properties.Resources.page_white_zip,
                     Platform.Flash => Properties.Resources.page_white_flash,
@@ -1122,7 +1135,7 @@ namespace FriishProduce
         {
             get
             {
-                return targetPlatform switch
+                return TargetPlatform switch
                 {
                     Platform.PSX
                     or Platform.PCECD
@@ -1171,7 +1184,7 @@ namespace FriishProduce
             baseId = TIDPrefix.Letter != null ? TIDPrefix.Letter + GenerateTitleID().Substring(0, 2) : GenerateTitleID().Substring(0, 3);
 
             // Add region suffix
-            string regionSuffix = GetRegionSuffix(inWadRegion);
+            string regionSuffix = GetRegionSuffix(InWadRegion);
             title_id.Text = baseId + regionSuffix;
 
             // Change title ID prefix to avoid 4:3 stretching on Wii U, if a list is provided
@@ -1224,7 +1237,7 @@ namespace FriishProduce
                     avail = !existingTIDs.Contains(checkTID);
                     if (!avail) break;
                 }
-                uTID = avail ? baseId + GetRegionSuffix(inWadRegion) : null;
+                uTID = avail ? baseId + GetRegionSuffix(InWadRegion) : null;
                 if (avail) break; // else: repeat loop with a new baseId
             }
 
@@ -1239,9 +1252,9 @@ namespace FriishProduce
             return !File.Exists(wmtids) ? new HashSet<string>() : new HashSet<string>(JsonSerializer.Deserialize<string[]>(File.ReadAllText(wmtids)) ?? Array.Empty<string>());
         }
 
-        public string GetName(bool full)
+        public string GetName(bool export)
         {
-            string FILENAME = File.Exists(patch) ? Path.GetFileNameWithoutExtension(patch) : Path.GetFileNameWithoutExtension(rom?.FilePath);
+            string FILENAME = File.Exists(patch) ? Utils.GetFileCN(patch) : Utils.GetFileCN(rom?.FilePath);
 
             string CHANNELNAME = channel_name.Text;
             if (string.IsNullOrWhiteSpace(CHANNELNAME)) CHANNELNAME = Untitled;
@@ -1254,7 +1267,7 @@ namespace FriishProduce
             string GENRE = genre.Text;
             if (string.IsNullOrWhiteSpace(GENRE)) GENRE = "GENRE";
 
-            string PLATFORM = targetPlatform.ToString();
+            string PLATFORM = TargetPlatform.ToString();
 
             string REGION = region.SelectedItem.ToString() == Program.Lang.String("region_j") ? "JPN"
                           : region.SelectedItem.ToString() == Program.Lang.String("region_u") ? "USA"
@@ -1281,25 +1294,37 @@ namespace FriishProduce
                 }
             }
 
-            string target = full
-                ? Program.Config.application.default_export_filename
-                : Program.Config.application.default_target_filename;
-
-            bool lowerOut = Program.Config.application.lowerParams;
+            string target = export ? Program.Config.application.default_export_filename : Program.Config.application.default_target_filename;
+            bool lowerOut = export && Program.Config.application.lowerParams;
+            bool transToggled = export && Program.Config.application.transParams;
 
             if (target == Untitled)
                 target = "";
 
-            target = target
-                .Replace("FILENAME", lowerOut ? FILENAME.ToLower() : FILENAME)
-                .Replace("CHANNELNAME", lowerOut ? CHANNELNAME.ToLower() : CHANNELNAME)
-                .Replace("FULLNAME", lowerOut ? FULLNAME.ToLower() : FULLNAME)
-                .Replace("TITLEID", lowerOut ? TITLEID.ToLower() : TITLEID)
-                .Replace("GENRE", GENRE) // leave untouched
-                .Replace("PLATFORM", lowerOut ? PLATFORM.ToLower() : PLATFORM)
-                .Replace("REGION", lowerOut ? REGION.ToLower() : REGION);
+            var map = new (string Key, string Val, bool Lower, bool Trans)[] {
+                ("FILENAME",        FILENAME,       true,       true),
+                ("CHANNELNAME",     CHANNELNAME,    true,       true),
+                ("FULLNAME",        FULLNAME,       true,       true),
+                ("TITLEID",         TITLEID,        true,       false),
+                ("GENRE",           GENRE,          false,      false),
+                ("PLATFORM",        PLATFORM,       true,       false),
+                ("REGION",          REGION,         true,       false),
+            };
+            foreach (var (key, val, lower, trans) in map) {
+                string replace = val;
 
-            return string.Join("_", target.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
+                if (lowerOut && lower)
+                    replace = replace.ToLower();
+
+                if (transToggled && trans && GoogleTrans.ContainsCJK(replace)) {
+                    try {
+                        replace = Task.Run(() => GoogleTrans.Translate(replace)).GetAwaiter().GetResult();
+                    } catch {}
+                }
+                target = target.Replace(key, replace);
+            }
+            string result = string.Join("_", target.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
+            return result;
         }
 
         private bool _canClose = false;
@@ -1596,10 +1621,10 @@ namespace FriishProduce
 
                 int validFiles = 0;
                 if (folder != null)
-                    foreach (var item in Directory.EnumerateFiles(folder))
-                    {
-                        if (Path.GetFileNameWithoutExtension(item).StartsWith("startup") && Path.GetExtension(item) == ".html"
-                         || (Path.GetFileName(item) is "standard.css" or "contents.css" or "vsscript.css")) validFiles++;
+                    foreach (var item in Directory.EnumerateFiles(folder)) {
+                        bool valid = Path.GetFileName(item) is "standard.css" or "contents.css" or "vsscript.css";
+                        if ((Utils.GetFileCN(item).StartsWith("startup") && Path.GetExtension(item) == ".html") || valid)
+                            validFiles++;
                     }
 
                 if (validFiles >= 2)
@@ -1636,7 +1661,7 @@ namespace FriishProduce
 
         protected void LoadImage(string path)
         {
-            img = new ImageHelper(targetPlatform, path);
+            img = new ImageHelper(TargetPlatform, path);
             LoadImage(img.Source);
         }
 
@@ -1650,7 +1675,7 @@ namespace FriishProduce
         {
             Bitmap bmp = null;
 
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 case Platform.NES:
                     bmp = cloneImage(src);
@@ -1689,7 +1714,7 @@ namespace FriishProduce
                     banner_form.title.Text,
                     (int)banner_form.released.Value,
                     (int)banner_form.players.Value,
-                    targetPlatform,
+                    TargetPlatform,
                     _bannerRegion
                 );
 
@@ -1737,7 +1762,7 @@ namespace FriishProduce
                 return;
             }
 
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 // ROM file formats
                 // ****************
@@ -1749,7 +1774,7 @@ namespace FriishProduce
                     }
                     else IsEmpty = false;
 
-                    if (targetPlatform == Platform.RPGM)
+                    if (TargetPlatform == Platform.RPGM)
                     {
                         if ((rom as RPGM).GetTitle(ROMpath) != null)
                         {
@@ -1793,6 +1818,205 @@ namespace FriishProduce
             setFilesText();
         }
 
+        /// <summary>
+        ///     Gets the proper Shop.wii style genre
+        /// </summary>
+        public static readonly Dictionary<string, string[]> GenreMap = new(StringComparer.OrdinalIgnoreCase) {
+            { "RPG", new[] { "Role playing game", "Role playing" } },
+            { "Platform", new[] { "Platformer", "Platforming" } },
+            // need to collect officially used genres, and database genres
+            //      for now this is theese are only notable needed fixes
+        };
+
+        /// <summary>
+        ///     Formats a game genre by direct and fuzzy matching key val pairs in the <c>GenreMap</c> dict
+        ///         then provides the correct 'official usage' genre
+        /// </summary>
+        public static string FormatGenre(string genre) {
+            if (string.IsNullOrWhiteSpace(genre))
+                return genre;
+
+            // direct match on key
+            if (GenreMap.ContainsKey(genre.Trim()))
+                return genre.Trim();
+
+            // check vals
+            foreach (var kvp in GenreMap) {
+                if (kvp.Value.Any(val => genre.Trim().Equals(val, StringComparison.OrdinalIgnoreCase)))
+                    return kvp.Key;
+            }
+
+            // fuzzy match (plural, minor typos)
+            foreach (var kvp in GenreMap) {
+                if (kvp.Value.Any(val => genre.Trim().StartsWith(val, StringComparison.OrdinalIgnoreCase) || genre.Trim().EndsWith(val, StringComparison.OrdinalIgnoreCase)))
+                    return kvp.Key;
+
+                // Levenshtein distance if all else fails and is close enough
+                if (kvp.Value.Any(val => Utils.LevenshteinDistance(genre.Trim(), val) <= 2))
+                    return kvp.Key;
+            }
+            return genre.Trim();
+        }
+
+        /// <summary>
+        ///     Formats a ROM title string by removing known junk/lang tags and whitespace
+        /// </summary>
+        public static string FormatROMT(string romt) {
+            // remove lang flags
+            romt = Regex.Replace(romt, @"\((Ja|En|De|Fr|Es|It|Unl)\)", "", RegexOptions.IgnoreCase);
+
+            // remove known junk/revision/version/proto/etc. tags
+            string[] junkTags = {
+                "Patched", "Proto", "Beta", "Sample", "Demo", "Unl", "Pirate",
+                "Aftermarket", "SegaNet", "Program", "LodgeNet", "Switch Online", "Virtual Console"
+            };
+            string pattern = $@"\((Rev\s?[A-Z0-9]+|V\d+(\.\d+)?|Alt(\s?\d+)?|{string.Join("|", junkTags)})\)";
+            romt = Regex.Replace(romt, pattern, "", RegexOptions.IgnoreCase);
+
+            // remove year/date tags, then [b] [!] tags etc, then whitespace
+            romt = Regex.Replace(romt, @"\(([0-9]{1,4}([-/][0-9]{1,2}){0,2})\)", "", RegexOptions.IgnoreCase);
+            romt = Regex.Replace(romt, @"\[[^\]]+\]", "", RegexOptions.IgnoreCase);
+            romt = Regex.Replace(romt, @"\s{2,}", " ");
+            return romt.Trim();
+        }
+
+        /// <summary>
+        ///     Attempt to find and strip a region tag from the provided ROM title
+        /// </summary>
+        /// <returns>
+        ///     The normalized region group key ("USA", "Europe", "Japan", "World") or <c>null</c> if no region is found
+        /// </returns>
+        public static string ExtractRegion(ref string name) {
+            var regionGroups = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase) {
+                { "USA",     new[] { "USA", "U", "US", "America" } },
+                { "Europe",  new[] { "Europe", "EUR", "EU", "E" } },
+                { "Japan",   new[] { "Japan", "JP", "J", "JPN" } },
+                { "World",   new[] { "World", "W" } },
+                
+                { "France",  new[] { "France", "FR", "F" } },
+                { "Germany", new[] { "Germany", "DE", "G" } },
+                { "Spain",   new[] { "Spain", "ES" } },
+                { "Italy",   new[] { "Italy", "IT" } },
+                { "Korea",   new[] { "Korea", "KR", "KOR" } },
+                { "Brazil",  new[] { "Brazil", "BR" } },
+                { "Taiwan",  new[] { "Taiwan", "TW" } }
+            };
+            string matchedRegion = null;
+            var match = Regex.Match(name, @"\(([^)]+)\)", RegexOptions.IgnoreCase);
+
+            if (match.Success) {
+                string contents = match.Groups[1].Value;
+                var parts = contents.Split(',').Select(p => p.Trim());
+
+                // loop through regionGroups dict keys to check each region in order of priority/insertion order
+                foreach (var pri in regionGroups.Keys) {
+                    if (parts.Any(part => regionGroups[pri].Any(variant => string.Equals(part, variant, StringComparison.OrdinalIgnoreCase)))) {
+                        matchedRegion = pri;
+                        break;
+                    }
+                }
+                name = name.Remove(match.Index, match.Length).Trim();
+            }
+            name = FormatROMT(name);
+            return matchedRegion;
+        }
+
+        /// <summary>
+        ///     Attempts to match an input ROM file name to entries in the provided DataTable,
+        ///         using normalized title and region, in both the input ROM file name and the DataTable.
+        /// </summary>
+        /// <param name="dt">The DataTable containing ROM entries, must have a "name" column!</param>
+        /// <param name="romName">The raw ROM filename or title to look up</param>
+        /// <param name="romRegion">The stripped region indicator from the filename or title</param>
+        /// <returns>
+        ///     A matching <see cref="DataRow"/> (title) if found; else <c>null</c>.
+        /// </returns>
+        /// <remarks>
+        /// The lookup proceeds in the following steps:
+        ///     1). 'Normalize' ROM name via <c>FormatROMT</c>
+        /// 
+        ///     2). Define known region groups and their shorthand variants
+        /// 
+        ///     3). Attempt to resolve <paramref name="romRegion"/> into one of these groups
+        /// 
+        ///     4). Collect all DataTable rows whose normalized title matches the ROM title
+        /// 
+        ///     5). If no rows match, return <c>null</c>
+        /// 
+        ///     6). If a region group was detected, prefer a row whose original title
+        ///         explicitly matches one of that group's region variants
+        /// 
+        ///     7). *if no matches* and all else fails <c>LevenshteinDistance</c> fuzzy match
+        /// 
+        ///     8). return the first matching row if there was one
+        /// </remarks>
+        private static DataRow DbLookup(DataTable dt, string romName, string romRegion) {
+            Logger.Log($"#DbLookup()-> Searching for ROM '{romName}' with detected region '{romRegion}'");
+            string romTrim = FormatROMT(romName);
+
+            var regions = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase) {
+                { "USA", new[] { "U", "US", "USA", "America" } },
+                { "Europe", new[] { "E", "EU", "EUR", "Europe" } },
+                { "Japan", new[] { "J", "JP", "Japan" } },
+                { "World", new[] { "W", "World" } }
+            };
+
+            // Match romRegion to region dict group
+            string regionGroup = null;
+            foreach (var kv in regions) {
+                if (kv.Value.Any(r => string.Equals(r, romRegion, StringComparison.OrdinalIgnoreCase))) {
+                    regionGroup = kv.Key;
+                    break;
+                }
+            }
+
+            var titleMatches = new List<DataRow>();
+            foreach (DataRow row in dt.Rows) {
+                if (row["name"] == null) continue;
+
+                string dbOgTitle = row["name"].ToString();
+                string dbCopy = dbOgTitle; // ehh s= need to keep working copy
+                string dbRegion = ExtractRegion(ref dbCopy); // strip region + normalize
+
+                if (string.Equals(dbCopy, romTrim, StringComparison.OrdinalIgnoreCase))
+                    titleMatches.Add(row);
+            }
+
+            if (titleMatches.Count == 0) {
+                // try fuzzy match
+                Logger.Log("#DbLookup()-> No matches found in DB");
+                string squished = Regex.Replace(romTrim, @"\s+", "").ToLowerInvariant();
+                int threshold = (int)(squished.Length * 0.1); // roughly ~10% difference allowed
+
+                foreach (DataRow row in dt.Rows) {
+                    if (row["name"] == null) continue;
+
+                    string dbOgTitle = row["name"].ToString();
+                    string dbCopy = dbOgTitle;
+                    ExtractRegion(ref dbCopy); // normalize
+                    string dbSquish = Regex.Replace(dbCopy, @"\s+", "").ToLowerInvariant();
+
+                    // Use Levenshtein distance on normalized rom title & db title with threshold for the fuzzy match
+                    if (Utils.LevenshteinDistance(squished, dbSquish) <= threshold) {
+                        Logger.Log($"#DbLookup()-> Attempting fuzzy match: '{dbOgTitle}'");
+                        return row;
+                    }
+                }
+                // Nothing found even with fallback
+                return null;
+            }
+
+            // If region was detected, try to pick the titleMatch with a region match from the region group
+            if (regionGroup != null) {
+                foreach (var row in titleMatches) {
+                    string dbOgTitle = row["name"].ToString();
+                    string[] regVariants = regions[regionGroup];
+                    if (regVariants.Any(rv => Regex.IsMatch(dbOgTitle, $@"\({rv}\)", RegexOptions.IgnoreCase)))
+                        return row;
+                }
+            }
+            return titleMatches[0];
+        }
 
         /// <summary>
         /// Gets any game metadata that is available for the file based on its CRC32 reading hash, including the software title, year, players, and title image URL.
@@ -1802,103 +2026,118 @@ namespace FriishProduce
         /// <returns></returns>
         protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path)
         {
-            bool isDisc = platform is Platform.PCECD
-                                   or Platform.GCN
-                                   or Platform.SMCD
-                                   or Platform.PSX;
+            Logger.Log($"#GetGameData()-> Processing '{path}' for platform {platform}");
 
-            if (isDisc)
-            {
-                if (Path.GetExtension(path).ToLower() == ".cue")
-                    foreach (var item in Directory.EnumerateFiles(Path.GetDirectoryName(path)))
-                        if ((Path.GetExtension(item).ToLower() is ".bin" or ".iso") && Path.GetFileNameWithoutExtension(path).ToLower() == Path.GetFileNameWithoutExtension(item).ToLower())
+            // disc-based
+            if (platform is Platform.PCECD or Platform.GCN or Platform.SMCD or Platform.PSX) {
+                if (Path.GetExtension(path).ToLower() == ".cue") {
+                    foreach (var item in Directory.EnumerateFiles(Path.GetDirectoryName(path))) {
+                        if ((Path.GetExtension(item).ToLower() is ".bin" or ".iso") && Utils.GetFileCN(path).Equals(Utils.GetFileCN(item), StringComparison.OrdinalIgnoreCase)) {
                             path = item;
-
-                if (Path.GetExtension(path).ToLower() != ".bin" && Path.GetExtension(path).ToLower() != ".iso")
+                            break;
+                        }
+                    }
+                }
+                if (Path.GetExtension(path).ToLower() is not ".bin" and not ".iso") {
+                    Logger.Log($"#GetGameData()-> Unsupported disc file extension for {path}");
                     return (null, null, null, null, null, null, false);
+                }
             }
 
-            if (Databases.LibRetro.IsWeb(platform))
-                Web.InternetTest();
-            Program.MainForm.Wait(true, true, false);
+            //  Download platform database if not found,
+            //      then notify user if downloading or moving on to fetch game data
+            bool dldb = Databases.LibRetro.IsWeb(platform);
+            if (dldb) Web.InternetTest();
+            Program.MainForm.Wait(dldb ? $"Downloading '{platform}' database..." : "Attempting to fetch game data!");
 
+            // attempt CRC match
             var result = Databases.LibRetro.Read(path, platform);
-
-            if (!string.IsNullOrEmpty(result.Name))
-            {
+            if (!string.IsNullOrEmpty(result.Name)) {
+                Logger.Log($"#GetGameData()-> CRC match found for '{path}' -> '{result.Name}'");
                 result.Name = System.Text.RegularExpressions.Regex.Replace(result.Name?.Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
                 if (result.Name.Contains(", The")) result.Name = "The " + result.Name.Replace(", The", string.Empty);
+                return result;
             }
 
-            return result;
+            DataTable dt = Databases.LibRetro.Parse(platform);
+            if (dt == null) {
+                Logger.Log("#GetGameData()-> Database parsing failed or returned null.");
+                return (null, null, null, null, null, null, false);
+            }
+            // attempt filename lookup if CRC match fails
+
+            string fileName = Utils.GetFileCN(path);
+            string region = ExtractRegion(ref fileName);
+
+            DataRow row = DbLookup(dt, fileName, region);
+            if (row == null) {
+                Logger.Log($"#GetGameData()-> No match found for '{fileName}' in database");
+                return (null, null, null, null, null, null, false);
+            }
+
+            string name = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null;
+            string serial = row.Table.Columns.Contains("serial") ? row["serial"]?.ToString() : null;
+            string year = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null;
+            string players = row.Table.Columns.Contains("users") ? row["users"]?.ToString() : null;
+            string image = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null;
+            string genre = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null;
+
+            if (!string.IsNullOrEmpty(region) && name != null && !name.Contains(region))
+                name += $" ({region})";
+
+            name = System.Text.RegularExpressions.Regex.Replace(name?.Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
+            if (name.Contains(", The")) name = "The " + name.Replace(", The", string.Empty);
+
+            bool complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(players) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(image);
+            if (platform == Platform.C64 || platform == Platform.PCECD)
+                complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(image);
+            
+            Logger.Log($"#GetGameData()-> Filename match successful for '{fileName}' -> '{name}'");
+            return (name, serial, year, players, image, FormatGenre(genre), complete);
         }
 
         public async void GameScan(bool imageOnly)
         {
             if (rom == null || rom.FilePath == null) return;
-
             try
             {
                 (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) gameData = (null, null, null, null, null, null, false);
-                await Task.Run(() => { gameData = GetGameData(targetPlatform, rom.FilePath); });
-                //var dt2 = Databases.LibRetro.Parse(Platform.NES);
-                //var row2 = dt2.Select("crc = '1E693A66'").FirstOrDefault();
-                //Console.WriteLine(row2?["db_genre"]);
-
+                await Task.Run(() => { gameData = GetGameData(TargetPlatform, rom.FilePath); });
                 bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, null, false);
 
-                if (retrieved)
-                {
-                    if (!imageOnly)
-                    {
+                if (retrieved) {
+                    if (!imageOnly) {
                         // Set banner title
                         banner_form.title.Text = gameData.Name ?? banner_form.title.Text;
 
                         // Set channel title text
-                        if (!string.IsNullOrEmpty(gameData.Name))
-                        {
-                            var text = gameData.Name.Replace("\r", "").Split('\n');
-                            if (text[0].Length <= channel_name.MaxLength) { channel_name.Text = text[0]; }
-                        }
-                        
+                        var title = !string.IsNullOrEmpty(gameData.Name) ? gameData.Name.Replace("\r", "").Split('\n') : new[] {"Unknown"};
+                        channel_name.Text = title[0].Length <= channel_name.MaxLength ? title[0] : channel_name.Text;
 
+                        // Set genre text
+                        var dbGenre = !string.IsNullOrEmpty(gameData.Genre) ? gameData.Genre.Replace("\r", "").Split('\n') : new[] {"Unknown"};
+                        genre.Text = dbGenre[0].Length <= genre.MaxLength ? dbGenre[0] : genre.Text;
+                        
                         // Set year and players
                         banner_form.released.Value = !string.IsNullOrEmpty(gameData.Year) ? int.Parse(gameData.Year) : banner_form.released.Value;
                         banner_form.players.Value = !string.IsNullOrEmpty(gameData.Players) ? int.Parse(gameData.Players) : banner_form.players.Value;
-                        //genre.Text = !string.IsNullOrEmpty(gameData.Genre) ? gameData.Genre : genre.Text;
-
-                        // Set genre text
-                        if (!string.IsNullOrEmpty(gameData.Genre))
-                        {
-                            var text = gameData.Genre.Replace("\r", "").Split('\n');
-                            if (text[0].Length <= genre.MaxLength) { genre.Text = text[0]; }
-                        }
-                        else {
-                            genre.Text = "null";
-                        }
 
                         linkSaveDataTitle();
                     }
-
-                    // Set image
                     if (!string.IsNullOrEmpty(gameData.Image))
-                    {
                         await Task.Run(() => { LoadImage(gameData.Image); });
-                    }
 
                     await Task.Run(() => { resetImages(true); });
                 }
-
                 Program.MainForm.Wait(false, false, false);
 
                 // Show message if partially failed to retrieve data
                 if (retrieved && !gameData.IsComplete && !imageOnly)
                     MessageBox.Show(Program.Lang.Msg(4));
-                else if (!retrieved) SystemSounds.Beep.Play();
+                else if (!retrieved)
+                    SystemSounds.Beep.Play();
             }
-
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Program.MainForm.Wait(false, false, false);
 
                 if (Program.DebugMode)
@@ -1911,17 +2150,13 @@ namespace FriishProduce
 
         public void SaveToWAD(string targetFile = null) => backgroundWorker.RunWorkerAsync(targetFile);
         private void saveToWAD_UpdateProgress(object sender, System.ComponentModel.ProgressChangedEventArgs e) => Program.MainForm.Wait(true, false, true, e.ProgressPercentage);
-        private void saveToWAD(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
+        private void saveToWAD(object sender, System.ComponentModel.DoWorkEventArgs e) {
             Exception error = null;
-
             string targetFile = e.Argument.ToString();
-            if (targetFile == null) targetFile = Paths.WorkingFolder + "out.wad";
+            targetFile ??= Paths.WorkingFolder + "out.wad";
 
-            try
-            {
-                Method m = new(targetPlatform)
-                {
+            try {
+                Method m = new(TargetPlatform) {
                     ROM = rom,
                     Patch = patch,
                     Img = img,
@@ -1941,7 +2176,6 @@ namespace FriishProduce
                     WadRegion = (int)outWadRegion,
                     // WadVideoMode = video_modes.SelectedIndex,
                     // WiiUDisplay = wiiu_display.SelectedIndex,
-
                     EmuVersion = emuVer,
 
                     // Manual = manual,
@@ -1953,8 +2187,7 @@ namespace FriishProduce
 
                 string emulator = null;
                 Forwarder.Storages device = 0;
-                Invoke(new MethodInvoker(delegate
-                {
+                Invoke(new MethodInvoker(delegate {
                     m.IsMultifile = multifile_software.Checked;
                     m.WadVideoMode = video_mode.SelectedIndex;
                     m.WiiUDisplay = wiiu_display.SelectedIndex;
@@ -1967,19 +2200,15 @@ namespace FriishProduce
 
                 Start:
                 bool localFile = inWadFile != null;
-
                 Program.MainForm.Wait(false, false, false);
-                if (!localFile) Web.InternetTest();
-                Program.MainForm.Wait(true, true, true, 0, 1);
 
                 // Get WAD data
                 // *******
-                if (localFile) m.GetWAD(inWadFile, baseID.Text);
-                else
-                {
+                if (localFile) m.GetWAD(inWadFile, baseID.Text, localFile);
+                else {
                     var entry = channels.Entries.Where(x => x.GetUpperIDs().Contains(baseID.Text)).ToArray()[0];
                     var index = Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
-                    m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index));
+                    m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), localFile);
                 }
                 backgroundWorker.ReportProgress(m.Progress);
 
@@ -1987,7 +2216,7 @@ namespace FriishProduce
                 {
                     if (File.Exists(patch)) m.ROM.Patch(patch);
 
-                    switch (targetPlatform)
+                    switch (TargetPlatform)
                     {
                         case Platform.NES:
                         case Platform.SNES:
@@ -2023,29 +2252,20 @@ namespace FriishProduce
                             throw new NotImplementedException();
                     }
                 }
-
-                catch (Exception ex)
-                {
-                    if (!localFile && ex.Message == "U8 Header: Invalid Magic!")
-                    {
-                        if (wad_tries == 0)
-                        {
+                catch (Exception ex) {
+                    if (!localFile && ex.Message == "U8 Header: Invalid Magic!") {
+                        if (wad_tries == 0) {
                             wad_tries++;
                             Logger.Log("Received \"U8 Header: Invalid Magic!\" error, download may have failed. Attempting to download WAD a second time.");
                             goto Start;
                         }
-
-                        else
-                        {
+                        else {
                             Logger.Log("WAD is invalid or failed to load more than once. Process halted.");
                             throw ex;
                         }
                     }
-
-                    else
-                    {
-                        Logger.Log("Exportation failed. Process halted.");
-                        Logger.Log($"Message: {ex.Message}");
+                    else {
+                        Logger.Log($"Export failed: {ex.Message}");
                         throw ex;
                     }
                 }
@@ -2063,45 +2283,33 @@ namespace FriishProduce
                 m.Save();
                 backgroundWorker.ReportProgress(m.Progress);
 
-                // Check new WAD file
-                // *******
+                // write inject/WAD meta.json to Banner U8
+                if (Program.Config.application.write_metadata) WadMeta.Write(m, targetFile, InWadRegion);
+
                 if (File.Exists(targetFile) && File.ReadAllBytes(targetFile).Length > 10) error = null;
                 else throw new Exception(Program.Lang.Msg(7, 1));
             }
-
-            catch (Exception ex)
-            {
-                error = ex;
+            catch (Exception ex) { 
+                error = ex; 
             }
-
-            finally
-            {
+            finally {
                 Program.MainForm.Wait(false, false, false);
                 Program.CleanTemp();
 
-                Invoke(new MethodInvoker(delegate
-                {
-                    if (error == null)
-                    {
+                Invoke(new MethodInvoker(delegate {
+                    if (error == null) {
                         SystemSounds.Beep.Play();
-
-                        switch (MessageBox.Show(Program.Lang.Msg(3), null, MessageBox.Buttons.YesNo, MessageBox.Icons.Information))
-                        {
+                        switch (MessageBox.Show(Program.Lang.Msg(3), null, MessageBox.Buttons.YesNo, MessageBox.Icons.Information)) {
                             case MessageBox.Result.Yes:
                                 System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{targetFile}\"");
                                 break;
                         }
                     }
-
-                    else
-                    {
-                        if (Program.DebugMode)
-                            throw error;
-                        else
-                        {
+                    else {
+                        if (Program.DebugMode) throw error;
+                        else {
                             string msg = error.Message;
                             if (!string.IsNullOrWhiteSpace(error.InnerException?.Message)) msg += Environment.NewLine + error.InnerException?.Message;
-
                             MessageBox.Error(msg);
                         }
                     }
@@ -2122,7 +2330,7 @@ namespace FriishProduce
             contentOptionsForm.Text = Program.Lang.String(injection_method_options.Name, Name).TrimEnd('.').Trim();
             var result = contentOptionsForm.ShowDialog(this) == DialogResult.OK;
 
-            switch (targetPlatform)
+            switch (TargetPlatform)
             {
                 default:
                     if (result) { ValueChanged(sender, e); }
@@ -2303,13 +2511,13 @@ namespace FriishProduce
             {
                 0 => Properties.Resources.flag_jp,
                 1 or 2 => Properties.Resources.flag_us,
-                3 => (int)targetPlatform <= 2 ? Properties.Resources.flag_eu50 : Properties.Resources.flag_eu,
-                4 or 5 => (int)targetPlatform <= 2 ? Properties.Resources.flag_eu60 : Properties.Resources.flag_eu,
+                3 => (int)TargetPlatform <= 2 ? Properties.Resources.flag_eu50 : Properties.Resources.flag_eu,
+                4 or 5 => (int)TargetPlatform <= 2 ? Properties.Resources.flag_eu60 : Properties.Resources.flag_eu,
                 6 or 7 => Properties.Resources.flag_kr,
                 _ => null,
             };
 
-            savedata.Reset(targetPlatform, (int)inWadRegion);
+            savedata.Reset(TargetPlatform, (int)InWadRegion);
             resetImages();
             linkSaveDataTitle();
             resetContentOptions();
@@ -2335,7 +2543,7 @@ namespace FriishProduce
         /// </summary>
         private void resetContentOptions()
         {
-            if (targetPlatform == Platform.Flash && contentOptionsForm != null) return;
+            if (TargetPlatform == Platform.Flash && contentOptionsForm != null) return;
 
             contentOptionsForm = null;
             htmlDialog = null;
@@ -2352,7 +2560,7 @@ namespace FriishProduce
                 extra.Text = Program.Lang.String(manual_type.Name, Name);
                 manual_type.Visible = true;
 
-                switch (targetPlatform)
+                switch (TargetPlatform)
                 {
                     case Platform.NES:
                         contentOptionsForm = new Options_VC_NES() { EmuType = emuVer };
@@ -2364,13 +2572,13 @@ namespace FriishProduce
                         break;
 
                     case Platform.N64:
-                        contentOptionsForm = new Options_VC_N64() { EmuType = inWadRegion == Region.Korea ? 3 : emuVer };
+                        contentOptionsForm = new Options_VC_N64() { EmuType = InWadRegion == Region.Korea ? 3 : emuVer };
                         htmlDialog = new(Program.Lang.HTML(2, false), injection_methods.SelectedItem.ToString());
                         break;
 
                     case Platform.SMS:
                     case Platform.SMD:
-                        contentOptionsForm = new Options_VC_SEGA() { EmuType = emuVer, IsSMS = targetPlatform == Platform.SMS };
+                        contentOptionsForm = new Options_VC_SEGA() { EmuType = emuVer, IsSMS = TargetPlatform == Platform.SMS };
                         break;
 
                     case Platform.PCE:
@@ -2390,7 +2598,7 @@ namespace FriishProduce
                 }
             }
 
-            else if (targetPlatform == Platform.Flash)
+            else if (TargetPlatform == Platform.Flash)
             {
                 hasExtra = true;
                 extra.Text = Program.Lang.String(manual_type.Name, Name);
@@ -2405,7 +2613,7 @@ namespace FriishProduce
                 extra.Text = Program.Lang.String(forwarder_root_device.Name, Name);
                 forwarder_root_device.Visible = true;
 
-                switch (targetPlatform)
+                switch (TargetPlatform)
                 {
                     case Platform.GB:
                     case Platform.GBC:
@@ -2413,8 +2621,8 @@ namespace FriishProduce
                     case Platform.S32X:
                     case Platform.SMCD:
                     case Platform.PSX:
-                        contentOptionsForm = new Options_Forwarder(targetPlatform);
-                        if (targetPlatform == Platform.PSX) multifile_software.Visible = true;
+                        contentOptionsForm = new Options_Forwarder(TargetPlatform);
+                        if (TargetPlatform == Platform.PSX) multifile_software.Visible = true;
                         break;
                     case Platform.NES:
                         break;
@@ -2459,8 +2667,8 @@ namespace FriishProduce
                 manual_type.SelectedIndex = 0;
             }*/
 
-            showSaveData = isVirtualConsole || targetPlatform == Platform.Flash;
-            download_image.Enabled = Databases.LibRetro.Exists(targetPlatform);
+            showSaveData = isVirtualConsole || TargetPlatform == Platform.Flash;
+            download_image.Enabled = Databases.LibRetro.Exists(TargetPlatform);
 
             bool hasHelp = !string.IsNullOrWhiteSpace(htmlDialog?.FormText);
             injection_method_help.Visible = hasHelp && !IsEmpty;

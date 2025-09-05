@@ -42,6 +42,7 @@ namespace FriishProduce
             this.themes = new System.Windows.Forms.ComboBox();
             this.bypass_rom_size = new System.Windows.Forms.CheckBox();
             this.use_online_wad_enabled = new System.Windows.Forms.CheckBox();
+            this.write_metadata = new System.Windows.Forms.CheckBox();
             this.use_custom_database = new System.Windows.Forms.CheckBox();
             this.reset_all_dialogs = new System.Windows.Forms.CheckBox();
             this.language = new FriishProduce.GroupBoxEx();
@@ -54,11 +55,14 @@ namespace FriishProduce
             this.toggleSwitch2 = new JCS.ToggleSwitch();
             this.panel2 = new System.Windows.Forms.Panel();
             this.auto_prefill = new System.Windows.Forms.CheckBox();
+            this.publisher_opt = new System.Windows.Forms.Label();
+            this.publisher_opt_tb = new System.Windows.Forms.TextBox();
             this.locsave_banner = new System.Windows.Forms.CheckBox();
             this.locsave_banner_tb = new System.Windows.Forms.TextBox();
             this.locsave_wad = new System.Windows.Forms.CheckBox();
             this.locsave_wad_tb = new System.Windows.Forms.TextBox();
             this.lowerParams = new System.Windows.Forms.CheckBox();
+            this.transParams = new System.Windows.Forms.CheckBox();
             this.auto_fill_save_data = new System.Windows.Forms.CheckBox();
             this.image_interpolation_mode = new FriishProduce.GroupBoxEx();
             this.image_interpolation_modes = new System.Windows.Forms.ComboBox();
@@ -175,9 +179,12 @@ namespace FriishProduce
             // panel1
             // 
             this.panel1.Controls.Add(this.debug_mode);
+            this.panel1.Controls.Add(this.publisher_opt);
+            this.panel1.Controls.Add(this.publisher_opt_tb);
             this.panel1.Controls.Add(this.theme);
             this.panel1.Controls.Add(this.bypass_rom_size);
             this.panel1.Controls.Add(this.use_online_wad_enabled);
+            this.panel1.Controls.Add(this.write_metadata);
             this.panel1.Controls.Add(this.use_custom_database);
             this.panel1.Controls.Add(this.reset_all_dialogs);
             this.panel1.Controls.Add(this.language);
@@ -192,6 +199,20 @@ namespace FriishProduce
             this.debug_mode.UseVisualStyleBackColor = true;
             this.debug_mode.Enabled = false;
             this.debug_mode.Checked = Program.DebugMode;
+            // 
+            // publisher
+            resources.ApplyResources(this.publisher_opt, "publisher_opt");
+            this.publisher_opt.Name = "publisher_opt";
+            this.publisher_opt.Tag = "publisher_opt";
+            //
+            resources.ApplyResources(this.publisher_opt_tb, "publisher_opt_tb");
+            this.publisher_opt_tb.Name = "publisher_opt_tb";
+            //
+            // write_metadata 
+            resources.ApplyResources(this.write_metadata, "write_metadata");
+            this.write_metadata.Name = "write_metadata";
+            this.write_metadata.Tag = "write_metadata";
+            this.write_metadata.UseVisualStyleBackColor = true;
             // 
             // theme
             // 
@@ -312,6 +333,7 @@ namespace FriishProduce
             this.panel2.Controls.Add(this.locsave_wad);
             this.panel2.Controls.Add(this.locsave_wad_tb);
             this.panel2.Controls.Add(this.lowerParams);
+            this.panel2.Controls.Add(this.transParams);
             this.panel2.Controls.Add(this.auto_fill_save_data);
             this.panel2.Controls.Add(this.image_interpolation_mode);
             this.panel2.Controls.Add(this.banner_region);
@@ -339,11 +361,16 @@ namespace FriishProduce
             this.locsave_wad_tb.Name = "locsave_wad_tb";
             //
             //
-            // lowerParams
+            // lowerParams && transParams
             resources.ApplyResources(this.lowerParams, "lowerParams");
             this.lowerParams.Name = "lowerParams";
             this.lowerParams.Tag = "lowerParams";
             this.lowerParams.UseVisualStyleBackColor = true;
+
+            resources.ApplyResources(this.transParams, "transParams");
+            this.transParams.Name = "transParams";
+            this.transParams.Tag = "transParams";
+            this.transParams.UseVisualStyleBackColor = true;
             //
             //
             // auto_prefill
@@ -665,6 +692,9 @@ namespace FriishProduce
         private GroupBoxEx forwarder_root_device;
         private System.Windows.Forms.CheckBox auto_prefill;
         private System.Windows.Forms.CheckBox lowerParams;
+        private System.Windows.Forms.CheckBox transParams;
+        private System.Windows.Forms.Label publisher_opt;
+        private System.Windows.Forms.TextBox publisher_opt_tb;
         private System.Windows.Forms.CheckBox locsave_banner;
         private System.Windows.Forms.TextBox locsave_banner_tb;
         private System.Windows.Forms.CheckBox locsave_wad;
@@ -686,6 +716,7 @@ namespace FriishProduce
         private System.Windows.Forms.Button b_ok;
         private System.Windows.Forms.ComboBox forwarder_type;
         private System.Windows.Forms.CheckBox use_online_wad_enabled;
+        private System.Windows.Forms.CheckBox write_metadata;
         private System.Windows.Forms.ComboBox banner_regions;
         private GroupBoxEx nes_default;
         private GroupBoxEx snes_default;
