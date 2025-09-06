@@ -444,6 +444,7 @@
 			"content_domain": "內容網域",
 			"background_color": "背景顏色",
 			"anti_aliasing": "抗鋸齒",
+			"flash_vars": "變數 Flash",
 			"no_copy_save": "禁用存檔副本",
 			"zoom": "縮放",
 			"zoom0": "{by_default}",

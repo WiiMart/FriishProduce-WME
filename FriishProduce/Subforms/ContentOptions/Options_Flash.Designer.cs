@@ -1,4 +1,4 @@
-﻿
+
 namespace FriishProduce
 {
     partial class Options_Flash
@@ -29,6 +29,7 @@ namespace FriishProduce
         /// </summary>
         private void InitializeComponent()
         {
+            this.groupBox1 = new FriishProduce.GroupBoxEx();
             this.quality = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new FriishProduce.GroupBoxEx();
             this.vff_sync_on_write = new System.Windows.Forms.CheckBox();
@@ -76,29 +77,24 @@ namespace FriishProduce
             this.swf_metadata.SuspendLayout();
             this.zoom.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // b_controller
-            // 
             this.b_controller.Size = new System.Drawing.Size(319, 24);
-            // 
+
             // controller_box
-            // 
             this.controller_box.Location = new System.Drawing.Point(12, 284);
             this.controller_box.Size = new System.Drawing.Size(360, 54);
-            // 
+
             // quality
-            // 
             this.quality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.quality.FormattingEnabled = true;
-            this.quality.Items.AddRange(new object[] {
-            "auto"});
+            this.quality.Items.AddRange(new object[] {"auto"});
             this.quality.Location = new System.Drawing.Point(10, 37);
             this.quality.Name = "quality";
             this.quality.Size = new System.Drawing.Size(340, 21);
             this.quality.Tag = "quality";
-            // 
+
             // groupBox1
-            // 
             this.groupBox1.Controls.Add(this.vff_sync_on_write);
             this.groupBox1.Controls.Add(this.vff_cache_size_l);
             this.groupBox1.Controls.Add(this.vff_cache_size);
@@ -114,9 +110,8 @@ namespace FriishProduce
             this.groupBox1.TabStop = false;
             this.groupBox1.Tag = "save_data";
             this.groupBox1.Text = "save_data";
-            // 
+
             // vff_sync_on_write
-            // 
             this.vff_sync_on_write.AutoSize = true;
             this.vff_sync_on_write.Location = new System.Drawing.Point(10, 41);
             this.vff_sync_on_write.Name = "vff_sync_on_write";
@@ -124,60 +119,53 @@ namespace FriishProduce
             this.vff_sync_on_write.Tag = "vff_sync_on_write";
             this.vff_sync_on_write.Text = "vff_sync_on_write";
             this.vff_sync_on_write.UseVisualStyleBackColor = true;
-            // 
+
             // vff_cache_size_l
-            // 
             this.vff_cache_size_l.AutoSize = true;
             this.vff_cache_size_l.Location = new System.Drawing.Point(12, 67);
             this.vff_cache_size_l.Name = "vff_cache_size_l";
             this.vff_cache_size_l.Size = new System.Drawing.Size(79, 13);
             this.vff_cache_size_l.Tag = "vff_cache_size";
             this.vff_cache_size_l.Text = "vff_cache_size";
-            // 
+
             // vff_cache_size
-            // 
             this.vff_cache_size.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vff_cache_size.FormattingEnabled = true;
             this.vff_cache_size.Location = new System.Drawing.Point(15, 83);
             this.vff_cache_size.Name = "vff_cache_size";
             this.vff_cache_size.Size = new System.Drawing.Size(152, 21);
-            // 
+
             // persistent_storage_per_movie_l
-            // 
             this.persistent_storage_per_movie_l.Location = new System.Drawing.Point(185, 102);
             this.persistent_storage_per_movie_l.Name = "persistent_storage_per_movie_l";
             this.persistent_storage_per_movie_l.Size = new System.Drawing.Size(160, 30);
             this.persistent_storage_per_movie_l.Tag = "persistent_storage_per_movie";
             this.persistent_storage_per_movie_l.Text = "persistent_storage_per_movie";
             this.persistent_storage_per_movie_l.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
+
             // persistent_storage_per_movie
-            // 
             this.persistent_storage_per_movie.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.persistent_storage_per_movie.FormattingEnabled = true;
             this.persistent_storage_per_movie.Location = new System.Drawing.Point(193, 136);
             this.persistent_storage_per_movie.Name = "persistent_storage_per_movie";
             this.persistent_storage_per_movie.Size = new System.Drawing.Size(152, 21);
-            // 
+
             // persistent_storage_total_l
-            // 
             this.persistent_storage_total_l.Location = new System.Drawing.Point(12, 103);
             this.persistent_storage_total_l.Name = "persistent_storage_total_l";
             this.persistent_storage_total_l.Size = new System.Drawing.Size(160, 30);
             this.persistent_storage_total_l.Tag = "persistent_storage_total";
             this.persistent_storage_total_l.Text = "persistent_storage_total";
             this.persistent_storage_total_l.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
+
             // persistent_storage_total
-            // 
             this.persistent_storage_total.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.persistent_storage_total.FormattingEnabled = true;
             this.persistent_storage_total.Location = new System.Drawing.Point(15, 136);
             this.persistent_storage_total.Name = "persistent_storage_total";
             this.persistent_storage_total.Size = new System.Drawing.Size(152, 21);
-            // 
+
             // save_data_enable
-            // 
             this.save_data_enable.AutoSize = true;
             this.save_data_enable.Location = new System.Drawing.Point(10, 20);
             this.save_data_enable.Name = "save_data_enable";
@@ -186,20 +174,18 @@ namespace FriishProduce
             this.save_data_enable.Text = "save_data_enable";
             this.save_data_enable.UseVisualStyleBackColor = true;
             this.save_data_enable.CheckedChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // no_copy_save
-            // 
             this.no_copy_save.AutoSize = true;
             this.no_copy_save.Location = new System.Drawing.Point(193, 20);
             this.no_copy_save.Name = "no_copy_save";
-            this.no_copy_save.Size = new System.Drawing.Size(115, 17);
+            this.no_copy_save.Size = new System.Drawing.Size(96, 17); //115, 17;
             this.no_copy_save.Tag = "no_copy_save";
             this.no_copy_save.Text = "no_copy_save";
             this.no_copy_save.UseVisualStyleBackColor = true;
             this.no_copy_save.CheckedChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // display
-            // 
             this.display.Controls.Add(this.anti_aliasing);
             this.display.Controls.Add(this.quality_l);
             this.display.Controls.Add(this.quality);
@@ -207,11 +193,11 @@ namespace FriishProduce
             this.display.Name = "display";
             this.display.Size = new System.Drawing.Size(360, 90);
             this.display.TabStop = false;
+            //this.display.Flat = false; // verify merge
             this.display.Tag = "display";
             this.display.Text = "display";
-            // 
+
             // anti_aliasing
-            // 
             this.anti_aliasing.AutoSize = true;
             this.anti_aliasing.Location = new System.Drawing.Point(10, 64);
             this.anti_aliasing.Name = "anti_aliasing";
@@ -219,18 +205,16 @@ namespace FriishProduce
             this.anti_aliasing.Tag = "anti_aliasing";
             this.anti_aliasing.Text = "anti_aliasing";
             this.anti_aliasing.UseVisualStyleBackColor = true;
-            // 
+
             // quality_l
-            // 
             this.quality_l.AutoSize = true;
             this.quality_l.Location = new System.Drawing.Point(7, 18);
             this.quality_l.Name = "quality_l";
             this.quality_l.Size = new System.Drawing.Size(39, 13);
             this.quality_l.Tag = "quality";
             this.quality_l.Text = "quality";
-            // 
+
             // standard
-            // 
             this.standard.AutoSize = true;
             this.standard.Location = new System.Drawing.Point(10, 47);
             this.standard.Name = "standard";
@@ -238,61 +222,40 @@ namespace FriishProduce
             this.standard.Tag = "standard";
             this.standard.Text = "standard";
             this.standard.UseVisualStyleBackColor = true;
-            // 
+
             // zoom_vl
-            // 
             this.zoom_vl.AutoSize = true;
             this.zoom_vl.Location = new System.Drawing.Point(281, 21);
             this.zoom_vl.Name = "zoom_vl";
             this.zoom_vl.Size = new System.Drawing.Size(13, 13);
             this.zoom_vl.Text = "V";
-            // 
+
             // zoom_hl
-            // 
             this.zoom_hl.AutoSize = true;
             this.zoom_hl.Location = new System.Drawing.Point(202, 21);
             this.zoom_hl.Name = "zoom_hl";
             this.zoom_hl.Size = new System.Drawing.Size(14, 13);
             this.zoom_hl.Text = "H";
-            // 
+
             // zoom_v
-            // 
             this.zoom_v.Location = new System.Drawing.Point(296, 19);
-            this.zoom_v.Maximum = new decimal(new int[] {
-            600,
-            0,
-            0,
-            0});
+            this.zoom_v.Maximum = new decimal(new int[] {600, 0, 0, 0});
             this.zoom_v.Name = "zoom_v";
             this.zoom_v.Size = new System.Drawing.Size(55, 21);
             this.zoom_v.Suffix = "%";
-            this.zoom_v.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.zoom_v.Value = new decimal(new int[] { 100, 0, 0, 0});
             this.zoom_v.ValueChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // zoom_h
-            // 
             this.zoom_h.Location = new System.Drawing.Point(217, 19);
-            this.zoom_h.Maximum = new decimal(new int[] {
-            600,
-            0,
-            0,
-            0});
+            this.zoom_h.Maximum = new decimal(new int[] {600, 0, 0, 0});
             this.zoom_h.Name = "zoom_h";
             this.zoom_h.Size = new System.Drawing.Size(55, 21);
             this.zoom_h.Suffix = "%";
-            this.zoom_h.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.zoom_h.Value = new decimal(new int[] {100, 0, 0, 0});
             this.zoom_h.ValueChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // controls
-            // 
             this.controls.Controls.Add(this.midi);
             this.controls.Controls.Add(this.qwerty_keyboard);
             this.controls.Controls.Add(this.mouse);
@@ -300,11 +263,11 @@ namespace FriishProduce
             this.controls.Name = "controls";
             this.controls.Size = new System.Drawing.Size(360, 89);
             this.controls.TabStop = false;
+            //this.controls.Flat = false; // verify merge
             this.controls.Tag = "controls";
             this.controls.Text = "controls";
-            // 
+
             // midi
-            // 
             this.midi.AutoSize = true;
             this.midi.Location = new System.Drawing.Point(10, 64);
             this.midi.Name = "midi";
@@ -313,9 +276,8 @@ namespace FriishProduce
             this.midi.Text = "midi";
             this.midi.UseVisualStyleBackColor = true;
             this.midi.CheckedChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // qwerty_keyboard
-            // 
             this.qwerty_keyboard.AutoSize = true;
             this.qwerty_keyboard.Location = new System.Drawing.Point(10, 42);
             this.qwerty_keyboard.Name = "qwerty_keyboard";
@@ -323,9 +285,8 @@ namespace FriishProduce
             this.qwerty_keyboard.Tag = "qwerty_keyboard";
             this.qwerty_keyboard.Text = "qwerty_keyboard";
             this.qwerty_keyboard.UseVisualStyleBackColor = true;
-            // 
+
             // mouse
-            // 
             this.mouse.AutoSize = true;
             this.mouse.Location = new System.Drawing.Point(10, 20);
             this.mouse.Name = "mouse";
@@ -333,9 +294,8 @@ namespace FriishProduce
             this.mouse.Tag = "mouse";
             this.mouse.Text = "mouse";
             this.mouse.UseVisualStyleBackColor = true;
-            // 
+
             // background_color_img
-            // 
             this.background_color_img.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.background_color_img.Cursor = System.Windows.Forms.Cursors.Hand;
             this.background_color_img.Location = new System.Drawing.Point(311, 79);
@@ -343,35 +303,31 @@ namespace FriishProduce
             this.background_color_img.Size = new System.Drawing.Size(34, 20);
             this.background_color_img.TabStop = false;
             this.background_color_img.Click += new System.EventHandler(this.changeBackgroundColor);
-            // 
+
             // strap_reminder
-            // 
             this.strap_reminder.Controls.Add(this.strap_reminder_list);
             this.strap_reminder.Location = new System.Drawing.Point(378, 302);
             this.strap_reminder.Name = "strap_reminder";
             this.strap_reminder.Size = new System.Drawing.Size(360, 50);
             this.strap_reminder.TabStop = false;
+            //this.strap_reminder.Flat = false; // verify merge
             this.strap_reminder.Tag = "strap_reminder";
             this.strap_reminder.Text = "strap_reminder";
-            // 
+
             // strap_reminder_list
-            // 
             this.strap_reminder_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.strap_reminder_list.FormattingEnabled = true;
-            this.strap_reminder_list.Items.AddRange(new object[] {
-            "auto"});
+            this.strap_reminder_list.Items.AddRange(new object[] {"auto"});
             this.strap_reminder_list.Location = new System.Drawing.Point(10, 18);
             this.strap_reminder_list.Name = "strap_reminder_list";
             this.strap_reminder_list.Size = new System.Drawing.Size(340, 21);
             this.strap_reminder_list.Tag = "strap_reminder";
-            // 
+
             // ImportDLS
-            // 
             this.ImportDLS.DefaultExt = "dls";
             this.ImportDLS.Filter = ".dls (*.dls)|*.dls";
-            // 
+
             // swf_metadata
-            // 
             this.swf_metadata.Controls.Add(this.background_color);
             this.swf_metadata.Controls.Add(this.background_color_l);
             this.swf_metadata.Controls.Add(this.content_domain_l);
@@ -385,41 +341,37 @@ namespace FriishProduce
             this.swf_metadata.TabStop = false;
             this.swf_metadata.Tag = "swf_metadata";
             this.swf_metadata.Text = "swf_metadata";
-            // 
+            //this.swf_metadata.Flat = false; // verify merge
+
             // background_color
-            // 
             this.background_color.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
             this.background_color.Location = new System.Drawing.Point(15, 79);
             this.background_color.MaxLength = 6;
             this.background_color.Name = "background_color";
             this.background_color.Size = new System.Drawing.Size(290, 21);
             this.background_color.TextChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // background_color_l
-            // 
             this.background_color_l.AutoSize = true;
             this.background_color_l.Location = new System.Drawing.Point(7, 61);
             this.background_color_l.Name = "background_color_l";
             this.background_color_l.Size = new System.Drawing.Size(92, 13);
             this.background_color_l.Tag = "background_color";
             this.background_color_l.Text = "background_color";
-            // 
+
             // content_domain_l
-            // 
             this.content_domain_l.AutoSize = true;
             this.content_domain_l.Location = new System.Drawing.Point(7, 18);
             this.content_domain_l.Name = "content_domain_l";
             this.content_domain_l.Size = new System.Drawing.Size(84, 13);
             this.content_domain_l.Tag = "content_domain";
             this.content_domain_l.Text = "content_domain";
-            // 
+
             // content_domain
-            // 
             this.content_domain.Location = new System.Drawing.Point(15, 36);
             this.content_domain.Name = "content_domain";
             this.content_domain.PlaceholderText = "file:///trusted/";
             this.content_domain.Size = new System.Drawing.Size(157, 21);
-
 
             // flash_vars_l
             this.flash_vars_l.AutoSize = true;
@@ -431,11 +383,10 @@ namespace FriishProduce
             // flash_vars
             this.flash_vars.Location = new System.Drawing.Point(193, 36);
             this.flash_vars.Name = "flash_vars";
-            this.flash_vars.PlaceholderText = "dummy=1";
+            this.flash_vars.PlaceholderText = "none";
             this.flash_vars.Size = new System.Drawing.Size(157, 21);
 
             // zoom
-            // 
             this.zoom.Controls.Add(this.zoom_list);
             this.zoom.Controls.Add(this.standard);
             this.zoom.Controls.Add(this.zoom_h);
@@ -446,11 +397,11 @@ namespace FriishProduce
             this.zoom.Name = "zoom";
             this.zoom.Size = new System.Drawing.Size(360, 75);
             this.zoom.TabStop = false;
+            //this.zoom.Flat = false; // verify merge
             this.zoom.Tag = "zoom";
             this.zoom.Text = "zoom";
-            // 
+
             // zoom_list
-            // 
             this.zoom_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.zoom_list.FormattingEnabled = true;
             this.zoom_list.Items.AddRange(new object[] {"auto"});
@@ -459,9 +410,8 @@ namespace FriishProduce
             this.zoom_list.Size = new System.Drawing.Size(186, 21);
             this.zoom_list.Tag = "zoom";
             this.zoom_list.SelectedIndexChanged += new System.EventHandler(this.valueChanged);
-            // 
+
             // Options_Flash
-            // 
             this.ClientSize = new System.Drawing.Size(747, 407);
             this.Controls.Add(this.swf_metadata);
             this.Controls.Add(this.strap_reminder);
@@ -498,12 +448,13 @@ namespace FriishProduce
             this.ResumeLayout(false);
 
         }
-
         #endregion
+
         private GroupBoxEx groupBox1;
         private GroupBoxEx swf_metadata;
         private GroupBoxEx display;
         private GroupBoxEx controls;
+        private GroupBoxEx zoom;
 
         private System.Windows.Forms.ComboBox quality;
         private System.Windows.Forms.Label quality_l;
@@ -545,11 +496,10 @@ namespace FriishProduce
         private System.Windows.Forms.CheckBox vff_sync_on_write;
         private System.Windows.Forms.CheckBox anti_aliasing;
 
+        private System.Windows.Forms.ComboBox zoom_list;
         private NumericUpDownEx zoom_h;
         private NumericUpDownEx zoom_v;
         private System.Windows.Forms.Label zoom_hl;
         private System.Windows.Forms.Label zoom_vl;
-        private FriishProduce.GroupBoxEx zoom;
-        private System.Windows.Forms.ComboBox zoom_list;
     }
 }

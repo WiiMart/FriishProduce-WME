@@ -437,6 +437,7 @@
 			"content_domain": "Dominio de contenido",
 			"background_color": "Color de fondo",
 			"anti_aliasing": "Antialias",
+			"flash_vars": "Flash Variables",
 			"no_copy_save": "Desactivar copias de guardado",
 			"zoom": "Zoom",
 			"zoom1": "Valor personalizado",

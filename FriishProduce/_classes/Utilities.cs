@@ -1,4 +1,4 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Zip;
 using SharpCompress.Archives.Zip;
 using System;
 using System.Collections.Generic;

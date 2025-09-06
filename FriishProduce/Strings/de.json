@@ -444,6 +444,7 @@
             "background_color": "Hintergrundfarbe",
             "anti_aliasing": "Kantenglättung",
             "no_copy_save": "Kopieren von Speicherdaten deaktivieren",
+			"flash_vars": "Flash Variables",
             "zoom": "Zoom",
             "zoom0": "{by_default}",
             "zoom1": "{automatic}",

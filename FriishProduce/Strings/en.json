@@ -444,6 +444,7 @@
 			"content_domain": "Content domain",
 			"background_color": "Background color",
 			"anti_aliasing": "Anti-aliasing",
+			"flash_vars": "Flash Variables",
 			"no_copy_save": "Disable save copies",
 			"zoom": "Zoom",
 			"zoom0": "{by_default}",

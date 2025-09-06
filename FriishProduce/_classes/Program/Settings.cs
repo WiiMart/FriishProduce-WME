@@ -271,6 +271,7 @@ namespace FriishProduce
             public string zoom { get; set; } = "default";
             public string fullscreen { get; set; } = "no";
             public string no_copy_save { get; set; } = "off";
+            public string flash_vars { get; set; } = "none";
         }
     }
 }

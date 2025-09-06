@@ -62,6 +62,7 @@ namespace FriishProduce
                 { "zoom", Program.Config.flash.zoom },
                 { "fullscreen", Program.Config.flash.fullscreen },
                 { "no_copy_save", Program.Config.flash.no_copy_save},
+                { "flash_vars", Program.Config.flash.flash_vars }
             };
         }
 
@@ -128,6 +129,7 @@ namespace FriishProduce
                 anti_aliasing.Checked = Options["anti_aliasing"] == "on";
                 standard.Checked = Options["fullscreen"] == "yes";
                 no_copy_save.Checked = Options["no_copy_save"] == "on";
+                flash_vars.Text = Options["flash_vars"];
 
                 // Zoom / Ortho rect
                 // ****************
@@ -207,7 +209,7 @@ namespace FriishProduce
             Options["zoom"] = zoom_h.Enabled && zoom_v.Enabled ? $"{zoom_h.Value}_{zoom_v.Value}" : zoom_list.SelectedIndex == 1 ? "auto" : "default";
             Options["fullscreen"] = standard.Checked ? "yes" : "no";
             Options["no_copy_save"] = no_copy_save.Checked ? "on" : "off";
-
+            Options["flash_vars"] = flash_vars.Text;
             base.SaveOptions();
         }
 
