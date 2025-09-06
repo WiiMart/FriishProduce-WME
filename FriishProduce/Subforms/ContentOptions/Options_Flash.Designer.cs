@@ -39,6 +39,8 @@ namespace FriishProduce
             this.persistent_storage_per_movie = new System.Windows.Forms.ComboBox();
             this.persistent_storage_total_l = new System.Windows.Forms.Label();
             this.persistent_storage_total = new System.Windows.Forms.ComboBox();
+            this.flash_vars_l = new System.Windows.Forms.Label();
+            this.flash_vars = new FriishProduce.PlaceholderTextBox();
             this.save_data_enable = new System.Windows.Forms.CheckBox();
             this.no_copy_save = new System.Windows.Forms.CheckBox();
             this.display = new FriishProduce.GroupBoxEx();

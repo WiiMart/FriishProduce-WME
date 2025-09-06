@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FriishProduce
@@ -1149,7 +1150,7 @@ namespace FriishProduce
         }
 
         private void ImportBannerClick(object sender, EventArgs e) => BrowseImageDialog();
-        private async void DlBannerClick(object sender, EventArgs e) => GameScan(true);
+        private void DlBannerClick(object sender, EventArgs e) => GameScan(true);
 
         private void ValueChanged(object sender, EventArgs e)
         {
@@ -1420,10 +1421,6 @@ namespace FriishProduce
             // ----------------------------
             if (DesignMode) return;
             // ----------------------------
-
-            _scanCts?.Cancel();
-            _scanCts?.Dispose();
-            _scanCts = null;
 
             if (!CanClose)
                 e.Cancel = !CanClose;
@@ -2213,7 +2210,7 @@ namespace FriishProduce
             try
             {
                 (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) gameData = (null, null, null, null, null, null, false);
-                await Task.Run(() => { gameData = GetGameData(TargetPlatform, rom.FilePath); });
+                gameData = GetGameData(TargetPlatform, rom.FilePath);
                 bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, null, false);
 
                 if (retrieved) {
@@ -2240,9 +2237,9 @@ namespace FriishProduce
                         linkSaveDataTitle();
                     }
                     if (!string.IsNullOrEmpty(gameData.Image))
-                        await Task.Run(() => { LoadImage(gameData.Image); });
+                        LoadImage(gameData.Image);
 
-                    await Task.Run(() => { resetImages(true); });
+                    resetImages(true);
                 }
                 Program.MainForm.Wait(false, false, false);
 
