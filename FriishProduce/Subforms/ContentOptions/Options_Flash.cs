@@ -14,6 +14,7 @@ namespace FriishProduce
         public Options_Flash() : base()
         {
             InitializeComponent();
+            Utils.SetTabIndices(this);
             if (DesignMode) return;
 
             controllerForm = new Controller_Flash();

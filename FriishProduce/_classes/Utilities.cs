@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FriishProduce
 {
@@ -524,6 +525,15 @@ namespace FriishProduce
         /// </summary>
         public static void EnsureTempWritable() {
             EnsureWritable(Path.GetTempPath());
+        }
+
+        /// <summary>
+        ///     Loops through GroupBox controls then top-level controls and applies TabIndex sequentially
+        /// </summary>
+        public static void SetTabIndices(Form form) {
+            int index = 0;
+            form.Controls.OfType<GroupBox>().ToList().ForEach(gb => gb.Controls.Cast<Control>().ToList().ForEach(c => c.TabIndex = index++));
+            form.Controls.Cast<Control>().Where(c => c is not GroupBox).ToList().ForEach(c => c.TabIndex = index++);
         }
 
         /// <summary>
