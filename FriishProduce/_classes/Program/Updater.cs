@@ -33,7 +33,7 @@ namespace FriishProduce
         private static bool _IsLatest = false;
         public static bool IsLatest { get => _IsLatest; private set { _IsLatest = value; } }
 
-        private static readonly string temp = Paths.EnvironmentFolder + "update\\";
+        private static readonly string temp = PathConstants.EnvironmentFolder + "update\\";
 
 #nullable enable
         private static bool? NeedsUpdate(string? file, DateTime? date)
@@ -45,12 +45,12 @@ namespace FriishProduce
 
             // Check if any values are null
             // ****************
-            if (file == null || !date.HasValue || !File.Exists(Paths.EnvironmentFolder + file))
+            if (file == null || !date.HasValue || !File.Exists(PathConstants.EnvironmentFolder + file))
                 return null;
 
             // Compare dates
             // ****************
-            (DateTime Old, DateTime New) = (File.GetLastWriteTimeUtc(Paths.EnvironmentFolder + file), date.Value.ToUniversalTime());
+            (DateTime Old, DateTime New) = (File.GetLastWriteTimeUtc(PathConstants.EnvironmentFolder + file), date.Value.ToUniversalTime());
 
             return Old < New;
         }
@@ -61,7 +61,7 @@ namespace FriishProduce
                 try { Directory.Delete(temp, true); } catch { }
 
             if (!keepArchive)
-                try { File.Delete(Paths.Update); } catch { }
+                try { File.Delete(PathConstants.Update); } catch { }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace FriishProduce
                 {
                     // Extract ZIP
                     // ****************
-                    using (var r = SharpCompress.Archives.Zip.ZipArchive.Open(Paths.Update))
+                    using (var r = SharpCompress.Archives.Zip.ZipArchive.Open(PathConstants.Update))
                     {
                         foreach (var entry in r.Entries.Where(entry => !entry.IsDirectory))
                         {
@@ -104,7 +104,7 @@ namespace FriishProduce
                 {
                     // Extract RAR
                     // ****************
-                    using (var r = SharpCompress.Archives.Rar.RarArchive.Open(Paths.Update))
+                    using (var r = SharpCompress.Archives.Rar.RarArchive.Open(PathConstants.Update))
                     {
                         foreach (var entry in r.Entries.Where(entry => !entry.IsDirectory))
                         {

@@ -294,9 +294,10 @@ namespace FriishProduce
             e.Cancel = tabControl.TabPages.Count > 0;
         }
 
-        private void OpenNewProjectTypes(object sender, EventArgs e)
-        {
-            new_project_menu.Show(toolStrip, new(Cursor.Position.X - Left - (Width - ClientSize.Width) + 8, Cursor.Position.Y - Top - (Height - ClientSize.Height) + 8), LeftRightAlignment.Right);
+        private void OpenNewProjectTypes(object sender, EventArgs e) {
+            int x = Cursor.Position.X - Left - (Width - ClientSize.Width) + 8;
+            int y = Cursor.Position.Y - Top - (Height - ClientSize.Height) + 8;
+            new_project_menu.Show(toolStrip, new(x, y), LeftRightAlignment.Right);
         }
 
         /// <summary>
@@ -751,11 +752,6 @@ namespace FriishProduce
                     // Sync project path
                     project.ProjectPath = file;
                     addTab(project.Platform, project);
-                    if (!string.IsNullOrWhiteSpace(project.ProjectPath))
-                        (tabControl.SelectedForm as ProjectForm).SaveProject(project.ProjectPath);
-                    if (!string.IsNullOrWhiteSpace(project.ROM))
-                        (tabControl.SelectedForm as ProjectForm).LoadROM(project.ROM, false);
-                    //Fixes 'undefined' bug - ROM path accessible but not loaded into memory
                 }
                 catch (Exception exc) {
                     MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);
@@ -904,8 +900,8 @@ namespace FriishProduce
         {
             if (sender == clear_database)
             {
-                if (Directory.Exists(Paths.Databases))
-                    foreach (var item in Directory.EnumerateFiles(Paths.Databases))
+                if (Directory.Exists(PathConstants.Databases))
+                    foreach (var item in Directory.EnumerateFiles(PathConstants.Databases))
                         if (Path.GetExtension(item).ToLower() == ".xml")
                             File.Delete(item);
             }
@@ -920,13 +916,13 @@ namespace FriishProduce
         {
             if (MessageBox.Show(Program.Lang.Msg(10), MessageBox.Buttons.YesNo, MessageBox.Icons.Warning) == MessageBox.Result.Yes)
             {
-                if (Directory.Exists(Paths.Databases))
-                    foreach (var item in Directory.EnumerateFiles(Paths.Databases))
+                if (Directory.Exists(PathConstants.Databases))
+                    foreach (var item in Directory.EnumerateFiles(PathConstants.Databases))
                         if (Path.GetExtension(item).ToLower() == ".xml")
                             File.Delete(item);
 
                 Program.Config.Reset(false);
-                try { File.Delete(Paths.Config); } catch { }
+                try { File.Delete(PathConstants.Config); } catch { }
 
                 Environment.Exit(0);
             }
@@ -1082,19 +1078,19 @@ namespace FriishProduce
                                     foreach (var item in u8.StringTable)
                                         if (item.ToLower().Contains("htmlc.arc") || item.ToLower().Contains("lz77_html.arc") || item.ToLower().Contains("lz77emanual.arc"))
                                         {
-                                            File.WriteAllBytes(Paths.WorkingFolder + "html.arc", u8.Data[u8.GetNodeIndex(item)]);
+                                            File.WriteAllBytes(PathConstants.WorkingFolder + "html.arc", u8.Data[u8.GetNodeIndex(item)]);
                                             Utils.Run
                                             (
                                                 FileDatas.Apps.wwcxtool,
                                                 "wwcxtool.exe",
                                                 "/u html.arc html.dec"
                                             );
-                                            if (!File.Exists(Paths.WorkingFolder + "html.dec")) throw new Exception(Program.Lang.Msg(2, 1));
+                                            if (!File.Exists(PathConstants.WorkingFolder + "html.dec")) throw new Exception(Program.Lang.Msg(2, 1));
 
-                                            var bytes = File.ReadAllBytes(Paths.WorkingFolder + "html.dec");
+                                            var bytes = File.ReadAllBytes(PathConstants.WorkingFolder + "html.dec");
 
-                                            try { File.Delete(Paths.WorkingFolder + "html.dec"); } catch { }
-                                            try { File.Delete(Paths.WorkingFolder + "html.arc"); } catch { }
+                                            try { File.Delete(PathConstants.WorkingFolder + "html.dec"); } catch { }
+                                            try { File.Delete(PathConstants.WorkingFolder + "html.arc"); } catch { }
 
                                             Manuals.Add((item, bytes));
                                         }
@@ -1115,7 +1111,7 @@ namespace FriishProduce
                                             Decompress:
                                                 // Create temporary files at working folder
                                                 // ****************
-                                                File.WriteAllBytes(Paths.WorkingFolder + "emanual.arc", file);
+                                                File.WriteAllBytes(PathConstants.WorkingFolder + "emanual.arc", file);
 
                                                 // Decompress
                                                 // ****************
@@ -1126,11 +1122,11 @@ namespace FriishProduce
                                                     (type == 0 ? "/u " : null) + "emanual.arc emanual.dec"
                                                 );
 
-                                                if (File.Exists(Paths.WorkingFolder + "emanual.dec"))
-                                                    file = File.ReadAllBytes(Paths.WorkingFolder + "emanual.dec");
+                                                if (File.Exists(PathConstants.WorkingFolder + "emanual.dec"))
+                                                    file = File.ReadAllBytes(PathConstants.WorkingFolder + "emanual.dec");
 
-                                                try { File.Delete(Paths.WorkingFolder + "emanual.arc"); } catch { }
-                                                try { File.Delete(Paths.WorkingFolder + "emanual.dec"); } catch { }
+                                                try { File.Delete(PathConstants.WorkingFolder + "emanual.arc"); } catch { }
+                                                try { File.Delete(PathConstants.WorkingFolder + "emanual.dec"); } catch { }
 
                                                 // Load manual
                                                 // ****************

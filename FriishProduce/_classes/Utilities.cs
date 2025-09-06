@@ -30,7 +30,7 @@ namespace FriishProduce
 
         public static void Log(string msg)
         {
-            try { Text = File.ReadAllText(Paths.Log); } catch { }
+            try { Text = File.ReadAllText(PathConstants.Log); } catch { }
 
             if (!string.IsNullOrWhiteSpace(Text))
                 Text += Environment.NewLine;
@@ -315,21 +315,50 @@ namespace FriishProduce
             return msg;
         }
 
-        private static bool CheckDomain(string URL, int timeout)
-        {
+        /// <summary>
+        ///     TCP check that host url is listening on Port 80
+        /// </summary>
+        /// <param name="URL">the host domain to check</param>
+        /// <param name="timeout">time to wait for response</param>
+        private static bool CheckDomain(string URL, int timeout) {
             string host;
             try { host = new Uri(URL).Host; } catch { host = URL; }
 
-            using (var tcp = new TcpClient())
-            {
-                var result = tcp.BeginConnect(host, 80, null, null);
-                if (!result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(timeout)))
-                {
-                    throw new WebException("The domain is not available.", WebExceptionStatus.ConnectFailure);
-                }
+            using var tcp = new TcpClient();
+            var result = tcp.BeginConnect(host, 80, null, null);
+            if (!result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(timeout)))
+                throw new WebException("The domain is not available.", WebExceptionStatus.ConnectFailure);
 
-                tcp.EndConnect(result);
-                return true;
+            tcp.EndConnect(result);
+            return true;
+        }
+
+        /// <summary>
+        ///     Checks the Http response code of a domain
+        /// </summary>
+        /// <param name="URL">the host domain to check</param>
+        /// <param name="msg">the Logger message</param>
+        /// <param name="timeout">time to wait for response</param>
+        public static bool CheckHttp(string URL, string msg = "\nChecking URL:\n", int timeout = 200) {
+            Start:
+            if (!string.IsNullOrEmpty(msg))
+                Logger.Log($"{msg}\"{URL}\"\n");
+            try {
+                var request = (HttpWebRequest)WebRequest.Create(URL);
+                request.Method = "HEAD"; // Only fetch headers
+                request.Timeout = timeout * 1000;
+
+                using var response = (HttpWebResponse)request.GetResponse();
+                return (int)response.StatusCode is >= 200 and < 400;
+                // 200-399 means valid response
+            }
+            catch (WebException ex) when (!CompatibilityMode && ex.Status == WebExceptionStatus.SecureChannelFailure) {
+                Logger.Log("Failed to check URL. Starting over in compatibility mode.");
+                CompatibilityMode = true;
+                goto Start;
+            }
+            catch {
+                return false;
             }
         }
 
@@ -452,6 +481,50 @@ namespace FriishProduce
 
     public static class Utils
     {
+        /// <summary>
+        ///     Safely quotes a path for Windows command line, wraps in quotes if path contains problem chars
+        /// </summary>
+        public static string SafeQuote(string path, bool forceQuotes = false) {
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentException("Path cannot be null or empty.", nameof(path));
+
+            // normalize: strip surrounding quotes if already present
+            if (path.StartsWith("\"") && path.EndsWith("\""))
+                path = path.Substring(1, path.Length - 2);
+
+            // chars that break CLIs
+            char[] badChars = { ' ', '(', ')', '[', ']', '$', '#', '&', '^', '!' };
+            return forceQuotes || path.IndexOfAny(badChars) >= 0 ? $"\"{path}\"" : path;
+        }
+
+        /// <summary>
+        ///     Checks if the folder is writable by attempting to create and delete a temporary file
+        /// </summary>
+        /// <param name="folderPath">The folder path to test for write access</param>
+        public static void EnsureWritable(string folderPath) {
+            if (string.IsNullOrWhiteSpace(folderPath))
+                throw new ArgumentException("Path cannot be null or empty!", nameof(folderPath));
+
+            if (!Directory.Exists(folderPath))
+                throw new DirectoryNotFoundException($"Folder does not exist: {folderPath}");
+
+            string testFile = Path.Combine(folderPath, $"friish_test_{Guid.NewGuid()}.tmp");
+            try {
+                File.WriteAllText(testFile, "test");
+                File.Delete(testFile);
+            }
+            catch (Exception ex) {
+                Logger.Log($"Cannot write to folder '{folderPath}': {ex.Message}");
+                throw new UnauthorizedAccessException($"Folder is not writable: {folderPath}", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Convenience method for checking temp folder
+        /// </summary>
+        public static void EnsureTempWritable() {
+            EnsureWritable(Path.GetTempPath());
+        }
 
         /// <summary>
         ///     Lazy get file name without extension shortname utility
@@ -493,20 +566,20 @@ namespace FriishProduce
         
         public static string Run(byte[] app, string appName, string arguments, bool showWindow = false, bool redirectOutput = true)
         {
-            string targetPath = Paths.WorkingFolder + Path.GetFileNameWithoutExtension(appName) + ".exe";
+            string targetPath = PathConstants.WorkingFolder + Path.GetFileNameWithoutExtension(appName) + ".exe";
 
             File.WriteAllBytes(targetPath, app);
-            string value = Run(targetPath, Paths.WorkingFolder, arguments, showWindow, redirectOutput);
+            string value = Run(targetPath, PathConstants.WorkingFolder, arguments, showWindow, redirectOutput);
             try { File.Delete(targetPath); } catch { }
 
             return value;
         }
 
-        public static string Run(string app, string arguments, bool showWindow = false, bool redirectOutput = true) => Run(app, Paths.Tools, arguments, showWindow, redirectOutput);
+        public static string Run(string app, string arguments, bool showWindow = false, bool redirectOutput = true) => Run(app, PathConstants.Tools, arguments, showWindow, redirectOutput);
 
         public static string Run(string app, string workingFolder, string arguments, bool showWindow = false, bool redirectOutput = true)
         {
-            var appPath = Path.Combine(Paths.Tools, app.Replace(Paths.Tools, "").Contains('\\') ? app.Replace(Paths.Tools, "") : Path.GetFileName(app));
+            var appPath = Path.Combine(PathConstants.Tools, app.Replace(PathConstants.Tools, "").Contains('\\') ? app.Replace(PathConstants.Tools, "") : Path.GetFileName(app));
 
             if (!appPath.EndsWith(".exe")) appPath += ".exe";
 
@@ -530,7 +603,7 @@ namespace FriishProduce
         {
             // Create temporary files at working folder
             // ****************
-            File.WriteAllBytes(Paths.WorkingFolder + "main.dol", input);
+            File.WriteAllBytes(PathConstants.WorkingFolder + "main.dol", input);
 
             // Decompress
             // ****************
@@ -541,8 +614,8 @@ namespace FriishProduce
                 "/u main.dol main.dec.dol"
             );
 
-            bool compressed = File.Exists(Paths.WorkingFolder + "main.dec.dol");
-            return (compressed, compressed ? File.ReadAllBytes(Paths.WorkingFolder + "main.dec.dol") : input);
+            bool compressed = File.Exists(PathConstants.WorkingFolder + "main.dec.dol");
+            return (compressed, compressed ? File.ReadAllBytes(PathConstants.WorkingFolder + "main.dec.dol") : input);
         }
 
         public static byte[] PackContent1(byte[] input, bool? compressed = null)
@@ -550,13 +623,13 @@ namespace FriishProduce
             var output = input;
 
             if (compressed == null)
-                compressed = File.Exists(Paths.WorkingFolder + "main.dec.dol");
+                compressed = File.Exists(PathConstants.WorkingFolder + "main.dec.dol");
 
             if (compressed == true)
             {
                 // Write new to original decompressed file
                 // ****************
-                File.WriteAllBytes(Paths.WorkingFolder + "main.dec.dol", input);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "main.dec.dol", input);
 
                 // Pack
                 // ****************
@@ -567,10 +640,10 @@ namespace FriishProduce
                     "/cr main.dol main.dec.dol main.new.dol"
                 );
 
-                if (!File.Exists(Paths.WorkingFolder + "main.new.dol"))
+                if (!File.Exists(PathConstants.WorkingFolder + "main.new.dol"))
                     throw new Exception(Program.Lang.Msg(2, 1));
 
-                output = File.ReadAllBytes(Paths.WorkingFolder + "main.new.dol");
+                output = File.ReadAllBytes(PathConstants.WorkingFolder + "main.new.dol");
             }
 
             CleanContent1();
@@ -579,9 +652,9 @@ namespace FriishProduce
 
         public static void CleanContent1()
         {
-            try { File.Delete(Paths.WorkingFolder + "main.new.dol"); } catch { }
-            try { File.Delete(Paths.WorkingFolder + "main.dec.dol"); } catch { }
-            try { File.Delete(Paths.WorkingFolder + "main.dol"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "main.new.dol"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "main.dec.dol"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "main.dol"); } catch { }
         }
 
         private enum VideoModes
@@ -866,17 +939,17 @@ namespace FriishProduce
                             break;
 
                         case 1:
-                            File.WriteAllBytes(Paths.WorkingFolder + "main.dec.dol", content1.Data);
+                            File.WriteAllBytes(PathConstants.WorkingFolder + "main.dec.dol", content1.Data);
 
                             string output = Run
                             (
                                 "wstrt\\wstrt.exe",
-                                $"patch \"{Path.GetFullPath(Paths.WorkingFolder + "main.dec.dol")}\" --add-section \"{Path.GetFullPath(Paths.Tools + "wstrt\\Force43.gct")}\""
+                                $"patch \"{Path.GetFullPath(PathConstants.WorkingFolder + "main.dec.dol")}\" --add-section \"{Path.GetFullPath(PathConstants.Tools + "wstrt\\Force43.gct")}\""
                             );
 
-                            bool isModified = !content1.Data.SequenceEqual(File.ReadAllBytes(Paths.WorkingFolder + "main.dec.dol"));
+                            bool isModified = !content1.Data.SequenceEqual(File.ReadAllBytes(PathConstants.WorkingFolder + "main.dec.dol"));
 
-                            if (isModified) content1.Data = File.ReadAllBytes(Paths.WorkingFolder + "main.dec.dol");
+                            if (isModified) content1.Data = File.ReadAllBytes(PathConstants.WorkingFolder + "main.dec.dol");
                             break;
                     }
                 }
@@ -886,10 +959,10 @@ namespace FriishProduce
                 wad.Contents[1] = newContent1;
                 if (!Byte.IsSame(wad.Contents[1], newContent1))
                 {
-                    wad.Unpack(Paths.WAD);
-                    File.WriteAllBytes(Paths.WAD + "00000001.app", newContent1);
-                    wad.CreateNew(Paths.WAD);
-                    Directory.Delete(Paths.WAD, true);
+                    wad.Unpack(PathConstants.WAD);
+                    File.WriteAllBytes(PathConstants.WAD + "00000001.app", newContent1);
+                    wad.CreateNew(PathConstants.WAD);
+                    Directory.Delete(PathConstants.WAD, true);
                 }
             }
         }

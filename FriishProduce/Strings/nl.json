@@ -445,6 +445,7 @@
 			"content_domain": "Inhoudsdomein",
 			"background_color": "Achtergrondkleur",
 			"anti_aliasing": "Anti-aliasing",
+			"no_copy_save": "Opslagkopieën uitschakelen",
 			"zoom": "Zoomen",
 			"zoom0": "{by_default}",
 			"zoom1": "{automatic}",

@@ -347,7 +347,7 @@ namespace FriishProduce
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            Program.Config = new(Paths.Config);
+            Program.Config = new(PathConstants.Config);
             DialogResult = DialogResult.Cancel;
         }
 

@@ -316,8 +316,7 @@
             "wiiu_display0": "{original}",
             "wiiu_display1": "4:3 mit Balken",
             "wiiu_display2": "Gestreckt",
-            "multifile_software": "Software besteht aus mehreren Dateien",
-            "no_copy_save": "Kopieren von Speicherdaten deaktivieren"
+            "multifile_software": "Software besteht aus mehreren Dateien"
         },
 
         "banner": {
@@ -444,6 +443,7 @@
             "content_domain": "Inhaltsdomain",
             "background_color": "Hintergrundfarbe",
             "anti_aliasing": "Kantenglättung",
+            "no_copy_save": "Kopieren von Speicherdaten deaktivieren",
             "zoom": "Zoom",
             "zoom0": "{by_default}",
             "zoom1": "{automatic}",

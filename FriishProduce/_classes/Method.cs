@@ -78,53 +78,41 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
-        public void GetWAD(string path, string tid, bool localFile)
+        public void GetWAD(string path, string tid, bool hasInWad)
         {
             try{
                 WAD = new WAD();
+                object toLoad = null;
 
                 if (!string.IsNullOrWhiteSpace(path)) {
                     if (File.Exists(path)) {
                         Logger.Log($"\nLoading imported WAD with title ID: {tid}");
-                        WAD = WAD.Load(path);
-                        SrcBase = path;
+                        toLoad = path; SrcBase = path;
                     }
                     else if (path.ToLower().StartsWith("http")) {
-                        string appDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "WADs"));
-                        string saveDir = Program.Config.application.locsave_wad_tb ?? defaultDir;
+                        string saveDir = Program.Config.application.locsave_wad_tb ?? PathConstants.DefaultLocSaveWADs;
+                        string fileUri = Path.GetFileName(new Uri(path).LocalPath);
+                        string localPath = Path.Combine(saveDir, string.IsNullOrEmpty(fileUri) ? $"{tid}.wad" : fileUri);
 
                         if (!Directory.Exists(saveDir))
                             Directory.CreateDirectory(saveDir);
 
-                        string fileName = Path.GetFileName(new Uri(path).LocalPath);
-                        if (string.IsNullOrEmpty(fileName))
-                            fileName = $"{tid}.wad";
-
-                        string localPath = Path.Combine(saveDir, fileName);
+                        if (!hasInWad && !File.Exists(localPath)) Web.InternetTest();
+                        Program.MainForm.Wait(true, true, true, 0, 1);
 
                         if (File.Exists(localPath)) {
                             Logger.Log($"\nLoading existing downloaded WAD with title ID: {tid}");
-                            WAD = WAD.Load(localPath);
-                            SrcBase = localPath;
+                            toLoad = localPath; SrcBase = localPath;
                         }
                         else {
-                            if (!localFile) Web.InternetTest();
-                            Program.MainForm.Wait(true, true, true, 0, 1);
                             _progress.max += 1.0;
                             try {
                                 byte[] wadData = Web.Get(path, "\nDownloading WAD from URL:\n");
-
-                                if (!Program.Config.application.locsave_wad) {
-                                    WAD = WAD.Load(wadData);
-                                    SrcBase = path;
-                                }
-                                else {
+                                SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
+                                toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
+                                if (Program.Config.application.locsave_wad) {
                                     File.WriteAllBytes(localPath, wadData);
                                     Logger.Log($"Saved WAD locally to:\n\"{localPath}\"\n");
-
-                                    WAD = WAD.Load(localPath);
-                                    SrcBase = localPath;
                                 }
                             }
                             catch (Exception ex) {
@@ -136,8 +124,14 @@ namespace FriishProduce
                 }
                 else {
                     Logger.Log($"Loading blank WAD.");
-                    WAD = WAD.Load(Properties.Resources.StaticBase);
+                    toLoad = Properties.Resources.StaticBase;
                 }
+
+                // actually load the path or bytes given from 'toLoad'
+                if (toLoad is string loadPath)
+                    WAD = WAD.Load(loadPath);
+                else if (toLoad is byte[] loadData)
+                    WAD = WAD.Load(loadData);
 
                 if (WAD.UpperTitleID.ToUpper() != tid || !WAD.HasBanner)
                     WAD.Dispose();
@@ -147,11 +141,9 @@ namespace FriishProduce
 
                 Logger.Log($"WAD base loaded.");
             }
-
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Logger.Log($"ERROR: Failed to load original WAD. {ex.Message}");
-                if (ex.InnerException != null) Logger.Log($"DETAILS: {ex.InnerException.Message}");
+                if (ex.InnerException != null) Logger.Log(ex.InnerException.Message);
                 throw;
             }
         }
@@ -358,21 +350,21 @@ namespace FriishProduce
         {
             try
             {
-                if (Directory.Exists(Paths.SDUSBRoot))
+                if (Directory.Exists(PathConstants.SDUSBRoot))
                 {
-                    Directory.CreateDirectory(Paths.SDUSBRoot + "wad\\");
-                    WAD.Save(Paths.SDUSBRoot + "wad\\" + Path.GetFileNameWithoutExtension(Out) + ".wad");
+                    Directory.CreateDirectory(PathConstants.SDUSBRoot + "wad\\");
+                    WAD.Save(PathConstants.SDUSBRoot + "wad\\" + Path.GetFileNameWithoutExtension(Out) + ".wad");
 
                     // Get ZIP directory path & compress to .ZIP archive
                     // *******
                     try { File.Delete(Out); } catch { }
 
                     FastZip z = new();
-                    z.CreateZip(Out, Paths.SDUSBRoot, true, null);
+                    z.CreateZip(Out, PathConstants.SDUSBRoot, true, null);
 
                     // Clean
                     // *******
-                    Directory.Delete(Paths.SDUSBRoot, true);
+                    Directory.Delete(PathConstants.SDUSBRoot, true);
                 }
 
                 else WAD.Save(Out);

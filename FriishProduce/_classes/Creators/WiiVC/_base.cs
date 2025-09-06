@@ -91,14 +91,14 @@ namespace FriishProduce
             if (File.Exists(Manual))
             {
                 valid = true;
-                Directory.CreateDirectory(Paths.Manual);
+                Directory.CreateDirectory(PathConstants.Manual);
 
                 // Extract ZIP
                 // ****************
                 try
                 {
                     FastZip zip = new();
-                    zip.ExtractZip(Manual, Paths.Manual, null);
+                    zip.ExtractZip(Manual, PathConstants.Manual, null);
                 }
                 catch
                 {
@@ -109,15 +109,15 @@ namespace FriishProduce
             else if (Directory.Exists(Manual))
             {
                 valid = true;
-                Directory.CreateDirectory(Paths.Manual);
+                Directory.CreateDirectory(PathConstants.Manual);
 
                 // Copy all files and folders to target path
                 // ****************
                 foreach (string dir in Directory.GetDirectories(Manual, "*.*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dir.Replace(Path.GetDirectoryName(Manual), Path.GetDirectoryName(Paths.Manual)));
+                    Directory.CreateDirectory(dir.Replace(Path.GetDirectoryName(Manual), Path.GetDirectoryName(PathConstants.Manual)));
 
                 foreach (string file in Directory.GetFiles(Manual, "*.*", SearchOption.AllDirectories))
-                    File.Copy(file, file.Replace(Path.GetDirectoryName(file), Path.GetDirectoryName(Paths.Manual)), true);
+                    File.Copy(file, file.Replace(Path.GetDirectoryName(file), Path.GetDirectoryName(PathConstants.Manual)), true);
             }
 
             if (valid)
@@ -125,14 +125,14 @@ namespace FriishProduce
                 // Get root folder name
                 // ****************
                 List<string> rootFolders = new List<string>() { "html", "man", "emanual" };
-                string target = Paths.Manual;
+                string target = PathConstants.Manual;
 
                 foreach (var item in rootFolders)
                     if (item == emanual_U8.StringTable[0])
-                        if (!Directory.EnumerateDirectories(target).Contains(item)) target = Path.Combine(Paths.Manual, item) + "\\";
+                        if (!Directory.EnumerateDirectories(target).Contains(item)) target = Path.Combine(PathConstants.Manual, item) + "\\";
 
-                emanual_U8.CreateFromDirectory(Paths.Manual);
-                if (Directory.Exists(Paths.Manual)) Directory.Delete(Paths.Manual, true);
+                emanual_U8.CreateFromDirectory(PathConstants.Manual);
+                if (Directory.Exists(PathConstants.Manual)) Directory.Delete(PathConstants.Manual, true);
             }
 
             return emanual_U8;
@@ -194,16 +194,16 @@ namespace FriishProduce
                             origManual = item;
                             backup = target.Data[target.GetNodeIndex(origManual)];
 
-                            File.WriteAllBytes(Paths.WorkingFolder + "html.arc", target.Data[target.GetNodeIndex(origManual)]);
+                            File.WriteAllBytes(PathConstants.WorkingFolder + "html.arc", target.Data[target.GetNodeIndex(origManual)]);
                             Utils.Run
                             (
                                 FileDatas.Apps.wwcxtool,
                                 "wwcxtool.exe",
                                 "/u html.arc html.dec"
                             );
-                            if (!File.Exists(Paths.WorkingFolder + "html.dec")) throw new Exception(Program.Lang.Msg(2, 1));
+                            if (!File.Exists(PathConstants.WorkingFolder + "html.dec")) throw new Exception(Program.Lang.Msg(2, 1));
 
-                            File.WriteAllBytes("html_modified.dec", WriteManual(File.ReadAllBytes(Paths.WorkingFolder + "html.dec")).ToByteArray());
+                            File.WriteAllBytes("html_modified.dec", WriteManual(File.ReadAllBytes(PathConstants.WorkingFolder + "html.dec")).ToByteArray());
 
                             Utils.Run
                             (
@@ -211,17 +211,17 @@ namespace FriishProduce
                                 "wwcxtool.exe",
                                 "/cr html.arc html_modified.dec html_modified.arc"
                             );
-                            if (!File.Exists(Paths.WorkingFolder + "html_modified.arc")) throw new Exception(Program.Lang.Msg(2, 1));
+                            if (!File.Exists(PathConstants.WorkingFolder + "html_modified.arc")) throw new Exception(Program.Lang.Msg(2, 1));
 
                             target.ReplaceFile
                             (
                                 target.GetNodeIndex(origManual),
-                                File.ReadAllBytes(Paths.WorkingFolder + "html_modified.arc")
+                                File.ReadAllBytes(PathConstants.WorkingFolder + "html_modified.arc")
                             );
 
-                            try { File.Delete(Paths.WorkingFolder + "html.dec"); } catch { }
-                            try { File.Delete(Paths.WorkingFolder + "html.arc"); } catch { }
-                            try { File.Delete(Paths.WorkingFolder + "html_modified.arc"); } catch { }
+                            try { File.Delete(PathConstants.WorkingFolder + "html.dec"); } catch { }
+                            try { File.Delete(PathConstants.WorkingFolder + "html.arc"); } catch { }
+                            try { File.Delete(PathConstants.WorkingFolder + "html_modified.arc"); } catch { }
                         }
 
                         else if (item.ToLower().Contains("emanual.arc") || item.ToLower().Contains("html.arc") || item.ToLower().Contains("man.arc"))
@@ -309,16 +309,16 @@ namespace FriishProduce
             // WAD needs to be repacked using proper tik/tmd/cert from scratch using modified files.
             // Apparently it worked by directly editing before but not after I revised much of the program code just now.
             // ****************
-            WAD.Unpack(Paths.WAD);
+            WAD.Unpack(PathConstants.WAD);
 
             for (int i = 0; i < WAD.Contents.Length; i++)
             {
                 if (Contents[i].Length > 1)
-                    File.WriteAllBytes(Paths.WAD + i.ToString("X8").ToLower() + ".app", Contents[i]);
+                    File.WriteAllBytes(PathConstants.WAD + i.ToString("X8").ToLower() + ".app", Contents[i]);
             }
 
-            WAD.CreateNew(Paths.WAD);
-            Directory.Delete(Paths.WAD, true);
+            WAD.CreateNew(PathConstants.WAD);
+            Directory.Delete(PathConstants.WAD, true);
 
             return WAD;
         }

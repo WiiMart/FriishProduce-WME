@@ -317,8 +317,7 @@
 			"wiiu_display0": "{original}",
 			"wiiu_display1": "4:3 letterboxed",
 			"wiiu_display2": "Stretched",
-			"multifile_software": "Software is multifile",
-			"no_copy_save": "Disable save copies"
+			"multifile_software": "Software is multifile"
 		},
 
 		"banner": {
@@ -445,6 +444,7 @@
 			"content_domain": "Content domain",
 			"background_color": "Background color",
 			"anti_aliasing": "Anti-aliasing",
+			"no_copy_save": "Disable save copies",
 			"zoom": "Zoom",
 			"zoom0": "{by_default}",
 			"zoom1": "{automatic}",

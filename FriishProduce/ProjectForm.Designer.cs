@@ -475,7 +475,7 @@ namespace FriishProduce
             this.import_image.Name = "import_image";
             this.import_image.Tag = "import_image";
             this.import_image.UseVisualStyleBackColor = true;
-            this.import_image.Click += new System.EventHandler(this.import_image_Click);
+            this.import_image.Click += new System.EventHandler(this.ImportBannerClick);
             // 
             // image_interpolation_mode
             // 
@@ -511,7 +511,7 @@ namespace FriishProduce
             this.download_image.Name = "download_image";
             this.download_image.Tag = "download_image";
             this.download_image.UseVisualStyleBackColor = true;
-            this.download_image.Click += new System.EventHandler(this.download_image_Click);
+            this.download_image.Click += new System.EventHandler(this.DlBannerClick);
             // 
             // groupBox6
             // 

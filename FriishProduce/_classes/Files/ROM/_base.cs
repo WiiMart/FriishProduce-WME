@@ -66,6 +66,7 @@ namespace FriishProduce
             _rom = null;
             origData = null;
             patched = null;
+
             ZIP = null;
             MaxSize = -1;
         }
@@ -208,8 +209,8 @@ namespace FriishProduce
                 return;
             }
 
-            File.WriteAllBytes(Paths.WorkingFolder + "rom", origData);
-            File.WriteAllBytes(Paths.WorkingFolder + "patch", File.ReadAllBytes(filePath));
+            File.WriteAllBytes(PathConstants.WorkingFolder + "rom", origData);
+            File.WriteAllBytes(PathConstants.WorkingFolder + "patch", File.ReadAllBytes(filePath));
 
             Utils.Run(FileDatas.Apps.xdelta3, "xdelta3", "-d -s rom patch rom_p_xdelta");
             Utils.Run(FileDatas.Apps.flips, "flips", "--apply patch rom rom_p_bps");
@@ -217,18 +218,18 @@ namespace FriishProduce
             // -----------------------
             // Check if patch applied successfully
             // -----------------------
-            try { File.Delete(Paths.WorkingFolder + "rom"); } catch { }
-            try { File.Delete(Paths.WorkingFolder + "patch"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "rom"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "patch"); } catch { }
 
-            var Out = File.Exists(Paths.WorkingFolder + "rom_p_bps") ? File.ReadAllBytes(Paths.WorkingFolder + "rom_p_bps")
-                : File.Exists(Paths.WorkingFolder + "rom_p_xdelta") ? File.ReadAllBytes(Paths.WorkingFolder + "rom_p_xdelta")
+            var Out = File.Exists(PathConstants.WorkingFolder + "rom_p_bps") ? File.ReadAllBytes(PathConstants.WorkingFolder + "rom_p_bps")
+                : File.Exists(PathConstants.WorkingFolder + "rom_p_xdelta") ? File.ReadAllBytes(PathConstants.WorkingFolder + "rom_p_xdelta")
                 : null;
 
             // -----------------------
             // Delete files
             // -----------------------
-            try { File.Delete(Paths.WorkingFolder + "rom_p_xdelta"); } catch { }
-            try { File.Delete(Paths.WorkingFolder + "rom_p_bps"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "rom_p_xdelta"); } catch { }
+            try { File.Delete(PathConstants.WorkingFolder + "rom_p_bps"); } catch { }
 
             patched = Out ?? throw new Exception(Program.Lang.Msg(8, 1));
         }

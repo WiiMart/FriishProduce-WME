@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace FriishProduce
 {
-    public static class Paths
+    public static class PathConstants
     {
         public static string EnvironmentFolder
         {
@@ -48,5 +49,9 @@ namespace FriishProduce
 
         // Other
         public static readonly string PatchedSuffix = "-patched";
+
+        public static readonly string DefaultLocSavePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads"));
+        public static readonly string DefaultLocSaveBanners = Path.GetFullPath(Path.Combine(DefaultLocSavePath, "Banners"));
+        public static readonly string DefaultLocSaveWADs = Path.GetFullPath(Path.Combine(DefaultLocSavePath, "WADs"));
     }
 }

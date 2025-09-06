@@ -231,12 +231,12 @@ namespace FriishProduce
 
             // VCBrlyt and create temporary .brlyt file
             // ****************
-            string BRLYTPath = Path.Combine(Paths.WorkingFolder, "banner.brlyt");
+            string BRLYTPath = Path.Combine(PathConstants.WorkingFolder, "banner.brlyt");
             File.WriteAllBytes(BRLYTPath, Banner.Data[Banner.GetNodeIndex("banner.brlyt")]);
 
             Utils.Run
             (
-                Paths.Tools + "vcbrlyt\\vcbrlyt.exe",
+                PathConstants.Tools + "vcbrlyt\\vcbrlyt.exe",
                 $"..\\..\\temp\\banner.brlyt -Title \"{title}\" -YEAR {year} -Play {players}"
             );
 
@@ -265,7 +265,7 @@ namespace FriishProduce
         {
             try
             {
-                if (File.Exists(Paths.Banners + tID.ToUpper() + ".app")) return;
+                if (File.Exists(PathConstants.Banners + tID.ToUpper() + ".app")) return;
 
                 var d = new ChannelDatabase(c);
                 foreach (var entry in d.Entries)
@@ -281,7 +281,7 @@ namespace FriishProduce
                             {
                                 // VCBrlyt and create temporary .brlyt file
                                 // ****************
-                                string BRLYTPath = Path.Combine(Paths.WorkingFolder, "banner.brlyt");
+                                string BRLYTPath = Path.Combine(PathConstants.WorkingFolder, "banner.brlyt");
                                 File.WriteAllBytes(BRLYTPath, Banner.Data[Banner.GetNodeIndex("banner.brlyt")]);
 
                                 if (tID.ToUpper().EndsWith("Q") || tID.ToUpper().EndsWith("T"))
@@ -344,8 +344,8 @@ namespace FriishProduce
                                 BannerApp.ReplaceFile(BannerApp.GetNodeIndex("banner.bin"), Banner.ToByteArray());
                             }
 
-                            if (!Directory.Exists(Paths.Banners)) Directory.CreateDirectory(Paths.Banners);
-                            File.WriteAllBytes(Paths.Banners + (string.IsNullOrWhiteSpace(outFile) ? tID.ToUpper() : outFile.Replace(".app", "")) + ".app", BannerApp.ToByteArray());
+                            if (!Directory.Exists(PathConstants.Banners)) Directory.CreateDirectory(PathConstants.Banners);
+                            File.WriteAllBytes(PathConstants.Banners + (string.IsNullOrWhiteSpace(outFile) ? tID.ToUpper() : outFile.Replace(".app", "")) + ".app", BannerApp.ToByteArray());
                         }
                     }
                 }
@@ -392,7 +392,7 @@ namespace FriishProduce
                 $"0             0             0             {bgBottom.R}             {bgBottom.G}             {bgBottom.B}",
             };
 
-            string VCCSPath = Path.Combine(Paths.Tools, "vcbrlyt\\Schemes\\banner.vccs");
+            string VCCSPath = Path.Combine(PathConstants.Tools, "vcbrlyt\\Schemes\\banner.vccs");
             File.WriteAllLines(VCCSPath, colorsFile);
 
             try
@@ -423,7 +423,7 @@ namespace FriishProduce
 
                     // VCBrlyt and create temporary .brlyt file
                     // ****************
-                    string BRLYTPath = Path.Combine(Paths.WorkingFolder, "banner.brlyt");
+                    string BRLYTPath = Path.Combine(PathConstants.WorkingFolder, "banner.brlyt");
                     File.WriteAllBytes(BRLYTPath, Banner.Data[Banner.GetNodeIndex("banner.brlyt")]);
 
                     Utils.Run
@@ -473,8 +473,8 @@ namespace FriishProduce
                     }
                 }
 
-                if (!Directory.Exists(Paths.Banners)) Directory.CreateDirectory(Paths.Banners);
-                File.WriteAllBytes(Paths.Banners + outFile.Replace(".app", "") + ".app", BannerApp.ToByteArray());
+                if (!Directory.Exists(PathConstants.Banners)) Directory.CreateDirectory(PathConstants.Banners);
+                File.WriteAllBytes(PathConstants.Banners + outFile.Replace(".app", "") + ".app", BannerApp.ToByteArray());
             }
 
             catch (Exception ex)

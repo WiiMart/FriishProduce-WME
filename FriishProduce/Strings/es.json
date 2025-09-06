@@ -437,6 +437,7 @@
 			"content_domain": "Dominio de contenido",
 			"background_color": "Color de fondo",
 			"anti_aliasing": "Antialias",
+			"no_copy_save": "Desactivar copias de guardado",
 			"zoom": "Zoom",
 			"zoom1": "Valor personalizado",
 			"standard": "Forzar a pantalla 4:3"

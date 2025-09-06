@@ -53,7 +53,7 @@ namespace FriishProduce
 
             // **********************************************************************************
 
-            Config = new(Paths.Config);
+            Config = new(PathConstants.Config);
             Logger.Log("Opening FriishProduce-WME.");
             Lang = new Language();
             CleanTemp();
@@ -80,11 +80,11 @@ namespace FriishProduce
 
         public static void CleanTemp()
         {
-            if (!Directory.Exists(Paths.WorkingFolder)) Directory.CreateDirectory(Paths.WorkingFolder);
+            if (!Directory.Exists(PathConstants.WorkingFolder)) Directory.CreateDirectory(PathConstants.WorkingFolder);
             else
             {
-                string[] files = Directory.GetFiles(Paths.WorkingFolder, "*.*", SearchOption.AllDirectories);
-                string[] folders = Directory.GetDirectories(Paths.WorkingFolder);
+                string[] files = Directory.GetFiles(PathConstants.WorkingFolder, "*.*", SearchOption.AllDirectories);
+                string[] folders = Directory.GetDirectories(PathConstants.WorkingFolder);
                 
                 if (files?.Length > 0 || folders?.Length > 0) {
                     foreach (var item in files)

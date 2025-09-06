@@ -179,43 +179,43 @@
 			"tools": "&工具",
 			"help": "&說明",
 
-			"new_project": "&新增...",
+			"new_project": "&新建...",
 			"open_project": "&開啟專案...",
-			"open_recent": "開啟&最近使用",
-			"clear_recent": "&清空此清單",
+			"open_recent": "開啟&最近的",
+			"clear_recent": "&清除此清單",
 			"save_project": "&儲存專案",
 			"save_project_as": "另存&專案為...",
 			"close_project": "&關閉專案",
-			"close_all": "關閉全部",
+			"close_all": "關閉所有",
 
 			"import_game_file": "&匯入 {0}...",
-			"game_scan": "&填充遊戲資料",
+			"game_scan": "&填入遊戲資料",
 			"export": "&匯出...",
-			
-			"extract_from_wad": "&從 WAD 提取...",
-			"extract_wad_banner": "頻道&橫幅",
-			"extract_wad_icon": "頻道&圖示",
-			"extract_wad_sound": "頻道&音效",
+
+			"extract_from_wad": "&從 WAD 擷取...",
+			"extract_wad_banner": "頻道 &橫幅",
+			"extract_wad_icon": "頻道 &圖示",
+			"extract_wad_sound": "頻道 &音效",
 			"extract_wad_manual": "操作&手冊",
-			
+
 			"updater": "&更新",
 			"check_for_updates": "立即&檢查",
 			"auto_update": "啟動時&自動檢查更新",
 			"clear_update": "&清除更新檔案",
 			"advanced": "&進階",
 			"test_database": "&驗證資料庫條目",
-			"clear_database": "&清空所有資料庫",
-			"reset_preferences": "&重設所有偏好設定",
+			"clear_database": "清除所有資料庫",
+			"reset_preferences": "重設所有偏好設定",
 
 			"wiki": "線上&Wiki",
-			"exit": "退出(&E)",
+			"exit": "退出(&X)",
 
 			"project_type": "{0} WAD",
 			"untitled_project": "未命名 {0} WAD",
-			
+
 			"update": "有可用更新",
-			"update1": "FriishProduce v{0} 可下載。\n您目前執行的是 v{1}。",
-			"update2": "現在更新？"
+			"update1": "FriishProduce v{0} 現可下載。\n您目前使用的是 v{1}。",
+			"update2": "立即更新?"
 		},
 
 		"settingsform": {
@@ -224,52 +224,51 @@
 			"system_default": "系統預設",
 			"theme": "主題",
 			"theme0": "明亮",
-			"theme1": "黑暗",
+			"theme1": "深色",
 			"reset_all_dialogs": "重設所有對話框",
-			"use_custom_database": "使用自訂 WAD 資料庫檔",
-			"bypass_rom_size": "繞過 ROM 檔案大小限制",
+			"use_custom_database": "使用自訂 WAD 資料庫檔案",
+			"bypass_rom_size": "略過 ROM 檔案大小限制",
 
 			"bios_files": "BIOS 檔案",
 			"browse_bios": "選擇 BIOS 檔案...",
-			
+
 			"default_settings": "預設設定",
 			"default_settings_app": "應用程式",
 			"default_settings_plat": "平台",
 			"default_injection_methods": "預設注入方法",
-			"default_target_filename": "目標檔案名稱",
+			"default_target_filename": "目標檔名",
 			"default_target_project": "專案:",
-			"default_target_wad": "匯出的 WAD:",
-			"default_target_parameters": "可取代參數:",
+			"default_target_wad": "匯出 WAD:",
+			"default_target_parameters": "可替換參數:",
 
 			"default_content_options": "預設內容選項",
-			"default_content_options_l": "從清單中選擇平台，然後點擊 \"{0}\" 變更其預設內容選項。",
+			"default_content_options_l": "從清單中選擇一個平台，然後點擊 \"{0}\" 以更改其預設內容選項。",
 			"default_content_options_e": "編輯...",
 
 			"use_online_wad_enabled": "啟用可下載 WAD 功能",
-            "write_metadata": "寫入 WAD/注入中繼資料",
+			"write_metadata": "寫入 WAD/Inject 元資料",
 
-			"auto_fill_save_data": "自動填寫存檔標題",
-			"auto_prefill": "開啟後自動預填遊戲資料",
+			"auto_fill_save_data": "自動填入存檔標題",
+			"auto_prefill": "開啟後自動填入遊戲資料",
 			"publisher_opt": "作者/發行商標籤:",
-			"locsave_banner": "將下載的橫幅圖片儲存到本地:",
-			"locsave_wad": "將下載的 WAD 檔案儲存到本地:",
+			"locsave_banner": "將下載的橫幅圖片儲存至本機:",
+			"locsave_wad": "將下載的 WAD 檔案儲存至本機:",
 			"lowerParams": "匯出名稱小寫",
 			"transParams": "翻譯匯出名稱"
-
 		},
 
 		"projectform": {
 			"main": "主要檔案",
-			"rom_label": "當前 {0}:",
+			"rom_label": "目前 {0}:",
 			"rom_label1": "遊戲檔案",
-			"rom_label2": "光碟映像檔",
-			"include_patch": "包含修補",
+			"rom_label2": "光碟映像",
+			"include_patch": "包含補丁",
 
 			"wad_base": "基礎 WAD",
 			"import_wad": "從檔案匯入 WAD...",
-			"use_online_wad": "...或使用可下載的基礎 WAD",
+			"use_online_wad": "...或使用可下載基礎",
 			"using_default_wad": "使用空白 WAD",
-			"current_wad": "當前 WAD:",
+			"current_wad": "目前 WAD:",
 
 			"image": "圖片",
 			"import_image": "從檔案匯入圖片...",
@@ -280,46 +279,185 @@
 			"image_interpolation_mode2": "高",
 			"image_interpolation_mode3": "雙線性",
 			"image_interpolation_mode4": "三次",
-			"image_interpolation_mode5": "最鄰近",
+			"image_interpolation_mode5": "最接近鄰居",
 			"image_interpolation_mode6": "高品質雙線性",
 			"image_interpolation_mode7": "高品質三次",
 			"image_resize0": "拉伸圖片",
-			"image_resize1": "保持寬高比",
+			"image_resize1": "保持長寬比",
 
-			"channel_metadata": "頻道中繼資料",
+			"channel_metadata": "頻道元資料",
 			"channel_name": "頻道名稱:",
 			"title_id": "標題 ID:",
 			"genre": "類型:",
 			"region": "頻道區域:",
-			"video_mode": "視訊模式:",
+			"video_mode": "影片模式:",
 			"banner": "頻道橫幅",
-			"banner_tip": "點擊上方預覽圖訪問橫幅自訂選項。",
+			"banner_tip": "點擊上方預覽圖以存取橫幅自訂選項。",
 			"banner_details": "橫幅&詳細資訊...",
 
 			"injection_method": "注入方法",
 			"injection_method_options": "注入方法選項...",
 			"controller": "控制器",
-			"controller_mapping": "編輯控制器對應...",
+			"controller_mapping": "編輯控制器映射...",
 
 			"save_data": "存檔",
-			"save_data_enable": "啟用存檔",
+			"save_data_enable": "啟用儲存",
 			"edit_save_data": "編輯存檔標題...",
 			"edit_save_data_1": "標題:",
 			"edit_save_data_2": "副標題:",
 			"edit_save_data_max": "每行最大長度: {0}",
-			"fill_save_data": "自動填寫",
+			"fill_save_data": "自動填入",
 
 			"manual_type": "操作手冊:",
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "匯入自訂手冊",
-			"forwarder_root_device": "根儲存裝置:",
+			"forwarder_root_device": "根存儲裝置:",
 			"wiiu_display": "Wii U 顯示格式:",
 			"wiiu_display0": "{original}",
 			"wiiu_display1": "4:3 信箱格式",
 			"wiiu_display2": "拉伸",
-			"multifile_software": "軟體為多檔案",
-			"no_copy_save": "停用存檔副本"
+			"multifile_software": "軟體為多檔案"
+		},
+
+		"banner": {
+			"full_name": "全名:",
+			"year": "年份:",
+			"players": "玩家數:",
+			"banner_region": "橫幅區域:",
+			"banner_sound": "替換橫幅音效...",
+			"banner_sound_play": "播放目前橫幅音效",
+			"banner_sound_restore": "還原原始橫幅音效"
+		},
+
+		"controller": {
+			"page1": "Wii 遙控器",
+			"page2": "經典控制器",
+			"page3": "GameCube 控制器",
+			"vertical_layout": "垂直布局",
+
+			"presets": "預設值",
+			"preset_load": "載入",
+			"preset_blank": "空白",
+			"preset_basic": "基礎",
+			"preset_basic_h": "基礎 (水平)",
+			"preset_basic_v": "基礎 (垂直)",
+
+			"up": "上",
+			"left": "左",
+			"right": "右",
+			"down": "下"
+		},
+
+		"vc_nes": {
+			"palette": "調色盤",
+			"palette0": "{by_default}",
+			"palette1": "還原",
+			"palette2": "{vc} (Nintendo 3DS)",
+			"palette3": "NES Classic (FBX)",
+			"palette4": "NES Remix U",
+			"palette5": "YUV (Nestopia)",
+			"palette6": "RGB (Nestopia)",
+			"palette7": "FCEUX",
+			"palette8": "Wavebeam (FBX)",
+			"palette9": "複合直通 (FBX)",
+
+			"palette_banner_usage": "也用於橫幅圖片"
+		},
+
+		"vc_snes": {
+			"patch_volume": "增強音量",
+			"patch_noopera": "移除手冊檔案",
+			"patch_wiimote": "啟用原生 Wii 遙控器支援",
+			"patch_gcremap": "旋轉 GC 控制器 ABXY 映射",
+			"patch_nocheck": "停用所有 ROM 檢查",
+			"patch_nodark": "停用暗色濾鏡",
+			"patch_nocc": "停用經典控制器畫面",
+			"patch_nosave": "禁用存檔副本",
+			"patch_nosuspend": "禁用掛起點",
+			"patch_widescreen": "寬屏 HOME 選單"
+		},
+
+		"vc_n64": {
+			"patch_fixbrightness": "移除暗色濾鏡",
+			"patch_fixcrashes": "修復崩潰",
+			"patch_expandedram": "啟用擴展 RAM",
+			"patch_autosizerom": "分配 ROM 大小",
+			"patch_cleantextures": "清理未使用材質",
+			"patch_remap": "重新映射控制器",
+			"patch_widescreen": "寬屏",
+
+			"romc_type": "ROM 壓縮方式",
+			"romc_type0": "ROMC (類型 0)",
+			"romc_type1": "ROMC (類型 1)"
+		},
+
+		"vc_sega": {
+			"console_disableresetbutton": "禁用重置按鈕",
+			"dev_mdpad_enable_6b": "為 {0} 啟用六按鈕控制器"
+		},
+
+		"vc_pce": {
+			"hide_overscan": "隱藏超掃描區域",
+			"raster": "背景光柵",
+			"sprline": "精靈限制",
+			"y_offset": "Y 偏移",
+			"sgenable": "啟用 SuperGrafx 功能",
+			"region0": "{region_j}",
+			"region1": "美國/歐洲",
+			"padbutton0": "使用 2 按鈕手把",
+			"padbutton1": "使用 6 按鈕手把"
+		},
+
+		"vc_neo": {
+			"bios": "系統 BIOS",
+			"bios0": "從檔案匯入",
+			"bios1": "{vc} (版本 1)",
+			"bios2": "{vc} (版本 2)",
+			"bios3": "{vc} (版本 3)"
+		},
+
+		"vc_c64": {
+			"rom_notice": "此注入方法需要使用 Frodo 模擬器在啟動時拍攝快照。\n您想要做什麼？",
+			"rom_notice1": "&建立新快照",
+			"rom_notice2": "&使用現有快照"
+		},
+
+		"adobe_flash": {
+			"vff_sync_on_write": "寫入資料時同步 VFF",
+			"vff_cache_size": "VFF 快取大小 ({kilobytes})",
+			"persistent_storage_total": "總持久存儲 ({kilobytes})",
+			"persistent_storage_per_movie": "每 SWF 持久存儲 ({kilobytes})",
+			"controls": "控制器",
+			"mouse": "滑鼠",
+			"qwerty_keyboard": "QWERTY 鍵盤",
+			"midi": "啟用 DLS 音色的 MIDI 播放",
+			"quality": "品質",
+			"quality0": "高",
+			"quality1": "中",
+			"quality2": "低",
+			"strap_reminder": "安全帶提示螢幕",
+			"strap_reminder0": "{disabled}",
+			"strap_reminder1": "{enabled}",
+			"strap_reminder2": "{enabled} (無擴充控制器)",
+			"swf_metadata": "SWF 元資料",
+			"content_domain": "內容網域",
+			"background_color": "背景顏色",
+			"anti_aliasing": "抗鋸齒",
+			"no_copy_save": "禁用存檔副本",
+			"zoom": "縮放",
+			"zoom0": "{by_default}",
+			"zoom1": "{automatic}",
+			"zoom2": "自訂",
+			"standard": "強制 4:3 顯示"
+		},
+
+		"forwarder": {
+			"bios_settings": "BIOS 設定",
+			"use_bios": "啟用 BIOS",
+			"show_bios_screen": "顯示 BIOS 啟動畫面",
+			"rpgm_settings": "RPG 製作軟體設定",
+			"use_rtp": "使用外部 RTP (執行時套件)"
 		}
 	}
 }

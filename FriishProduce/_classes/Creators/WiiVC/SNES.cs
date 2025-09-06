@@ -37,9 +37,9 @@ namespace FriishProduce.Injectors
             #region -- LZ77 compression --
             if (target.ToUpper().StartsWith("LZ77"))
             {
-                File.WriteAllBytes(Paths.WorkingFolder + "rom", ROM.Bytes);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "rom", ROM.Bytes);
 
-                File.WriteAllBytes(Paths.WorkingFolder + "orig_lz77.rom", MainContent.Data[MainContent.GetNodeIndex(target)]);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "orig_lz77.rom", MainContent.Data[MainContent.GetNodeIndex(target)]);
 
                 Utils.Run
                 (
@@ -54,16 +54,16 @@ namespace FriishProduce.Injectors
                     "/cr orig_lz77.rom rom lz77.rom"
                 );
 
-                if (!File.Exists(Paths.WorkingFolder + "lz77.rom")) throw new Exception(Program.Lang.Msg(2, 1));
+                if (!File.Exists(PathConstants.WorkingFolder + "lz77.rom")) throw new Exception(Program.Lang.Msg(2, 1));
 
-                MainContent.ReplaceFile(MainContent.GetNodeIndex(target), Paths.WorkingFolder + "lz77.rom");
+                MainContent.ReplaceFile(MainContent.GetNodeIndex(target), PathConstants.WorkingFolder + "lz77.rom");
             }
             #endregion
 
             #region -- LZH8 compression --
             else if (target.ToUpper().StartsWith("LZH8"))
             {
-                File.WriteAllBytes(Paths.WorkingFolder + "rom", ROM.Bytes);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "rom", ROM.Bytes);
 
                 Utils.Run
                 (
@@ -71,9 +71,9 @@ namespace FriishProduce.Injectors
                     "lzh8",
                     "rom lzh8.rom"
                 );
-                if (!File.Exists(Paths.WorkingFolder + "lzh8.rom")) throw new Exception(Program.Lang.Msg(2, 1));
+                if (!File.Exists(PathConstants.WorkingFolder + "lzh8.rom")) throw new Exception(Program.Lang.Msg(2, 1));
 
-                MainContent.ReplaceFile(MainContent.GetNodeIndex(target), Paths.WorkingFolder + "lzh8.rom");
+                MainContent.ReplaceFile(MainContent.GetNodeIndex(target), PathConstants.WorkingFolder + "lzh8.rom");
             }
             #endregion
 
@@ -91,7 +91,7 @@ namespace FriishProduce.Injectors
 
             // Delete temporary files
             // ****************
-            foreach (var file in new string[] { Paths.WorkingFolder + "rom", Paths.WorkingFolder + "lz77.rom", Paths.WorkingFolder + "lzh8.rom" })
+            foreach (var file in new string[] { PathConstants.WorkingFolder + "rom", PathConstants.WorkingFolder + "lz77.rom", PathConstants.WorkingFolder + "lzh8.rom" })
                 try { File.Delete(file); } catch { }
 
             // Dummify unused files in emulator
@@ -190,7 +190,7 @@ namespace FriishProduce.Injectors
             // ****************
             if (Keymap?.Count > 0)
             {
-                File.WriteAllLines(Paths.WorkingFolder + "wii.txt",
+                File.WriteAllLines(PathConstants.WorkingFolder + "wii.txt",
                     new string[]
                     {
                         "1=" + Keymap[Buttons.WiiRemote_1],
@@ -226,7 +226,7 @@ namespace FriishProduce.Injectors
 
             // Write 01.app
             // ****************
-            File.WriteAllBytes(Paths.WorkingFolder + "01.app", Contents[1]);
+            File.WriteAllBytes(PathConstants.WorkingFolder + "01.app", Contents[1]);
 
             // Apply each patch, check which ones have failed
             // ****************
@@ -244,7 +244,7 @@ namespace FriishProduce.Injectors
                     $"-i 01.app {Key}"
                 );
 
-                if ((!File.Exists(Paths.WorkingFolder + "01_boosted.app") || File.ReadAllBytes(Paths.WorkingFolder + "01_boosted.app").SequenceEqual(File.ReadAllBytes(Paths.WorkingFolder + "01.app"))))
+                if ((!File.Exists(PathConstants.WorkingFolder + "01_boosted.app") || File.ReadAllBytes(PathConstants.WorkingFolder + "01_boosted.app").SequenceEqual(File.ReadAllBytes(PathConstants.WorkingFolder + "01.app"))))
                 {
                     if (Key == "--no-opera") nomanual = false;
 
@@ -252,8 +252,8 @@ namespace FriishProduce.Injectors
                     if (!string.IsNullOrWhiteSpace(Value)) failed.Add(Value);
                 }
 
-                if (File.Exists(Paths.WorkingFolder + "01_boosted.app"))
-                    File.Delete(Paths.WorkingFolder + "01_boosted.app");
+                if (File.Exists(PathConstants.WorkingFolder + "01_boosted.app"))
+                    File.Delete(PathConstants.WorkingFolder + "01_boosted.app");
             }
 
             // Patch again
@@ -280,7 +280,7 @@ namespace FriishProduce.Injectors
                     MessageBox.Show(string.Format(Program.Lang.Msg(5, 1), failedList));
                 }
 
-                else if (generic || !File.Exists(Paths.WorkingFolder + "01_boosted.app") || File.ReadAllBytes(Paths.WorkingFolder + "01_boosted.app").SequenceEqual(Contents[1]))
+                else if (generic || !File.Exists(PathConstants.WorkingFolder + "01_boosted.app") || File.ReadAllBytes(PathConstants.WorkingFolder + "01_boosted.app").SequenceEqual(Contents[1]))
                 {
                     MessageBox.Show(Program.Lang.Msg(4, 1));
                     return;
@@ -301,8 +301,8 @@ namespace FriishProduce.Injectors
 
             // Finally, replace file
             // ****************
-            if (File.Exists(Paths.WorkingFolder + "01_boosted.app"))
-                Contents[1] = File.ReadAllBytes(Paths.WorkingFolder + "01_boosted.app");
+            if (File.Exists(PathConstants.WorkingFolder + "01_boosted.app"))
+                Contents[1] = File.ReadAllBytes(PathConstants.WorkingFolder + "01_boosted.app");
 
             // Determine whether savedata.bin should be created in main.dol
             // ****************

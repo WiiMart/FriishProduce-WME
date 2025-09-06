@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using libWiiSharp;
@@ -56,6 +58,45 @@ namespace FriishProduce
         public int BannerYear { get; set; } = 1980;
         public int BannerPlayers { get; set; } = 1;
         public string[] SaveDataTitle { get; set; } = new string[] { "" };
+
+        /// <summary>
+        ///     Checks if a project file is a legacy (binary serialized)
+        ///         then checks file extension *if* file content cant be read
+        /// </summary>
+        public static bool IsLegacy(string projectPath) {
+            if (string.IsNullOrWhiteSpace(projectPath) || !File.Exists(projectPath))
+                return false;
+            try {
+                using var fs = new FileStream(projectPath, FileMode.Open, FileAccess.Read);
+                // Peek first few bytes
+                byte[] buffer = new byte[4];
+                int read = fs.Read(buffer, 0, buffer.Length);
+                fs.Seek(0, SeekOrigin.Begin);
+                // reset for StreamReader
+
+                // Check BinaryFormatter magic header
+                if (read >= 4 && buffer[0] == 0x00 && buffer[1] == 0x01 && buffer[2] == 0x00 && buffer[3] == 0x00)
+                    return true;
+
+                // else skip whitespace and check for JSON start
+                using var reader = new StreamReader(fs, Encoding.UTF8, true);
+                int ch;
+                do {
+                    ch = reader.Read();
+                } while (ch != -1 && char.IsWhiteSpace((char)ch));
+
+                return !(ch == -1 || ch == '{' || ch == '[');
+            }
+            catch {
+                // check extension if file cant be read
+                return Path.GetExtension(projectPath).Equals(".fppj", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        /// <summary>
+        ///     Lazy overload that accepts a Project object and checks its ProjectPath
+        /// </summary>
+        public static bool IsLegacy(Project project) => project != null && IsLegacy(project.ProjectPath);
 
     }
     

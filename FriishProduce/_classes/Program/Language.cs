@@ -31,7 +31,7 @@ namespace FriishProduce
         {
             get
             {
-                string[] fileList = Directory.EnumerateFiles(Paths.Languages, "*.*").Where(x => x.ToLower().EndsWith(extension)).ToArray();
+                string[] fileList = Directory.EnumerateFiles(PathConstants.Languages, "*.*").Where(x => x.ToLower().EndsWith(extension)).ToArray();
 
                 if (_list?.Count == fileList.Length + 1) return _list;
 
@@ -556,7 +556,7 @@ namespace FriishProduce
             int tries = 0;
             
             Top:
-            string file = File.Exists(Paths.Languages + code + extension) ? Paths.Languages + code + extension : null;
+            string file = File.Exists(PathConstants.Languages + code + extension) ? PathConstants.Languages + code + extension : null;
 
             string region = code.ToLower() switch
             {
@@ -591,7 +591,7 @@ namespace FriishProduce
             {
                 try
                 {
-                    string path = Paths.Languages + code;
+                    string path = PathConstants.Languages + code;
 
                     if (File.Exists(path + extension))
                     {

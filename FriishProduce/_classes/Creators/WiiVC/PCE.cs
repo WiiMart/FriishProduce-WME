@@ -56,27 +56,27 @@ namespace FriishProduce.Injectors
 
             if (IsDisc)
             {
-                File.Copy(ROM.FilePath, Paths.WorkingFolder + Path.GetFileName(ROM.FilePath));
+                File.Copy(ROM.FilePath, PathConstants.WorkingFolder + Path.GetFileName(ROM.FilePath));
                 if (Path.GetExtension(ROM.FilePath).ToLower() == ".cue")
                 {
                     foreach (var item in Directory.EnumerateFiles(Path.GetDirectoryName(ROM.FilePath)))
                     {
                         if ((Path.GetExtension(item).ToLower() == ".bin" || Path.GetExtension(item).ToLower() == ".iso")
                             && (Path.GetFileNameWithoutExtension(item).ToLower() == Path.GetFileNameWithoutExtension(ROM.FilePath).ToLower()))
-                            File.Copy(item, Paths.WorkingFolder + Path.GetFileName(item));
+                            File.Copy(item, PathConstants.WorkingFolder + Path.GetFileName(item));
                     }
                 }
 
                 Utils.Run
                 (
                     "pcecd\\bincuesplit.exe",
-                    Paths.WorkingFolder,
+                    PathConstants.WorkingFolder,
                     $"\"{Path.GetFileName(ROM.FilePath)}\" hcd"
                 );
 
                 string hcd_folder = null;
 
-                foreach (var item in Directory.EnumerateFiles(Paths.WorkingFolder, "*.*", SearchOption.AllDirectories))
+                foreach (var item in Directory.EnumerateFiles(PathConstants.WorkingFolder, "*.*", SearchOption.AllDirectories))
                     if (Path.GetExtension(item).ToLower() == ".hcd")
                     {
                         File.WriteAllText(item, File.ReadAllText(item).Replace(".iso", ".bin"));
@@ -112,8 +112,8 @@ namespace FriishProduce.Injectors
             // ****************
             else if (rom.ToLower().Contains("lz77"))
             {
-                File.WriteAllBytes(Paths.WorkingFolder + "rom_comp", MainContent.Data[MainContent.GetNodeIndex(rom)]);
-                File.WriteAllBytes(Paths.WorkingFolder + "rom", ROM.Bytes);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "rom_comp", MainContent.Data[MainContent.GetNodeIndex(rom)]);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "rom", ROM.Bytes);
 
                 Utils.Run
                 (
@@ -122,14 +122,14 @@ namespace FriishProduce.Injectors
                     "/cr rom_comp rom rom_new"
                 );
 
-                if (!File.Exists(Paths.WorkingFolder + "rom_new"))
+                if (!File.Exists(PathConstants.WorkingFolder + "rom_new"))
                     throw new Exception(Program.Lang.Msg(2, 1));
                 else
-                    MainContent.ReplaceFile(MainContent.GetNodeIndex(rom), File.ReadAllBytes(Paths.WorkingFolder + "rom_new"));
+                    MainContent.ReplaceFile(MainContent.GetNodeIndex(rom), File.ReadAllBytes(PathConstants.WorkingFolder + "rom_new"));
 
-                try { File.Delete(Paths.WorkingFolder + "rom_new"); } catch { }
-                try { File.Delete(Paths.WorkingFolder + "rom"); } catch { }
-                try { File.Delete(Paths.WorkingFolder + "rom_comp"); } catch { }
+                try { File.Delete(PathConstants.WorkingFolder + "rom_new"); } catch { }
+                try { File.Delete(PathConstants.WorkingFolder + "rom"); } catch { }
+                try { File.Delete(PathConstants.WorkingFolder + "rom_comp"); } catch { }
             }
 
             // Normal

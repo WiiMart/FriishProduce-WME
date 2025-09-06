@@ -90,7 +90,7 @@ namespace FriishProduce.Injectors
 
                     // Temporary ROM file at working folder
                     // ****************
-                    File.WriteAllBytes(Paths.WorkingFolder + "rom", data);
+                    File.WriteAllBytes(PathConstants.WorkingFolder + "rom", data);
 
                     // Compress using ROMC type
                     // ****************
@@ -102,13 +102,13 @@ namespace FriishProduce.Injectors
 
                     // Check if converted file exists
                     // ****************
-                    File.Delete(Paths.WorkingFolder + "rom");
-                    if (!File.Exists(Paths.WorkingFolder + "romc")) throw new Exception(Program.Lang.Msg(2, 1));
+                    File.Delete(PathConstants.WorkingFolder + "rom");
+                    if (!File.Exists(PathConstants.WorkingFolder + "romc")) throw new Exception(Program.Lang.Msg(2, 1));
 
                     // Convert to bytes and replace at "romc"
                     // ****************
-                    MainContent.ReplaceFile(MainContent.GetNodeIndex("romc"), File.ReadAllBytes(Paths.WorkingFolder + "romc"));
-                    File.Delete(Paths.WorkingFolder + "romc");
+                    MainContent.ReplaceFile(MainContent.GetNodeIndex("romc"), File.ReadAllBytes(PathConstants.WorkingFolder + "romc"));
+                    File.Delete(PathConstants.WorkingFolder + "romc");
                     break;
             }
         }
@@ -273,21 +273,21 @@ namespace FriishProduce.Injectors
 
         private void CleanTextures()
         {
-            try { Directory.CreateDirectory(Paths.WorkingFolder + "content5\\"); } catch { }
-            MainContent.Extract(Paths.WorkingFolder + "content5\\");
+            try { Directory.CreateDirectory(PathConstants.WorkingFolder + "content5\\"); } catch { }
+            MainContent.Extract(PathConstants.WorkingFolder + "content5\\");
 
             string[] deletable = new string[] { ".t64", ".tif", ".usm" };
 
             foreach (var extension in deletable)
             {
-                var list = Directory.EnumerateFiles(Paths.WorkingFolder + "content5\\", "*.*", SearchOption.AllDirectories).Where(x => x.ToLower().EndsWith(extension));
+                var list = Directory.EnumerateFiles(PathConstants.WorkingFolder + "content5\\", "*.*", SearchOption.AllDirectories).Where(x => x.ToLower().EndsWith(extension));
 
                 foreach (var item in list)
                     try { File.Delete(item); } catch { }
             }
 
-            MainContent.CreateFromDirectory(Paths.WorkingFolder + "content5\\");
-            try { Directory.Delete(Paths.WorkingFolder + "content5\\", true); } catch { }
+            MainContent.CreateFromDirectory(PathConstants.WorkingFolder + "content5\\");
+            try { Directory.Delete(PathConstants.WorkingFolder + "content5\\", true); } catch { }
         }
 
         private bool ShadingFix()

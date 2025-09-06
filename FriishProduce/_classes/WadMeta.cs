@@ -10,6 +10,7 @@ namespace FriishProduce
 {
     public class WadMeta {
         public string TID { get; set; }
+        public string HexTID { get; set; }
         public string Publisher { get; set; }
         public string WadBase { get; set; }
         public string ChannelTitle { get; set; }
@@ -30,6 +31,8 @@ namespace FriishProduce
         public IDictionary<string, string> InputKeymap { get; set; }
         private enum SharpiiTarget { WAD, U8 }
 
+        public static readonly string SharpiiTemp = Path.Combine(Path.GetTempPath(), "Sharpii_" + Guid.NewGuid());
+
         /// <summary>
         ///     Video mode array for 'pretty' printing
         /// </summary>
@@ -48,15 +51,6 @@ namespace FriishProduce
         ///     Gets the byte value of the max blocks a WAD occupies
         /// </summary>
         static long BlocksToBytes(string blocks) => int.TryParse(blocks?.Split('-').LastOrDefault()?.Trim(), out var c) ? c * 128L * 1024 : 0;
-
-        /// <summary>
-        ///     Convert our 4 char TID to a 8 char hexidecimal TID, prepend the rest
-        /// </summary>
-        static string AsciiToHex(string tid) {
-            _ = string.IsNullOrEmpty(tid) ? throw new ArgumentException("Input cannot be null or empty.", nameof(tid)) : 0;
-            bool sysChan = tid.StartsWith("H", StringComparison.OrdinalIgnoreCase);
-            return sysChan ? "00010002" : "00010001" + string.Concat(Encoding.ASCII.GetBytes(tid).Select(b => b.ToString("X2")));
-        }
         
         /// <summary>
         ///     Our Sharpii.exe for CLI calls
@@ -66,7 +60,8 @@ namespace FriishProduce
         /// <summary>
         ///     Simple override for EOA, rather than inputing a full CLI string, just provide the paths, type(WAD/U8) and bool for pack/unpack
         /// </summary>
-        private static void RunSharpii(SharpiiTarget type, bool pack, string inPath, string outPath) => RunSharpii($"{type} {(pack ? "-p" : "-u")} \"{inPath}\" \"{outPath}\"");
+        private static void RunSharpii(SharpiiTarget type, bool pack, string inPath, string outPath) =>
+            RunSharpii($"{type} {(pack ? "-p" : "-u")} {Utils.SafeQuote(inPath, forceQuotes:true)} {Utils.SafeQuote(outPath, forceQuotes:true)}", quiet: false);
 
         private static void Pack(SharpiiTarget type, string inPath, string outPath) => RunSharpii(type, true, inPath, outPath);
 
@@ -75,51 +70,73 @@ namespace FriishProduce
         /// <summary>
         ///     Run Sharpii and optionally capture output
         /// </summary>
-        private static string RunSharpii(string args, bool quiet = true, bool captureOutput = false) {
+        private static string RunSharpii(string args, bool quiet = true) {
             if (!File.Exists(Sharpii))
                 throw new FileNotFoundException($"Sharpii.exe not found at: {Sharpii}");
 
+            //string argsLog = args.Replace(SharpiiTemp, "%SharpiiTemp%");
+            //Logger.Log($"\nRunning Sharpii with args:\n    {argsLog}");
+            //captureOutput = Program.DebugMode;
             var psi = new ProcessStartInfo {
                 FileName = Sharpii, Arguments = args + (quiet ? " -quiet" : ""),
-                RedirectStandardOutput = captureOutput, RedirectStandardError = captureOutput, UseShellExecute = false, CreateNoWindow = true
+                RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false, CreateNoWindow = true
             };
 
-            using var proc = Process.Start(psi);
-            if (proc == null)
-                throw new Exception("Failed to start Sharpii process.");
-
-            string output = null;
-            if (captureOutput)
-                output = proc.StandardOutput.ReadToEnd();
-
-            proc.WaitForExit();
-
-            if (proc.ExitCode != 0) {
-                string err = captureOutput ? proc.StandardError.ReadToEnd() : "";
-                throw new Exception($"Sharpii failed with exit code {proc.ExitCode}: {err}");
+            Process proc;
+            try {
+                proc = Process.Start(psi) ?? throw new Exception("Failed to start Sharpii process.");
             }
-            return output;
+            catch (System.ComponentModel.Win32Exception ex) {
+                Logger.Log($"Win32Exception starting Sharpii.exe: {ex.Message} (ErrorCode: {ex.NativeErrorCode})");
+                Logger.Log($"ProcessStartInfo:");
+                Logger.Log($"    FileName:\n\"{psi.FileName}\"");
+                Logger.Log($"    Arguments:\n\"{psi.Arguments}\"");
+                throw;
+            }
+            using (proc) {
+                var outSb = new StringBuilder();
+                var errSb = new StringBuilder();
+                proc.OutputDataReceived += (s, e) => { if (e.Data != null) outSb.AppendLine(e.Data); };
+                proc.ErrorDataReceived += (s, e) => { if (e.Data != null) errSb.AppendLine(e.Data); };
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+                proc.WaitForExit();
+
+                // try to log everything...
+                //Logger.Log($"Sharpii output:\n{outSb}");
+                if (errSb.Length > 0)
+                    Logger.Log($"Sharpii errors:\n{errSb}");
+
+                // Exit code check is still useful, some errors may not catch or produce stderr
+                if (proc.ExitCode != 0)
+                    throw new Exception($"Sharpii failed with exit code {proc.ExitCode}:\n{errSb}");
+
+                return outSb.ToString();
+            }
         }
 
-        private static (int Version, string Blocks, int IOS) GetInfo(string wadPath) {
+        private static (string HexTID, int Version, string Blocks, int IOS) GetInfo(string wadPath) {
             if (!File.Exists(wadPath))
                 throw new FileNotFoundException($"WAD not found at {wadPath}");
 
-            string output = RunSharpii($"WAD -i \"{wadPath}\"", quiet: false, captureOutput: true);
+            var output = RunSharpii($"WAD -i {Utils.SafeQuote(wadPath, forceQuotes:true)}", quiet: false);
+            string hexTid = null;
             int version = 0;
             string blocks = null;
             int ios = 0;
 
             foreach (var line in output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)) {
                 string trim = line.Trim();
-                if (trim.StartsWith("Version:", StringComparison.OrdinalIgnoreCase) && int.TryParse(trim.Substring("Version:".Length).Trim(), out var pVer))
+                if (trim.StartsWith("Full Title ID:", StringComparison.OrdinalIgnoreCase))
+                    hexTid = trim.Substring("Full Title ID:".Length).Trim();
+                else if (trim.StartsWith("Version:", StringComparison.OrdinalIgnoreCase) && int.TryParse(trim.Substring("Version:".Length).Trim(), out var pVer))
                     version = pVer;
                 else if (trim.StartsWith("Blocks:", StringComparison.OrdinalIgnoreCase))
                     blocks = trim.Substring("Blocks:".Length).Trim();
                 else if (trim.StartsWith("IOS:", StringComparison.OrdinalIgnoreCase) && int.TryParse(trim.Substring("IOS:".Length).Trim(), out var pIos))
                     ios = pIos;
             }
-            return (version, blocks, ios);
+            return (hexTid, version, blocks, ios);
         }
 
         internal static void Write(Method md, string wadPath, ProjectForm.Region InWadRegion) {
@@ -134,11 +151,15 @@ namespace FriishProduce
                 base64Banner = Convert.ToBase64String(ms.ToArray());
             }
 
-            // get addition WAD info with Sharpii
-            var (wadVersion, blocks, ios) = GetInfo(wadPath);
+            // check that sys temp files can be accessed
+            Utils.EnsureTempWritable();
+
+            // get additional WAD info with Sharpii
+            var (hexTid, wadVersion, blocks, ios) = GetInfo(wadPath);
 
             var meta = new WadMeta {
-                TID = AsciiToHex(md.TitleID),
+                TID = md.TitleID,
+                HexTID = hexTid.Replace("-", ""),
                 Publisher = Program.Config.application.publisher_opt_tb,
                 WadBase = System.Net.WebUtility.UrlDecode(Path.GetFileNameWithoutExtension(md.SrcBase)),
                 ChannelTitle = md.ChannelTitles.Length > 1 ? md.ChannelTitles[1] : md.ChannelTitles.FirstOrDefault() ?? "",
@@ -162,13 +183,13 @@ namespace FriishProduce
             if (!File.Exists(wadPath))
                 throw new FileNotFoundException($"WAD file does not exist: {wadPath}");
 
-            string tempDir = Path.Combine(Path.GetTempPath(), "Sharpii_" + Guid.NewGuid());
-            Directory.CreateDirectory(tempDir);
+            if (!File.Exists(SharpiiTemp))
+                Directory.CreateDirectory(SharpiiTemp);
 
             try {
                 // extract to sys temp dir
-                Unpack(SharpiiTarget.WAD, wadPath, tempDir);
-                string tempWadDir = Directory.GetDirectories(tempDir).FirstOrDefault() ?? tempDir;
+                Unpack(SharpiiTarget.WAD, wadPath, SharpiiTemp);
+                string tempWadDir = Directory.GetDirectories(SharpiiTemp).FirstOrDefault() ?? SharpiiTemp;
                 var bnrU8 = Directory.GetFiles(tempWadDir, "*.app").FirstOrDefault();
                 if (bnrU8 == null)
                     throw new FileNotFoundException("No .app file found in extracted WAD.");
@@ -194,9 +215,9 @@ namespace FriishProduce
                 Logger.Log($"Packed WAD meta.json inside Banner U8 archive.");
             }
             finally {
-                if (Directory.Exists(tempDir)) {
-                    try { Directory.Delete(tempDir, true); }
-                    catch { Logger.Log($"Failed to delete temp directory: {tempDir}"); }
+                if (Directory.Exists(SharpiiTemp)) {
+                    try { Directory.Delete(SharpiiTemp, true); }
+                    catch { Logger.Log($"Failed to delete temp directory: {SharpiiTemp}"); }
                 }
             }
         }

@@ -85,10 +85,10 @@ namespace FriishProduce
 
                 // Download
                 // ****************
-                while (!File.Exists(Paths.Update) || File.ReadAllBytes(Paths.Update)?.Length == 0)
-                    await webClient.DownloadFileTaskAsync(new Uri(url), Paths.Update);
+                while (!File.Exists(PathConstants.Update) || File.ReadAllBytes(PathConstants.Update)?.Length == 0)
+                    await webClient.DownloadFileTaskAsync(new Uri(url), PathConstants.Update);
 
-                if (!File.Exists(Paths.Update) || (File.Exists(Paths.Update) && File.ReadAllBytes(Paths.Update)?.Length == 0))
+                if (!File.Exists(PathConstants.Update) || (File.Exists(PathConstants.Update) && File.ReadAllBytes(PathConstants.Update)?.Length == 0))
                     throw new Exception(Program.Lang.Msg(19, 1));
 
                 Progress.Value = 100;
@@ -102,7 +102,7 @@ namespace FriishProduce
             catch (Exception ex)
             {
                 Progress.Visible = desc2.Visible = wait.Visible = false;
-                try { File.Delete(Paths.Update); } catch { }
+                try { File.Delete(PathConstants.Update); } catch { }
 
                 if (Program.DebugMode)
                     throw ex;

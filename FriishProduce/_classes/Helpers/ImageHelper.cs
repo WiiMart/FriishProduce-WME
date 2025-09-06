@@ -626,7 +626,7 @@ namespace FriishProduce
         /// <returns>Modified WTE files in byte array format</returns>
         public void CreateSaveWTE(CCF CCF)
         {
-            string ImagesPath = Paths.WorkingFolder + "images\\";
+            string ImagesPath = PathConstants.WorkingFolder + "images\\";
             if (!Directory.Exists(ImagesPath)) Directory.CreateDirectory(ImagesPath);
 
             foreach (var item in CCF.Nodes)
@@ -762,7 +762,7 @@ namespace FriishProduce
                     // --------------------------------------------
                     using (Process p = Process.Start(new ProcessStartInfo
                     {
-                        FileName = Paths.Tools + "sega\\texreplace.exe",
+                        FileName = PathConstants.Tools + "sega\\texreplace.exe",
                         WorkingDirectory = ImagesPath,
                         Arguments = $"\"{item}.tex0\" \"{item}.png\"",
                         UseShellExecute = false,

@@ -24,7 +24,7 @@ namespace FriishProduce
             Program.Lang.Control(this);
             groupBox1.Text = Program.Lang.String("save_data", "projectform");
             save_data_enable.Text = Program.Lang.String("save_data_enable", "projectform");
-            no_copy_save.Text = Program.Lang.String("no_copy_save", "projectform");
+            no_copy_save.Text = Program.Lang.String("no_copy_save", "adobe_flash");
             controller_box.Text = Program.Lang.String("controller", "projectform");
             b_controller.Text = Program.Lang.String("controller_mapping", "projectform");
 
@@ -205,7 +205,7 @@ namespace FriishProduce
             Options["anti_aliasing"] = anti_aliasing.Checked ? "on" : "off";
             Options["zoom"] = zoom_h.Enabled && zoom_v.Enabled ? $"{zoom_h.Value}_{zoom_v.Value}" : zoom_list.SelectedIndex == 1 ? "auto" : "default";
             Options["fullscreen"] = standard.Checked ? "yes" : "no";
-            Options[SettingsConstant.NoCopySave] = no_copy_save.Checked ? "on" : "off";
+            Options["no_copy_save"] = no_copy_save.Checked ? "on" : "off";
 
             base.SaveOptions();
         }

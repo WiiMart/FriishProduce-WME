@@ -39,7 +39,7 @@ namespace FriishProduce
             InitializeComponent();
             MinimumSize = Size;
             languages_list.SelectedIndex = 0;
-            openFileDialog.InitialDirectory = Paths.Languages;
+            openFileDialog.InitialDirectory = PathConstants.Languages;
 
             windowTitle = Text;
             Text = fullWindowTitle;

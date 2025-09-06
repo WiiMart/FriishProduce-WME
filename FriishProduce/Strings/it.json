@@ -445,6 +445,7 @@
 			"content_domain": "Dominio contenuti",
 			"background_color": "Colore sfondo",
 			"anti_aliasing": "Anti-aliasing",
+			"no_copy_save": "Disattiva copie di salvataggio",
 			"zoom": "Ingrandimento",
 			"zoom0": "{by_default}",
 			"zoom1": "{automatic}",

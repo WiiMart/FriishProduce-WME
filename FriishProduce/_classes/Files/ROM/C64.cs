@@ -16,21 +16,21 @@ namespace FriishProduce
 
             if (Path.GetExtension(FilePath).ToLower() == ".t64")
             {
-                File.WriteAllBytes(Paths.WorkingFolder + "in.t64", ROM);
+                File.WriteAllBytes(PathConstants.WorkingFolder + "in.t64", ROM);
 
                 Utils.Run
                 (
                     "c64\\c1541\\c1541.exe",
-                    Paths.Tools + "c64\\c1541\\",
-                    $"-verbose off -silent on -format \"fromt64,01\" d64 \"{Paths.WorkingFolder + "out.d64"}\" -tape \"{Paths.WorkingFolder + "in.d64"}\""
+                    PathConstants.Tools + "c64\\c1541\\",
+                    $"-verbose off -silent on -format \"fromt64,01\" d64 \"{PathConstants.WorkingFolder + "out.d64"}\" -tape \"{PathConstants.WorkingFolder + "in.d64"}\""
                 );
 
-                ROM = File.ReadAllBytes(Paths.WorkingFolder + "out.d64");
+                ROM = File.ReadAllBytes(PathConstants.WorkingFolder + "out.d64");
 
-                try { File.Delete(Paths.WorkingFolder + "in.t64"); } catch { }
-                try { File.Delete(Paths.WorkingFolder + "out.d64"); } catch { }
-                try { File.Delete(Paths.Tools + "c64\\c1541\\stderr.txt"); } catch { }
-                try { File.Delete(Paths.Tools + "c64\\c1541\\stdout.txt"); } catch { }
+                try { File.Delete(PathConstants.WorkingFolder + "in.t64"); } catch { }
+                try { File.Delete(PathConstants.WorkingFolder + "out.d64"); } catch { }
+                try { File.Delete(PathConstants.Tools + "c64\\c1541\\stderr.txt"); } catch { }
+                try { File.Delete(PathConstants.Tools + "c64\\c1541\\stdout.txt"); } catch { }
             }
 
             return ROM;

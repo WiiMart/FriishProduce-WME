@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.IO.Hashing;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -13,122 +14,70 @@ namespace FriishProduce.Databases
         #region -- PRIVATE VARIABLES --
         private static Platform platform = Platform.NES;
 
-        private static Dictionary<string, Platform> list = new()
-        {
-            { "Nintendo - Nintendo Entertainment System", Platform.NES },
-            { "Nintendo - Super Nintendo Entertainment System", Platform.SNES },
-            { "Nintendo - Nintendo 64", Platform.N64 },
-            { "Sega - Master System - Mark III", Platform.SMS },
-            { "Sega - Mega Drive - Genesis", Platform.SMD },
-            { "NEC - PC Engine - TurboGrafx 16", Platform.PCE },
-            { "NEC - PC Engine SuperGrafx", Platform.PCE },
-            { "NEC - PC Engine CD - TurboGrafx-CD", Platform.PCECD },
-            { "MAME", Platform.NEO },
-            { "Commodore - 64", Platform.C64 },
-            { "Microsoft - MSX", Platform.MSX },
-            { "Microsoft - MSX2", Platform.MSX },
-            { "Microsoft - MSX 2", Platform.MSX },
-            { "Nintendo - Game Boy", Platform.GB },
-            { "Nintendo - Game Boy Color", Platform.GBC },
-            { "Nintendo - Game Boy Advance", Platform.GBA },
-            { "Nintendo - GameCube", Platform.GCN },
-            { "Sega - 32X", Platform.S32X },
-            { "Sega - Mega-CD - Sega CD", Platform.SMCD },
-            { "Sony - PlayStation", Platform.PSX },
-        };
+        private static readonly string[] DevRedump = { "developer", "redump" };
+        private static readonly string[] DefaultFolders = { "maxusers", "releaseyear", "genre" };
 
-        private static string db_name
-        {
-            get
-            {
-                foreach (KeyValuePair<string, Platform> item in list)
-                {
-                    if (item.Value == platform)
-                    {
-                        return item.Key;
-                    }
-                }
+        private class PlatformInfo {
+            public Platform Platform { get; }
+            public string[] Folders { get; }
 
-                return null;
+            public PlatformInfo(Platform platform, string[] folders) {
+                Platform = platform;
+                Folders = folders;
             }
         }
 
-        private static string db_url(int i)
+        private static readonly Dictionary<string, PlatformInfo> list = new()
         {
-            const string db_base = "https://raw.githubusercontent.com/libretro/libretro-database/refs/heads/master/metadat/";
-            string[] folders = new string[] { "maxusers", "releaseyear", "genre" };
+            { "Nintendo - Nintendo Entertainment System", new PlatformInfo(Platform.NES, DefaultFolders) },
+            { "Nintendo - Super Nintendo Entertainment System", new PlatformInfo(Platform.SNES, DefaultFolders) },
+            { "Nintendo - Nintendo 64", new PlatformInfo(Platform.N64, DefaultFolders) },
+            { "Sega - Master System - Mark III", new PlatformInfo(Platform.SMS, DefaultFolders) },
+            { "Sega - Mega Drive - Genesis", new PlatformInfo(Platform.SMD, DefaultFolders) },
+            { "NEC - PC Engine - TurboGrafx 16", new PlatformInfo(Platform.PCE, DevRedump) },
+            { "NEC - PC Engine SuperGrafx", new PlatformInfo(Platform.PCE, DefaultFolders) },
+            { "NEC - PC Engine CD - TurboGrafx-CD", new PlatformInfo(Platform.PCECD, DevRedump) },
+            { "MAME", new PlatformInfo(Platform.NEO, DefaultFolders) },
+            { "Commodore - 64", new PlatformInfo(Platform.C64, new[] { "no-intro" }) },
+            { "Microsoft - MSX", new PlatformInfo(Platform.MSX, DefaultFolders) },
+            { "Microsoft - MSX2", new PlatformInfo(Platform.MSX, DefaultFolders) },
+            { "Microsoft - MSX 2", new PlatformInfo(Platform.MSX, DefaultFolders) },
+            { "Nintendo - Game Boy", new PlatformInfo(Platform.GB, DefaultFolders) },
+            { "Nintendo - Game Boy Color", new PlatformInfo(Platform.GBC, DefaultFolders) },
+            { "Nintendo - Game Boy Advance", new PlatformInfo(Platform.GBA, DefaultFolders) },
+            { "Nintendo - GameCube", new PlatformInfo(Platform.GCN, Array.Empty<string>()) },
+            { "Sega - 32X", new PlatformInfo(Platform.S32X, DefaultFolders) },
+            { "Sega - Mega-CD - Sega CD", new PlatformInfo(Platform.SMCD, DevRedump) },
+            { "Sony - PlayStation", new PlatformInfo(Platform.PSX, DevRedump) },
+        };
 
-            if (db_name != null)
-            {
-                switch (platform)
-                {
-                    case Platform.PCECD:
-                    case Platform.SMCD:
-                    case Platform.PSX:
-                        folders = new string[] { "developer", "redump" };
-                        break;
+        private static string db_name => list.FirstOrDefault(item => item.Value.Platform == platform).Key;
+        private static string db_crc(string input) => input.Replace("-", "").Trim().Substring(0, 8).ToUpper();
 
-                    case Platform.GCN:
-                        folders = new string[0];
-                        break;
-
-                    case Platform.C64:
-                        folders = new string[] { "no-intro" };
-                        break;
-
-                    case Platform.NEO:
-                        folders = new string[] { "mame-split", "maxusers", "releaseyear" };
-                        break;
-                }
-
-                return folders.Length == 0
-                    ? db_base.Replace("metadat", "dat") + $"{db_name}.dat"
-                    : i < folders.Length ? db_base + folders[i] + $"/{db_name}.dat" : null;
-            }
-
-            return null;
+        private static string db_url(int i) {
+            string db_base = "https://raw.githubusercontent.com/libretro/libretro-database/refs/heads/master/metadat/";
+            if (!list.TryGetValue(db_name, out var info)) return null;
+            string rootDat = db_base.Replace("metadat", "dat") + $"{db_name}.dat";
+            return info.Folders.Length == 0 ? rootDat : i < info.Folders.Length ? db_base + info.Folders[i] + $"/{db_name}.dat" : null;
         }
 
         private static string db_img(string name, int source = 0) {
             string dbUri = Uri.EscapeUriString(db_name);
             string imgUri = Uri.EscapeUriString(name.Replace('/', '_').Replace('&', '_')) + ".png";
-            string archiveorg = "https://archive.org/download/No-Intro_Thumbnails_2016-04-10/";
-            string libretro = "https://thumbnails.libretro.com/";
-            return source == 1 ? archiveorg + dbUri + ".zip/" + dbUri + "/Named_Titles/" + imgUri : libretro + dbUri + "/Named_Titles/" + imgUri;
+            string archiveorg = "https://archive.org/download/No-Intro_Thumbnails_2016-04-10/" + dbUri + ".zip/" + dbUri + "/Named_Titles/" + imgUri;
+            string libretro = "https://thumbnails.libretro.com/" + dbUri + "/Named_Titles/" + imgUri;
+            return source == 1 ? archiveorg : libretro;
         }
-
-        private static string db_crc(string input) => input.Replace("-", "").Trim().Substring(0, 8).ToUpper();
         #endregion
 
-        public static bool Exists(Platform In)
-        {
-            foreach (KeyValuePair<string, Platform> item in list)
-            {
-                if (item.Value == In)
-                {
-                    return true;
-                }
-            }
+        public static bool Exists(Platform In) => list.Any(item => item.Value.Platform == In);
 
-            return false;
-        }
-
-        public static bool IsWeb(Platform In)
-        {
-            if (File.Exists(Path.Combine(Paths.Databases, In.ToString().ToLower() + ".xml")))
+        public static bool IsWeb(Platform In) {
+            if (File.Exists(Path.Combine(PathConstants.Databases, In.ToString().ToLower() + ".xml")))
                 return false;
 
-            for (int i = 0; ; i++)
-            {
-                string url = db_url(i);
-                if (string.IsNullOrWhiteSpace(url))
-                    break;
-
-                if (!File.Exists(Path.Combine(Paths.Databases, Path.GetFileName(url))))
-                    return true;
-            }
-
-            return false;
+            return Enumerable.Range(0, int.MaxValue).Select(i => db_url(i))
+                .TakeWhile(url => !string.IsNullOrWhiteSpace(url)).Any(url => !File.Exists(Path.Combine(PathConstants.Databases, Path.GetFileName(url))));
         }
 
         public static DataTable Parse(Platform In) {
@@ -143,14 +92,14 @@ namespace FriishProduce.Databases
                     dt.Columns.Add(col, typeof(string));
             }
 
-            string path = Path.Combine(Paths.Databases, In.ToString().ToLower() + ".xml");
+            string path = Path.Combine(PathConstants.Databases, In.ToString().ToLower() + ".xml");
 
             if (File.Exists(path)) {
                 try { dt.ReadXml(path); }
                 catch { try { File.Delete(path); } catch { } goto Top; }
             }
             else {
-                if (!Directory.Exists(Paths.Databases)) Directory.CreateDirectory(Paths.Databases);
+                if (!Directory.Exists(PathConstants.Databases)) Directory.CreateDirectory(PathConstants.Databases);
 
                 string crc = "";
                 string name = "";
@@ -174,7 +123,7 @@ namespace FriishProduce.Databases
                     Uri uri = new Uri(url);
                     string[] segments = uri.Segments;
                     string dbFolder = segments.Length >= 2 ? segments[segments.Length - 2].TrimEnd('/') : "unknown";
-                    string localPath = Path.Combine(Paths.Databases, $"{dbFolder}_{db_name}.dat");
+                    string localPath = Path.Combine(PathConstants.Databases, $"{dbFolder}_{db_name}.dat");
 
                     if (!File.Exists(localPath) && IsWeb(In)) {
                         try {
@@ -247,10 +196,8 @@ namespace FriishProduce.Databases
             string crc32 = null;
             DataTable dt = Parse(platform);
 
-            if (dt != null)
-            {
-                using (FileStream fileStream = File.OpenRead(file))
-                {
+            if (dt != null) {
+                using (FileStream fileStream = File.OpenRead(file)) {
                     var crc = new Crc32();
                     crc.Append(fileStream);
                     var hash_array = crc.GetCurrentHash();
@@ -259,81 +206,45 @@ namespace FriishProduce.Databases
                 }
 
                 var rows = dt.Select($"crc = '{crc32}'");
-                if (rows?.Length > 0)
-                {
+                if (rows?.Length > 0) {
                     var row = rows[0];
 
                     // read columns by name, more stable and reliable than indexes...
-                    string name   = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null;
+                    string name = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null;
                     string serial = row.Table.Columns.Contains("serial") ? row["serial"]?.ToString() : null;
-                    string year   = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null;
+                    string year = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null;
                     string players = row.Table.Columns.Contains("users") ? row["users"]?.ToString() : null;
-                    string image  = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null;
-                    string db_genre  = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null;
-                    Console.WriteLine($"Image: {image}");
-
-                    // Save banners
-                    string appDir = AppDomain.CurrentDomain.BaseDirectory;
-                    string defaultDir = Path.GetFullPath(Path.Combine(appDir, "Downloads", "Banners"));
+                    string image = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null;
+                    string db_genre = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null;
                     string locsaveDir = Program.Config.application.locsave_banner_tb;
-                    string bannersDir = string.IsNullOrEmpty(locsaveDir) ? defaultDir : locsaveDir;
-                    
-                    if (!Directory.Exists(bannersDir))
-                        Directory.CreateDirectory(bannersDir);
+                    string bannersDir = string.IsNullOrEmpty(locsaveDir) ? PathConstants.DefaultLocSaveBanners : locsaveDir;
 
+                    // Check for and use local banner if it exists else verify url
                     if (!string.IsNullOrEmpty(image)) {
-                        try
-                        {
-                            using (WebClient cl = new WebClient())
-                            {
-                                string fileName = Path.GetFileName(new Uri(image).LocalPath);
-                                string localPath = Path.Combine(bannersDir, fileName);
+                        string localPath = Path.Combine(bannersDir, Path.GetFileName(new Uri(image).LocalPath));
 
-                                // Only download if not already cached
-                                if (!File.Exists(localPath) && Program.Config.application.locsave_banner) {
-                                    Console.WriteLine($"Saving banner image locally: {localPath}");
-                                    cl.DownloadFile(image, localPath);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Failed to fetch banner image {image}: {ex.Message}");
+                        if (File.Exists(localPath)) {
+                            Logger.Log($"Using existing local banner:\n{localPath}");
+                            image = localPath;
+                        } 
+                        else if (!Web.CheckHttp(image, null)) {
+                            Logger.Log($"Failed to fetch banner image for:\n{image}");
+                            image = null;
                         }
                     }
-
-                    // Fallback logic only runs if no image was found in the database
-                    if (string.IsNullOrEmpty(image) && !string.IsNullOrEmpty(name))
-                    {
+                    if (string.IsNullOrEmpty(image) && !string.IsNullOrEmpty(name)) {
                         string[] imgdbs = { db_img(name, 0), db_img(name, 1) };
-                        foreach (string imgdb in imgdbs)
-                        {
-                            try
-                            {
-                                using (WebClient cl = new WebClient())
-                                {
-                                    string fileName = Path.GetFileName(new Uri(imgdb).LocalPath);
-                                    string localPath = Path.Combine(bannersDir, fileName);
-
-                                    if (Program.Config.application.locsave_banner)
-                                    {
-                                        Console.WriteLine($"Downloading fallback banner: {imgdb}");
-                                        cl.DownloadFile(imgdb, localPath);
-                                    }
-
-                                    image = imgdb;
-                                    if (row.Table.Columns.Contains("image"))
-                                        row["image"] = image;
-
-                                    break;
-                                }
+                        foreach (string imgdb in imgdbs) {
+                            try {
+                                image = imgdb;
+                                if (row.Table.Columns.Contains("image"))
+                                    row["image"] = image;
+                                break;
                             }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Failed to download {imgdb}: {ex.Message}");
+                            catch (Exception ex) {
+                                Logger.Log($"Failed to retrieve {imgdb}: {ex.Message}");
                             }
                         }
-
                         if (string.IsNullOrEmpty(image) && row.Table.Columns.Contains("image"))
                             row["image"] = null;
                     }

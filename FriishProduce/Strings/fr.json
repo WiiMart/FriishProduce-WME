@@ -431,6 +431,7 @@
 			"content_domain": "Domaine URL du contenu",
 			"background_color": "Couleur d'arrière-plan",
 			"anti_aliasing": "Anti-aliasing",
+			"no_copy_save": "Désactiver les copies de sauvegarde",
 			"zoom": "Zoom",
 			"zoom1": "Valeur personnalisée",
 			"standard": "Forcer l'affichage 4/3"

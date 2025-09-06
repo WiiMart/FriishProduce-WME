@@ -11,7 +11,7 @@ using System.Media;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace FriishProduce
@@ -22,12 +22,12 @@ namespace FriishProduce
         private readonly BannerOptions banner_form;
         private readonly Savedata savedata;
         private MessageBoxHTML htmlDialog;
-        private TheArtOfDev.HtmlRenderer.WinForms.HtmlToolTip tip = HTML.CreateToolTip();
+        private readonly TheArtOfDev.HtmlRenderer.WinForms.HtmlToolTip tip = HTML.CreateToolTip();
 
         protected string Untitled;
         protected (string Letter, string[] Exclude) TIDPrefix;
 
-        protected bool isVirtualConsole
+        protected bool IsVirtualConsole
         {
             get
             {
@@ -41,11 +41,11 @@ namespace FriishProduce
                 return value;
             }
         }
-        public bool IsForwarder { get => !isVirtualConsole && TargetPlatform != Platform.Flash; }
+        public bool IsForwarder { get => !IsVirtualConsole && TargetPlatform != Platform.Flash; }
 
         protected bool showPatch = false;
         private bool _showSaveData;
-        protected bool showSaveData
+        protected bool ShowSaveData
         {
             get => _showSaveData;
             set => edit_save_data.Enabled = _showSaveData = value;
@@ -119,15 +119,15 @@ namespace FriishProduce
                             && !string.IsNullOrEmpty(_bannerTitle)
                             && (img != null)
                             && rom?.FilePath != null
-                            && ((use_online_wad.Checked) || (!use_online_wad.Checked && File.Exists(inWadFile)));
+                            && ((use_online_wad.Checked) || (!use_online_wad.Checked && File.Exists(InBaseWAD)));
 
-                if (!File.Exists(inWadFile) && !string.IsNullOrWhiteSpace(inWadFile))
+                if (!File.Exists(InBaseWAD) && !string.IsNullOrWhiteSpace(InBaseWAD))
                 {
-                    inWadFile = null;
+                    InBaseWAD = null;
                     Invoke(new MethodInvoker(delegate { ValueChanged(null, new EventArgs()); }));
                 }
 
-                return showSaveData ? yes && !string.IsNullOrEmpty(savedata.Lines[0]) : yes;
+                return ShowSaveData ? yes && !string.IsNullOrEmpty(savedata.Lines[0]) : yes;
             }
         }
 
@@ -148,9 +148,9 @@ namespace FriishProduce
         // Public variables
         // -----------------------------------
         protected ChannelDatabase channels { get; set; }
-        protected (int baseNumber, int region) inWad { get; set; }
-        protected string inWadFile { get; set; }
-        public Region InWadRegion
+        protected (int baseNumber, int region) InputWadX { get; set; } //unused
+        protected string InBaseWAD { get; set; }
+        public Region InBaseRegion
         {
             get
             {
@@ -190,7 +190,7 @@ namespace FriishProduce
                      : index == Program.Lang.String("region_u") ? libWiiSharp.Region.USA
                      : index == Program.Lang.String("region_e") ? libWiiSharp.Region.Europe
                      : index == Program.Lang.String("region_k") ? libWiiSharp.Region.Korea
-                     : indexNum == 0 ? InWadRegion switch { Region.Japan => libWiiSharp.Region.Japan, Region.Korea => libWiiSharp.Region.Korea, Region.Europe => libWiiSharp.Region.Europe, Region.America => libWiiSharp.Region.USA, _ => libWiiSharp.Region.Free }
+                     : indexNum == 0 ? InBaseRegion switch { Region.Japan => libWiiSharp.Region.Japan, Region.Korea => libWiiSharp.Region.Korea, Region.Europe => libWiiSharp.Region.Europe, Region.America => libWiiSharp.Region.USA, _ => libWiiSharp.Region.Free }
                      : libWiiSharp.Region.Free;
             }
         }
@@ -385,12 +385,12 @@ namespace FriishProduce
 
                 if (value == -1)
                 {
-                    value = channels != null ? InWadRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
+                    value = channels != null ? InBaseRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
 
-                    if (!isVirtualConsole && Program.Lang.GetRegion() is Language.Region.Japan)
+                    if (!IsVirtualConsole && Program.Lang.GetRegion() is Language.Region.Japan)
                         value = 0;
 
-                    if (!isVirtualConsole && Program.Lang.GetRegion() is Language.Region.Korea)
+                    if (!IsVirtualConsole && Program.Lang.GetRegion() is Language.Region.Korea)
                         value = 3;
                 }
                 // Forced regions (TODO make MSX available per region at a later time)
@@ -499,7 +499,7 @@ namespace FriishProduce
 
                 WADRegion = region.SelectedIndex,
             };
-            p.OfflineWAD = inWadFile;
+            p.OfflineWAD = InBaseWAD;
             p.OnlineWAD = (Base.SelectedIndex, 0);
 
             for (int idx = 0; idx < baseRegionList.Items.Count; idx++)
@@ -703,19 +703,6 @@ namespace FriishProduce
             image_resize0.Checked = !image_resize1.Checked;
             resetImages();
             if (isMint && IsModified) IsModified = false;
-
-            /*LoadROM(project.ROM, false);
-            if (File.Exists(project.OfflineWAD)) {
-                use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
-                use_offline_wad.Checked = true;
-                LoadWAD(project.OfflineWAD);
-            }
-            else {
-                use_online_wad.Enabled = use_online_wad.Checked = true;
-                use_offline_wad.Checked = false;
-                try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
-                catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
-            }*/
         }
 
         private void LoadChannelDatabase()
@@ -909,8 +896,7 @@ namespace FriishProduce
                 Platform.Flash,
                 // Platform.PCE,
                 // Platform.NEO
-            })
-                if (TargetPlatform == manualConsole) removeManual = false;
+            }) removeManual = !(TargetPlatform == manualConsole);
             if (removeManual) manual_type.Items.RemoveAt(2);
 
             // *****************************************************
@@ -950,7 +936,6 @@ namespace FriishProduce
 
                     img = new ImageHelper(project.Platform, null);
                     img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
-
                     LoadROM(project.ROM, false);
 
                     if (File.Exists(project.OfflineWAD)) {
@@ -1046,9 +1031,101 @@ namespace FriishProduce
                         MessageBox.Show(string.Format(Program.Lang.Msg(11, 1), Path.GetFileName(item)));
             }
             project = null;
+            //if (File.Exists(rom?.FilePath) && IsEmpty)
+                //LoadROM(rom.FilePath, Program.Config.application.auto_prefill);
+        }
 
-            if (File.Exists(rom?.FilePath) && IsEmpty)
-                LoadROM(rom.FilePath, Program.Config.application.auto_prefill);
+        private bool GetProject() {
+            try {
+                if (string.IsNullOrEmpty(project.ProjectPath) || !File.Exists(project.ProjectPath))
+                    throw new FileNotFoundException("Project file does not exist in given path.", project.ProjectPath);
+
+                string ext = Path.GetExtension(project.ProjectPath);
+                if (ext.Equals(".jfpp", StringComparison.OrdinalIgnoreCase)) {
+                    string jfpp = File.ReadAllText(project.ProjectPath);
+                    project = JsonSerializer.Deserialize<Project>(jfpp, new JsonSerializerOptions {
+                        Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
+                    });
+                }
+                else if (ext.Equals(".fppj", StringComparison.OrdinalIgnoreCase))
+                {
+                    try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                    catch { banner_form.region.SelectedIndex = 0; }
+                    finally {
+                        linkSaveDataTitle();
+                        resetImages(true);
+                    }
+                }
+
+                if (project == null)
+                    throw new Exception("Failed to load project file.");
+
+                Logger.Log($"\nOpened project at:\n\"{project.ProjectPath}\"");
+                SetRecentProjects(project.ProjectPath);
+                ProjectPath = project.ProjectPath;
+
+                video_mode.SelectedIndex = project.VideoMode;
+
+                img = new ImageHelper(project.Platform, null);
+                img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
+                LoadROM(project.ROM, false);
+
+                if (File.Exists(project.OfflineWAD)) {
+                    use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
+                    use_offline_wad.Checked = true;
+                    LoadWAD(project.OfflineWAD);
+                }
+                else {
+                    use_online_wad.Enabled = use_online_wad.Checked = true;
+                    use_offline_wad.Checked = false;
+                    try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
+                    catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
+                }
+
+                patch = File.Exists(project.Patch) ? project.Patch : null;
+
+                try { channel_name.Text = project.ChannelTitles[1]; } catch { }
+                try { banner_form.title.Text = project.BannerTitle; } catch { }
+                try { banner_form.released.Value = project.BannerYear; } catch { }
+                try { banner_form.players.Value = project.BannerPlayers; } catch { }
+
+                try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                catch { banner_form.region.SelectedIndex = 0; }
+                finally {
+                    linkSaveDataTitle();
+                    resetImages(true);
+                }
+
+                try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
+                try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
+                try { title_id.Text = project.TitleID; } catch { }
+                try { genre.Text = project.Genre; } catch { }
+
+                try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
+                try { multifile_software.Checked = project.IsMultifile; } catch { }
+                try { image_interpolation_mode.SelectedIndex = project.ImageOptions.Item1; } catch { }
+                try { image_resize0.Checked = !project.ImageOptions.Item2; } catch { }
+                try { image_resize1.Checked = project.ImageOptions.Item2; } catch { }
+                try { region.SelectedIndex = project.WADRegion; } catch { }
+                try { video_mode.SelectedIndex = project.VideoMode; } catch { }
+                try { wiiu_display.SelectedIndex = project.WiiUDisplay; } catch { }
+
+                if (contentOptionsForm != null) {
+                    contentOptionsForm.Options = project.ContentOptions;
+                    contentOptionsForm.UsesKeymap = project.Keymap.Enabled;
+                    contentOptionsForm.Keymap = project.Keymap.List;
+                }
+
+                LoadImage();
+                LoadManual(project.Manual.Type, project.Manual.File);
+                banner_form.LoadSound(project.Sound);
+                setFilesText();
+                return project != null;
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"Error loading project: {ex.Message}", "Error", MessageBox.Buttons.Ok, MessageBox.Icons.Warning);
+                return false;
+            }
         }
 
         // -----------------------------------
@@ -1071,8 +1148,8 @@ namespace FriishProduce
             if (browseImage.ShowDialog() == DialogResult.OK) LoadImage(browseImage.FileName);
         }
 
-        private void import_image_Click(object sender, EventArgs e) => BrowseImageDialog();
-        private void download_image_Click(object sender, EventArgs e) => GameScan(true);
+        private void ImportBannerClick(object sender, EventArgs e) => BrowseImageDialog();
+        private async void DlBannerClick(object sender, EventArgs e) => GameScan(true);
 
         private void ValueChanged(object sender, EventArgs e)
         {
@@ -1080,7 +1157,7 @@ namespace FriishProduce
             if (DesignMode) return;
             // ----------------------------
 
-            if (isVirtualConsole && (inWadFile == null && !use_online_wad.Checked))
+            if (IsVirtualConsole && (InBaseWAD == null && !use_online_wad.Checked))
                 injection_method_options.Enabled = false;
             else
                 injection_method_options.Enabled = contentOptionsForm != null;
@@ -1154,7 +1231,7 @@ namespace FriishProduce
             // ROM/ISO
             // ********
             bool hasRom = !string.IsNullOrWhiteSpace(rom?.FilePath);
-            bool hasWad = !string.IsNullOrWhiteSpace(inWadFile);
+            bool hasWad = !string.IsNullOrWhiteSpace(InBaseWAD);
 
             groupBox1.Text = Program.Lang.Format(("main", Name), FileTypeName);
             rom_label.Text = Program.Lang.Format((rom_label.Name, Name), FileTypeName);
@@ -1184,7 +1261,7 @@ namespace FriishProduce
             baseId = TIDPrefix.Letter != null ? TIDPrefix.Letter + GenerateTitleID().Substring(0, 2) : GenerateTitleID().Substring(0, 3);
 
             // Add region suffix
-            string regionSuffix = GetRegionSuffix(InWadRegion);
+            string regionSuffix = GetRegionSuffix(InBaseRegion);
             title_id.Text = baseId + regionSuffix;
 
             // Change title ID prefix to avoid 4:3 stretching on Wii U, if a list is provided
@@ -1237,7 +1314,7 @@ namespace FriishProduce
                     avail = !existingTIDs.Contains(checkTID);
                     if (!avail) break;
                 }
-                uTID = avail ? baseId + GetRegionSuffix(InWadRegion) : null;
+                uTID = avail ? baseId + GetRegionSuffix(InBaseRegion) : null;
                 if (avail) break; // else: repeat loop with a new baseId
             }
 
@@ -1308,7 +1385,7 @@ namespace FriishProduce
                 ("TITLEID",         TITLEID,        true,       false),
                 ("GENRE",           GENRE,          false,      false),
                 ("PLATFORM",        PLATFORM,       true,       false),
-                ("REGION",          REGION,         true,       false),
+                ("REGION%",          REGION,         true,       false),
             };
             foreach (var (key, val, lower, trans) in map) {
                 string replace = val;
@@ -1343,6 +1420,10 @@ namespace FriishProduce
             // ----------------------------
             if (DesignMode) return;
             // ----------------------------
+
+            _scanCts?.Cancel();
+            _scanCts?.Dispose();
+            _scanCts = null;
 
             if (!CanClose)
                 e.Cancel = !CanClose;
@@ -1460,7 +1541,7 @@ namespace FriishProduce
 
             if (use_online_wad.Checked)
             {
-                inWadFile = null;
+                InBaseWAD = null;
                 AddBases();
             }
             else
@@ -1526,7 +1607,7 @@ namespace FriishProduce
 
             try
             {
-                if (Directory.Exists(Paths.WAD)) Directory.Delete(Paths.WAD, true);
+                if (Directory.Exists(PathConstants.WAD)) Directory.Delete(PathConstants.WAD, true);
                 Reader = WAD.Load(path);
             }
             catch
@@ -1539,7 +1620,7 @@ namespace FriishProduce
                 {
                     if (channels.Entries[h].GetUpperID(i) == Reader.UpperTitleID.ToUpper())
                     {
-                        inWadFile = path;
+                        InBaseWAD = path;
                         ValueChanged(null, new EventArgs());
 
                         // Fix Flash Placeholder (USA) bug
@@ -1561,9 +1642,9 @@ namespace FriishProduce
             try { Reader.Dispose(); }
             catch { Reader = null; }
 
-            if (inWadFile != null)
+            if (InBaseWAD != null)
             {
-                inWadFile = null;
+                InBaseWAD = null;
                 ValueChanged(null, new EventArgs());
             }
 
@@ -1767,21 +1848,16 @@ namespace FriishProduce
                 // ROM file formats
                 // ****************
                 default:
-                    if (!rom.CheckValidity(ROMpath))
-                    {
+                    if (!rom.CheckValidity(ROMpath)) {
                         MessageBox.Show(Program.Lang.Msg(2), 0, MessageBox.Icons.Warning);
                         return;
                     }
                     else IsEmpty = false;
 
-                    if (TargetPlatform == Platform.RPGM)
-                    {
-                        if ((rom as RPGM).GetTitle(ROMpath) != null)
-                        {
-                            banner_form.title.Text = (rom as RPGM).GetTitle(ROMpath);
-                            if (_bannerTitle.Length <= channel_name.MaxLength) channel_name.Text = banner_form.title.Text;
-                            resetImages(true);
-                        }
+                    if (TargetPlatform == Platform.RPGM && (rom as RPGM).GetTitle(ROMpath) != null) {
+                        banner_form.title.Text = (rom as RPGM).GetTitle(ROMpath);
+                        if (_bannerTitle.Length <= channel_name.MaxLength) channel_name.Text = banner_form.title.Text;
+                        resetImages(true);
                     }
                     break;
 
@@ -1814,7 +1890,7 @@ namespace FriishProduce
             patch = null;
 
             Program.MainForm.toolbarGameScan.Enabled = Program.MainForm.game_scan.Enabled = ToolbarButtons[1];
-            if (rom != null && AutoScan && ToolbarButtons[1]) GameScan(false);
+            if (rom != null && AutoScan && ToolbarButtons[1]) GameScan(true);
             setFilesText();
         }
 
@@ -2018,6 +2094,33 @@ namespace FriishProduce
             return titleMatches[0];
         }
 
+        private void LocSaveBanner(string path) {
+            if (string.IsNullOrEmpty(path) || !Program.Config.application.locsave_banner) return;
+
+            try {
+                string locsaveDir = Program.Config.application.locsave_banner_tb;
+                string bannersDir = string.IsNullOrEmpty(locsaveDir) ? PathConstants.DefaultLocSaveBanners : locsaveDir;
+
+                if (!Directory.Exists(bannersDir))
+                    Directory.CreateDirectory(bannersDir);
+
+                using (System.Net.WebClient cl = new System.Net.WebClient()) {
+                    string fileName = Path.GetFileName(new Uri(path).LocalPath);
+                    string localPath = Path.Combine(bannersDir, fileName);
+
+                    if (!File.Exists(localPath)) {
+                        Logger.Log($"Downloading banner image:\n{path}");
+                        cl.DownloadFile(path, localPath);
+                    }
+                    else
+                        Logger.Log($"Skipping banner download, already stored locally");
+                }
+            }
+            catch (Exception ex) {
+                Logger.Log($"[ERROR] Failed to fetch banner image {path}: {ex.Message}");
+            }
+        }
+
         /// <summary>
         /// Gets any game metadata that is available for the file based on its CRC32 reading hash, including the software title, year, players, and title image URL.
         /// </summary>
@@ -2055,7 +2158,12 @@ namespace FriishProduce
             if (!string.IsNullOrEmpty(result.Name)) {
                 Logger.Log($"#GetGameData()-> CRC match found for '{path}' -> '{result.Name}'");
                 result.Name = System.Text.RegularExpressions.Regex.Replace(result.Name?.Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
-                if (result.Name.Contains(", The")) result.Name = "The " + result.Name.Replace(", The", string.Empty);
+                
+                if (result.Name.Contains(", The"))
+                    result.Name = "The " + result.Name.Replace(", The", string.Empty);
+
+                if (!string.IsNullOrEmpty(result.Image) && Program.Config.application.locsave_banner)
+                    LocSaveBanner(result.Image);
                 return result;
             }
 
@@ -2092,6 +2200,9 @@ namespace FriishProduce
             if (platform == Platform.C64 || platform == Platform.PCECD)
                 complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(image);
             
+            if (!string.IsNullOrEmpty(image) && Program.Config.application.locsave_banner)
+                LocSaveBanner(image);
+
             Logger.Log($"#GetGameData()-> Filename match successful for '{fileName}' -> '{name}'");
             return (name, serial, year, players, image, FormatGenre(genre), complete);
         }
@@ -2111,12 +2222,16 @@ namespace FriishProduce
                         banner_form.title.Text = gameData.Name ?? banner_form.title.Text;
 
                         // Set channel title text
-                        var title = !string.IsNullOrEmpty(gameData.Name) ? gameData.Name.Replace("\r", "").Split('\n') : new[] {"Unknown"};
-                        channel_name.Text = title[0].Length <= channel_name.MaxLength ? title[0] : channel_name.Text;
+                        var titleParts = !string.IsNullOrEmpty(gameData.Name)
+                            ? gameData.Name.Replace("\r", "").Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>();
+                        var title = (titleParts.Length > 0 ? titleParts[0] : "Unknown");
+                        channel_name.Text = title.Length <= channel_name.MaxLength ? title : channel_name.Text;
 
                         // Set genre text
-                        var dbGenre = !string.IsNullOrEmpty(gameData.Genre) ? gameData.Genre.Replace("\r", "").Split('\n') : new[] {"Unknown"};
-                        genre.Text = dbGenre[0].Length <= genre.MaxLength ? dbGenre[0] : genre.Text;
+                        var genreParts = !string.IsNullOrEmpty(gameData.Genre)
+                            ? gameData.Genre.Replace("\r", "").Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>();
+                        var dbGenre = (genreParts.Length > 0 ? genreParts[0] : "Unknown");
+                        genre.Text = dbGenre.Length <= genre.MaxLength ? dbGenre : genre.Text;
                         
                         // Set year and players
                         banner_form.released.Value = !string.IsNullOrEmpty(gameData.Year) ? int.Parse(gameData.Year) : banner_form.released.Value;
@@ -2153,7 +2268,7 @@ namespace FriishProduce
         private void saveToWAD(object sender, System.ComponentModel.DoWorkEventArgs e) {
             Exception error = null;
             string targetFile = e.Argument.ToString();
-            targetFile ??= Paths.WorkingFolder + "out.wad";
+            targetFile ??= PathConstants.WorkingFolder + "out.wad";
 
             try {
                 Method m = new(TargetPlatform) {
@@ -2199,23 +2314,34 @@ namespace FriishProduce
                 int wad_tries = 0;
 
                 Start:
-                bool localFile = inWadFile != null;
+                bool hasInWad = InBaseWAD != null;
                 Program.MainForm.Wait(false, false, false);
 
                 // Get WAD data
                 // *******
-                if (localFile) m.GetWAD(inWadFile, baseID.Text, localFile);
+                if (hasInWad) m.GetWAD(InBaseWAD, baseID.Text, hasInWad);
                 else {
                     var entry = channels.Entries.Where(x => x.GetUpperIDs().Contains(baseID.Text)).ToArray()[0];
                     var index = Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
-                    m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), localFile);
+                    m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad);
                 }
                 backgroundWorker.ReportProgress(m.Progress);
 
                 try
                 {
-                    if (File.Exists(patch)) m.ROM.Patch(patch);
-
+                    if (File.Exists(patch))
+                    {
+                        try
+                        {
+                            m.ROM.Patch(patch);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Log($"Error while patching ROM: {ex.Message}\n{ex.StackTrace}");
+                            throw;
+                        }
+                    }
+                    Logger.Log($"Target Platform: {TargetPlatform}");
                     switch (TargetPlatform)
                     {
                         case Platform.NES:
@@ -2228,14 +2354,35 @@ namespace FriishProduce
                         case Platform.NEO:
                         case Platform.C64:
                         case Platform.MSX:
-                            if (isVirtualConsole)
-                                m.Inject();
-                            else
-                                m.CreateForwarder(emulator, device);
+                            try
+                            {
+                                if (IsVirtualConsole)
+                                    m.Inject();
+                                else
+                                    m.CreateForwarder(emulator, device);
+                            }
+                            catch (KeyNotFoundException ex)
+                            {
+                                Logger.Log($"KeyNotFoundException in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
+                                throw; // rethrow to outer catch
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Log($"Unexpected exception in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
+                                throw;
+                            }
                             break;
 
                         case Platform.Flash:
-                            m.Inject();
+                            try
+                            {
+                                m.Inject();
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Log($"Exception in Flash Inject(): {ex.Message}\n{ex.StackTrace}");
+                                throw;
+                            }
                             break;
 
                         case Platform.GB:
@@ -2245,29 +2392,47 @@ namespace FriishProduce
                         case Platform.SMCD:
                         case Platform.PSX:
                         case Platform.RPGM:
-                            m.CreateForwarder(emulator, device);
+                            try
+                            {
+                                m.CreateForwarder(emulator, device);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Log($"Exception in CreateForwarder for platform {TargetPlatform}: {ex.Message}\n{ex.StackTrace}");
+                                throw;
+                            }
                             break;
 
                         default:
-                            throw new NotImplementedException();
+                            throw new NotImplementedException($"Unhandled platform: {TargetPlatform}");
                     }
                 }
-                catch (Exception ex) {
-                    if (!localFile && ex.Message == "U8 Header: Invalid Magic!") {
-                        if (wad_tries == 0) {
+                catch (Exception ex)
+                {
+                    // Outer catch: log everything possible for debugging
+                    Logger.Log("=== Export failed with exception ===");
+                    Logger.Log($"Message: {ex.Message}");
+                    Logger.Log($"StackTrace: {ex.StackTrace}");
+                    if (ex.InnerException != null)
+                        Logger.Log($"InnerException: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+                    Logger.Log($"Platform: {TargetPlatform}, isVC: {IsVirtualConsole}, PatchFile: {patch}");
+                    
+                    if (!hasInWad && ex.Message.Contains("U8 Header: Invalid Magic!"))
+                    {
+                        if (wad_tries == 0)
+                        {
                             wad_tries++;
-                            Logger.Log("Received \"U8 Header: Invalid Magic!\" error, download may have failed. Attempting to download WAD a second time.");
+                            Logger.Log("Retrying WAD download due to U8 Header: Invalid Magic!");
                             goto Start;
                         }
-                        else {
-                            Logger.Log("WAD is invalid or failed to load more than once. Process halted.");
-                            throw ex;
+                        else
+                        {
+                            Logger.Log("WAD invalid or failed twice. Process halted.");
+                            throw;
                         }
                     }
-                    else {
-                        Logger.Log($"Export failed: {ex.Message}");
-                        throw ex;
-                    }
+
+                    throw; // rethrow so outer code can handle it
                 }
                 backgroundWorker.ReportProgress(m.Progress);
 
@@ -2284,7 +2449,7 @@ namespace FriishProduce
                 backgroundWorker.ReportProgress(m.Progress);
 
                 // write inject/WAD meta.json to Banner U8
-                if (Program.Config.application.write_metadata) WadMeta.Write(m, targetFile, InWadRegion);
+                if (Program.Config.application.write_metadata) WadMeta.Write(m, targetFile, InBaseRegion);
 
                 if (File.Exists(targetFile) && File.ReadAllBytes(targetFile).Length > 10) error = null;
                 else throw new Exception(Program.Lang.Msg(7, 1));
@@ -2517,7 +2682,7 @@ namespace FriishProduce
                 _ => null,
             };
 
-            savedata.Reset(TargetPlatform, (int)InWadRegion);
+            savedata.Reset(TargetPlatform, (int)InBaseRegion);
             resetImages();
             linkSaveDataTitle();
             resetContentOptions();
@@ -2554,7 +2719,7 @@ namespace FriishProduce
             forwarder_root_device.Visible = false;
             multifile_software.Visible = false;
 
-            if (isVirtualConsole)
+            if (IsVirtualConsole)
             {
                 hasExtra = true;
                 extra.Text = Program.Lang.String(manual_type.Name, Name);
@@ -2572,7 +2737,7 @@ namespace FriishProduce
                         break;
 
                     case Platform.N64:
-                        contentOptionsForm = new Options_VC_N64() { EmuType = InWadRegion == Region.Korea ? 3 : emuVer };
+                        contentOptionsForm = new Options_VC_N64() { EmuType = InBaseRegion == Region.Korea ? 3 : emuVer };
                         htmlDialog = new(Program.Lang.HTML(2, false), injection_methods.SelectedItem.ToString());
                         break;
 
@@ -2667,7 +2832,7 @@ namespace FriishProduce
                 manual_type.SelectedIndex = 0;
             }*/
 
-            showSaveData = isVirtualConsole || TargetPlatform == Platform.Flash;
+            ShowSaveData = IsVirtualConsole || TargetPlatform == Platform.Flash;
             download_image.Enabled = Databases.LibRetro.Exists(TargetPlatform);
 
             bool hasHelp = !string.IsNullOrWhiteSpace(htmlDialog?.FormText);

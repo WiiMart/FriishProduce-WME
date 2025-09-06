@@ -488,10 +488,18 @@ namespace FriishProduce.Injectors
 
         private U8 MainContent { get; set; }
 
+        private string GetSetting(string key) {
+            if (!Settings.ContainsKey(key)) {
+                Logger.Log($"Missing key in Flash.Inject(): {key}");
+                throw new KeyNotFoundException($"Settings dictionary is missing key '{key}' in Flash.Inject()");
+            }
+            return Settings[key];
+        }
+
         public WAD Inject(WAD wad, string[] lines, ImageHelper Img)
         {
             MainContent = U8.Load(wad.Contents[2]);
-            MainContent.Extract(Paths.FlashContents);
+            MainContent.Extract(PathConstants.FlashContents);
 
             #region ---------------- Determining the Flash emulator type ----------------
 
@@ -504,7 +512,7 @@ namespace FriishProduce.Injectors
                 if (itBase == FlashBase.Invalid)
                     continue;
 
-                string path = Paths.FlashContents + itBase.ContentPath;
+                string path = PathConstants.FlashContents + itBase.ContentPath;
                 if (File.Exists(path))
                 {
                     flBase = itBase;
@@ -544,19 +552,19 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Copying the SWF soundfont ----------------
 
-            if (File.Exists(Settings["midi"]))
+            if (File.Exists(GetSetting("midi")))
             {
-                if (!Directory.Exists(Paths.FlashContents + "dls\\"))
-                    Directory.CreateDirectory(Paths.FlashContents + "dls\\");
+                if (!Directory.Exists(PathConstants.FlashContents + "dls\\"))
+                    Directory.CreateDirectory(PathConstants.FlashContents + "dls\\");
 
-                File.Copy(Settings["midi"], Paths.FlashContents + "dls\\GM16.DLS");
+                File.Copy(GetSetting("midi"), PathConstants.FlashContents + "dls\\GM16.DLS");
             }
 
             #endregion
 
-            foreach (string file in Directory.EnumerateFiles(Paths.FlashContents, "*.*", SearchOption.AllDirectories))
+            foreach (string file in Directory.EnumerateFiles(PathConstants.FlashContents, "*.*", SearchOption.AllDirectories))
             {
-                string item = file.Replace(Paths.FlashContents, null).ToLower();
+                string item = file.Replace(PathConstants.FlashContents, null).ToLower();
 
                 #region ---------------- Adding keymap ----------------
 
@@ -624,16 +632,16 @@ namespace FriishProduce.Injectors
 
                         "update_frame_rate               0                  # not TV-framerate(NTSC/PAL)",
 
-                        $"mouse                           {Settings["mouse"]}",
-                        $"qwerty_keyboard                 {Settings["qwerty_keyboard"]}",
+                        $"mouse                           {GetSetting("mouse")}",
+                        $"qwerty_keyboard                 {GetSetting("qwerty_keyboard")}",
                         "navigation_model                4way                # 2way / 4way / 4waywrap",
-                        $"quality                         {Settings["quality"]}",
+                        $"quality                         {GetSetting("quality")}",
                         "looping                         on",
 
                         "text_encoding                   utf-16",
 
-                        $"midi                            {(File.Exists(Settings["midi"]) ? "on" : "off")}",
-                        $"{(File.Exists(Settings["midi"]) ? null : "# ")}dls_file                      dls/GM16.DLS",
+                        $"midi                            {(File.Exists(GetSetting("midi")) ? "on" : "off")}",
+                        $"{(File.Exists(GetSetting("midi")) ? null : "# ")}dls_file                      dls/GM16.DLS",
 
                         "key_input                       on",
 
@@ -642,21 +650,21 @@ namespace FriishProduce.Injectors
                         "dialog_cursor_archive           cursor.arc",
                         "dialog_cursor_layout            cursor.brlyt",
 
-                        $"shared_object_capability        {(flBase == FlashBase.BackToNature ? Settings["shared_object_capability"] : "on")}",
+                        $"shared_object_capability        {(flBase == FlashBase.BackToNature ? GetSetting("shared_object_capability") : "on")}",
                         "num_vff_drives                  1",
-                        $"vff_cache_size                  {Settings["vff_cache_size"]}",
-                        $"vff_sync_on_write               {Settings["vff_sync_on_write"]}",
+                        $"vff_cache_size                  {GetSetting("vff_cache_size")}",
+                        $"vff_sync_on_write               {GetSetting("vff_sync_on_write")}",
 
                         "persistent_storage_root_drive   X",
                         "persistent_storage_vff_file     shrdobjs.vff        # 8.3 format",
-                        $"persistent_storage_total        {Settings["persistent_storage_total"]}",
-                        $"persistent_storage_per_movie    {Settings["persistent_storage_per_movie"]}",
+                        $"persistent_storage_total        {GetSetting("persistent_storage_total")}",
+                        $"persistent_storage_per_movie    {GetSetting("persistent_storage_per_movie")}",
 
-                        $"strap_reminder                  {Settings["strap_reminder"]}",
+                        $"strap_reminder                  {GetSetting("strap_reminder")}",
 
                         "supported_devices               core, freestyle, classic",
 
-                        $"hbm_no_save                     {Settings["hbm_no_save"]}",
+                        $"hbm_no_save                     {GetSetting("hbm_no_save")}",
 
                         flBase == FlashBase.YouTube ?
                             $"debug_content_url               {FlashBase.YouTube.FullPath}"
@@ -677,7 +685,7 @@ namespace FriishProduce.Injectors
                                 "trace_filter					none",
                                 "texture_filter					linear",
                                 "certificate_files				GTEGI.cer",
-                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(Settings["content_domain"]) ? FlashBase.iPlayer.FullPath : Settings["content_domain"])}",
+                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(GetSetting("content_domain")) ? FlashBase.iPlayer.FullPath : GetSetting("content_domain"))}",
                                 "#flash_vars					dummy = 1",
                             }
                         );
@@ -713,8 +721,8 @@ namespace FriishProduce.Injectors
                                 "",
                                 "text_encoding					utf-16			# should be utf-16",
                                 "",
-                                $"midi						{(File.Exists(Settings["midi"]) ? "on" : "off")}",
-                                $"{(File.Exists(Settings["midi"]) ? null : "# ")}dls_file					dls/GM16.DLS",
+                                $"midi						{(File.Exists(GetSetting("midi")) ? "on" : "off")}",
+                                $"{(File.Exists(GetSetting("midi")) ? null : "# ")}dls_file					dls/GM16.DLS",
                                 "",
                                 "key_input					on			# software keyboard -- requires hardware keyboard and mouse",
                                 "",
@@ -746,7 +754,7 @@ namespace FriishProduce.Injectors
                                 "",
                                 "supported_devices				core",
                                 "",
-                                $"hbm_no_save	    				{Settings["hbm_no_save"]}",
+                                $"hbm_no_save	    				{GetSetting("hbm_no_save")}",
                                 "",
                                 "#static_module					static.sel",
                                 "",
@@ -770,7 +778,7 @@ namespace FriishProduce.Injectors
                                 "",
                                 "strap_reminder					none			#normal  #no_ex  #none",
                                 "",
-                                $"background_color				{Settings["background_color"]}		# RGBA -- VODF/SWF BG Color.",
+                                $"background_color				{GetSetting("background_color")}		# RGBA -- VODF/SWF BG Color.",
                                 "",
                                 "",
                                 "################################# APPLICATION CONFIGURATIONS #####################################",
@@ -814,11 +822,11 @@ namespace FriishProduce.Injectors
                                 "plugin_modules					plugin_wiinotification.rso plugin_wiiremote.rso plugin_wiisystem.rso plugin_wiisound.rso plugin_wiinetwork.rso",
                                 "trace_filter					none",
                                 "texture_filter					linear",
-                                $"background_color				{Settings["background_color"]}		# RGBA -- VODF/SWF BG Color.",
+                                $"background_color				{GetSetting("background_color")}		# RGBA -- VODF/SWF BG Color.",
 
                                 "##### MediaStream #####",
 
-                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(Settings["content_domain"]) ? "file:///trusted/" : Settings["content_domain"])}",
+                                $"content_domain					{(!Settings.ContainsKey("content_domain") || string.IsNullOrWhiteSpace(GetSetting("content_domain")) ? "file:///trusted/" : GetSetting("content_domain"))}",
                                 "debug_flash_vars	dummy=1",
                                 "final_flash_vars	dummy=1",
                                 $"final_content_url 	{FlashBase.YouTube.FullPath}",
@@ -846,7 +854,7 @@ namespace FriishProduce.Injectors
                     {
                         if (line.Contains("ortho_rect"))
                         {
-                            bool widescreen = Path.GetFileNameWithoutExtension(file).ToLower().EndsWith(".wide") && (Settings["fullscreen"].ToLower() is not "yes" and not "on" and not "true");
+                            bool widescreen = Path.GetFileNameWithoutExtension(file).ToLower().EndsWith(".wide") && (GetSetting("fullscreen").ToLower() is not "yes" and not "on" and not "true");
                             (double Width, double Height) swfSize = new(SWF.Header.Width, SWF.Header.Height);
                             // Default rectangle size values in Flash Placeholder: 304 (H) 228 (V) for SD resolution, 416 (H) for wide
                             (double Width, double Height) defaultSize = new(widescreen ? 416.0 : 304.0, 228.0);
@@ -854,9 +862,9 @@ namespace FriishProduce.Injectors
 
                             // Custom value
                             // **********************************************
-                            if (Settings["zoom"].Contains('_'))
+                            if (GetSetting("zoom").Contains('_'))
                             {
-                                (int h_setting, int v_setting) = (int.Parse(Settings["zoom"].Substring(0, Settings["zoom"].IndexOf('_'))), int.Parse(Settings["zoom"].Substring(Settings["zoom"].IndexOf('_') + 1)));
+                                (int h_setting, int v_setting) = (int.Parse(GetSetting("zoom").Substring(0, GetSetting("zoom").IndexOf('_'))), int.Parse(GetSetting("zoom").Substring(GetSetting("zoom").IndexOf('_') + 1)));
 
                                 // The smaller the rectangle, the larger the SWF appears
                                 (double Width, double Height) = (swfSize.Width, swfSize.Height);
@@ -876,7 +884,7 @@ namespace FriishProduce.Injectors
 
                             // Automatic adjustment
                             // **********************************************
-                            else if (Settings["zoom"].Contains("auto"))
+                            else if (GetSetting("zoom").Contains("auto"))
                             {
                                 // Do calculation
                                 (double Width, double Height) = (frameSize.Width, frameSize.Height);
@@ -911,21 +919,19 @@ namespace FriishProduce.Injectors
 
                         else if (line.Contains("anti_aliasing"))
                         {
-                            txt.Add($"anti_aliasing                   {Settings["anti_aliasing"]}");
+                            txt.Add($"anti_aliasing                   {GetSetting("anti_aliasing")}");
                             modified = true;
                         }
 
                         else if (line.Contains("background_") && notYouTube)
                         {
-                            txt.Add($"background_color                {Settings["background_color"]}             # RGBA");
+                            txt.Add($"background_color                {GetSetting("background_color")}             # RGBA");
                             modified = true;
                         }
 
                         else if (line.Contains("strap_reminder") && flBase == FlashBase.YouTube)
                         {
-                            Logger.Log("Disabling strap reminder.");
-                            Settings["strap_reminder"] = "none";
-                            txt.Add($"strap_reminder                   {Settings["strap_reminder"]}");
+                            txt.Add($"strap_reminder                   none");
                             modified = true;
                         }
                         else if (line.Contains("content_url") && notYouTube) // Does not add the line
@@ -939,7 +945,7 @@ namespace FriishProduce.Injectors
 
                     if (modified)
                         File.WriteAllBytes(file, Encoding.UTF8.GetBytes(string.Join("\r\n", txt) + "\r\n"));
-                    if (stretch && (Settings["fullscreen"].ToLower() is "yes" or "on" or "true") && File.Exists(file.Replace(".pcf", ".wide.pcf")))
+                    if (stretch && (GetSetting("fullscreen").ToLower() is "yes" or "on" or "true") && File.Exists(file.Replace(".pcf", ".wide.pcf")))
                         File.Copy(file, file.Replace(".pcf", ".wide.pcf"), true);
                 }
 
@@ -961,9 +967,9 @@ namespace FriishProduce.Injectors
                 lines[i] = Encoding.UTF8.GetString(Encoding.Convert(Encoding.Unicode, Encoding.UTF8, bytes));
             }
 
-            foreach (string file in Directory.EnumerateFiles(Paths.FlashContents, "*.*", SearchOption.AllDirectories))
+            foreach (string file in Directory.EnumerateFiles(PathConstants.FlashContents, "*.*", SearchOption.AllDirectories))
             {
-                string path = file.Replace(Paths.FlashContents, null).ToLower();
+                string path = file.Replace(PathConstants.FlashContents, null).ToLower();
                 int banIdx = path.IndexOf("banner\\") + "banner\\".Length;
 
                 if (path.Length >= banIdx + 2 && regions.Contains(path.Substring(banIdx, 2)))
@@ -985,7 +991,7 @@ namespace FriishProduce.Injectors
                 {
 
                     var txt = new List<string>() {
-                            $"not_copy        {Settings["no_copy_save"]}",
+                            $"not_copy        {Program.Config.flash.no_copy_save}",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
@@ -997,7 +1003,7 @@ namespace FriishProduce.Injectors
                     if (flBase == FlashBase.KirbyTV)
                     {
                         txt = new List<string>() {
-                            $"not_copy        {Settings["no_copy_save"]}",
+                            $"not_copy        {Program.Config.flash.no_copy_save}",
                             "anim_type       bounce",
                             $"title_text      {Uri.EscapeUriString(lines[0])}",
                             $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
@@ -1023,8 +1029,8 @@ namespace FriishProduce.Injectors
 
             #endregion
 
-            MainContent.CreateFromDirectory(Paths.FlashContents);
-            if (Directory.Exists(Paths.FlashContents)) Directory.Delete(Paths.FlashContents, true);
+            MainContent.CreateFromDirectory(PathConstants.FlashContents);
+            if (Directory.Exists(PathConstants.FlashContents)) Directory.Delete(PathConstants.FlashContents, true);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(wad.Contents[6]);
@@ -1057,11 +1063,11 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Finally, replace the relevant files ----------------
 
-            wad.Unpack(Paths.WAD);
-            File.WriteAllBytes(Paths.WAD + "00000002.app", MainContent.ToByteArray());
-            File.WriteAllBytes(Paths.WAD + "00000006.app", Content6.ToByteArray());
-            wad.CreateNew(Paths.WAD);
-            Directory.Delete(Paths.WAD, true);
+            wad.Unpack(PathConstants.WAD);
+            File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
+            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
+            wad.CreateNew(PathConstants.WAD);
+            Directory.Delete(PathConstants.WAD, true);
 
             #endregion
 

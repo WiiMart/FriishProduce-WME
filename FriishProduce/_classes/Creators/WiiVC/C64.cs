@@ -23,7 +23,7 @@ namespace FriishProduce.Injectors
         {
             ProcessStartInfo info = new ProcessStartInfo()
             {
-                FileName = Paths.Frodo + (clean ? "delete.bat" : "copy.bat"),
+                FileName = PathConstants.Frodo + (clean ? "delete.bat" : "copy.bat"),
                 Verb = "runas",
                 WindowStyle = ProcessWindowStyle.Minimized,
                 CreateNoWindow = true,
@@ -48,12 +48,12 @@ namespace FriishProduce.Injectors
         /// </summary>
         public static void Clean()
         {
-            try { File.Delete(Paths.FrodoRom); } catch { }
-            try { File.Delete(Paths.FrodoSnapshot); } catch { }
-            try { File.Delete(Paths.FrodoOutput); } catch { }
+            try { File.Delete(PathConstants.FrodoRom); } catch { }
+            try { File.Delete(PathConstants.FrodoSnapshot); } catch { }
+            try { File.Delete(PathConstants.FrodoOutput); } catch { }
 
-            try { File.Delete(Paths.Tools + "c64\\c1541\\stderr.txt"); } catch { }
-            try { File.Delete(Paths.Tools + "c64\\c1541\\stdout.txt"); } catch { }
+            try { File.Delete(PathConstants.Tools + "c64\\c1541\\stderr.txt"); } catch { }
+            try { File.Delete(PathConstants.Tools + "c64\\c1541\\stdout.txt"); } catch { }
 
             if (File.Exists(@"C:\1541 ROM") || File.Exists(@"C:\Basic ROM") || File.Exists(@"C:\Char ROM") || File.Exists(@"C:\Kernal ROM"))
                 Setup(true);
@@ -66,8 +66,8 @@ namespace FriishProduce.Injectors
         {
             ROM.CheckSize();
 
-            if (!File.Exists(Paths.Frodo + "Frodo.exe") || !Directory.Exists(Paths.Frodo))
-                throw new Exception(string.Format(Program.Lang.Msg(6, 1), Paths.Frodo.Replace(Paths.Tools, null) + "Frodo.exe"));
+            if (!File.Exists(PathConstants.Frodo + "Frodo.exe") || !Directory.Exists(PathConstants.Frodo))
+                throw new Exception(string.Format(Program.Lang.Msg(6, 1), PathConstants.Frodo.Replace(PathConstants.Tools, null) + "Frodo.exe"));
 
             // Define variables
             // ****************
@@ -90,25 +90,25 @@ namespace FriishProduce.Injectors
                     // ****************
                     ik_fss_index = MainContent.GetNodeIndex(item);
 
-                    File.WriteAllBytes(Paths.WorkingFolder + "ik.fss.comp", MainContent.Data[ik_fss_index]);
+                    File.WriteAllBytes(PathConstants.WorkingFolder + "ik.fss.comp", MainContent.Data[ik_fss_index]);
                     Utils.Run
                     (
                         FileDatas.Apps.gbalzss,
                         "gbalzss",
                         "d ik.fss.comp ik.fss"
                     );
-                    try { File.Delete(Paths.WorkingFolder + "ik.fss.comp"); } catch { }
+                    try { File.Delete(PathConstants.WorkingFolder + "ik.fss.comp"); } catch { }
 
                     // Copy decompressed snapshot to Frodo directory
                     // ****************
-                    File.Copy(Paths.WorkingFolder + "ik.fss", Paths.FrodoSnapshot, true);
-                    try { File.Delete(Paths.WorkingFolder + "ik.fss"); } catch { }
+                    File.Copy(PathConstants.WorkingFolder + "ik.fss", PathConstants.FrodoSnapshot, true);
+                    try { File.Delete(PathConstants.WorkingFolder + "ik.fss"); } catch { }
                 }
             }
 
             // Check if original snapshot was found
             // ****************
-            if (!File.Exists(Paths.FrodoSnapshot))
+            if (!File.Exists(PathConstants.FrodoSnapshot))
                 throw new Exception(Program.Lang.Msg(13, 1));
 
             // Prompt to use existing copy
@@ -146,7 +146,7 @@ namespace FriishProduce.Injectors
 
                     if (result == System.Windows.Forms.DialogResult.OK)
                     {
-                        File.WriteAllBytes(Paths.FrodoOutput, File.ReadAllBytes(filename));
+                        File.WriteAllBytes(PathConstants.FrodoOutput, File.ReadAllBytes(filename));
                         goto End;
                     }
                     else
@@ -168,17 +168,17 @@ namespace FriishProduce.Injectors
 
             // Copy ROM
             // ****************
-            File.WriteAllBytes(Paths.FrodoRom, data);
+            File.WriteAllBytes(PathConstants.FrodoRom, data);
 
             int tries = 5;
 
             Frodo_Load:
             // Edit Frodo config to autoload said ROM
             // ****************
-            string[] config = File.ReadAllLines(Paths.Frodo + "Frodo.fpr");
+            string[] config = File.ReadAllLines(PathConstants.Frodo + "Frodo.fpr");
             for (int i = 0; i < config.Length; i++)
                 if (config[i].StartsWith("DrivePath8")) config[i] = "DrivePath8 = rom.d64";
-            File.WriteAllLines(Paths.Frodo + "Frodo.fpr", config);
+            File.WriteAllLines(PathConstants.Frodo + "Frodo.fpr", config);
 
             // Run Frodo
             // ****************
@@ -189,9 +189,9 @@ namespace FriishProduce.Injectors
                     h.ShowDialog();
                 }
 
-            Utils.Run(Paths.Frodo + "Frodo.exe", Paths.Frodo, null, true);
+            Utils.Run(PathConstants.Frodo + "Frodo.exe", PathConstants.Frodo, null, true);
 
-            if (!File.Exists(Paths.FrodoOutput))
+            if (!File.Exists(PathConstants.FrodoOutput))
             {
                 tries -= 1;
 
@@ -209,7 +209,7 @@ namespace FriishProduce.Injectors
 
             if (!cancel)
             {
-                File.Copy(Paths.FrodoOutput, Paths.WorkingFolder + "ik.fss", true);
+                File.Copy(PathConstants.FrodoOutput, PathConstants.WorkingFolder + "ik.fss", true);
 
                 Utils.Run
                 (
@@ -218,10 +218,10 @@ namespace FriishProduce.Injectors
                     "e ik.fss ik.fss.comp"
                 );
 
-                if (!File.Exists(Paths.WorkingFolder + "ik.fss.comp"))
+                if (!File.Exists(PathConstants.WorkingFolder + "ik.fss.comp"))
                     throw new Exception(Program.Lang.Msg(2, 1));
                 else
-                    MainContent.ReplaceFile(ik_fss_index, File.ReadAllBytes(Paths.WorkingFolder + "ik.fss.comp"));
+                    MainContent.ReplaceFile(ik_fss_index, File.ReadAllBytes(PathConstants.WorkingFolder + "ik.fss.comp"));
             }
 
             Clean();
@@ -237,7 +237,7 @@ namespace FriishProduce.Injectors
 
             lines = ConvertSaveText(lines);
 
-            File.WriteAllBytes(Paths.WorkingFolder + "banner.bin", Contents[1]);
+            File.WriteAllBytes(PathConstants.WorkingFolder + "banner.bin", Contents[1]);
 
             byte[] pattern = new byte[] { 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x62, 0x69, 0x6E, 0x00, 0x00 };
             int index = Byte.IndexOf(Contents[1], pattern, 850000, 1000000) + pattern.Length;
@@ -264,7 +264,7 @@ namespace FriishProduce.Injectors
 
                 if (isLZ77)
                 {
-                    File.WriteAllBytes(Paths.WorkingFolder + "LZ77_banner.tpl", tpl);
+                    File.WriteAllBytes(PathConstants.WorkingFolder + "LZ77_banner.tpl", tpl);
 
                     Utils.Run
                     (
@@ -273,14 +273,14 @@ namespace FriishProduce.Injectors
                         "/u LZ77_banner.tpl banner.tpl"
                     );
 
-                    tpl = File.ReadAllBytes(Paths.WorkingFolder + "banner.tpl");
+                    tpl = File.ReadAllBytes(PathConstants.WorkingFolder + "banner.tpl");
                 }
 
                 byte[] new_tpl = Img.CreateSaveTPL(tpl).ToByteArray();
 
                 if (isLZ77)
                 {
-                    File.WriteAllBytes(Paths.WorkingFolder + "banner.tpl", new_tpl);
+                    File.WriteAllBytes(PathConstants.WorkingFolder + "banner.tpl", new_tpl);
 
                     Utils.Run
                     (
@@ -289,7 +289,7 @@ namespace FriishProduce.Injectors
                         "/cr LZ77_banner.tpl banner.tpl new.tpl"
                     );
 
-                    new_tpl = File.ReadAllBytes(Paths.WorkingFolder + "new.tpl");
+                    new_tpl = File.ReadAllBytes(PathConstants.WorkingFolder + "new.tpl");
                 }
 
                 MainContent.ReplaceFile(tpl_index, new_tpl);

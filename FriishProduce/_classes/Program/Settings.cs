@@ -31,7 +31,7 @@ namespace FriishProduce
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             }).Replace("\n\n", "\n").Replace("\t\t", "\t");
 
-            File.WriteAllText(FriishProduce.Paths.Config, outFile);
+            File.WriteAllText(FriishProduce.PathConstants.Config, outFile);
         }
 
         public void Reset(bool save)
@@ -52,7 +52,7 @@ namespace FriishProduce
 
         private Settings Parse(byte[] file = null)
         {
-            if (file == null) file = File.ReadAllBytes(FriishProduce.Paths.Config);
+            if (file == null) file = File.ReadAllBytes(FriishProduce.PathConstants.Config);
 
             Settings reader = null;
             var encoding = Encoding.UTF8;
@@ -148,9 +148,9 @@ namespace FriishProduce
             public string publisher_opt_tb {get; set;} = "Username";
 
             public bool locsave_banner { get; set; } = false;
-            public string locsave_banner_tb { get; set; } = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads/Banners"));
+            public string locsave_banner_tb { get; set; } = PathConstants.DefaultLocSaveBanners;
             public bool locsave_wad { get; set; } = false;
-            public string locsave_wad_tb { get; set; } = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads/WADs"));
+            public string locsave_wad_tb { get; set; } = PathConstants.DefaultLocSaveWADs;
             public bool lowerParams { get; set; } = true;
             public bool transParams { get; set; } = true;
             public bool auto_fill_save_data { get; set; } = true;

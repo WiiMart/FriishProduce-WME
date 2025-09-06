@@ -72,7 +72,7 @@ namespace FriishProduce
             if (EmulatorIndex == -1) throw new NotSupportedException();
 
             bool hasBIOS = false;
-            string PackageFolder = Paths.SDUSBRoot + loadPath.Substring(4).Replace("/boot.dol", "").Replace('/', '\\') + '\\';
+            string PackageFolder = PathConstants.SDUSBRoot + loadPath.Substring(4).Replace("/boot.dol", "").Replace('/', '\\') + '\\';
             string ROMFolder = isDisc ? PackageFolder + "title\\" : PackageFolder;
             string ROMName = isDisc ? Path.GetFileName(ROM) : (EmulatorIndex >= 7 ? "title" : "HOME Menu") + romExtension;
 
@@ -181,36 +181,36 @@ namespace FriishProduce
                 {
                     case 0:
                     case 1:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "fceugx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "fceugx\\saves\\");
                         break;
                     case 2:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "fceuxtx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "fceuxtx\\saves\\");
                         break;
                     case 3:
                     case 4:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "snes9xgx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "snes9xgx\\saves\\");
                         break;
                     case 5:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "snes9xtx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "snes9xtx\\saves\\");
                         break;
                     case 6:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "vbagx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "vbagx\\saves\\");
                         break;
                     case 8:
                     case 9:
                     case 11:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wii64\\roms\\");
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wii64\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wii64\\roms\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wii64\\saves\\");
                         break;
                     case 10:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "not64\\roms\\");
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "not64\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "not64\\roms\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "not64\\saves\\");
                         break;
                     case 12:
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wiisxrx\\bios\\");
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wiisxrx\\isos\\");
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wiisxrx\\saves\\");
-                        Directory.CreateDirectory(Paths.SDUSBRoot + "wiisxrx\\savestates\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wiisxrx\\bios\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wiisxrx\\isos\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wiisxrx\\saves\\");
+                        Directory.CreateDirectory(PathConstants.SDUSBRoot + "wiisxrx\\savestates\\");
                         break;
                 }
 
@@ -246,7 +246,7 @@ namespace FriishProduce
                     {
                         var validList = new List<(Platform Platform, int Index, string Target)>()
                         {
-                            (Platform.PSX,   12, Paths.SDUSBRoot + "wiisxrx\\bios\\SCPH1001.BIN"),
+                            (Platform.PSX,   12, PathConstants.SDUSBRoot + "wiisxrx\\bios\\SCPH1001.BIN"),
                         };
 
                         foreach (var item in validList)
@@ -348,7 +348,7 @@ namespace FriishProduce
 
             // Do readme
             // *******
-            File.WriteAllText(Paths.SDUSBRoot + $"(Extract to your {(Storage == Storages.USB ? "USB" : "SD")} root).txt", "");
+            File.WriteAllText(PathConstants.SDUSBRoot + $"(Extract to your {(Storage == Storages.USB ? "USB" : "SD")} root).txt", "");
         }
 
         public WAD CreateWAD(WAD WAD)
@@ -362,8 +362,8 @@ namespace FriishProduce
             // *******
             WAD x = WADType == WADTypes.Comex ? WAD.Load(FileDatas.Forwarder.Base_Comex) : WAD.Load(FileDatas.Forwarder.Base_Waninkoko);
 
-            x.Unpack(Paths.WAD);
-            WAD.BannerApp.Save(Paths.WAD + "00000000.app");
+            x.Unpack(PathConstants.WAD);
+            WAD.BannerApp.Save(PathConstants.WAD + "00000000.app");
 
             #region -- Define forwarder version --
             bool v12 = EmulatorIndex is 7 or 13;
@@ -376,22 +376,22 @@ namespace FriishProduce
             // *******
             Encoding.ASCII.GetBytes(targetPath).CopyTo(forwarder, targetOffset);
 
-            File.WriteAllBytes(Paths.WorkingFolder + "forwarder.dol", forwarder);
+            File.WriteAllBytes(PathConstants.WorkingFolder + "forwarder.dol", forwarder);
             Utils.Run(FileDatas.Apps.OpenDolBoot, "OpenDolBoot", "forwarder.dol forwarder.app");
-            if (!File.Exists(Paths.WorkingFolder + "forwarder.app")) throw new Exception(Program.Lang.Msg(2, 1));
+            if (!File.Exists(PathConstants.WorkingFolder + "forwarder.app")) throw new Exception(Program.Lang.Msg(2, 1));
 
-            var forwarderApp = File.ReadAllBytes(Paths.WorkingFolder + "forwarder.app");
-            try { File.Delete(Paths.WorkingFolder + "forwarder.app"); } catch { }
+            var forwarderApp = File.ReadAllBytes(PathConstants.WorkingFolder + "forwarder.app");
+            try { File.Delete(PathConstants.WorkingFolder + "forwarder.app"); } catch { }
 
-            File.WriteAllBytes(Paths.WAD + (x.BootIndex == 1 ? "00000002.app" : "00000001.app"), forwarder);
+            File.WriteAllBytes(PathConstants.WAD + (x.BootIndex == 1 ? "00000002.app" : "00000001.app"), forwarder);
 
             // Write OpenDolBoot loader & save
             // *******
-            File.WriteAllBytes(Paths.WAD + $"0000000{x.BootIndex}.app", forwarderApp);
+            File.WriteAllBytes(PathConstants.WAD + $"0000000{x.BootIndex}.app", forwarderApp);
 
-            x.CreateNew(Paths.WAD);
+            x.CreateNew(PathConstants.WAD);
             x.Region = WAD.Region;
-            Directory.Delete(Paths.WAD, true);
+            Directory.Delete(PathConstants.WAD, true);
             return x;
         }
     }

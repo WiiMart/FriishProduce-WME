@@ -181,41 +181,41 @@
 
 			"new_project": "&新建...",
 			"open_project": "&打开项目...",
-			"open_recent": "打开&最近使用",
-			"clear_recent": "&清空此列表",
+			"open_recent": "打开&最近的",
+			"clear_recent": "&清除此列表",
 			"save_project": "&保存项目",
 			"save_project_as": "另存&项目为...",
 			"close_project": "&关闭项目",
-			"close_all": "关闭全部",
+			"close_all": "关闭所有",
 
 			"import_game_file": "&导入 {0}...",
 			"game_scan": "&填充游戏数据",
 			"export": "&导出...",
-			
+
 			"extract_from_wad": "&从 WAD 提取...",
-			"extract_wad_banner": "频道&横幅",
-			"extract_wad_icon": "频道&图标",
-			"extract_wad_sound": "频道&音效",
+			"extract_wad_banner": "频道 &横幅",
+			"extract_wad_icon": "频道 &图标",
+			"extract_wad_sound": "频道 &音效",
 			"extract_wad_manual": "操作&手册",
-			
+
 			"updater": "&更新",
 			"check_for_updates": "立即&检查",
 			"auto_update": "启动时&自动检查更新",
 			"clear_update": "&清除更新文件",
 			"advanced": "&高级",
 			"test_database": "&验证数据库条目",
-			"clear_database": "&清空所有数据库",
-			"reset_preferences": "&重置所有偏好设置",
+			"clear_database": "清除所有数据库",
+			"reset_preferences": "重置所有首选项",
 
 			"wiki": "在线&Wiki",
-			"exit": "退出(&E)",
+			"exit": "退出(&X)",
 
 			"project_type": "{0} WAD",
 			"untitled_project": "未命名 {0} WAD",
-			
+
 			"update": "有可用更新",
-			"update1": "FriishProduce v{0} 可下载。\n您当前运行的是 v{1}。",
-			"update2": "现在更新？"
+			"update1": "FriishProduce v{0} 现可下载。\n您当前运行的是 v{1}。",
+			"update2": "立即更新?"
 		},
 
 		"settingsform": {
@@ -231,48 +231,48 @@
 
 			"bios_files": "BIOS 文件",
 			"browse_bios": "选择 BIOS 文件...",
-			
+
 			"default_settings": "默认设置",
 			"default_settings_app": "应用程序",
 			"default_settings_plat": "平台",
 			"default_injection_methods": "默认注入方法",
 			"default_target_filename": "目标文件名",
 			"default_target_project": "项目:",
-			"default_target_wad": "导出的 WAD:",
+			"default_target_wad": "导出 WAD:",
 			"default_target_parameters": "可替换参数:",
 
 			"default_content_options": "默认内容选项",
-			"default_content_options_l": "从列表中选择平台，然后点击 \"{0}\" 更改其默认内容选项。",
+			"default_content_options_l": "从列表中选择一个平台，然后单击 \"{0}\" 来更改其默认内容选项。",
 			"default_content_options_e": "编辑...",
 
 			"use_online_wad_enabled": "启用可下载 WAD 功能",
-            "write_metadata": "Write WAD/Inject Metadata",
+			"write_metadata": "写入 WAD/Inject 元数据",
 
-			"auto_fill_save_data": "自动填写存档标题",
-			"auto_prefill": "打开后自动预填游戏数据",
+			"auto_fill_save_data": "自动填充存档标题",
+			"auto_prefill": "打开后自动填充游戏数据",
 			"publisher_opt": "作者/发行商标签:",
-			"locsave_banner": "将下载的横幅图片保存到本地:",
+			"locsave_banner": "将下载的横幅图像保存到本地:",
 			"locsave_wad": "将下载的 WAD 文件保存到本地:",
 			"lowerParams": "导出名称小写",
 			"transParams": "翻译导出名称"
 		},
 
 		"projectform": {
-			"main": "主要文件",
+			"main": "主文件",
 			"rom_label": "当前 {0}:",
 			"rom_label1": "游戏文件",
-			"rom_label2": "光盘镜像",
+			"rom_label2": "光盘映像",
 			"include_patch": "包含补丁",
 
 			"wad_base": "基础 WAD",
 			"import_wad": "从文件导入 WAD...",
-			"use_online_wad": "...或使用可下载的基础 WAD",
+			"use_online_wad": "...或使用可下载的基础",
 			"using_default_wad": "使用空白 WAD",
 			"current_wad": "当前 WAD:",
 
-			"image": "图片",
-			"import_image": "从文件导入图片...",
-			"download_image": "下载标题画面图片",
+			"image": "图像",
+			"import_image": "从文件导入图像...",
+			"download_image": "下载标题画面图像",
 			"image_interpolation_mode": "插值模式",
 			"image_interpolation_mode0": "{by_default}",
 			"image_interpolation_mode1": "低",
@@ -282,7 +282,7 @@
 			"image_interpolation_mode5": "最邻近",
 			"image_interpolation_mode6": "高质量双线性",
 			"image_interpolation_mode7": "高质量三次",
-			"image_resize0": "拉伸图片",
+			"image_resize0": "拉伸图像",
 			"image_resize1": "保持宽高比",
 
 			"channel_metadata": "频道元数据",
@@ -293,20 +293,20 @@
 			"video_mode": "视频模式:",
 			"banner": "频道横幅",
 			"banner_tip": "点击上方预览图访问横幅自定义选项。",
-			"banner_details": "横幅&详细信息...",
+			"banner_details": "横幅&详情...",
 
 			"injection_method": "注入方法",
 			"injection_method_options": "注入方法选项...",
-			"controller": "手柄",
-			"controller_mapping": "编辑手柄映射...",
+			"controller": "控制器",
+			"controller_mapping": "编辑控制器映射...",
 
 			"save_data": "存档",
-			"save_data_enable": "启用存档",
+			"save_data_enable": "启用保存",
 			"edit_save_data": "编辑存档标题...",
 			"edit_save_data_1": "标题:",
 			"edit_save_data_2": "副标题:",
 			"edit_save_data_max": "每行最大长度: {0}",
-			"fill_save_data": "自动填写",
+			"fill_save_data": "自动填充",
 
 			"manual_type": "操作手册:",
 			"manual_type0": "{disabled}",
@@ -317,8 +317,147 @@
 			"wiiu_display0": "{original}",
 			"wiiu_display1": "4:3 信箱格式",
 			"wiiu_display2": "拉伸",
-			"multifile_software": "软件为多文件",
-			"no_copy_save": "禁用存档副本"
+			"multifile_software": "软件为多文件"
+		},
+
+		"banner": {
+			"full_name": "全名:",
+			"year": "年份:",
+			"players": "玩家:",
+			"banner_region": "横幅区域:",
+			"banner_sound": "替换横幅音效...",
+			"banner_sound_play": "播放当前横幅音效",
+			"banner_sound_restore": "恢复原始横幅音效"
+		},
+
+		"controller": {
+			"page1": "Wii 遥控器",
+			"page2": "经典控制器",
+			"page3": "GameCube 控制器",
+			"vertical_layout": "垂直布局",
+
+			"presets": "预设",
+			"preset_load": "加载",
+			"preset_blank": "空白",
+			"preset_basic": "基础",
+			"preset_basic_h": "基础 (水平)",
+			"preset_basic_v": "基础 (垂直)",
+
+			"up": "上",
+			"left": "左",
+			"right": "右",
+			"down": "下"
+		},
+
+		"vc_nes": {
+			"palette": "调色板",
+			"palette0": "{by_default}",
+			"palette1": "恢复",
+			"palette2": "{vc} (Nintendo 3DS)",
+			"palette3": "NES Classic (FBX)",
+			"palette4": "NES Remix U",
+			"palette5": "YUV (Nestopia)",
+			"palette6": "RGB (Nestopia)",
+			"palette7": "FCEUX",
+			"palette8": "Wavebeam (FBX)",
+			"palette9": "复合直通 (FBX)",
+
+			"palette_banner_usage": "也用于横幅图像"
+		},
+
+		"vc_snes": {
+			"patch_volume": "提升音量",
+			"patch_noopera": "移除手册文件",
+			"patch_wiimote": "启用原生 Wii 遥控器支持",
+			"patch_gcremap": "旋转 GC 控制器 ABXY 映射",
+			"patch_nocheck": "禁用所有 ROM 检查",
+			"patch_nodark": "禁用暗滤镜",
+			"patch_nocc": "禁用经典控制器屏幕",
+			"patch_nosave": "禁用保存",
+			"patch_nosuspend": "禁用挂起点",
+			"patch_widescreen": "宽屏 HOME 菜单"
+		},
+
+		"vc_n64": {
+			"patch_fixbrightness": "移除暗滤镜",
+			"patch_fixcrashes": "修复崩溃",
+			"patch_expandedram": "启用扩展 RAM",
+			"patch_autosizerom": "分配 ROM 大小",
+			"patch_cleantextures": "清理未使用纹理",
+			"patch_remap": "重新映射控制器",
+			"patch_widescreen": "宽屏",
+
+			"romc_type": "ROM 压缩方法",
+			"romc_type0": "ROMC (类型 0)",
+			"romc_type1": "ROMC (类型 1)"
+		},
+
+		"vc_sega": {
+			"console_disableresetbutton": "禁用复位按钮",
+			"dev_mdpad_enable_6b": "为 {0} 启用六按钮控制器"
+		},
+
+		"vc_pce": {
+			"hide_overscan": "隐藏过扫描区域",
+			"raster": "背景光栅",
+			"sprline": "精灵限制",
+			"y_offset": "Y 偏移",
+			"sgenable": "启用 SuperGrafx 功能",
+			"region0": "{region_j}",
+			"region1": "美国/欧洲",
+			"padbutton0": "使用 2 按钮手柄",
+			"padbutton1": "使用 6 按钮手柄"
+		},
+
+		"vc_neo": {
+			"bios": "系统 BIOS",
+			"bios0": "从文件导入",
+			"bios1": "{vc} (版本 1)",
+			"bios2": "{vc} (版本 2)",
+			"bios3": "{vc} (版本 3)"
+		},
+
+		"vc_c64": {
+			"rom_notice": "此注入方法需要使用 Frodo 模拟器在启动时拍摄快照。\n您想执行哪项操作？",
+			"rom_notice1": "&创建新快照",
+			"rom_notice2": "&使用现有快照"
+		},
+
+		"adobe_flash": {
+			"vff_sync_on_write": "写入数据时同步 VFF",
+			"vff_cache_size": "VFF 缓存大小 ({kilobytes})",
+			"persistent_storage_total": "总持久存储 ({kilobytes})",
+			"persistent_storage_per_movie": "每 SWF 持久存储 ({kilobytes})",
+			"controls": "控制器",
+			"mouse": "鼠标",
+			"qwerty_keyboard": "QWERTY 键盘",
+			"midi": "启用 DLS 音色的 MIDI 播放",
+			"quality": "质量",
+			"quality0": "高",
+			"quality1": "中",
+			"quality2": "低",
+			"strap_reminder": "安全带提示屏幕",
+			"strap_reminder0": "{disabled}",
+			"strap_reminder1": "{enabled}",
+			"strap_reminder2": "{enabled} (无扩展控制器)",
+			"swf_metadata": "SWF 元数据",
+			"content_domain": "内容域",
+			"background_color": "背景颜色",
+			"anti_aliasing": "抗锯齿",
+			"no_copy_save": "禁用存档副本",
+			"zoom": "缩放",
+			"zoom0": "{by_default}",
+			"zoom1": "{automatic}",
+			"zoom2": "自定义",
+			"standard": "强制 4:3 显示"
+		},
+
+		"forwarder": {
+			"bios_settings": "BIOS 设置",
+			"use_bios": "启用 BIOS",
+			"show_bios_screen": "显示 BIOS 启动画面",
+			"rpgm_settings": "RPG 制作软件设置",
+			"use_rtp": "使用外部 RTP (运行时包)"
 		}
 	}
 }

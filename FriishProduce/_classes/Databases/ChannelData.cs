@@ -187,16 +187,16 @@ namespace FriishProduce
                 string repoMain = repo + "_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/";
                 string folder = int.TryParse(name[0].ToString(), out int result) ? "0-9" : name[0].ToString().ToUpper();
                 string URL = repoMain + folder + "/" + Uri.EscapeDataString(name + " (Virtual Console)") + ".wad";
-                bool ytOrBBC = GetUpperID(index).StartsWith("HCJ") || GetUpperID(index).StartsWith("HCX");
+                int ver = (Regions[index] == 0 || GetUpperID(index).StartsWith("HCJ")) ? 768 : Regions[index] == 3 ? 1537 : 1536;
 
                 if (GetUpperID(index).StartsWith("WNA")) // Flash Placeholder
                     URL = repo + "Flash%20Injects/Base/" + Uri.EscapeDataString(name) + ".wad";
-                    
-                else if (ytOrBBC || GetUpperID(index).StartsWith("HCM")) {
-                    int ver = (Regions[index] == 0 || GetUpperID(index).StartsWith("HCJ")) ? 768 : Regions[index] == 3 ? 1537 : 1536;
-                    URL = repoMain + folder + "/" + Uri.EscapeDataString(name + (ytOrBBC ? $" (v{ver})" : "") + " (Channel).wad");
-                }
-                return URL;
+
+                //BBC, YT, Kirby, respectively
+                else if (GetUpperID(index).StartsWith("HCJ") || GetUpperID(index).StartsWith("HCX") || GetUpperID(index).StartsWith("HCM"))
+                    URL = repoMain + folder + "/" + Uri.EscapeDataString(name + (!GetUpperID(index).StartsWith("HCM") ? $" (v{ver})" : "") + " (Channel).wad");
+
+               return URL;
             }
         }
 
