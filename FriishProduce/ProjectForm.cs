@@ -937,7 +937,7 @@ namespace FriishProduce
 
                     img = new ImageHelper(project.Platform, null);
                     img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
-                    LoadROM(project.ROM, Program.Config.application.auto_prefill);
+                    LoadROM(project.ROM, false);
 
                     if (File.Exists(project.OfflineWAD)) {
                         use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
@@ -1382,7 +1382,7 @@ namespace FriishProduce
                 target = "";
 
             var map = new (string Key, string Val, bool Lower, bool Trans)[] {
-                ("FILENAME",    FILENAME,       true,       true),
+                ("FILENAME",    FILENAME,       true,       false),
                 ("CHANNELNAME", CHANNELNAME,    true,       true),
                 ("FULLNAME",    FULLNAME,       true,       true),
                 ("TITLEID",     TITLEID,        true,       false),
@@ -1835,16 +1835,15 @@ namespace FriishProduce
             }
         }
 
-        public void LoadROM(string ROMpath, bool AutoScan = true, bool filter = false)
-        {
-            if (ROMpath == null || rom == null || !File.Exists(ROMpath) || (filter && !browseROM.Filter.ToLower().Contains(Path.GetExtension(ROMpath).ToLower())))
-            {
+        public void LoadROM(string ROMpath, bool AutoScan = true, bool filter = false) {
+
+            bool filtered = filter && !browseROM.Filter.ToLower().Contains(Path.GetExtension(ROMpath).ToLower());
+            if (ROMpath == null || rom == null || !File.Exists(ROMpath) || filtered) {
                 SystemSounds.Beep.Play();
                 return;
             }
 
-            switch (TargetPlatform)
-            {
+            switch (TargetPlatform) {
                 // ROM file formats
                 // ****************
                 default:
@@ -1870,8 +1869,7 @@ namespace FriishProduce
                 // Flash SWF format
                 // ****************
                 case Platform.Flash:
-                    if (!rom.CheckValidity(ROMpath))
-                    {
+                    if (!rom.CheckValidity(ROMpath)) {
                         MessageBox.Show(Program.Lang.Msg(2), 0, MessageBox.Icons.Warning);
                         return;
                     }
@@ -1879,13 +1877,10 @@ namespace FriishProduce
 
                     (rom as SWF).Parse(ROMpath);
                     genre.Text = "Flash";
-                    genre.Enabled = false;
-                    genre_l.Enabled = false;
+                    genre.Enabled = genre_l.Enabled = false;
                     break;
             }
-
             rom.FilePath = ROMpath;
-
             getUniqueTID();
             patch = null;
 
@@ -2207,13 +2202,11 @@ namespace FriishProduce
             return (name, serial, year, players, image, FormatGenre(genre), complete);
         }
 
-        public void GameScan(bool imageOnly)
-        {
+        public async void GameScan(bool imageOnly) {
             if (rom == null || rom.FilePath == null) return;
-            try
-            {
+            try {
                 (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) gameData = (null, null, null, null, null, null, false);
-                gameData = GetGameData(TargetPlatform, rom.FilePath);
+                await Task.Run(() => { gameData = GetGameData(TargetPlatform, rom.FilePath); });
                 bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, null, false);
 
                 if (retrieved) {
@@ -2240,9 +2233,9 @@ namespace FriishProduce
                         linkSaveDataTitle();
                     }
                     if (!string.IsNullOrEmpty(gameData.Image))
-                        LoadImage(gameData.Image);
+                        await Task.Run(() => { LoadImage(gameData.Image); });
 
-                    resetImages(true);
+                    await Task.Run(() => { resetImages(true); });
                 }
                 Program.MainForm.Wait(false, false, false);
 
