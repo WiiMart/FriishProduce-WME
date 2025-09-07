@@ -7,8 +7,25 @@ using System.Text;
 
 namespace FriishProduce.Injectors
 {
-    public class Flash
-    {
+    public class Flash {
+
+        private U8 MainContent { get; set; }
+
+        private bool HasSetting(string key) {
+            // null, and key check and empty key:val check
+            if (Settings == null || !Settings.TryGetValue(key, out var val) || string.IsNullOrWhiteSpace(val))
+                return false;
+            return !(val.Contains("\\") || val.Contains("/") || System.IO.Path.HasExtension(val)) || File.Exists(val);
+        }
+
+        private string GetSetting(string key) {
+            if (HasSetting(key) && Settings.TryGetValue(key, out var value))
+                return value;
+            Logger.Log($"WARNING: Settings key missing or invalid: '{key}'");
+            return null;
+        }
+
+        private void ApplySetting(string key, string val) => Settings[key] = val;
 
         private static string[] _saveDataSizes;
         public static string[] SaveDataSizes => _saveDataSizes ??= new[] { "32", "48", "64", "72", "96", "128", "256" }
@@ -214,6 +231,151 @@ namespace FriishProduce.Injectors
            icon_tpl        banner/icons.tpl
            icon_count      8                # texture_index: 0 -> 0
            icon_speed      0, slow          # texture_index, (slow|normal|fast)
+
+           */
+
+        // common.pcf
+        // -----------------------------------------------------
+        /* # Comments (text preceded by #) and line breaks will be ignored
+           static_heap_size				8192			# 8192[KB] -> 8[MB]
+           dynamic_heap_size				16384			# 16384[KB] -> 16[MB]
+
+           stream_cache_max_file_size			512			# 512[KB] -> 0.5[MB]
+           stream_cache_size				2048			# 2048[KB] -> 2.0[MB]
+
+           content_mem1					no
+           content_buffer_mode				copy
+
+           mouse						on
+           qwerty_keyboard					on			# hardware keyboard
+           qwerty_events					on			# hardware keyboard sends flash events
+           use_keymap					off			# determines if the region's keymap.ini is used
+           navigation_model				4way			# 2way / 4way / 4waywrap
+           quality						high			# low / medium / high
+           looping						on
+
+           text_encoding					utf-16			# should be utf-16
+
+           midi						off
+           # dls_file					dls/GM16.DLS
+
+           key_input					on			# software keyboard -- requires hardware keyboard and mouse
+
+           cursor_archive					cursor.arc
+           cursor_layout					cursor.brlyt
+
+           dialog_cursor_archive				cursor.arc
+           dialog_cursor_layout				cursor.brlyt
+
+
+           banner_file					banner/banner.ini
+
+
+           device_text					off
+           brfna_file					10, wbf1.brfna
+           brsar_file					sound/FlashPlayerSe.brsar	# sound data
+
+           embedded_vector_font				off
+           # embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf
+           # pre_installed_as_class_files			library/classes.swf
+
+
+
+           shared_object_capability			on
+           num_vff_drives					2
+           vff_cache_size					96			# 96[KB]
+           vff_sync_on_write              			off
+
+           persistent_storage_root_drive			X
+           persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format
+           persistent_storage_total			96			# 96[KB]
+           persistent_storage_per_movie			64			# 64[KB]
+
+           supported_devices				core freestyle classic
+
+           hbm_no_save	    				true
+
+           static_module					static.sel
+
+           plugin_modules					plugin_wiinotification.rso 
+           plugin_modules					plugin_wiiremote.rso 
+           plugin_modules					plugin_wiisystem.rso 
+           plugin_modules					plugin_wiisound.rso 
+           plugin_modules					plugin_wiinetwork.rso
+           #plugin_modules					plugin_wiiconnect24.rso
+           #plugin_modules					plugin_wiiperformance.rso
+           #plugin_modules					plugin_wiikeyboard.rso
+           #plugin_modules					plugin_wiisugarcalculations.rso
+           #plugin_modules					plugin_wiiuntrustedrequest.rso
+           #plugin_modules					plugin_wiimiisupport.rso 
+
+           trace_filter					none
+           texture_filter					linear
+
+           strap_reminder					none			#normal  #no_ex  #none
+
+           # set to match the loading screen's background color
+           background_color				43 43 43 255		# RGBA -- VODF/SWF BG Color.
+
+
+           ################################# APPLICATION CONFIGURATIONS #####################################
+
+
+           update_frame_rate				30 			# 0 sets it to framerate set in content
+
+
+           ########################################## MediaStream ###############################################
+
+
+           content_domain		file:///trusted/				#Local Data
+
+
+           debug_content_url 	file:///trusted/wii_dev_shim.swf
+
+           # Debug settings
+           #  load from web-trunk-qa:
+           debug_flash_vars	dev=1&app=file://trusted/remote/https://web-trunk-qa.youtube.com/wiitv
+           #  load from web-release-qa:
+           #debug_flash_vars	dev=1&app=file://trusted/remote/https://web-release-qa.youtube.com/wiitv
+           #  load from horcrux (no-auto-build):
+           #debug_flash_vars	dev=1&relax=1&app=file://trusted/remote/http://horcrux.sbo.corp.google.com/wii/leanbacklite_wii.swf&urlmap=s.ytimg.com/yts/swfbin/apiplayer%3Dhttp://horcrux.sbo.corp.google.com/wii/apiplayer.swf%3Bs.ytimg.com/yts/swfbin/vast_ads_module%3Dhttp://horcrux.sbo.corp.google.com/wii/vast_ads_module.swf
+           #  load from prod:
+           #debug_flash_vars	dev=1
+           #  load from prod/Charles-ready:
+           #debug_flash_vars	dev=1&relax=6
+
+
+           final_content_url 	file:///trusted/wii_shim.swf
+
+           # Final settings (can't be empty)
+           #  load from prod:
+           final_flash_vars	dummy=1
+           */
+        #endregion
+
+        #region -- Default settings for KirbyTV --
+        // keymap.ini
+        // -----------------------------------------------------
+        /* KEY_BUTTON_LEFT  KEY_LEFT
+           KEY_BUTTON_RIGHT KEY_RIGHT
+           KEY_BUTTON_DOWN  KEY_DOWN
+           KEY_BUTTON_UP    KEY_UP
+           */
+        // banner.ini:
+        // -----------------------------------------------------
+        /* # banner setting file
+           # 
+           # テキストファイルとして保存されている UTF-8 の文字列を URL エンコードしている
+           # 注意事項
+           #
+           not_copy        off
+           anim_type       bounce            # loop / bounce
+           title_text      Game%20Title    # UTF-8/URL Encoded
+           comment_text    Game%20Comment  # UTF-8/URL Encoded
+           banner_tpl      banner/US/EN/banner.tpl
+           icon_tpl        banner/US/EN/icons.tpl
+           icon_count      8           # texture_index: 0 -> 3
+           icon_speed      0, slow     # texture_index, (slow|normal|fast)
            icon_speed      1, slow
            icon_speed      2, slow
            icon_speed      3, slow
@@ -221,186 +383,100 @@ namespace FriishProduce.Injectors
            icon_speed      5, slow
            icon_speed      6, slow
            icon_speed      7, slow
+
            */
-
-        // common.pcf
-        // -----------------------------------------------------
-        /* # Comments (text preceded by #) and line breaks will be ignored
-           static_heap_size                8192                # 8192[KB] -> 8[MB]
-           dynamic_heap_size               16384               # 16384[KB] -> 16[MB]
-           update_frame_rate               0                  # not TV-framerate(NTSC/PAL)
-           mouse                           off
-           qwerty_keyboard                 off
-           navigation_model                4way                # 2way / 4way / 4waywrap
-           quality                         high
-           looping                         on
-           text_encoding                   utf-16
-           midi                            off
-           # dls_file                      dls/GM16.DLS
-           key_input                       on
-           cursor_archive                  cursor.arc
-           cursor_layout                   cursor.brlyt
-           dialog_cursor_archive           cursor.arc
-           dialog_cursor_layout            cursor.brlyt
-           shared_object_capability        on
-           num_vff_drives                  1
-           vff_cache_size                  96
-           vff_sync_on_write               off
-           persistent_storage_root_drive   X
-           persistent_storage_vff_file     shrdobjs.vff        # 8.3 format
-           persistent_storage_total        96
-           persistent_storage_per_movie    64
-           strap_reminder                  none
-           supported_devices               core, freestyle, classic
-           hbm_no_save                     yes
-           debug_content_url               file:///trusted/wii_shim.swf
-           ##### YouTube Settings #####
-           stream_cache_max_file_size			512			# 512[KB] -> 0.5[MB]
-           stream_cache_size				2048			# 2048[KB] -> 2.0[MB]
-           content_mem1					no
-           content_buffer_mode				copy
-           qwerty_events					on
-           use_keymap					on
-           banner_file					banner/banner.ini
-           device_text					off
-           brfna_file					10, wbf1.brfna
-           brsar_file					sound/FlashPlayerSe.brsar	# sound data
-           embedded_vector_font				off
-           static_module					static.sel
-           plugin_modules					plugin_wiinotification.rso plugin_wiiremote.rso plugin_wiisystem.rso plugin_wiisound.rso plugin_wiinetwork.rso
-           trace_filter					none
-           texture_filter					linear
-           background_color				0 0 0 0		# RGBA -- VODF/SWF BG Color.
-           ##### MediaStream #####
-           content_domain					file:///trusted/
-           debug_flash_vars	dummy=1
-           final_flash_vars	dummy=1
-           final_content_url 	file:///trusted/wii_shim.swf
-           */
-        #endregion
-
-        //KirbyTV banner.ini Header
-        // # テキストファイルとして保存されている UTF-8 の文字列を URL エンコードしている
-        // # 注意事項
-        #region -- Default settings for KirbyTV --
-        // keymap.ini
-        // -----------------------------------------------------
-        /* KEY_BUTTON_LEFT  KEY_LEFT
-        KEY_BUTTON_RIGHT KEY_RIGHT
-        KEY_BUTTON_DOWN  KEY_DOWN
-        KEY_BUTTON_UP    KEY_UP */
-
-        // banner.ini:
-        // -----------------------------------------------------
-        /*  # Banner setting file
-            not_copy        off
-            anim_type       bounce
-            title_text      Kirby%20TV%20Channel%20Base
-            comment_text    %20
-            banner_tpl      banner/US/EN/banner.tpl
-            icon_tpl        banner/US/EN/icons.tpl
-            icon_count      8
-            icon_speed      0, slow
-            icon_speed      1, slow
-            icon_speed      2, slow
-            icon_speed      3, slow
-            icon_speed      4, slow
-            icon_speed      5, slow
-            icon_speed      6, slow
-            icon_speed      7, slow
-            */
 
         // config.common.pcf
         /*
-        ##################################################################################################
-        ##### 				    GUMBALL VODF CONFIG FILE			                                 #####			
-        ##################################################################################################
+           ##################################################################################################
+           ##### 				    GUMBALL VODF CONFIG FILE			                                 #####			
+           ##################################################################################################
 
-        static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]
-        dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]
+           static_heap_size				9216	#9MB		# 8192[KB] -> 8[MB]
+           dynamic_heap_size				24576	#24MB		# 16384[KB] -> 16[MB]
 
-        mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]
-        #mp4_texture_buffer_count			32			# not currently implemented
+           mp4_stream_buffer_size				512			# 512[KB] -> 0.5[MB]
+           #mp4_texture_buffer_count			32			# not currently implemented
 
-        stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]
-        stream_cache_size				512			# 2048[KB] -> 2.0[MB]
+           stream_cache_max_file_size			256			# 512[KB] -> 0.5[MB]
+           stream_cache_size				512			# 2048[KB] -> 2.0[MB]
 
-        content_mem1					no
-        content_buffer_mode				copy
+           content_mem1					no
+           content_buffer_mode				copy
 
-        mouse						on
-        qwerty_keyboard					on			# hardware keyboard
-        qwerty_events					off			# hardware keyboard sends flash events
-        use_keymap					off			# determines if the region's keymap.ini is used
-        navigation_model				4way			# 2way / 4way / 4waywrap
-        quality						high			# low / medium / high
-        looping						on
+           mouse						on
+           qwerty_keyboard					on			# hardware keyboard
+           qwerty_events					off			# hardware keyboard sends flash events
+           use_keymap					off			# determines if the region's keymap.ini is used
+           navigation_model				4way			# 2way / 4way / 4waywrap
+           quality						high			# low / medium / high
+           looping						on
 
-        text_encoding					utf-16			# should be utf-16
+           text_encoding					utf-16			# should be utf-16
 
-        midi						off
-        # dls_file					dls/GM16.DLS
+           midi						off
+           # dls_file					dls/GM16.DLS
 
-        key_input					on			# software keyboard -- requires hardware keyboard and mouse
+           key_input					on			# software keyboard -- requires hardware keyboard and mouse
 
-        cursor_archive					cursor.arc
-        cursor_layout					cursor.brlyt
+           cursor_archive					cursor.arc
+           cursor_layout					cursor.brlyt
 
-        dialog_cursor_archive				cursor.arc
-        dialog_cursor_layout				cursor.brlyt
-
-
-
-
-        device_text					on
-
-        brfna_file					10, wbf1.brfna
-
-        brsar_file					sound/FlashPlayerSe.brsar	# sound data
-
-        embedded_vector_font				off
-        # embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf
-        # pre_installed_as_class_files			library/classes.swf
+           dialog_cursor_archive				cursor.arc
+           dialog_cursor_layout				cursor.brlyt
 
 
 
-        shared_object_capability			on
-        num_vff_drives					2
-        vff_cache_size					96			# 96[KB]
-        vff_sync_on_write              			off
 
-        persistent_storage_root_drive			X
-        persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format
-        persistent_storage_total			96			# 96[KB]
-        persistent_storage_per_movie			64			# 64[KB]
+           device_text					on
 
-        supported_devices				core
+           brfna_file					10, wbf1.brfna
 
-        hbm_no_save	    				false
+           brsar_file					sound/FlashPlayerSe.brsar	# sound data
 
-        trace_filter					none
-        texture_filter					linear
-
-        strap_reminder					none			#normal  #no_ex  #none
-
-        background_color				115 161 216 255		# RGBA -- VODF/SWF BG Color.
+           embedded_vector_font				off
+           # embedded_vector_font_files			fonts/font1.swf fonts/font2.swf fonts/font3.swf
+           # pre_installed_as_class_files			library/classes.swf
 
 
-        ################################# APPLICATION CONFIGURATIONS #####################################
+
+           shared_object_capability			on
+           num_vff_drives					2
+           vff_cache_size					96			# 96[KB]
+           vff_sync_on_write              			off
+
+           persistent_storage_root_drive			X
+           persistent_storage_vff_file 			shrdobjs.vff		# 8.3 format
+           persistent_storage_total			96			# 96[KB]
+           persistent_storage_per_movie			64			# 64[KB]
+
+           supported_devices				core
+
+           hbm_no_save	    				false
+
+           trace_filter					none
+           texture_filter					linear
+
+           strap_reminder					none			#normal  #no_ex  #none
+
+           background_color				115 161 216 255		# RGBA -- VODF/SWF BG Color.
 
 
-        certificate_files   				GTEGI.cer rootTest.cer
-
-        update_frame_rate				30 			# 0 sets it to framerate set in content
+           ################################# APPLICATION CONFIGURATIONS #####################################
 
 
-        ########################################## Gumball ###############################################
+           certificate_files   				GTEGI.cer rootTest.cer
+
+           update_frame_rate				30 			# 0 sets it to framerate set in content
 
 
-        content_domain		file:///trusted/				#Local Data
+           ########################################## Gumball ###############################################
 
-        content_url 		file:///trusted/Gumball2.12.RC-1.swf
-        */
+
+           content_domain		file:///trusted/				#Local Data
+
+           content_url 		file:///trusted/Gumball2.12.RC-1.swf
+           */
         #endregion
 
         /*  Wii buttons:
@@ -467,24 +543,6 @@ namespace FriishProduce.Injectors
  */
 // Ensure ' ' space at end
 
-        private U8 MainContent { get; set; }
-
-        private bool HasSetting(string key) {
-            // null, and key check and empty key:val check
-            if (Settings == null || !Settings.TryGetValue(key, out var val) || string.IsNullOrWhiteSpace(val))
-                return false;
-            return !(val.Contains("\\") || val.Contains("/") || System.IO.Path.HasExtension(val)) || File.Exists(val);
-        }
-
-        private string GetSetting(string key) {
-            if (HasSetting(key) && Settings.TryGetValue(key, out var value))
-                return value;
-            Logger.Log($"WARNING: Settings key missing or invalid: '{key}'");
-            return null;
-        }
-
-        private void ApplySetting(string key, string val) => Settings[key] = val;
-
         public WAD Inject(WAD wad, string[] lines, ImageHelper Img)
         {
             Logger.Log(
@@ -506,41 +564,41 @@ namespace FriishProduce.Injectors
 
             // default with invalid
             FlashBase flBase = FlashBase.Invalid;
-            string target = null;
+            string swfTarget = null;
 
             // lambda linq query first or default for matching base in FlashContents
             var flMatch = FlashBase.Bases.Where(fb => fb != FlashBase.Invalid)
                 .FirstOrDefault(fb => File.Exists(PathConstants.FlashContents + fb.Path));
 
             if (flMatch == null || flMatch == FlashBase.Invalid) {
-                Logger.Log($"flMatch is Invalid, cannot access path\nTarget: {target}");
+                Logger.Log($"flMatch is Invalid, cannot access path\nTarget: {swfTarget}");
                 throw new Exception(Program.Lang.Msg(13, 1));
             }
             // get our match
             flBase = flMatch;
-            target = PathConstants.FlashContents + flMatch.Path;
+            swfTarget = PathConstants.FlashContents + flMatch.Path;
             Logger.Log($"flMatch.Content: {flMatch.Domain}\nflMatch.FullPath: {flMatch.FullPath}");
 
             #endregion
 
             #region ---------------- Actually replacing the SWF + copying other needed files ----------------
 
-            Directory.Delete(Path.GetDirectoryName(target), true);
-            Directory.CreateDirectory(Path.GetDirectoryName(target));
+            Directory.Delete(Path.GetDirectoryName(swfTarget), true);
+            Directory.CreateDirectory(Path.GetDirectoryName(swfTarget));
 
-            File.Copy(SWF.FilePath, target, true);
+            File.Copy(SWF.FilePath, swfTarget, true);
 
             if (Multifile)
             {
                 foreach (string folder in Directory.GetDirectories(Path.GetDirectoryName(SWF.FilePath), "*.*", SearchOption.AllDirectories))
                 {
-                    string newFolder = folder.Replace(Path.GetDirectoryName(SWF.FilePath), Path.GetDirectoryName(target));
+                    string newFolder = folder.Replace(Path.GetDirectoryName(SWF.FilePath), Path.GetDirectoryName(swfTarget));
                     Directory.CreateDirectory(newFolder);
                 }
 
                 foreach (string file in Directory.GetFiles(Path.GetDirectoryName(SWF.FilePath), "*.*", SearchOption.AllDirectories).Where(x => x != SWF.FilePath))
                 {
-                    File.Copy(file, file.Replace(Path.GetDirectoryName(SWF.FilePath), Path.GetDirectoryName(target)), true);
+                    File.Copy(file, file.Replace(Path.GetDirectoryName(SWF.FilePath), Path.GetDirectoryName(swfTarget)), true);
                 }
             }
 
@@ -554,16 +612,6 @@ namespace FriishProduce.Injectors
                     Directory.CreateDirectory(PathConstants.FlashContents + "dls\\");
 
                 File.Copy(GetSetting("midi"), PathConstants.FlashContents + "dls\\GM16.DLS");
-            }
-            
-            if (HasSetting("flash_vars")) {
-                string varsVal = flBase == FlashBase.YouTube ? "dummy = 1" : "#flash_vars";
-                // "dummy = 1" for YouTube or default to '#flash_vars" commented
-
-                if (flBase == FlashBase.KirbyTV)
-                    varsVal = "APP_DEBUG=false&LOCAL_CONFIG=false&LOCAL_VIDEO=false&LOCALE_DEBUG=false&TEST_SERVER=false";
-
-                ApplySetting("flash_vars", varsVal); //apply whole string
             }
 
             #endregion
@@ -687,8 +735,8 @@ namespace FriishProduce.Injectors
                                 "trace_filter					none",
                                 "texture_filter					linear",
                                 "certificate_files				GTEGI.cer",
-                                $"content_domain					{(!HasSetting("content_domain") ? FlashBase.iPlayer.Domain : GetSetting("content_domain"))}",
-                                $"#{GetSetting("flash_vars")}",
+                                $"content_domain				{(!HasSetting("content_domain") ? FlashBase.iPlayer.Domain : GetSetting("content_domain"))}",
+                                "#flash_vars					none",
                             }
                         );
                     }
@@ -799,7 +847,7 @@ namespace FriishProduce.Injectors
                                 $"content_url 		{FlashBase.KirbyTV.FullPath}",
                                 "",
                                 "# GB Debug settings",
-                                $"flash_vars		{GetSetting("flash_vars")}",
+                                $"flash_vars		APP_DEBUG=false&LOCAL_CONFIG=false&LOCAL_VIDEO=false&LOCALE_DEBUG=false&TEST_SERVER=false",
                             };
                     }
 
@@ -830,7 +878,7 @@ namespace FriishProduce.Injectors
 
                                 $"content_domain					{(HasSetting("content_domain") ? GetSetting("content_domain") : FlashBase.YouTube.Domain)}",
                                 $"debug_flash_vars					{GetSetting("flash_vars")}",
-                                $"final_flash_vars					{GetSetting("flash_vars")}",
+                                $"final_flash_vars					dummy=1",
                                 $"final_content_url					{FlashBase.YouTube.FullPath}",
                             }
                         );
@@ -934,6 +982,18 @@ namespace FriishProduce.Injectors
                         else if (line.Contains("strap_reminder"))
                         {
                             txt.Add($"strap_reminder                {GetSetting("strap_reminder")}");
+                            modified = true;
+                        }
+
+                        else if (line.Contains("flash_vars")) {
+                            string varsVal = flBase == FlashBase.YouTube ? "dummy = 1" : "none";
+                            // "dummy = 1" for YouTube or default to '#flash_vars" commented
+
+                            if (flBase == FlashBase.KirbyTV)
+                                varsVal = "APP_DEBUG=false&LOCAL_CONFIG=false&LOCAL_VIDEO=false&LOCALE_DEBUG=false&TEST_SERVER=false";
+
+                            ApplySetting("flash_vars", varsVal);
+                            txt.Add((GetSetting("flash_vars") == "none" ? "#" : "") + $"flash_vars                {GetSetting("flash_vars")}");
                             modified = true;
                         }
 

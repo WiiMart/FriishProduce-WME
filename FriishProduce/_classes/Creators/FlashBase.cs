@@ -15,8 +15,7 @@ namespace FriishProduce.Injectors
         public string Domain { get; } // URL folder only forward slashes
         public string FullPath { get; } // URL full path forward slashes
 
-        private FlashBase(int flBase, string path)
-        {
+        private FlashBase(int flBase, string path) {
             FlBase = flBase;
             Path = path;
             string forwardPath = path.Replace("\\", "/");
