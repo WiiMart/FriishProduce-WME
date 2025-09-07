@@ -2328,19 +2328,16 @@ namespace FriishProduce
                 {
                     if (File.Exists(patch))
                     {
-                        try
-                        {
+                        try {
                             m.ROM.Patch(patch);
                         }
-                        catch (Exception ex)
-                        {
+                        catch (Exception ex) {
                             Logger.Log($"Error while patching ROM: {ex.Message}\n{ex.StackTrace}");
                             throw;
                         }
                     }
                     Logger.Log($"Target Platform: {TargetPlatform}");
-                    switch (TargetPlatform)
-                    {
+                    switch (TargetPlatform) {
                         case Platform.NES:
                         case Platform.SNES:
                         case Platform.N64:
@@ -2351,33 +2348,39 @@ namespace FriishProduce
                         case Platform.NEO:
                         case Platform.C64:
                         case Platform.MSX:
-                            try
-                            {
+                            try {
                                 if (IsVirtualConsole)
                                     m.Inject();
                                 else
                                     m.CreateForwarder(emulator, device);
                             }
-                            catch (KeyNotFoundException ex)
-                            {
+                            catch (KeyNotFoundException ex) {
                                 Logger.Log($"KeyNotFoundException in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
                                 throw; // rethrow to outer catch
                             }
-                            catch (Exception ex)
-                            {
+                            catch (Exception ex) {
                                 Logger.Log($"Unexpected exception in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
                                 throw;
                             }
                             break;
 
                         case Platform.Flash:
-                            try
-                            {
+                            try {
                                 m.Inject();
                             }
-                            catch (Exception ex)
-                            {
+                            catch (Exception ex) {
                                 Logger.Log($"Exception in Flash Inject(): {ex.Message}\n{ex.StackTrace}");
+                                Logger.Log("[Var details]:\n" +
+                                    $"   m.TitleID: {(m.TitleID == null ? "null" : "set")}, " +
+                                    $"   m.WAD: {(m.WAD == null ? "null" : "set")}, " +
+                                    $"   m.ROM: {(m.ROM == null ? "null" : "set")}, " +
+                                    $"   m.Img: {(m.Img == null ? "null" : "set")}\n" +
+                                    $"   m.Genre: {(m.Genre == null ? "null" : "set")}" +
+                                    $"   m.ChannelTitles: {(m.ChannelTitles == null ? "null" : "set")}, " +
+                                    $"   m.BannerTitle: {(m.BannerTitle == null ? "null" : "set")}\n" +
+                                    $"   Settings.List: {(contentOptions == null ? "null" : "set")}, " +
+                                    $"   Settings.Keymap: {(keymap.List == null ? "null" : "set")}\n"
+                                );
                                 throw;
                             }
                             break;

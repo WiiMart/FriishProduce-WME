@@ -369,7 +369,7 @@ namespace FriishProduce
 
                 else WAD.Save(Out);
 
-                Logger.Log($"\nSUCCESS! Exported WAD to:\n\"{Out}\"");
+                Logger.Log($"\nSUCCESS! Exported WAD to:\n\"{Out}\"\nPlease wait while inject metadata is added...");
                 _updateProgress();
                 _progress.step = _progress.max;
 

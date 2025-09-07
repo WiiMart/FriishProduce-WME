@@ -125,7 +125,7 @@ namespace FriishProduce
                 quality.SelectedIndex = Options["quality"] switch { "high" => 0, "medium" => 1, _ => 2 };
                 strap_reminder_list.SelectedIndex = Options["strap_reminder"] switch { "none" => 0, "normal" => 1, _ => 2 };
                 // MIDI is counted separately
-                if (Options.ContainsKey("content_domain")) content_domain.Text = Options["content_domain"];
+                content_domain.Text = Options["content_domain"];
                 anti_aliasing.Checked = Options["anti_aliasing"] == "on";
                 standard.Checked = Options["fullscreen"] == "yes";
                 no_copy_save.Checked = Options["no_copy_save"] == "on";

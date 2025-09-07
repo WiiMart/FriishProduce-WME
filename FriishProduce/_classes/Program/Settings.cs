@@ -265,13 +265,13 @@ namespace FriishProduce
             public string vff_cache_size { get; set; } = "96";
             public string persistent_storage_total { get; set; } = "96";
             public string persistent_storage_per_movie { get; set; } = "64";
-            public string hbm_no_save { get; set; } = "true";
+            public string hbm_no_save { get; set; } = "yes";
             public string strap_reminder { get; set; } = "none";
             public string anti_aliasing { get; set; } = "on";
             public string zoom { get; set; } = "default";
             public string fullscreen { get; set; } = "no";
             public string no_copy_save { get; set; } = "off";
-            public string flash_vars { get; set; } = "none";
+            public string flash_vars { get; set; } = "#flash_vars";
         }
     }
 }

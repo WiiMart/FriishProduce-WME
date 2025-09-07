@@ -332,9 +332,9 @@ namespace FriishProduce
             // swf_metadata
             this.swf_metadata.Controls.Add(this.background_color);
             this.swf_metadata.Controls.Add(this.background_color_l);
-            this.swf_metadata.Controls.Add(this.content_domain_l);
             this.swf_metadata.Controls.Add(this.background_color_img);
             this.swf_metadata.Controls.Add(this.content_domain);
+            this.swf_metadata.Controls.Add(this.content_domain_l);
             this.swf_metadata.Controls.Add(this.flash_vars_l);
             this.swf_metadata.Controls.Add(this.flash_vars);
             this.swf_metadata.Location = new System.Drawing.Point(378, 186);

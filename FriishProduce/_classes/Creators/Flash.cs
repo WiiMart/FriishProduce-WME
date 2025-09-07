@@ -488,36 +488,57 @@ namespace FriishProduce.Injectors
 
         private U8 MainContent { get; set; }
 
-        private bool HasSetting(string key) =>
-            Settings.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value);
+        private bool HasSetting(string key) {
+            // null, and key check and empty key:val check
+            if (Settings == null || !Settings.TryGetValue(key, out var val) || string.IsNullOrWhiteSpace(val))
+                return false;
+            return !(val.Contains("\\") || val.Contains("/") || System.IO.Path.HasExtension(val)) || File.Exists(val);
+        }
 
-        private bool HasSetFile(string key) => File.Exists(GetSetting(key));
-
-        private string GetSetting(string key) => HasSetting(key) ? Settings[key] : 
-            throw new KeyNotFoundException($"Settings dictionary is missing key '{key}' in Flash.Inject()");
+        private string GetSetting(string key) {
+            if (HasSetting(key) && Settings.TryGetValue(key, out var value))
+                return value;
+            Logger.Log($"WARNING: Settings key missing or invalid: '{key}'");
+            return null;
+        }
 
         private void ApplySetting(string key, string val) => Settings[key] = val;
 
         public WAD Inject(WAD wad, string[] lines, ImageHelper Img)
         {
+            Logger.Log(
+                $"SWF: {(SWF == null ? "null" : "set")}, " +
+                $"SWF.FilePath: {SWF?.FilePath ?? "null"}, " +
+                $"Keymap: {(Keymap == null ? "null" : string.Join(",", Keymap))}, " +
+                $"Keymap.Count: {(Keymap == null ? "null" : (Keymap.Count == 0 ? "empty" : Keymap.Count.ToString()))}, " +
+                $"WAD: {(wad == null ? "null" : wad.UpperTitleID)}, " +
+                $"WAD.Contents[2]: {(wad?.Contents.Length > 2 ? "02.app present" : "null")}"
+            );
+            Logger.Log("[Settings map]:");
+            foreach (var kvp in Settings)
+                Logger.Log($"   {kvp.Key}: {(string.IsNullOrEmpty(kvp.Value) ? "missing/empty" : kvp.Value)}");
+
             MainContent = U8.Load(wad.Contents[2]);
             MainContent.Extract(PathConstants.FlashContents);
 
             #region ---------------- Determining the Flash emulator type ----------------
 
+            // default with invalid
             FlashBase flBase = FlashBase.Invalid;
             string target = null;
 
-            // lambda linq query first or default for matching base
-            var flMatch = FlashBase.Bases.FirstOrDefault(b =>
-                b != FlashBase.Invalid && File.Exists(PathConstants.FlashContents + b.Content));
+            // lambda linq query first or default for matching base in FlashContents
+            var flMatch = FlashBase.Bases.Where(fb => fb != FlashBase.Invalid)
+                .FirstOrDefault(fb => File.Exists(PathConstants.FlashContents + fb.Path));
 
-            flBase = flMatch != FlashBase.Invalid ? flMatch : flBase;
-            target = flMatch != FlashBase.Invalid ? PathConstants.FlashContents + flMatch.Content : target;
-            Logger.Log("flBase.FullPath: " + flBase.FullPath);
-
-            if (flBase == FlashBase.Invalid)
+            if (flMatch == null || flMatch == FlashBase.Invalid) {
+                Logger.Log($"flMatch is Invalid, cannot access path\nTarget: {target}");
                 throw new Exception(Program.Lang.Msg(13, 1));
+            }
+            // get our match
+            flBase = flMatch;
+            target = PathConstants.FlashContents + flMatch.Path;
+            Logger.Log($"flMatch.Content: {flMatch.Domain}\nflMatch.FullPath: {flMatch.FullPath}");
 
             #endregion
 
@@ -546,7 +567,7 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Set SWF soundfont and flashvars ----------------
 
-            if (HasSetFile("midi"))
+            if (HasSetting("midi"))
             {
                 if (!Directory.Exists(PathConstants.FlashContents + "dls\\"))
                     Directory.CreateDirectory(PathConstants.FlashContents + "dls\\");
@@ -555,7 +576,7 @@ namespace FriishProduce.Injectors
             }
             
             if (HasSetting("flash_vars")) {
-                string varsVal = flBase == FlashBase.YouTube ? "dummy = 1" : "#flash_vars                     none";
+                string varsVal = flBase == FlashBase.YouTube ? "dummy = 1" : "#flash_vars";
                 // "dummy = 1" for YouTube or default to '#flash_vars" commented
 
                 if (flBase == FlashBase.KirbyTV)
@@ -643,8 +664,8 @@ namespace FriishProduce.Injectors
 
                         "text_encoding                   utf-16",
 
-                        $"midi                            {(HasSetFile("midi") ? "on" : "off")}",
-                        $"{(HasSetFile("midi") ? "" : "# ")}dls_file                      dls/GM16.DLS",
+                        $"midi                            {(HasSetting("midi") ? "on" : "off")}",
+                        $"{(HasSetting("midi") ? "" : "# ")}dls_file                      dls/GM16.DLS",
 
                         "key_input                       on",
 
@@ -653,7 +674,7 @@ namespace FriishProduce.Injectors
                         "dialog_cursor_archive           cursor.arc",
                         "dialog_cursor_layout            cursor.brlyt",
 
-                        $"shared_object_capability        {(flBase == FlashBase.BackToNature ? GetSetting("shared_object_capability") : "on")}",
+                        $"shared_object_capability        {(flBase == FlashBase.BackToNature ? "off" : GetSetting("shared_object_capability"))}",
                         "num_vff_drives                  1",
                         $"vff_cache_size                  {GetSetting("vff_cache_size")}",
                         $"vff_sync_on_write               {GetSetting("vff_sync_on_write")}",
@@ -667,7 +688,7 @@ namespace FriishProduce.Injectors
 
                         "supported_devices               core, freestyle, classic",
 
-                        $"hbm_no_save                     {GetSetting("hbm_no_save")}",
+                        $"hbm_no_save                     {(flBase == FlashBase.BackToNature ? "yes" : GetSetting("hbm_no_save"))}",
 
                         (flBase == FlashBase.YouTube ? $"debug_content_url" : $"content_url") + $"                     {flBase.FullPath}",
                     };
@@ -685,8 +706,8 @@ namespace FriishProduce.Injectors
                                 "trace_filter					none",
                                 "texture_filter					linear",
                                 "certificate_files				GTEGI.cer",
-                                $"content_domain					{(!HasSetting("content_domain") ? FlashBase.iPlayer.FullPath : GetSetting("content_domain"))}",
-                                $"{GetSetting("flash_vars")}",
+                                $"content_domain					{(!HasSetting("content_domain") ? FlashBase.iPlayer.Domain : GetSetting("content_domain"))}",
+                                $"#{GetSetting("flash_vars")}",
                             }
                         );
                     }
@@ -721,8 +742,8 @@ namespace FriishProduce.Injectors
                                 "",
                                 "text_encoding					utf-16			# should be utf-16",
                                 "",
-                                $"midi						{(HasSetFile("midi") ? "on" : "off")}",
-                                $"{(HasSetFile("midi") ? "" : "# ")}dls_file					dls/GM16.DLS",
+                                $"midi						{(HasSetting("midi") ? "on" : "off")}",
+                                $"{(HasSetting("midi") ? "" : "# ")}dls_file					dls/GM16.DLS",
                                 "",
                                 "key_input					on			# software keyboard -- requires hardware keyboard and mouse",
                                 "",
@@ -776,7 +797,7 @@ namespace FriishProduce.Injectors
                                 "trace_filter					none",
                                 "texture_filter					linear",
                                 "",
-                                $"strap_reminder					{GetSetting("strap_reminder")}			#normal  #no_ex  #none",
+                                $"strap_reminder					none			#normal  #no_ex  #none",
                                 "",
                                 $"background_color				{GetSetting("background_color")}		# RGBA -- VODF/SWF BG Color.",
                                 "",
@@ -792,12 +813,12 @@ namespace FriishProduce.Injectors
                                 "########################################## Gumball ###############################################",
                                 "",
                                 "",
-                                $"content_domain		{(!HasSetting("content_domain") ? FlashBase.KirbyTV.Domain : GetSetting("content_domain"))}				#Local Data",
+                                $"content_domain		{(HasSetting("content_domain") ? GetSetting("content_domain") : FlashBase.KirbyTV.Domain)}				#Local Data",
                                 "",
                                 $"content_url 		{FlashBase.KirbyTV.FullPath}",
                                 "",
                                 "# GB Debug settings",
-                                $"#flash_vars		{GetSetting("flash_vars")}",
+                                $"flash_vars		{GetSetting("flash_vars")}",
                             };
                     }
 
@@ -826,7 +847,7 @@ namespace FriishProduce.Injectors
 
                                 "##### MediaStream #####",
 
-                                $"content_domain					{(!HasSetting("content_domain") ? FlashBase.YouTube.Domain : GetSetting("content_domain"))}",
+                                $"content_domain					{(HasSetting("content_domain") ? GetSetting("content_domain") : FlashBase.YouTube.Domain)}",
                                 $"debug_flash_vars					{GetSetting("flash_vars")}",
                                 $"final_flash_vars					{GetSetting("flash_vars")}",
                                 $"final_content_url					{FlashBase.YouTube.FullPath}",
@@ -929,8 +950,11 @@ namespace FriishProduce.Injectors
                             modified = true;
                         }
 
-                        else if (line.Contains("strap_reminder") && !notYouTube)
+                        else if (line.Contains("strap_reminder"))
+                        {
+                            txt.Add($"strap_reminder                {GetSetting("strap_reminder")}");
                             modified = true;
+                        }
 
                         else if (line.Contains("content_url") && notYouTube) // Does not add the line
                             modified = true;
@@ -957,68 +981,48 @@ namespace FriishProduce.Injectors
             //int region = 0;
             string banReg = "";
             string banLang = (banReg == "JP" ? "JA" : "EN");
-            string[] regions = { "us", "eu", "jp" };
+            string[] regions = { "US", "EU", "JP" };
 
-            for (int i = 0; i < lines.Length; i++)
-            {
+            for (int i = 0; i < lines.Length; i++) {
                 var bytes = Encoding.Unicode.GetBytes(lines[i]);
                 lines[i] = Encoding.UTF8.GetString(Encoding.Convert(Encoding.Unicode, Encoding.UTF8, bytes));
             }
 
-            foreach (string file in Directory.EnumerateFiles(PathConstants.FlashContents, "*.*", SearchOption.AllDirectories))
-            {
-                string path = file.Replace(PathConstants.FlashContents, null).ToLower();
-                int banIdx = path.IndexOf("banner\\") + "banner\\".Length;
+            foreach (string file in Directory.EnumerateFiles(PathConstants.FlashContents, "*.*", SearchOption.AllDirectories)) {
+                string relPath = file.Substring(PathConstants.FlashContents.Length).Replace('/', '\\');
+                int banIdx = relPath.IndexOf("banner\\", StringComparison.OrdinalIgnoreCase);
 
-                if (path.Length >= banIdx + 2 && regions.Contains(path.Substring(banIdx, 2)))
-                    banReg = "/" + path.Substring(banIdx, 2);
+                if (banIdx >= 0)
+                    banIdx += "banner\\".Length;
 
-                //if (path.Contains("banner\\us")) region = 0;
-                //if (path.Contains("banner\\eu")) region = 1;
-                //if (path.Contains("banner\\jp")) region = 2;
-                
-                //if (path.Contains("banner\\") && (path.Contains("us") || path.Contains("eu") || path.Contains("jp")))
+                if (banIdx >= 0 && relPath.Length >= banIdx + 2) {
+                    string region = relPath.Substring(banIdx, 2).ToUpper();
+                    if (regions.Contains(region))
+                        banReg = "/" + region;
+                }
 
-                if (path.Contains("banner.tpl"))
+                if (relPath.EndsWith("banner.tpl", StringComparison.OrdinalIgnoreCase))
                     banner.Save(file);
 
-                else if (path.Contains("icons.tpl"))
+                else if (relPath.EndsWith("icons.tpl", StringComparison.OrdinalIgnoreCase))
                     icons.Save(file);
 
-                else if (path.Contains("banner.ini"))
-                {
-
+                else if (relPath.EndsWith("banner.ini", StringComparison.OrdinalIgnoreCase)) {
                     var txt = new List<string>() {
-                            $"not_copy        {Program.Config.flash.no_copy_save}",
-                            "anim_type       bounce",
-                            $"title_text      {Uri.EscapeUriString(lines[0])}",
-                            $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
-                            $"banner_tpl      banner{banReg}/banner.tpl",
-                            $"icon_tpl        banner{banReg}/icons.tpl",
-                            "icon_count      " + icons.NumOfTextures,
+                        $"not_copy        {(flBase == FlashBase.KirbyTV ? "off" : Program.Config.flash.no_copy_save)}",
+                        "anim_type       bounce",
+                        $"title_text      {Uri.EscapeUriString(lines[0])}",
+                        $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
+                        $"banner_tpl      banner{banReg}/" + (flBase == FlashBase.KirbyTV ? $"{banLang}/" : "") + "banner.tpl",
+                        $"icon_tpl        banner{banReg}/" + (flBase == FlashBase.KirbyTV ? $"{banLang}/" : "") + "icons.tpl",
+                        $"icon_count      {icons.NumOfTextures}",
                     };
-
-                    if (flBase == FlashBase.KirbyTV)
-                    {
-                        txt = new List<string>() {
-                            $"not_copy        {Program.Config.flash.no_copy_save}",
-                            "anim_type       bounce",
-                            $"title_text      {Uri.EscapeUriString(lines[0])}",
-                            $"comment_text    {(lines.Length > 1 && !string.IsNullOrEmpty(lines[1]) ? Uri.EscapeUriString(lines[1]) : "%20")}",
-                            $"banner_tpl      banner{banReg + "/" + banLang}/banner.tpl",
-                            $"icon_tpl        banner{banReg + "/" + banLang}/icons.tpl",
-                            "icon_count      " + icons.NumOfTextures,
-                        };
-                    }
                     txt.Insert(0, "# SHIFT-JIS Encoded");
 
                     for (int i = 0; i < icons.NumOfTextures; i++)
-                    {
                         txt.Add($"icon_speed      {i}, slow");
-                    }
 
                     File.WriteAllBytes(file, Encoding.GetEncoding(932).GetBytes(string.Join("\r\n", txt) + "\r\n"));
-                    //932 = Shift-JIS
                 }
             }
 
@@ -1034,8 +1038,7 @@ namespace FriishProduce.Injectors
             U8 Content6 = U8.Load(wad.Contents[6]);
             Logger.Log("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
 
-            if (this.Manual != null && !this.UsesOrigManual)
-            {
+            if (this.Manual != null && !this.UsesOrigManual) { // check SelectedIndex BROKEN ATM
                 Logger.Log("Attempting to replace Operation Manual for Flash inject, flBase = " + flBase);
                 int start = -1;
                 int end = -1;
