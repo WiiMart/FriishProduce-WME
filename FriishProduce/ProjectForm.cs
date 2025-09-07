@@ -937,7 +937,7 @@ namespace FriishProduce
 
                     img = new ImageHelper(project.Platform, null);
                     img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
-                    LoadROM(project.ROM, false);
+                    LoadROM(project.ROM, Program.Config.application.auto_prefill);
 
                     if (File.Exists(project.OfflineWAD)) {
                         use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
@@ -1069,7 +1069,9 @@ namespace FriishProduce
 
                 img = new ImageHelper(project.Platform, null);
                 img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
-                LoadROM(project.ROM, false);
+
+                if (File.Exists(rom?.FilePath) && IsEmpty)
+                    LoadROM(rom.FilePath, Program.Config.application.auto_prefill);
 
                 if (File.Exists(project.OfflineWAD)) {
                     use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
@@ -1887,7 +1889,7 @@ namespace FriishProduce
             patch = null;
 
             Program.MainForm.toolbarGameScan.Enabled = Program.MainForm.game_scan.Enabled = ToolbarButtons[1];
-            if (rom != null && AutoScan && ToolbarButtons[1]) GameScan(true);
+            if (rom != null && AutoScan && ToolbarButtons[1]) GameScan(false);
             setFilesText();
         }
 

@@ -11,27 +11,8 @@ namespace FriishProduce.Injectors
     {
 
         private static string[] _saveDataSizes;
-        public static string[] SaveDataSizes
-        {
-            get
-            {
-                if (_saveDataSizes == null || _saveDataSizes?.Length == 0)
-                {
-                    List<string> value = new();
-                    value.AddRange(new string[] { "32", "48", "64", "72", "96", "128", "256" });
-
-                    for (int i = 256; i < 4096;)
-                    {
-                        i += 256;
-                        value.Add(i.ToString());
-                    }
-
-                    _saveDataSizes = value.ToArray();
-                }
-
-                return _saveDataSizes;
-            }
-        }
+        public static string[] SaveDataSizes => _saveDataSizes ??= new[] { "32", "48", "64", "72", "96", "128", "256" }
+            .Concat(Enumerable.Range(2, (4096 / 256) - 1).Select(i => (i * 256).ToString())).ToArray();
 
         public SWF SWF { get; set; }
         public IDictionary<string, string> Settings { get; set; }
