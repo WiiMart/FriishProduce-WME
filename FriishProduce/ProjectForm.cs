@@ -1382,13 +1382,14 @@ namespace FriishProduce
                 target = "";
 
             var map = new (string Key, string Val, bool Lower, bool Trans)[] {
-                ("FILENAME",        FILENAME,       true,       true),
-                ("CHANNELNAME",     CHANNELNAME,    true,       true),
-                ("FULLNAME",        FULLNAME,       true,       true),
-                ("TITLEID",         TITLEID,        true,       false),
-                ("GENRE",           GENRE,          false,      false),
-                ("PLATFORM",        PLATFORM,       true,       false),
-                ("REGION%",          REGION,         true,       false),
+                ("FILENAME",    FILENAME,       true,       true),
+                ("CHANNELNAME", CHANNELNAME,    true,       true),
+                ("FULLNAME",    FULLNAME,       true,       true),
+                ("TITLEID",     TITLEID,        true,       false),
+                ("GENRE",       GENRE,          false,      false),
+                ("PLATFORM",    PLATFORM,       true,       false),
+                ("REGION",      REGION,         true,       false),
+                //KEY           VAL             LOWER       TRANS
             };
             foreach (var (key, val, lower, trans) in map) {
                 string replace = val;
@@ -2206,7 +2207,7 @@ namespace FriishProduce
             return (name, serial, year, players, image, FormatGenre(genre), complete);
         }
 
-        public async void GameScan(bool imageOnly)
+        public void GameScan(bool imageOnly)
         {
             if (rom == null || rom.FilePath == null) return;
             try
