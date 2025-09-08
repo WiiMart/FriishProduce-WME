@@ -299,6 +299,12 @@ namespace FriishProduce.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap warn_reg_ico =>
+            (System.Drawing.Bitmap)ResourceManager.GetObject("warn_reg_ico", resourceCulture);
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.

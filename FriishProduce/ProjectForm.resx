@@ -182,7 +182,7 @@
     <value>1</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 92</value>
+    <value>478, 95</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 265</value>
@@ -990,6 +990,67 @@
     <value>5</value>
   </data>
   <!--==================================================================-->
+  <data name="warn_ch_reg.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="warn_ch_reg.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>White</value>
+  </data>
+  <data name="warn_ch_reg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="warn_ch_reg.AutoSize" type="System.Boolean, mscorlib">
+    <value>true</value>
+  </data>
+  <data name="warn_ch_reg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>568, 421</value>
+  </data>
+  <data name="warn_ch_reg.Text" xml:space="preserve">
+    <value>warn_ch_reg</value>
+  </data>
+  <data name="warn_ch_reg.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+  <data name="&gt;&gt;warn_ch_reg.Name" xml:space="preserve">
+    <value>warn_ch_reg</value>
+  </data>
+  <data name="&gt;&gt;warn_ch_reg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;warn_ch_reg.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+
+  <data name="warn_ban_reg.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="warn_ban_reg.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>White</value>
+  </data>
+  <data name="warn_ban_reg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="warn_ban_reg.AutoSize" type="System.Boolean, mscorlib">
+    <value>true</value>
+  </data>
+  <data name="warn_ban_reg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>564, 335</value>
+  </data>
+  <data name="warn_ban_reg.Text" xml:space="preserve">
+    <value>warn_ban_reg</value>
+  </data>
+  <data name="warn_ban_reg.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+  <data name="&gt;&gt;warn_ban_reg.Name" xml:space="preserve">
+    <value>warn_ban_reg</value>
+  </data>
+  <data name="&gt;&gt;warn_ban_reg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;warn_ban_reg.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
   <!--==================================================================-->
   <data name="title_id_l.AutoSize" type="System.Boolean, mscorlib">
     <value>true</value>

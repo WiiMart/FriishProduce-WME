@@ -786,7 +786,7 @@ namespace FriishProduce
                 TitleID = lpj.TitleID,
                 Genre = lpj.Genre,
                 ChannelTitles = lpj.ChannelTitles,
-                BannerRegion = ProjectForm.IntToRegion(lpj.BannerRegion + 1),
+                BannerRegion = ProjectForm.IntToRegion(lpj.BannerRegion == -1 ? lpj.WADRegion : lpj.BannerRegion + 1),
                 BannerTitle = lpj.BannerTitle,
                 BannerYear = lpj.BannerYear,
                 BannerPlayers = lpj.BannerPlayers,

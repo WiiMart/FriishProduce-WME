@@ -623,6 +623,7 @@ namespace FriishProduce
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vistaMenu)).EndInit();

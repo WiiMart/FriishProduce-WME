@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace FriishProduce
 {
     partial class ProjectForm
@@ -63,6 +65,8 @@ namespace FriishProduce
             this.channel_name_l = new System.Windows.Forms.Label();
             this.channel_name = new System.Windows.Forms.TextBox();
             this.title_id_random = new System.Windows.Forms.PictureBox();
+            this.warn_ch_reg = new System.Windows.Forms.PictureBox();
+            this.warn_ban_reg = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.use_offline_wad = new System.Windows.Forms.RadioButton();
             this.baseID = new System.Windows.Forms.Label();
@@ -92,6 +96,8 @@ namespace FriishProduce
             ((System.ComponentModel.ISupportInitialize)(this.injection_method_help)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.title_id_random)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_ch_reg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_ban_reg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseRegion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkImg1)).BeginInit();
@@ -199,6 +205,22 @@ namespace FriishProduce
             this.edit_save_data.Tag = "edit_save_data";
             this.edit_save_data.UseVisualStyleBackColor = true;
             this.edit_save_data.Click += new System.EventHandler(this.edit_save_data_Click);
+
+            // warn_ch_reg icon WARNING
+            this.warn_ch_reg.Image = global::FriishProduce.Properties.Resources.warn_reg_ico;
+            this.warn_ch_reg.BackColor = Color.Transparent;
+            this.warn_ch_reg.Size = new Size(16, 16);
+            this.warn_ch_reg.Location = new Point(568, 421);
+            this.warn_ch_reg.Visible = false;
+            this.Controls.Add(this.warn_ch_reg);
+            // warn_ban_reg icon WARNING
+            this.warn_ban_reg.Image = global::FriishProduce.Properties.Resources.warn_reg_ico;
+            this.warn_ban_reg.BackColor = Color.Transparent;
+            this.warn_ban_reg.Size = new Size(16, 16);
+            this.warn_ban_reg.Location = new Point(564, 335);
+            this.warn_ban_reg.Visible = false;
+            this.Controls.Add(this.warn_ban_reg);
+
             // 
             // wiiu_display
             // 
@@ -316,6 +338,7 @@ namespace FriishProduce
             resources.ApplyResources(this.region_l, "region_l");
             this.region_l.Name = "region_l";
             this.region_l.Tag = "region";
+            this.region_l.BackColor = Color.Transparent;
             // 
             // title_id_l
             // 
@@ -585,6 +608,8 @@ namespace FriishProduce
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.title_id_random)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_ch_reg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_ban_reg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseRegion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkImg1)).EndInit();
@@ -609,6 +634,8 @@ namespace FriishProduce
         private System.Windows.Forms.TextBox channel_name;
         private System.Windows.Forms.ComboBox region;
         private System.Windows.Forms.PictureBox title_id_random;
+        internal System.Windows.Forms.PictureBox warn_ch_reg;
+        internal System.Windows.Forms.PictureBox warn_ban_reg;
         private System.Windows.Forms.TextBox title_id;
         private System.Windows.Forms.TextBox genre;
         private System.Windows.Forms.Label genre_l;

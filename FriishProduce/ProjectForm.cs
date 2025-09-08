@@ -28,6 +28,11 @@ namespace FriishProduce
         protected string Untitled;
         protected (string Letter, string[] Exclude) TIDPrefix;
 
+        private void DrawGraphics(object sender, PaintEventArgs e) {
+            if (banner_form.region.SelectedIndex != region.SelectedIndex)
+                e.Graphics.DrawImage(Properties.Resources.warn_reg_ico, new Point(10, 10));
+        }
+
         protected bool IsVirtualConsole
         {
             get
@@ -168,7 +173,6 @@ namespace FriishProduce
                               : channel.Regions[index] == 6 || channel.Regions[index] == 7 ? Region.Korea
                               : channel.Regions[index] >= 3 && channel.Regions[index] <= 5 ? Region.Europe
                               : Region.America;
-
                 return value;
             }
         }
@@ -384,7 +388,7 @@ namespace FriishProduce
                     Invoke(new MethodInvoker(delegate { value = banner_form.region.SelectedIndex - 1; }));
                 else value = banner_form.region.SelectedIndex - 1;
 
-                if (value == -1)
+                if (value == -1 || banner_form.region.Text == "Automatic")
                 {
                     value = channels != null ? InBaseRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
 
@@ -417,21 +421,42 @@ namespace FriishProduce
         }
         #endregion
 
-        public static libWiiSharp.Region IntToRegion(int val) => val switch
-        {
-            0 => libWiiSharp.Region.Japan,
-            2 => libWiiSharp.Region.Europe,
-            3 => libWiiSharp.Region.Korea,
-            _ => libWiiSharp.Region.USA
+        public static libWiiSharp.Region IntToRegion(int val) => val switch {
+            0 => libWiiSharp.Region.Japan, 2 => libWiiSharp.Region.Europe, 3 => libWiiSharp.Region.Korea, _ => libWiiSharp.Region.USA
         };
 
-        public static int RegToInt(libWiiSharp.Region region) => region switch
-        {
-            libWiiSharp.Region.Japan  => 0,
-            libWiiSharp.Region.Europe => 2,
-            libWiiSharp.Region.Korea  => 3,
-            _                         => 1
+        public static int RegToInt(libWiiSharp.Region region) => region switch {
+            libWiiSharp.Region.Japan => 0, libWiiSharp.Region.Europe => 2, libWiiSharp.Region.Korea => 3, _ => 1
         };
+
+        public static int ChRegToInt(string region) => region switch {
+            "Original" => 0, "Region-Free" => 1, "USA" => 2, "Europe" => 3, "Japan" => 4, "Korea" => 5, _ => 0
+        };
+
+        public static string IntToChReg(int val) => val switch {
+            0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
+        };
+
+        public static List<string> GetRegConflictSrcs(params string[] regions) {
+            string baseRegion = regions[2].Replace("America", "USA");
+            string[] wildcards = { "Original", "Automatic" };
+            var conflicts = new List<string>();
+
+            bool Matches(string a, string b) {
+                if (a == "Region-Free" || b == "Region-Free") return false; // always conflict
+                if (Array.Exists(wildcards, w => w == a) || Array.Exists(wildcards, w => w == b)) return true;
+                return a == b;
+            }
+
+            if (!Matches(regions[0], regions[1]) || !Matches(regions[0], baseRegion))
+                conflicts.Add("Banner");
+            if (!Matches(regions[1], baseRegion))
+                conflicts.Add("Channel");
+
+            return conflicts;
+        }
+
+        public static bool HasRegConflict(params string[] regions) => GetRegConflictSrcs(regions).Count > 0;
         // -----------------------------------
 
         private void SetRecentProjects(string project)
@@ -958,7 +983,8 @@ namespace FriishProduce
                     try { banner_form.released.Value = project.BannerYear; } catch { }
                     try { banner_form.players.Value = project.BannerPlayers; } catch { }
 
-                    try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                    var pjReg = File.Exists(project.OfflineWAD) ? RegToInt(project.BannerRegion) + 1 : Base.SelectedIndex;
+                    try { banner_form.region.SelectedIndex = pjReg; }
                     catch { banner_form.region.SelectedIndex = 0; }
                     finally {
                         linkSaveDataTitle();
@@ -1092,7 +1118,8 @@ namespace FriishProduce
                 try { banner_form.released.Value = project.BannerYear; } catch { }
                 try { banner_form.players.Value = project.BannerPlayers; } catch { }
 
-                try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                var pjReg = File.Exists(project.OfflineWAD) ? RegToInt(project.BannerRegion) + 1 : project.OnlineWAD.Region;
+                try { banner_form.region.SelectedIndex = pjReg; }
                 catch { banner_form.region.SelectedIndex = 0; }
                 finally {
                     linkSaveDataTitle();
@@ -1176,7 +1203,17 @@ namespace FriishProduce
             if (!IsEmpty)
                 IsModified = true;
 
+            CheckWarnings();
             setFilesText();
+        }
+
+        private void CheckWarnings() {
+            string[] regions = { banner_form.region.Text, IntToChReg(region.SelectedIndex), InBaseRegion.ToString() };
+            var conflicts = GetRegConflictSrcs(regions);
+            warn_ch_reg.Visible = conflicts.Contains("Channel");
+            warn_ch_reg.BringToFront();
+            warn_ban_reg.Visible = conflicts.Contains("Banner");
+            warn_ban_reg.BringToFront();
         }
 
         public bool[] ToolbarButtons
@@ -2677,8 +2714,8 @@ namespace FriishProduce
                 6 or 7 => Properties.Resources.flag_kr,
                 _ => null,
             };
-
             savedata.Reset(TargetPlatform, (int)InBaseRegion);
+            //CheckWarnings();
             resetImages();
             linkSaveDataTitle();
             resetContentOptions();
