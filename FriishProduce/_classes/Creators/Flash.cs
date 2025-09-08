@@ -763,7 +763,7 @@ namespace FriishProduce.Injectors
                                 "",
                                 "mouse						on",
                                 "qwerty_keyboard					on			# hardware keyboard",
-                                "qwerty_events					off			# hardware keyboard sends flash events",
+                                "qwerty_events					on			# hardware keyboard sends flash events",
                                 "use_keymap					on			# determines if the region's keymap.ini is used",
                                 "navigation_model				4way			# 2way / 4way / 4waywrap",
                                 "quality						high			# low / medium / high",
