@@ -167,7 +167,9 @@
 			"t_publisher_opt_tb": "{t_publisher_opt}",
 			"t_locsave_banner_tb": "{t_locsave_banner}",
 			"t_locsave_wad_tb": "{t_locsave_wad}",
-			"t_channel_name_l": "{t_channel_name}"
+			"t_channel_name_l": "{t_channel_name}",
+			"t_warn_ban_reg": "La región de banner seleccionada no coincide con la región del canal seleccionado, la región base del WAD o ambas.",
+			"t_warn_ch_reg": "La región de canal seleccionada no coincide con la región del banner seleccionado, la región base del WAD o ambas."
 		}
 	},
 

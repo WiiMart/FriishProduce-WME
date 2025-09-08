@@ -338,6 +338,12 @@ namespace FriishProduce
             tip.SetToolTip(control, html(text, title));
         }
 
+        public void GetToolTip(HtmlToolTip tip, Control control, string text, string name = null) {
+            if (control == null || tip == null) return;
+            text = String("t_" + control.Name, "html");
+            tip.SetToolTip(control, html(text, name));
+        }
+
         /// <summary>
         /// Returns a localized string which changes depending on a boolean condition. This is the name of the string suffixed with "0" if false, or "1" if true.
         /// </summary>

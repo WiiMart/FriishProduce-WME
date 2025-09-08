@@ -628,6 +628,8 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, video_mode, null, video_mode_l.Text, Program.Lang.Format(("t_unsure_s", "html"), video_mode.Items[0].ToString()));
             Program.Lang.ToolTip(tip, injection_method_options);
             Program.Lang.ToolTip(tip, multifile_software);
+            Program.Lang.ToolTip(tip, warn_ban_reg);
+            Program.Lang.ToolTip(tip, warn_ch_reg);
             #endregion
 
             if (Base.SelectedIndex >= 0)

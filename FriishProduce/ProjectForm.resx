@@ -182,7 +182,7 @@
     <value>1</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 95</value>
+    <value>478, 92</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 265</value>
@@ -241,7 +241,7 @@
     <value>NoControl</value>
   </data>
   <data name="banner_tip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 241</value>
+    <value>8, 243</value>
   </data>
   <data name="banner_tip.Size" type="System.Drawing.Size, System.Drawing">
     <value>543, 18</value>

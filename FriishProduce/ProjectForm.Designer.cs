@@ -208,6 +208,8 @@ namespace FriishProduce
 
             // warn_ch_reg icon WARNING
             this.warn_ch_reg.Image = global::FriishProduce.Properties.Resources.warn_reg_ico;
+            this.warn_ch_reg.Name = "warn_ch_reg";
+            this.warn_ch_reg.Tag = "warn_ch_reg";
             this.warn_ch_reg.BackColor = Color.Transparent;
             this.warn_ch_reg.Size = new Size(16, 16);
             this.warn_ch_reg.Location = new Point(568, 421);
@@ -215,9 +217,11 @@ namespace FriishProduce
             this.Controls.Add(this.warn_ch_reg);
             // warn_ban_reg icon WARNING
             this.warn_ban_reg.Image = global::FriishProduce.Properties.Resources.warn_reg_ico;
+            this.warn_ban_reg.Name = "warn_ban_reg";
+            this.warn_ban_reg.Tag = "warn_ban_reg";
             this.warn_ban_reg.BackColor = Color.Transparent;
             this.warn_ban_reg.Size = new Size(16, 16);
-            this.warn_ban_reg.Location = new Point(564, 335);
+            this.warn_ban_reg.Location = new Point(565, 334);
             this.warn_ban_reg.Visible = false;
             this.Controls.Add(this.warn_ban_reg);
 

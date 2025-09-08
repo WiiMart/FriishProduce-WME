@@ -141,7 +141,9 @@
 			"t_publisher_opt_tb": "{t_publisher_opt}",
 			"t_locsave_banner_tb": "{t_locsave_banner}",
 			"t_locsave_wad_tb": "{t_locsave_wad}",
-			"t_channel_name_l": "{t_channel_name}"
+			"t_channel_name_l": "{t_channel_name}",
+			"t_warn_ban_reg": "選択したバナー地域は、選択したチャンネル地域、ベース WAD 地域、またはその両方と一致しません。",
+			"t_warn_ch_reg": "選択したチャンネル地域は、選択したバナー地域、ベース WAD 地域、またはその両方と一致しません。"
 		}
 	},
 	"strings": {

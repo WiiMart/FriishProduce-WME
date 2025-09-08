@@ -167,7 +167,9 @@
 			"t_publisher_opt_tb": "{t_publisher_opt}",
 			"t_locsave_banner_tb": "{t_locsave_banner}",
 			"t_locsave_wad_tb": "{t_locsave_wad}",
-			"t_channel_name_l": "{t_channel_name}"
+			"t_channel_name_l": "{t_channel_name}",
+			"t_warn_ban_reg": "선택한 배너 지역이 선택한 채널 지역, 기본 WAD 지역 또는 둘 다와 일치하지 않습니다.",
+			"t_warn_ch_reg": "선택한 채널 지역이 선택한 배너 지역, 기본 WAD 지역 또는 둘 다와 일치하지 않습니다."
 		}
 	},
 
