@@ -31,8 +31,6 @@ namespace FriishProduce
         public IDictionary<string, string> InputKeymap { get; set; }
         private enum SharpiiTarget { WAD, U8 }
 
-        public static readonly string SharpiiTemp = Path.Combine(Path.GetTempPath(), "Sharpii_" + Guid.NewGuid());
-
         /// <summary>
         ///     Video mode array for 'pretty' printing
         /// </summary>
@@ -50,95 +48,18 @@ namespace FriishProduce
         /// <summary>
         ///     Gets the byte value of the max blocks a WAD occupies
         /// </summary>
-        static long BlocksToBytes(string blocks) => int.TryParse(blocks?.Split('-').LastOrDefault()?.Trim(), out var c) ? c * 128L * 1024 : 0;
-        
-        /// <summary>
-        ///     Our Sharpii.exe for CLI calls
-        /// </summary>
-        private static readonly string Sharpii = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "apps", "sharpii_1.7.3", "Sharpii.exe" );
+        static long BlocksToBytes(string blocks) =>
+            int.TryParse(blocks?.Split('-').LastOrDefault()?.Trim(), out var c) ? c * 128L * 1024 : 0;
 
         /// <summary>
-        ///     Simple override for EOA, rather than inputing a full CLI string, just provide the paths, type(WAD/U8) and bool for pack/unpack
+        ///     Convert to hex manually... Since I can't seem to find a hex TID from LWS
         /// </summary>
-        private static void RunSharpii(SharpiiTarget type, bool pack, string inPath, string outPath) =>
-            RunSharpii($"{type} {(pack ? "-p" : "-u")} {Utils.SafeQuote(inPath, forceQuotes:true)} {Utils.SafeQuote(outPath, forceQuotes:true)}", quiet: false);
-
-        private static void Pack(SharpiiTarget type, string inPath, string outPath) => RunSharpii(type, true, inPath, outPath);
-
-        private static void Unpack(SharpiiTarget type, string inPath, string outPath) => RunSharpii(type, false, inPath, outPath);
+        public static string HexifyTID(string tid) => 
+            $"{(tid.StartsWith("H") ? "00010002" : "00010001")}{string.Concat(tid.Select(c => ((int)c).ToString("X2")))}";
 
         /// <summary>
-        ///     Run Sharpii and optionally capture output
+        ///     Injects meta.json into the Banner U8 archive using LibWiiSharp dep
         /// </summary>
-        private static string RunSharpii(string args, bool quiet = true) {
-            if (!File.Exists(Sharpii))
-                throw new FileNotFoundException($"Sharpii.exe not found at: {Sharpii}");
-
-            //string argsLog = args.Replace(SharpiiTemp, "%SharpiiTemp%");
-            //Logger.Log($"\nRunning Sharpii with args:\n    {argsLog}");
-            //captureOutput = Program.DebugMode;
-            var psi = new ProcessStartInfo {
-                FileName = Sharpii, Arguments = args + (quiet ? " -quiet" : ""),
-                RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false, CreateNoWindow = true
-            };
-
-            Process proc;
-            try {
-                proc = Process.Start(psi) ?? throw new Exception("Failed to start Sharpii process.");
-            }
-            catch (System.ComponentModel.Win32Exception ex) {
-                Logger.Log($"Win32Exception starting Sharpii.exe: {ex.Message} (ErrorCode: {ex.NativeErrorCode})");
-                Logger.Log($"ProcessStartInfo:");
-                Logger.Log($"    FileName:\n\"{psi.FileName}\"");
-                Logger.Log($"    Arguments:\n\"{psi.Arguments}\"");
-                throw;
-            }
-            using (proc) {
-                var outSb = new StringBuilder();
-                var errSb = new StringBuilder();
-                proc.OutputDataReceived += (s, e) => { if (e.Data != null) outSb.AppendLine(e.Data); };
-                proc.ErrorDataReceived += (s, e) => { if (e.Data != null) errSb.AppendLine(e.Data); };
-                proc.BeginOutputReadLine();
-                proc.BeginErrorReadLine();
-                proc.WaitForExit();
-
-                // try to log everything...
-                //Logger.Log($"Sharpii output:\n{outSb}");
-                if (errSb.Length > 0)
-                    Logger.Log($"Sharpii errors:\n{errSb}");
-
-                // Exit code check is still useful, some errors may not catch or produce stderr
-                if (proc.ExitCode != 0)
-                    throw new Exception($"Sharpii failed with exit code {proc.ExitCode}:\n{errSb}");
-
-                return outSb.ToString();
-            }
-        }
-
-        private static (string HexTID, int Version, string Blocks, int IOS) GetInfo(string wadPath) {
-            if (!File.Exists(wadPath))
-                throw new FileNotFoundException($"WAD not found at {wadPath}");
-
-            var output = RunSharpii($"WAD -i {Utils.SafeQuote(wadPath, forceQuotes:true)}", quiet: false);
-            string hexTid = null;
-            int version = 0;
-            string blocks = null;
-            int ios = 0;
-
-            foreach (var line in output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)) {
-                string trim = line.Trim();
-                if (trim.StartsWith("Full Title ID:", StringComparison.OrdinalIgnoreCase))
-                    hexTid = trim.Substring("Full Title ID:".Length).Trim();
-                else if (trim.StartsWith("Version:", StringComparison.OrdinalIgnoreCase) && int.TryParse(trim.Substring("Version:".Length).Trim(), out var pVer))
-                    version = pVer;
-                else if (trim.StartsWith("Blocks:", StringComparison.OrdinalIgnoreCase))
-                    blocks = trim.Substring("Blocks:".Length).Trim();
-                else if (trim.StartsWith("IOS:", StringComparison.OrdinalIgnoreCase) && int.TryParse(trim.Substring("IOS:".Length).Trim(), out var pIos))
-                    ios = pIos;
-            }
-            return (hexTid, version, blocks, ios);
-        }
-
         internal static void Write(Method md, string wadPath, ProjectForm.Region InWadRegion) {
             if (md.WAD == null)
                 throw new InvalidOperationException("WAD must be loaded before writing metadata.");
@@ -150,16 +71,11 @@ namespace FriishProduce
                 md.Img.Source.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                 base64Banner = Convert.ToBase64String(ms.ToArray());
             }
-
-            // check that sys temp files can be accessed
             Utils.EnsureTempWritable();
-
-            // get additional WAD info with Sharpii
-            var (hexTid, wadVersion, blocks, ios) = GetInfo(wadPath);
 
             var meta = new WadMeta {
                 TID = md.TitleID,
-                HexTID = hexTid.Replace("-", ""),
+                HexTID = HexifyTID(md.TitleID),
                 Publisher = Program.Config.application.publisher_opt_tb,
                 WadBase = System.Net.WebUtility.UrlDecode(Path.GetFileNameWithoutExtension(md.SrcBase)),
                 ChannelTitle = md.ChannelTitles.Length > 1 ? md.ChannelTitles[1] : md.ChannelTitles.FirstOrDefault() ?? "",
@@ -173,53 +89,24 @@ namespace FriishProduce
                 WadRegion = InWadRegion.ToString(),
                 ChannelRegion = ((libWiiSharp.Region) md.WadRegion).ToString(),
                 BannerRegion = md.BannerRegion.ToString(),
-                WadVersion = wadVersion.ToString(),
-                IOS = ios.ToString(),
-                Blocks = BlocksToBytes(blocks).ToString(),
+                WadVersion = md.WAD.TitleVersion.ToString(),
+                IOS = ((int)(md.WAD.StartupIOS & 0xFFFFFFFF)).ToString(),
+                Blocks = BlocksToBytes(md.WAD.NandBlocks.ToString()).ToString(),
                 InputSettings = md.Settings.List?.ToDictionary(kv => kv.Key, kv => kv.Value),
                 InputKeymap = md.Settings.Keymap?.ToDictionary(kv => kv.Key.ToString(), kv => kv.Value)
             };
 
-            if (!File.Exists(wadPath))
-                throw new FileNotFoundException($"WAD file does not exist: {wadPath}");
+            // convert meta.json to bytes and pack
+            var encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+            string metaJson = JsonSerializer.Serialize(meta, new JsonSerializerOptions { WriteIndented = true, Encoder = encoder });
+            byte[] metaBytes = Encoding.UTF8.GetBytes(metaJson);
 
-            if (!File.Exists(SharpiiTemp))
-                Directory.CreateDirectory(SharpiiTemp);
+            md.WAD.BannerApp.AddFile("meta/meta.json", metaBytes);
+            if (File.Exists(wadPath)) File.Delete(wadPath);
+            md.WAD.Save(wadPath);
 
-            try {
-                // extract to sys temp dir
-                Unpack(SharpiiTarget.WAD, wadPath, SharpiiTemp);
-                string tempWadDir = Directory.GetDirectories(SharpiiTemp).FirstOrDefault() ?? SharpiiTemp;
-                var bnrU8 = Directory.GetFiles(tempWadDir, "*.app").FirstOrDefault();
-                if (bnrU8 == null)
-                    throw new FileNotFoundException("No .app file found in extracted WAD.");
-
-                // extract banner U8
-                string bnrOut = bnrU8 + "_out";
-                Directory.CreateDirectory(bnrOut);
-                Unpack(SharpiiTarget.U8, bnrU8, bnrOut);
-
-                // ensure meta folder
-                // all banner archives should? have meta folder but just in case for consistent meta.json placement
-                string metaFolder = Path.Combine(bnrOut, "meta");
-                Directory.CreateDirectory(metaFolder);
-
-                // write our meta.json! :hyperpog: then repack
-                var encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-                string metaJson = JsonSerializer.Serialize(meta, new JsonSerializerOptions { WriteIndented = true, Encoder = encoder });
-                File.WriteAllText(Path.Combine(metaFolder, "meta.json"), metaJson, Encoding.UTF8);
-                Pack(SharpiiTarget.U8, bnrOut, bnrU8);
-
-                if (File.Exists(wadPath)) File.Delete(wadPath);
-                Pack(SharpiiTarget.WAD, tempWadDir, wadPath);
-                Logger.Log($"Packed WAD meta.json inside Banner U8 archive.");
-            }
-            finally {
-                if (Directory.Exists(SharpiiTemp)) {
-                    try { Directory.Delete(SharpiiTemp, true); }
-                    catch { Logger.Log($"Failed to delete temp directory: {SharpiiTemp}"); }
-                }
-            }
+            Logger.Log("Packed WAD meta.json inside the Banner U8 archive => 'meta' folder.");
         }
+
     }
 }
