@@ -4,6 +4,35 @@ This project uses [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v1.6.0.2] – 2025-09-08
+### Added
+- WAD metadata injection into Banner U8 files (`meta.json`)  
+    - Records Title ID, HexTID, Publisher, WAD base, Channel/Banner titles, Save titles, Release year, Players, Genre, Banner image (Base64), Video mode, WAD/Channel/Banner regions, WAD version, IOS, NAND blocks, Input settings, and keymaps - with the intention of automating data retrieval for WiiMart
+    - This means no more worrying about your WAD file names! Name it whatever you like!
+- Optional auto-translation of exported CJK WAD filenames
+    - (Again, name it whatever you like, but consistent english names will help)
+- Region conflict detection with icons and tooltips
+- Improved game database scanning and matching
+- Restored icons and improved async task handling in database scanning
+- New translations: Italian, German, Dutch, Portuguese (BR), Simplified Chinese, Traditional Chinese
+- Flash variables (`flash_vars`) handling
+- Various debug logs for potential support
+
+### Changed
+- Refactored WadMeta to use sources LibWiiSharp dep internally, Sharpii removed
+- Author/Publisher tags recorded in metadata
+- Restored FriishProduce icons from 'unreleased' v1.6
+
+### Fixed
+- ‘Automatic’ banner regions
+- WAD filename output parameters
+- Kirby TV keymap and other Flash base issues
+- Various method refactors for improved stability and maintainability
+
+### Todo
+- Handle semantic versioning and auto-updating
+
+
 ## [Debug-v1.6.0.1_083125] – 2025-08-31
 ### Added
 - JSON Project file support (`.jfpp`)
