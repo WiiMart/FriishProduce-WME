@@ -573,40 +573,85 @@ namespace FriishProduce
             }
             return previousRow[tar.Length];
         }
+
+        // Simple PE header parser for architecture type
+        private static string DetectPeArch(byte[] exeBytes) {
+            try {
+                // arch type is 4 bytes after "PE\0\0"
+                ushort arch = BitConverter.ToUInt16(exeBytes, BitConverter.ToInt32(exeBytes, 0x3C) + 4);
+                return arch switch {
+                    0x014c => "x86 (32-bit)",
+                    0x0200 => "Intel Itanium",
+                    0x8664 => "x64 (64-bit)",
+                    0x01c0 => "ARM (32-bit)",
+                    0xAA64 => "ARM64",
+                    _ => $"Unknown (0x{arch:X})"
+                };
+            }
+            catch (Exception ex) {
+                return $"Error reading PE header: {ex.Message}";
+            }
+        }
         
-        public static string Run(byte[] app, string appName, string arguments, bool showWindow = false, bool redirectOutput = true)
-        {
+        /// <summary>
+        ///     #Run method override, refactored for checking OS architecture and validity of executable.. meh
+        ///         General logic remains untouched besides logging, so hopefully no other issues should arise 
+        /// </summary>
+        public static string Run(byte[] app, string appName, string arguments, bool showWindow = false, bool redirectOutput = true) {
             string targetPath = PathConstants.WorkingFolder + Path.GetFileNameWithoutExtension(appName) + ".exe";
+            string embed = $"Embedded resource for {appName}";
+            string emdet = $"{app.Length} bytes\n{targetPath}";
+            string exeArch = DetectPeArch(app);
+
+            // OS proc info
+            Logger.Log($"\n[$Utils#Run] DEBUG:");
+            Logger.Log($"OS 64-bit: {Environment.Is64BitOperatingSystem}, Process 64-bit: {Environment.Is64BitProcess}");
 
             File.WriteAllBytes(targetPath, app);
+            // app check head, must start with 'MZ'
+            if (app.Length < 2 || app[0] != 'M' || app[1] != 'Z')
+                throw new InvalidOperationException($"{embed} is not a valid executable (missing MZ header).\n{emdet}");
+            else
+                Logger.Log($"{embed}\n{emdet}\nEmbedded exe architecture: {DetectPeArch(app)}\n");
+
+            if (Environment.Is64BitOperatingSystem == false && exeArch.Contains("64-bit"))
+                Logger.Log("[WARNING] Cannot run 64-bit exe on 32-bit OS!");
+
             string value = Run(targetPath, PathConstants.WorkingFolder, arguments, showWindow, redirectOutput);
-            try { File.Delete(targetPath); } catch { }
+            // try { File.Delete(targetPath); } catch { } // 
 
             return value;
         }
 
         public static string Run(string app, string arguments, bool showWindow = false, bool redirectOutput = true) => Run(app, PathConstants.Tools, arguments, showWindow, redirectOutput);
 
-        public static string Run(string app, string workingFolder, string arguments, bool showWindow = false, bool redirectOutput = true)
-        {
+        public static string Run(string app, string workingFolder, string arguments, bool showWindow = false, bool redirectOutput = true) {
             var appPath = Path.Combine(PathConstants.Tools, app.Replace(PathConstants.Tools, "").Contains('\\') ? app.Replace(PathConstants.Tools, "") : Path.GetFileName(app));
 
             if (!appPath.EndsWith(".exe")) appPath += ".exe";
 
             if (!File.Exists(appPath)) throw new Exception(string.Format(Program.Lang.Msg(6, 1), app));
 
-            using Process p = Process.Start(new ProcessStartInfo
-            {
-                FileName = appPath,
-                WorkingDirectory = workingFolder,
-                Arguments = arguments,
-                UseShellExecute = false,
-                CreateNoWindow = !showWindow,
-                RedirectStandardOutput = redirectOutput
-            });
-
-            p.WaitForExit();
-            return redirectOutput ? p.StandardOutput.ReadToEnd() : null;
+            // UseShellExecute not possible passing IO streams and split psi for cleaner added Win32Exception~
+            //      otherwise general logic remains untouched, Friish Ver from 2024 uses very slightly diff pathing
+            ProcessStartInfo psi = new() {
+                FileName = appPath, WorkingDirectory = workingFolder, Arguments = arguments,
+                UseShellExecute = false, CreateNoWindow = !showWindow, RedirectStandardOutput = redirectOutput
+            };
+            try {
+                using Process p = Process.Start(psi) ?? throw new InvalidOperationException(
+                    $"Failed to start process.\n" +
+                    $"Path: {appPath}\n" +
+                    $"Exists: {File.Exists(appPath)}\n" +
+                    $"OS 64-bit: {Environment.Is64BitOperatingSystem}\n" +
+                    $"Process 64-bit: {Environment.Is64BitProcess}"
+                );
+                p.WaitForExit();
+                return redirectOutput ? p.StandardOutput.ReadToEnd() : null;
+            }
+            catch (System.ComponentModel.Win32Exception ex) {
+                Logger.Log($"Win32Exception: {ex.Message}, NativeErrorCode: {ex.NativeErrorCode}"); throw;
+            }
         }
 
         public static (bool Compressed, byte[] Data) ExtractContent1(byte[] input)

@@ -80,6 +80,10 @@ namespace FriishProduce
 
         public static void CleanTemp()
         {
+            if (DebugMode) {
+                Logger.Log("Debug Mode enabled, temporarily disabled cleaning temp files.");
+                return;
+            }
             if (!Directory.Exists(PathConstants.WorkingFolder)) Directory.CreateDirectory(PathConstants.WorkingFolder);
             else
             {
