@@ -92,7 +92,7 @@
 			"001": "{0} contiene modifiche non salvate.\nVuoi salvare questo progetto?",
 			"002": "Il file selezionato ha un formato non valido.",
 			"003": "Completato con successo.\nAprire la cartella di output?",
-			"004": "Impossibile recuperare tutti i dati di gioco per il software selezionato.\nAlcuni campi potrebbero dover essere compilati manualmente.",
+			"004": "Impossibile recuperare tutti i dati di gioco per il software selezionato.\nThe following fields may need to be filled manually:\n",
 			"005": "Il WAD selezionato (ID titolo: {0}) non è valido.\nCiò può essere dovuto a uno dei seguenti motivi:\n  • La console attualmente selezionata non corrisponde a quella utilizzata dal WAD.\n  • Il WAD non è ancora disponibile nel database.\n  • Il WAD è già stato modificato (ad es. iniettato o convertito in forwarder).",
 			"006": "Puoi sostituire il manuale della Guida alle Operazioni del gioco Virtual Console originale.\nPer farlo, hai bisogno di uno ZIP contenente i contenuti estratti/modificati di un manuale .arc da un WAD VC.",
 			"007": "L'archivio del manuale Virtual Console selezionato non è valido.",

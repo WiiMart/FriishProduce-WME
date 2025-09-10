@@ -92,7 +92,7 @@
 		    "001": "El proyecto \"{0}\" ha sido cambiado.\n¿Guardarlo ahora?",
 			"002": "El archivo seleccionado no es válido.",
 			"003": "Exportado con éxito.\n¿Quieres abrir la carpeta de salida?",
-			"004": "No se pueden recuperar todos los datos del juego actual.\nPor esta razón debes completar manualmente ciertos formularios.",
+			"004": "No se pueden recuperar todos los datos del juego actual.\nLos siguientes campos pueden necesitar ser completados manualmente:\n",
 			"005": "El WAD que ha seleccionado (ID: {0}) no es válido.\nEsto puede deberse a que:\n  • la consola actual no coincide con la del WAD.\n • el WAD aún no está disponible en la base de datos de esta aplicación.\n • el WAD ya está modificado, ya sea inyectado o convertido en forwarder.",
 			"006": "Puedes reemplazar el manual electrónico original del juego de la Consola Virtual con otro manual personalizado.\nPara hacer esto, necesitas un archivo comprimido ZIP conteniendo el contenido extraído/modificado del archivo *.arc del manual electrónico de Consola Virtual.",
 			"007": "El archivo seleccionado no contiene ningún contenido válido de manual electrónico.",

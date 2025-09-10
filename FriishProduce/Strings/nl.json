@@ -92,7 +92,7 @@
 			"001": "{0} heeft niet-opgeslagen wijzigingen.\nDit project opslaan?",
 			"002": "Het geselecteerde bestand heeft een ongeldig formaat.",
 			"003": "Succesvol voltooid.\nUitvoermap openen?",
-			"004": "Kan niet alle spelgegevens ophalen voor de geselecteerde software.\nSommige velden moeten handmatig worden ingevuld.",
+			"004": "Kan niet alle spelgegevens ophalen voor de geselecteerde software.\nThe following fields may need to be filled manually:\n",
 			"005": "De geselecteerde WAD (titel-ID: {0}) is ongeldig.\nDit kan een van de volgende redenen hebben:\n  • De geselecteerde console komt niet overeen met die van de WAD.\n  • De WAD is nog niet beschikbaar in de database.\n  • De WAD is al gewijzigd (bijv. geïnjecteerd of omgezet naar een forwarder).",
 			"006": "U kunt de originele handleiding van de Virtual Console-game vervangen.\nHiervoor heeft u een ZIP nodig die de uitgepakte/aangepaste inhoud van een handleiding .arc uit een VC WAD bevat.",
 			"007": "Het geselecteerde Virtual Console-handleidingarchief is ongeldig.",

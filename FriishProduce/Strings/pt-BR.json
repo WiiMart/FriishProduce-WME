@@ -92,7 +92,7 @@
 			"001": "{0} tem alterações não salvas.\nSalvar este projeto?",
 			"002": "O arquivo selecionado é de um formato inválido.",
 			"003": "Concluído com sucesso.\nAbrir a pasta de saída?",
-			"004": "Não foi possível obter todos os dados do jogo para o software selecionado.\nAlguns campos podem precisar ser preenchidos manualmente.",
+			"004": "Não foi possível obter todos os dados do jogo para o software selecionado.\nThe following fields may need to be filled manually:\n",
 			"005": "O WAD selecionado (ID do título: {0}) é inválido.\nIsso pode ocorrer por um dos seguintes motivos:\n  • O console selecionado não corresponde ao usado pelo WAD.\n  • O WAD ainda não está disponível no banco de dados.\n  • O WAD já foi modificado (ex.: injetado ou convertido em encaminhador).",
 			"006": "Você pode substituir o manual de Operações do jogo original do Console Virtual.\nPara isso, é necessário um ZIP contendo o conteúdo extraído/modificado de um manual .arc de um WAD de Console Virtual.",
 			"007": "O arquivo de manual do Console Virtual selecionado é inválido.",

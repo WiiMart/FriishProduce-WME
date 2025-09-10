@@ -287,7 +287,7 @@ namespace FriishProduce
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(delegate { value = genre.Text; }));
                 else
-                    value = genre.Text;
+                    value = project.Platform == Platform.Flash ? "Flash" : genre.Text;
 
                 return value;
             }
@@ -437,9 +437,11 @@ namespace FriishProduce
             0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
         };
 
+        /// <summary>
+        ///     Trims whitespace and replaces occurences in the List with their shortforms for consistent matching
+        /// </summary>
         private static string NormalizeRegion(string region) {
             if (string.IsNullOrEmpty(region)) return "";
-
             var replacements = new List<(string from, string to)> {
                 ("America", "USA"), ("United States", "USA"), ("Europe/Australia", "Europe"), ("Republic of Korea", "Korea")
             };
@@ -447,6 +449,10 @@ namespace FriishProduce
             return region.Trim();
         }
 
+        /// <summary>
+        ///     Compare base, banner, and channel regions after 'normalizing' the strings
+        ///         Uses #NormalizeRegions() to replace occurences in a List with their shortforms for consistent matching
+        /// </summary>
         public static List<string> GetRegConflictSrcs(params string[] regions) {
             string banner = NormalizeRegion(regions[0]);
             string channel = NormalizeRegion(regions[1]);
@@ -455,7 +461,7 @@ namespace FriishProduce
             var conflicts = new List<string>();
 
             bool Matches(string a, string b) {
-                if (a == "Region-Free" || b == "Region-Free") return false; 
+                if (a == "Region-Free" || b == "Region-Free") return false; // always conflict, region-free doesn't work reliably
                 if (Array.Exists(wildcards, w => w == a) || Array.Exists(wildcards, w => w == b)) return true;
                 return a == b;
             }
@@ -467,6 +473,10 @@ namespace FriishProduce
             return conflicts;
         }
 
+        /// <summary>
+        ///     Checks if there are *any* region conflicts in the string array
+        ///         Passed array should consist of banner, channel, and base region strings 
+        /// </summary>
         public static bool HasRegConflict(params string[] regions) => GetRegConflictSrcs(regions).Count > 0;
         // -----------------------------------
 
@@ -1007,7 +1017,7 @@ namespace FriishProduce
                     try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
                     try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
                     try { title_id.Text = project.TitleID; } catch { }
-                    try { genre.Text = project.Genre; } catch { }
+                    try { genre.Text = project.Platform == Platform.Flash ? "Flash" : project.Genre; } catch { }
 
                     try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
                     try { multifile_software.Checked = project.IsMultifile; } catch { }
@@ -1073,102 +1083,6 @@ namespace FriishProduce
             project = null;
             //if (File.Exists(rom?.FilePath) && IsEmpty)
                 //LoadROM(rom.FilePath, Program.Config.application.auto_prefill);
-        }
-
-        private bool GetProject() {
-            try {
-                if (string.IsNullOrEmpty(project.ProjectPath) || !File.Exists(project.ProjectPath))
-                    throw new FileNotFoundException("Project file does not exist in given path.", project.ProjectPath);
-
-                string ext = Path.GetExtension(project.ProjectPath);
-                if (ext.Equals(".jfpp", StringComparison.OrdinalIgnoreCase)) {
-                    string jfpp = File.ReadAllText(project.ProjectPath);
-                    project = JsonSerializer.Deserialize<Project>(jfpp, new JsonSerializerOptions {
-                        Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
-                    });
-                }
-                else if (ext.Equals(".fppj", StringComparison.OrdinalIgnoreCase))
-                {
-                    try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
-                    catch { banner_form.region.SelectedIndex = 0; }
-                    finally {
-                        linkSaveDataTitle();
-                        resetImages(true);
-                    }
-                }
-
-                if (project == null)
-                    throw new Exception("Failed to load project file.");
-
-                Logger.Log($"\nOpened project at:\n\"{project.ProjectPath}\"");
-                SetRecentProjects(project.ProjectPath);
-                ProjectPath = project.ProjectPath;
-
-                video_mode.SelectedIndex = project.VideoMode;
-
-                img = new ImageHelper(project.Platform, null);
-                img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
-
-                if (File.Exists(rom?.FilePath) && IsEmpty)
-                    LoadROM(rom.FilePath, Program.Config.application.auto_prefill);
-
-                if (File.Exists(project.OfflineWAD)) {
-                    use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
-                    use_offline_wad.Checked = true;
-                    LoadWAD(project.OfflineWAD);
-                }
-                else {
-                    use_online_wad.Enabled = use_online_wad.Checked = true;
-                    use_offline_wad.Checked = false;
-                    try { Base.SelectedIndex = project.OnlineWAD.BaseNumber; UpdateBaseForm(project.OnlineWAD.Region); }
-                    catch { Base.SelectedIndex = 0; UpdateBaseForm(); }
-                }
-
-                patch = File.Exists(project.Patch) ? project.Patch : null;
-
-                try { channel_name.Text = project.ChannelTitles[1]; } catch { }
-                try { banner_form.title.Text = project.BannerTitle; } catch { }
-                try { banner_form.released.Value = project.BannerYear; } catch { }
-                try { banner_form.players.Value = project.BannerPlayers; } catch { }
-
-                var pjReg = File.Exists(project.OfflineWAD) ? RegToInt(project.BannerRegion) + 1 : project.OnlineWAD.Region;
-                try { banner_form.region.SelectedIndex = pjReg; }
-                catch { banner_form.region.SelectedIndex = 0; }
-                finally {
-                    linkSaveDataTitle();
-                    resetImages(true);
-                }
-
-                try { savedata.title.Text = project.SaveDataTitle[0]; } catch { }
-                try { savedata.subtitle.Text = project.SaveDataTitle.Length > 1 && savedata.subtitle.Enabled ? project.SaveDataTitle[1] : null; } catch { }
-                try { title_id.Text = project.TitleID; } catch { }
-                try { genre.Text = project.Genre; } catch { }
-
-                try { injection_methods.SelectedIndex = project.InjectionMethod; } catch { }
-                try { multifile_software.Checked = project.IsMultifile; } catch { }
-                try { image_interpolation_mode.SelectedIndex = project.ImageOptions.Item1; } catch { }
-                try { image_resize0.Checked = !project.ImageOptions.Item2; } catch { }
-                try { image_resize1.Checked = project.ImageOptions.Item2; } catch { }
-                try { region.SelectedIndex = project.WADRegion; } catch { }
-                try { video_mode.SelectedIndex = project.VideoMode; } catch { }
-                try { wiiu_display.SelectedIndex = project.WiiUDisplay; } catch { }
-
-                if (contentOptionsForm != null) {
-                    contentOptionsForm.Options = project.ContentOptions;
-                    contentOptionsForm.UsesKeymap = project.Keymap.Enabled;
-                    contentOptionsForm.Keymap = project.Keymap.List;
-                }
-
-                LoadImage();
-                LoadManual(project.Manual.Type, project.Manual.File);
-                banner_form.LoadSound(project.Sound);
-                setFilesText();
-                return project != null;
-            }
-            catch (Exception ex) {
-                MessageBox.Show($"Error loading project: {ex.Message}", "Error", MessageBox.Buttons.Ok, MessageBox.Icons.Warning);
-                return false;
-            }
         }
 
         // -----------------------------------
@@ -1394,10 +1308,11 @@ namespace FriishProduce
 
             string TITLEID = title_id.Text.ToUpper();
 
-            string GENRE = genre.Text;
-            if (string.IsNullOrWhiteSpace(GENRE)) GENRE = "GENRE";
-
             string PLATFORM = TargetPlatform.ToString();
+
+            Logger.Log($"PLATFORM: {PLATFORM}");
+            string GENRE = PLATFORM == "Flash" ? "Flash" : genre.Text;
+            if (string.IsNullOrWhiteSpace(GENRE)) GENRE = "Unknown";
 
             string REGION = region.SelectedItem.ToString() == Program.Lang.String("region_j") ? "JPN"
                           : region.SelectedItem.ToString() == Program.Lang.String("region_u") ? "USA"
@@ -1933,9 +1848,12 @@ namespace FriishProduce
             rom.FilePath = ROMpath;
             getUniqueTID();
             patch = null;
-
             Program.MainForm.toolbarGameScan.Enabled = Program.MainForm.game_scan.Enabled = ToolbarButtons[1];
-            if (rom != null && AutoScan && ToolbarButtons[1]) GameScan(false);
+
+            if (rom != null) {
+                if (AutoScan && ToolbarButtons[1]) GameScan(false);
+                else if (string.IsNullOrEmpty(genre.Text)) GetDbGenre();
+            }
             setFilesText();
         }
 
@@ -2141,7 +2059,6 @@ namespace FriishProduce
 
         private void LocSaveBanner(string path) {
             if (string.IsNullOrEmpty(path) || !Program.Config.application.locsave_banner) return;
-
             try {
                 string locsaveDir = Program.Config.application.locsave_banner_tb;
                 string bannersDir = string.IsNullOrEmpty(locsaveDir) ? PathConstants.DefaultLocSaveBanners : locsaveDir;
@@ -2149,17 +2066,15 @@ namespace FriishProduce
                 if (!Directory.Exists(bannersDir))
                     Directory.CreateDirectory(bannersDir);
 
-                using (System.Net.WebClient cl = new System.Net.WebClient()) {
-                    string fileName = Path.GetFileName(new Uri(path).LocalPath);
-                    string localPath = Path.Combine(bannersDir, fileName);
+                using System.Net.WebClient cl = new();
+                string fileName = Path.GetFileName(new Uri(path).LocalPath);
+                string localPath = Path.Combine(bannersDir, fileName);
 
-                    if (!File.Exists(localPath)) {
-                        Logger.Log($"Downloading banner image:\n{path}");
-                        cl.DownloadFile(path, localPath);
-                    }
-                    else
-                        Logger.Log($"Skipping banner download, already stored locally");
-                }
+                string skip = "Skipping banner download, already stored locally";
+                Logger.Log(!File.Exists(localPath) ? $"Downloading banner image:\n{path}" : skip);
+
+                if (!File.Exists(localPath))
+                    cl.DownloadFile(path, localPath);
             }
             catch (Exception ex) {
                 Logger.Log($"[ERROR] Failed to fetch banner image {path}: {ex.Message}");
@@ -2172,7 +2087,7 @@ namespace FriishProduce
         /// <param name="platform"></param>
         /// <param name="path">The ROM/ISO path.</param>
         /// <returns></returns>
-        protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path)
+        protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path, bool genreOnly = false)
         {
             Logger.Log($"#GetGameData()-> Processing '{path}' for platform {platform}");
 
@@ -2196,7 +2111,8 @@ namespace FriishProduce
             //      then notify user if downloading or moving on to fetch game data
             bool dldb = Databases.LibRetro.IsWeb(platform);
             if (dldb) Web.InternetTest();
-            Program.MainForm.Wait(dldb ? $"Downloading '{platform}' database..." : "Attempting to fetch game data!");
+            string fetching = $"Attempting to fetch game {(genreOnly ? " genre!" : " data!")}";
+            Program.MainForm.Wait(dldb ? $"Downloading '{platform}' database..." : fetching);
 
             // attempt CRC match
             var result = Databases.LibRetro.Read(path, platform);
@@ -2207,7 +2123,7 @@ namespace FriishProduce
                 if (result.Name.Contains(", The"))
                     result.Name = "The " + result.Name.Replace(", The", string.Empty);
 
-                if (!string.IsNullOrEmpty(result.Image) && Program.Config.application.locsave_banner)
+                if (!genreOnly && !string.IsNullOrEmpty(result.Image) && Program.Config.application.locsave_banner)
                     LocSaveBanner(result.Image);
                 return result;
             }
@@ -2228,82 +2144,110 @@ namespace FriishProduce
                 return (null, null, null, null, null, null, false);
             }
 
-            string name = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null;
-            string serial = row.Table.Columns.Contains("serial") ? row["serial"]?.ToString() : null;
-            string year = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null;
-            string players = row.Table.Columns.Contains("users") ? row["users"]?.ToString() : null;
-            string image = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null;
-            string genre = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null;
+            var data = new Dictionary<string, string> {
+                ["name"] = row.Table.Columns.Contains("name") ? row["name"]?.ToString() : null,
+                ["serial"] = row.Table.Columns.Contains("serial") ? row["serial"]?.ToString() : null,
+                ["year"] = row.Table.Columns.Contains("releaseyear") ? row["releaseyear"]?.ToString() : null,
+                ["players"] = row.Table.Columns.Contains("users") ? row["users"]?.ToString() : null,
+                ["image"] = row.Table.Columns.Contains("image") ? row["image"]?.ToString() : null,
+                ["genre"] = row.Table.Columns.Contains("db_genre") ? row["db_genre"]?.ToString() : null
+            };
+            if (!string.IsNullOrEmpty(region) && !string.IsNullOrEmpty(data["name"]) && !data["name"].Contains(region))
+                data["name"] += $" ({region})";
 
-            if (!string.IsNullOrEmpty(region) && name != null && !name.Contains(region))
-                name += $" ({region})";
+            if (!string.IsNullOrEmpty(data["name"])) {
+                data["name"] = System.Text.RegularExpressions.Regex
+                    .Replace(data["name"].Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
+                data["name"] = data["name"].Contains(", The") ? "The " + data["name"].Replace(", The", "") : data["name"];
+            }
 
-            name = System.Text.RegularExpressions.Regex.Replace(name?.Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
-            if (name.Contains(", The")) name = "The " + name.Replace(", The", string.Empty);
+            bool complete = data.Where(kvp => kvp.Key != "serial").All(kvp => !string.IsNullOrEmpty(kvp.Value));
+            if (genreOnly && !string.IsNullOrEmpty(data["genre"]))
+                complete = true;
+            else if (platform == Platform.C64 || platform == Platform.PCECD)
+                complete = !string.IsNullOrEmpty(data["name"]) && !string.IsNullOrEmpty(data["image"]);
 
-            bool complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(players) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(image);
-            if (platform == Platform.C64 || platform == Platform.PCECD)
-                complete = !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(image);
-            
-            if (!string.IsNullOrEmpty(image) && Program.Config.application.locsave_banner)
-                LocSaveBanner(image);
+            if (!genreOnly && !string.IsNullOrEmpty(data["image"]) && Program.Config.application.locsave_banner)
+                LocSaveBanner(data["image"]);
 
-            Logger.Log($"#GetGameData()-> Filename match successful for '{fileName}' -> '{name}'");
-            return (name, serial, year, players, image, FormatGenre(genre), complete);
+            Logger.Log($"#GetGameData()-> Filename match successful for '{fileName}' -> '{data["name"]}'");
+            return (data["name"], data["serial"], data["year"], data["players"], data["image"], FormatGenre(data["genre"]), complete);
         }
 
+        /// <summary>
+        ///     Calls #GetGameData to fetch any valid database values and attempt to apply them
+        ///         Updates any relevant elements (text boxes, banner image)
+        /// </summary>
+        /// <param name="imageOnly">Determines if we should fetch *only* the banner image</param>
         public async void GameScan(bool imageOnly) {
-            if (rom == null || rom.FilePath == null) return;
+            if (rom?.FilePath == null) return;
             try {
-                (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) gameData = (null, null, null, null, null, null, false);
-                await Task.Run(() => { gameData = GetGameData(TargetPlatform, rom.FilePath); });
+                var gameData = await Task.Run(() => GetGameData(TargetPlatform, rom.FilePath));
                 bool retrieved = imageOnly ? !string.IsNullOrEmpty(gameData.Image) : gameData != (null, null, null, null, null, null, false);
 
-                if (retrieved) {
-                    if (!imageOnly) {
-                        // Set banner title
-                        banner_form.title.Text = gameData.Name ?? banner_form.title.Text;
-
-                        // Set channel title text
-                        var titleParts = !string.IsNullOrEmpty(gameData.Name)
-                            ? gameData.Name.Replace("\r", "").Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>();
-                        var title = (titleParts.Length > 0 ? titleParts[0] : "Unknown");
-                        channel_name.Text = title.Length <= channel_name.MaxLength ? title : channel_name.Text;
-
-                        // Set genre text
-                        var genreParts = !string.IsNullOrEmpty(gameData.Genre)
-                            ? gameData.Genre.Replace("\r", "").Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>();
-                        var dbGenre = (genreParts.Length > 0 ? genreParts[0] : "Unknown");
-                        genre.Text = dbGenre.Length <= genre.MaxLength ? dbGenre : genre.Text;
-                        
-                        // Set year and players
-                        banner_form.released.Value = !string.IsNullOrEmpty(gameData.Year) ? int.Parse(gameData.Year) : banner_form.released.Value;
-                        banner_form.players.Value = !string.IsNullOrEmpty(gameData.Players) ? int.Parse(gameData.Players) : banner_form.players.Value;
-
-                        linkSaveDataTitle();
-                    }
-                    if (!string.IsNullOrEmpty(gameData.Image))
-                        await Task.Run(() => { LoadImage(gameData.Image); });
-
-                    await Task.Run(() => { resetImages(true); });
+                if (retrieved && !imageOnly) {
+                    banner_form.title.Text = gameData.Name ?? banner_form.title.Text;
+                    channel_name.Text = GetDbString(gameData.Name, channel_name);
+                    genre.Text = GetDbString(gameData.Genre, genre);
+                    banner_form.released.Value = int.TryParse(gameData.Year, out int year) ? year : banner_form.released.Value;
+                    banner_form.players.Value = int.TryParse(gameData.Players, out int ply) ? ply : banner_form.players.Value;
+                    linkSaveDataTitle();
                 }
+                // Load image if present
+                if (retrieved && !string.IsNullOrEmpty(gameData.Image))
+                    await Task.Run(() => LoadImage(gameData.Image));
+
+                await Task.Run(() => resetImages(true));
+                SystemSounds.Beep.Play();
                 Program.MainForm.Wait(false, false, false);
 
-                // Show message if partially failed to retrieve data
-                if (retrieved && !gameData.IsComplete && !imageOnly)
-                    MessageBox.Show(Program.Lang.Msg(4));
-                else if (!retrieved)
-                    SystemSounds.Beep.Play();
+                if (!gameData.IsComplete && !imageOnly) {
+                    var mgd = new Dictionary<string, bool> {
+                        { "Title", string.IsNullOrEmpty(gameData.Name) || gameData.Name   == "Unknown" },
+                        { "Genre", string.IsNullOrEmpty(gameData.Genre) || gameData.Genre  == "Unknown" },
+                        { "Date", string.IsNullOrEmpty(gameData.Year) },
+                        { "Players", string.IsNullOrEmpty(gameData.Players) },
+                        { "Banner Image", string.IsNullOrEmpty(gameData.Image) }
+                    };
+                    var missingKeys = mgd.Where(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
+                    if (missingKeys.Any()) {
+                        var translations = await Task.WhenAll(missingKeys.Select(key => GoogleTrans.PrefTranslate(key)));
+                        MessageBox.Show(Program.Lang.Msg(4) + "  • " + string.Join("\n  • ", translations));
+                    }
+                }
             }
             catch (Exception ex) {
                 Program.MainForm.Wait(false, false, false);
-
-                if (Program.DebugMode)
-                    throw ex;
-                else
-                    MessageBox.Error(ex.Message);
-                return;
+                if (Program.DebugMode) throw;
+                else MessageBox.Error(ex.Message);
             }
+        }
+
+        /// <summary>
+        ///     Fetches only the genre for the current ROM and updates the text box
+        /// </summary>
+        public async void GetDbGenre() {
+            if (rom?.FilePath == null) return;
+            try {
+                var gameData = await Task.Run(() => GetGameData(TargetPlatform, rom.FilePath, true));
+                genre.Text = string.IsNullOrEmpty(genre.Text) ? GetDbString(gameData.Genre, genre) : genre.Text;
+                await Task.Run(() => resetImages(true)); // cosmetic, and slight pause allows reading
+                Program.MainForm.Wait(false, false, false);
+            }
+            catch (Exception ex) {
+                if (Program.DebugMode) throw;
+                else MessageBox.Error(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the first line of a database string for their text boxes
+        /// </summary>
+        private string GetDbString(string dbData, TextBox tb) {
+            var parts = string.IsNullOrEmpty(dbData)
+                ? Array.Empty<string>() : dbData.Replace("\r", "").Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string result = parts.Length > 0 ? parts[0] : "Unknown";
+            return result.Length <= tb.MaxLength ? result : tb.Text;
         }
 
         public void SaveToWAD(string targetFile = null) => backgroundWorker.RunWorkerAsync(targetFile);

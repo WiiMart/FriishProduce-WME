@@ -92,7 +92,7 @@
 			"001": "{0} has unsaved changes.\nSave this project?",
 			"002": "The file you have selected is of an invalid format.",
 			"003": "Successfully completed.\nOpen the output folder?",
-			"004": "Unable to retrieve all game data for the selected software.\nSome fields may need to be filled manually.",
+			"004": "Unable to retrieve all game data for the selected software.\nThe following fields may need to be filled manually:\n",
 			"005": "The WAD you have selected (title ID: {0}) is invalid.\nThis could be for any of the following reasons:\n  • The currently-selected console does not match that used by the WAD.\n  • The WAD is not yet available in the database.\n  • The WAD has already been modified (i.e. injected or converted to a forwarder).",
 			"006": "You can replace the original Virtual Console game's Operations Guide manual.\nTo do this, you need a ZIP containing the extracted/modified contents of a manual .arc from a VC WAD.",
 			"007": "The selected Virtual Console manual archive is invalid.",

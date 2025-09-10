@@ -92,7 +92,7 @@
 			"001":								"{0} hat ungespeicherte Änderungen.\nProjekt speichern?",
 			"002":								"Die ausgewählte Datei hat ein ungültiges Format.",
 			"003":								"Erfolgreich abgeschlossen.\nAusgabeordner öffnen?",
-			"004":								"Es konnten nicht alle Spieldaten für die ausgewählte Software abgerufen werden.\nEinige Felder müssen möglicherweise manuell ausgefüllt werden.",
+			"004":								"Es konnten nicht alle Spieldaten für die ausgewählte Software abgerufen werden.\nThe following fields may need to be filled manually:\n",
 			"005":								"Das ausgewählte WAD (Titel-ID: {0}) ist ungültig.\nDies kann folgende Gründe haben:\n  • Die derzeit ausgewählte Konsole stimmt nicht mit der des WAD überein.\n  • Das WAD ist noch nicht in der Datenbank verfügbar.\n  • Das WAD wurde bereits geändert (z. B. injiziert oder in einen Forwarder umgewandelt).",
 			"006":								"Sie können das Originalhandbuch des Virtual Console-Spiels ersetzen.\nDazu benötigen Sie eine ZIP-Datei mit den extrahierten/geänderten Inhalten einer .arc-Handbuchdatei aus einem VC-WAD.",
 			"007":								"Das ausgewählte Virtual Console-Handbucharchiv ist ungültig.",

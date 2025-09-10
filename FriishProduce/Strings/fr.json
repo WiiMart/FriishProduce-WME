@@ -92,7 +92,7 @@
 			"001": "«{0}» comporte des modifications non enregistrées.\nEnregistrer ce projet ?",
 			"002": "Le fichier précisé est invalide.",
 			"003": "Terminé avec succès.\nOuvrir le dossier de sortie ?",
-			"004": "Impossible de charger tous les informations de ce logiciel (nom, année de sortie ou joueurs) à partir de la bibliothèque des jeux.\nCertaines informations doivent être spécifiées manuellement.",
+			"004": "Impossible de charger tous les informations de ce logiciel (nom, année de sortie ou joueurs) à partir de la bibliothèque des jeux.\nThe following fields may need to be filled manually:\n",
 			"005": "Le fichier WAD que vous avez précisée ({0}) est invalide.\nCeci peut être provoqué par l'une des raisons suivantes :\n  • La plateforme/console cible ne correspond pas à celle de la chaîne sélectionnée.\n  • La chaîne n'est pas encore disponible dans la base des données de cette application.\n  • La chaîne était déjà modifiée (soit injectée, soit convertie en forme du forwarder).",
 			"006": "Vous pouvez replacer les fichier du mode d'emploi inclus dans la chaîne de Console virtuelle par des autres externes, soit personnalisés.\nPour ce faire, vous aurez besoin d'une archive ZIP comprenant le contenu d'un fichier *.arc du mode d'emploi de Console virtuelle.",
 			"007": "L'archive précisée est invalide.",
