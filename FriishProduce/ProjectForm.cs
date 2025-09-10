@@ -437,20 +437,31 @@ namespace FriishProduce
             0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
         };
 
+        private static string NormalizeRegion(string region) {
+            if (string.IsNullOrEmpty(region)) return "";
+
+            var replacements = new List<(string from, string to)> {
+                ("America", "USA"), ("United States", "USA"), ("Europe/Australia", "Europe"), ("Republic of Korea", "Korea")
+            };
+            replacements.ForEach(reg => region = region.Replace(reg.from, reg.to));
+            return region.Trim();
+        }
+
         public static List<string> GetRegConflictSrcs(params string[] regions) {
-            string baseRegion = regions[2].Replace("America", "USA");
+            string banner = NormalizeRegion(regions[0]);
+            string channel = NormalizeRegion(regions[1]);
+            string baseRegion = NormalizeRegion(regions[2]);
             string[] wildcards = { "Original", "Automatic" };
             var conflicts = new List<string>();
 
             bool Matches(string a, string b) {
-                if (a == "Region-Free" || b == "Region-Free") return false; // always conflict
+                if (a == "Region-Free" || b == "Region-Free") return false; 
                 if (Array.Exists(wildcards, w => w == a) || Array.Exists(wildcards, w => w == b)) return true;
                 return a == b;
             }
-
-            if (!Matches(regions[0], regions[1]) || !Matches(regions[0], baseRegion))
+            if (!Matches(banner, baseRegion))
                 conflicts.Add("Banner");
-            if (!Matches(regions[1], baseRegion))
+            if (!Matches(channel, baseRegion))
                 conflicts.Add("Channel");
 
             return conflicts;
