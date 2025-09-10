@@ -130,55 +130,60 @@ namespace FriishProduce
             return encodings.ToArray();
         }
 
-        public virtual ZipEntry GetZIPEntry(string line, bool searchEndingOnly, bool inclusive, bool caseInsensitive, ZipFile zip = null)
-        {
-            if (zip == null) zip = ZIP;
+        /// <summary>
+        ///     Finds a file in a ZIP by name using Windows1252 or sys default (may just be 1252 as well lol)
+        /// </summary>
+        public virtual ZipEntry GetZIPEntry(string line, bool searchEndingOnly, bool inclusive, bool caseInsensitive, ZipFile zip = null) {
+            zip ??= this.ZIP;
+            if (zip == null) return null; // still invalid after nullable fallback
 
-            foreach (ZipEntry item in zip)
-                if (item.IsFile)
-                {
-                    int index = 0;
+            foreach (ZipEntry item in zip) {
+                if (!item.IsFile) continue; // skip folders
+                int index = 0;
+            NameCheck:
+                try {
+                    // get file name, adjust case if requested
+                    string origName = caseInsensitive ? item.Name.ToLower() : item.Name;
 
-                    NameCheck:
-                    try
-                    {
-                        string origName = caseInsensitive ? item.Name.ToLower() : item.Name;
+                    // convert name using current encoding
+                    byte[] nameBytes = index == 1
+                        ? Encoding.GetEncoding(1252).GetBytes(origName)
+                        : Encoding.Convert(Encoding.Default, Encodings[index], Encoding.Default.GetBytes(origName));
 
-                        byte[] nameBytes = index == 1 ? Encoding.GetEncoding(1252).GetBytes(origName) : Encoding.Convert(Encoding.Default, Encodings[index], Encoding.Default.GetBytes(origName));
-                        string name = Encodings[index].GetString(nameBytes);
+                    string name = Encodings[index].GetString(nameBytes);
 
-                        if ((searchEndingOnly &&
-                            (name.EndsWith(line) || Path.GetFileNameWithoutExtension(name).EndsWith(line)))
-                         || (!searchEndingOnly &&
-                            ((inclusive && name.Contains(line)) || (!inclusive && name == line))))
-                            return item;
-                    }
-                    catch
-                    {
-                        if (index + 1 < Encodings.Length) index++;
-                        else return null;
-                        goto NameCheck;
-                    }
+                    // check if it matches
+                    if ((searchEndingOnly && (name.EndsWith(line) || Path.GetFileNameWithoutExtension(name).EndsWith(line)))
+                        || (!searchEndingOnly && ((inclusive && name.Contains(line)) || (!inclusive && name == line))))
+                        return item;
                 }
-
+                catch {
+                    if (index + 1 < Encodings.Length) {
+                        index++;
+                        goto NameCheck;
+                        // try next encoding
+                    }
+                    else return null;
+                }
+            }
             return null;
         }
 
-        public virtual bool CheckZIPValidity(string[] strings, bool searchEndingOnly, bool caseInsensitive, string path = null)
-        {
-            if (path == null && FilePath != null) path = FilePath;
+        /// <summary>
+        ///     Quick check to see if a ZIP has all the expected entries
+        /// </summary>
+        public virtual bool CheckZIPValidity(string[] strings, bool searchEndingOnly, bool caseInsensitive, string path = null) {
+            if (path == null && FilePath != null) path = FilePath; // used stored file path
             if (!File.Exists(path)) return true;
 
-            using (ZipFile ZIP = new(path))
-            {
-                int applicable = 0;
+            using ZipFile ZIP = new(path);
+            int applicable = 0;
 
-                foreach (string line in strings)
-                    if (GetZIPEntry(line, searchEndingOnly, true, caseInsensitive) != null)
-                        applicable++;
+            foreach (string line in strings)
+                if (GetZIPEntry(line, searchEndingOnly, true, caseInsensitive, ZIP) != null)
+                    applicable++; // count if found
 
-                return applicable >= strings.Length;
-            }
+            return applicable >= strings.Length; // all found?
         }
 
         public bool CheckSize(int length = 0)
