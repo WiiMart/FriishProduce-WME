@@ -94,7 +94,7 @@ namespace FriishProduce
             this.about = new System.Windows.Forms.MenuItem();
             this.tabControl = new JacksiroKe.MdiTabCtrl.TabControl();
             this.vistaMenu = new wyDay.Controls.VistaMenu(this.components);
-            this.new_project_menu = new System.Windows.Forms.ContextMenu();
+            this.new_project_menu = new System.Windows.Forms.ContextMenuStrip();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).BeginInit();
             this.toolStrip.SuspendLayout();
@@ -692,7 +692,7 @@ namespace FriishProduce
         private System.Windows.Forms.MenuItem menuItem12;
         private System.Windows.Forms.MenuItem clear_update;
         private System.Windows.Forms.MenuItem menuItem11;
-        private System.Windows.Forms.ContextMenu new_project_menu;
+        private System.Windows.Forms.ContextMenuStrip new_project_menu;
         private System.Windows.Forms.MenuItem extract_wad_dol;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }

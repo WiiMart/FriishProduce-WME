@@ -110,6 +110,7 @@
 			"b_002": "Probando la conexión a Internet...",
 			"b_003": "Verificando la base de datos de {0}...",
 			"b_004": "Actualización en curso...",
+			"b_005": "Tómese un momento para establecer su [Autor] / [Editor] en Preferencias.",
 			
 			"error": "Se ha producido un error",
 			"e_000": "No se pudo conectar a Internet.\n{0}",

@@ -110,6 +110,7 @@
 			"b_002":							"Internetverbindung wird getestet...",
 			"b_003":							"{0}-Datenbank wird überprüft...",
 			"b_004":							"Aktualisiere...",
+            "b_005":                            "Please take a moment to set your Author/Publisher name in Preferences.",
 			"b_x":								"Drücken Sie Umschalt, um den aktuellen Vorgang abzubrechen.",
 
 			"error":							"Ein Fehler ist aufgetreten",
@@ -171,7 +172,7 @@
             "t_channel_name_l": "{t_channel_name}",
 			"t_warn_ban_reg": "<b><u>Region Conflict:</u></b>\nThe selected <b>Banner Region</b> does not match the selected <b>Base WAD</b> region. This may result in region soft-locking.",
 			"t_warn_ch_reg": "<b><u>Region Conflict:</u></b>\nThe selected <b>Channel Region</b> does not match the selected <b>Base WAD</b> region. This may result in region soft-locking.",
-			"t_warn_vidmode": "<b><u>Region Conflict:</u></b>\nThe selected <b>Video Mode</b> does not match the selected <b>Base WAD</b> region, OR is regionally exclusive to <i>Brazil</i>. This may result in various audio and video issues regarding color spaces and refresh rates in non-native reception formats.",
+			"t_warn_vidmode": "<b><u>Region Conflict:</u></b>\nThe selected <b>Video Mode</b> does not match the selected <b>Base WAD</b> region, <u>or</u> is regionally exclusive to <i>Brazil</i>. This may result in various audio and video issues regarding color spaces and refresh rates in non-native reception formats.",
 			"t_warn_vidgen": "Without Operation Manuals it cannot be changed, and not all Wii Systems or VCs respect the optimal or required refresh rate.<hr>It is recommended to primarily use <i>\"Original\"</i> video mode, or individually <i>\"PAL50\"</i> or <i>\"PAL60\"</i> for PAL regions, and <i>\"NTSC\"</i> for NTSC regions.\n\nIncorrect video modes typically have noticable consequences. This may include but is not limited to:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Adjust as needed</u>.",
 			"t_warn_pal6050": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"PAL60 + PAL50\"</i> is not recommended for use. {t_warn_vidgen}",
 			"t_warn_ntscpal60": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> is not recommended for use. {t_warn_vidgen}",

@@ -123,7 +123,7 @@ namespace FriishProduce
                 bool yes = !string.IsNullOrEmpty(_tID) && _tID.Length == 4
                             && !string.IsNullOrWhiteSpace(channel_name.Text)
                             && !string.IsNullOrEmpty(_bannerTitle)
-                            && (img != null)
+                            && (BannerImg != null)
                             && rom?.FilePath != null
                             && ((use_online_wad.Checked) || (!use_online_wad.Checked && File.Exists(InBaseWAD)));
 
@@ -242,7 +242,7 @@ namespace FriishProduce
             }
         }
         protected string manual { get; set; }
-        protected ImageHelper img { get; set; }
+        protected ImageHelper BannerImg { get; set; }
 
         internal Preview preview = new();
 
@@ -463,7 +463,7 @@ namespace FriishProduce
                 ROM = rom?.FilePath,
                 Patch = patch,
                 Manual = (manual_type.SelectedIndex, manual),
-                Img = (img?.SavePath ?? null, img?.Source ?? null),
+                Img = (BannerImg?.SavePath ?? null, BannerImg?.Source ?? null),
                 ImageOptions = (image_interpolation_mode.SelectedIndex, image_resize1.Checked),
 
                 ContentOptions = contentOptions ?? null,
@@ -926,8 +926,8 @@ namespace FriishProduce
 
                     video_mode.SelectedIndex = project.VideoMode;
 
-                    img = new ImageHelper(project.Platform, null);
-                    img.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
+                    BannerImg = new ImageHelper(project.Platform, null);
+                    BannerImg.LoadImage(!string.IsNullOrEmpty(project.Img.File) ? project.Img.File : project.Img.Bmp);
                     LoadROM(project.ROM, false);
 
                     if (File.Exists(project.OfflineWAD)) {
@@ -1092,17 +1092,26 @@ namespace FriishProduce
                 WadMeta.IntToChReg(region.SelectedIndex),
                 InBaseRegion.ToString(),
                 video_mode.SelectedIndex.ToString(),
-                savedata.Lines[0]
+                savedata.Lines[0],
+                BannerImg?.VCPic != null ? "img" : ""
             };
-            var conflicts = WadMeta.GetRegConflictSrcs(matchParams);
-            warn_ban_reg.Visible = conflicts.Contains(WadMeta.BNR_WARN_TAG);
+            var conflicts = WadMeta.GetConflictSrcs(matchParams);
+            bool regConflict = conflicts.Contains(WadMeta.BNR_REG_WARN);
+            bool imgConflict = conflicts.Contains(WadMeta.BNR_IMG_WARN);
+
+            warn_ban_reg.Visible = regConflict || imgConflict;
             warn_ban_reg.BringToFront();
-            warn_ch_reg.Visible = conflicts.Contains(WadMeta.CHL_WARN_TAG);
+            warn_ch_reg.Visible = conflicts.Contains(WadMeta.CHL_REG_WARN);
             warn_ch_reg.BringToFront();
-            warn_vidmode.Visible = conflicts.Contains(WadMeta.VDM_WARN_TAG);
+            warn_vidmode.Visible = conflicts.Contains(WadMeta.VDM_WARN);
             warn_vidmode.BringToFront();
-            warn_savetitle.Visible = conflicts.Contains(WadMeta.SVT_WARN_TAG);
+            warn_savetitle.Visible = conflicts.Contains(WadMeta.SVT_WARN);
             warn_savetitle.BringToFront();
+
+            if (imgConflict)
+                Program.Lang.PrependToolTip(tip, warn_ban_reg, "<b>[Missing Banner Image]</b><hr>", includeBase: regConflict);
+            else if (regConflict)
+                Program.Lang.ToolTip(tip, warn_ban_reg);
         }
 
         public bool[] ToolbarButtons
@@ -1361,8 +1370,8 @@ namespace FriishProduce
                 rom = null;
                 channels = null;
 
-                if (img != null) img.Dispose();
-                img = null;
+                if (BannerImg != null) BannerImg.Dispose();
+                BannerImg = null;
 
                 if (contentOptionsForm != null) contentOptionsForm.Dispose();
                 contentOptionsForm = null;
@@ -1663,14 +1672,14 @@ namespace FriishProduce
 
         protected void LoadImage()
         {
-            if (img != null) LoadImage(img.Source);
+            if (BannerImg != null) LoadImage(BannerImg.Source);
             else ValueChanged(null, new EventArgs());
         }
 
         protected void LoadImage(string path)
         {
-            img = new ImageHelper(TargetPlatform, path);
-            LoadImage(img.Source);
+            BannerImg = new ImageHelper(TargetPlatform, path);
+            LoadImage(BannerImg.Source);
         }
 
         #region /////////////////////////////////////////////// Inheritable functions ///////////////////////////////////////////////
@@ -1705,12 +1714,12 @@ namespace FriishProduce
                     break;
             }
 
-            img.Generate(bmp ?? src);
+            BannerImg.Generate(bmp ?? src);
         }
 
         private Bitmap cloneImage(Bitmap src)
         {
-            try { return (Bitmap)src.Clone(); } catch { try { return (Bitmap)img?.Source.Clone(); } catch { return null; } }
+            try { return (Bitmap)src.Clone(); } catch { try { return (Bitmap)BannerImg?.Source.Clone(); } catch { return null; } }
         }
         #endregion
 
@@ -1718,7 +1727,7 @@ namespace FriishProduce
         {
             banner.Image = preview.Banner
                 (
-                    img?.VCPic,
+                    BannerImg?.VCPic,
                     banner_form.title.Text,
                     (int)banner_form.released.Value,
                     (int)banner_form.players.Value,
@@ -1728,7 +1737,7 @@ namespace FriishProduce
 
             if (!bannerOnly)
             {
-                savedata.Picture.Image = img?.SaveIcon();
+                savedata.Picture.Image = BannerImg?.SaveIcon();
             }
         }
 
@@ -1740,12 +1749,12 @@ namespace FriishProduce
             {
                 Invoke(new MethodInvoker(delegate
                 {
-                    img.InterpMode = (InterpolationMode)image_interpolation_mode.SelectedIndex;
-                    img.FitAspectRatio = image_resize1.Checked;
+                    BannerImg.InterpMode = (InterpolationMode)image_interpolation_mode.SelectedIndex;
+                    BannerImg.FitAspectRatio = image_resize1.Checked;
 
                     platformImageFunction(src);
 
-                    if (img.Source != null)
+                    if (BannerImg.Source != null)
                     {
                         resetImages();
                         ValueChanged(null, new EventArgs());
@@ -2223,7 +2232,7 @@ namespace FriishProduce
                 Method m = new(TargetPlatform) {
                     ROM = rom,
                     Patch = patch,
-                    Img = img,
+                    Img = BannerImg,
 
                     ChannelTitles = _channelTitles,
                     BannerTitle = _bannerTitle,

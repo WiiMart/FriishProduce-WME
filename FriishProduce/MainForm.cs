@@ -21,8 +21,10 @@ namespace FriishProduce
 
         protected override void OnShown(EventArgs e) {
             base.OnShown(e);
-            if (Program.Config.application.publisher_opt_tb == "Username")
-                MessageBox.Show("Please take a moment to set your Author/Publisher name in Preferences.");
+            // author / publisher message
+            string pub = Program.Config.application.publisher_opt_tb;
+            if (string.IsNullOrEmpty(pub) || pub == "Username")
+                MessageBox.Show(Program.Lang.Msg(5, 2));
         }
 
         #region //////////////////// Platforms ////////////////////
@@ -151,11 +153,16 @@ namespace FriishProduce
 
             #endregion
 
-            var items = platformsMenuItemList();
+            /*var items = platformsMenuItemList();
             new_project.MenuItems.Clear();
             new_project.MenuItems.AddRange(items.Items);
             new_project_menu.MenuItems.Clear();
-            new_project_menu.MenuItems.AddRange(platformsMenuItemList().Items);
+            new_project_menu.MenuItems.AddRange(platformsMenuItemList().Items);*/
+
+            // hmm, for now restore legacy icons...?
+            var items = platformsStripItemList();
+            new_project_menu.Items.Clear();
+            new_project_menu.Items.AddRange(items);
 
             // -- System icons --
             /* for (int i = 0; i < new_project.MenuItems.OfType<MenuItem>().Count(); i++)
@@ -297,7 +304,8 @@ namespace FriishProduce
         private void OpenNewProjectTypes(object sender, EventArgs e) {
             int x = Cursor.Position.X - Left - (Width - ClientSize.Width) + 8;
             int y = Cursor.Position.Y - Top - (Height - ClientSize.Height) + 8;
-            new_project_menu.Show(toolStrip, new(x, y), LeftRightAlignment.Right);
+            //new_project_menu.Show(toolStrip, new(x, y), LeftRightAlignment.Right);
+            new_project_menu.Show(toolStrip, new Point(x, y), ToolStripDropDownDirection.BelowRight);
         }
 
         /// <summary>

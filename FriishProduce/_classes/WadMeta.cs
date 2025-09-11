@@ -36,7 +36,7 @@ namespace FriishProduce
         ///     Used to determine which WAD inject conflicts exists
         /// </summary>
         public static readonly string 
-            BNR_WARN_TAG = "$BANNER", CHL_WARN_TAG = "$CHANNEL", VDM_WARN_TAG = "$VIDMODE", SVT_WARN_TAG = "$SAVETITLE";
+            BNR_REG_WARN = "$BNRREG", BNR_IMG_WARN = "$BNRIMG", CHL_REG_WARN = "$CHLREG", VDM_WARN = "$VDM", SVT_WARN = "$SVT";
 
         /// <summary>
         ///     Video mode array for 'pretty' printing
@@ -112,13 +112,14 @@ namespace FriishProduce
         ///     Compare base, banner, and channel regions after 'normalizing' the strings
         ///         Uses #NormalizeRegions() to replace occurences in a List with their shortforms for consistent matching
         /// </summary>
-        public static List<string> GetRegConflictSrcs(params string[] matchParams) {
+        public static List<string> GetConflictSrcs(params string[] matchParams) {
             string banner = NormalizeRegion(matchParams.ElementAtOrDefault(0) ?? "");
             string channel = NormalizeRegion(matchParams.ElementAtOrDefault(1) ?? "");
             string baseRegion = matchParams.ElementAtOrDefault(2) ?? "";
             string baseRegionTxt = NormalizeRegion(baseRegion);
             int vidMode = (int.TryParse(matchParams.ElementAtOrDefault(3), out var idx) ? idx : -1);
             string saveTitle = matchParams.ElementAtOrDefault(4) ?? "";
+            string bannerImg = matchParams.ElementAtOrDefault(5) ?? "";
             string[] wildcards = { "Original", "Automatic" };
 
             bool Matches(string lhs, string rhs) {
@@ -127,10 +128,11 @@ namespace FriishProduce
                 return lhs == rhs;
             }
             var conflictMap = new (string tag, bool condition)[] {
-                (BNR_WARN_TAG, !Matches(banner, baseRegionTxt)),
-                (CHL_WARN_TAG, !Matches(channel, baseRegionTxt)),
-                (VDM_WARN_TAG, vidMode >= 0 && HasVidModeConflict(vidMode, VidModeToRegion(baseRegion))),
-                (SVT_WARN_TAG, string.IsNullOrEmpty(saveTitle))
+                (BNR_REG_WARN, !Matches(banner, baseRegionTxt)),
+                (CHL_REG_WARN, !Matches(channel, baseRegionTxt)),
+                (VDM_WARN, vidMode >= 0 && HasVidModeConflict(vidMode, VidModeToRegion(baseRegion))),
+                (SVT_WARN, string.IsNullOrEmpty(saveTitle)),
+                (BNR_IMG_WARN, string.IsNullOrEmpty(bannerImg))
             };
             return conflictMap.Where(c => c.condition).Select(c => c.tag).ToList();
         }
@@ -139,7 +141,7 @@ namespace FriishProduce
         ///     Checks if there are *any* region conflicts in the string array
         ///         (arr should consist of banner, channel, and base wad regions)
         /// </summary>
-        public static bool HasRegConflict(params string[] regions) => GetRegConflictSrcs(regions).Count > 0;
+        public static bool HasRegConflict(params string[] regions) => GetConflictSrcs(regions).Count > 0;
 
         /// <summary>
         ///     Compares the VidModes string array to the selected video mode to find any conflicts with WAD region 

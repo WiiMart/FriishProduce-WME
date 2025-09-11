@@ -312,43 +312,73 @@ namespace FriishProduce
         }
 
         /// <summary>
-        /// Returns the localized name of a console/platform.
+        ///     Returns the localized name of a console/platform.
         /// </summary>
         public string Console(Platform c) => String(c.ToString().ToLower(), "platforms");
 
         /// <summary>
-        /// Returns a localized message string from the corresponding ID.
+        ///     Returns a localized message string from the corresponding ID and type
+        ///         if type is included, prepends a key prefix
         /// </summary>
-        /// <param name="isError">Determines if the message should be drawn from the errors or busy category instead. 0 = Normal / 1 = Error / 2 = Busy</param>
-        public string Msg(int number, int type = 0) => String((type == 1 ? "e_" : type == 2 ? "b_" : null) + number.ToString("000"), "messages");
+        public string Msg(int number, int type = 0) 
+            => String((type == 1 ? "e_" : type == 2 ? "b_" : null) + number.ToString("000"), "messages");
 
-        public string Format((string name, string sectionName) parent, params object[] args) => string.Format(String(parent.name, parent.sectionName), args);
+        public string Format((string name, string sectionName) parent, params object[] args) 
+            => string.Format(String(parent.name, parent.sectionName), args);
 
-        public string HTML(int number, bool isTooltip, string title = null) => html(String((isTooltip ? "t_" : null) + number.ToString("000"), "html"), title);
+        public string HTML(int number, bool isTooltip, string title = null) 
+            => html(String((isTooltip ? "t_" : null) + number.ToString("000"), "html"), title);
 
-        public void ToolTip(HtmlToolTip tip, Control control, string name = null, string title = null, string unsure = null)
-        {
+        /// <summary>
+        ///     Core tooltip builder, reused by ToolTip, AppendToolTip, PrependToolTip
+        /// </summary>
+        private void BuildToolTip(HtmlToolTip tip, Control control, string extraText = null,
+            bool includeBase = true, bool prepend = false, string name = null, string title = null, string unsure = null) {
+
             if (control == null || tip == null) return;
+            name ??= control.Name;
+            string text = includeBase ? String("t_" + name, "html") : "";
 
-            if (name == null) name = control.Name;
+            if (!string.IsNullOrWhiteSpace(unsure))
+                text += $"\n\n<b>{string.Format(String("t_unsure", "html"), unsure)}";
 
-            string text = String("t_" + name, "html");
-            if (!string.IsNullOrWhiteSpace(unsure)) text += $"\n\n<b>{string.Format(String("t_unsure", "html"), unsure)}";
-
+            if (!string.IsNullOrWhiteSpace(extraText)) {
+                if (prepend)
+                    text = extraText + (!string.IsNullOrEmpty(text) ? "\n" + text : "");
+                else
+                    text += (!string.IsNullOrEmpty(text) ? "\n" : "") + extraText;
+            }
             tip.SetToolTip(control, html(text, title));
         }
 
-        public void GetToolTip(HtmlToolTip tip, Control control, string text, string name = null) {
-            if (control == null || tip == null) return;
-            text = String("t_" + control.Name, "html");
-            tip.SetToolTip(control, html(text, name));
-        }
+        /// <summary>
+        ///     Default tooltip
+        /// </summary>
+        public void ToolTip(HtmlToolTip tip, Control control, string name = null, string title = null, string unsure = null)
+            => BuildToolTip(tip, control, name: name, title: title, unsure: unsure);
+
+        /// <summary>
+        ///     Tooltip with *appendable* text (added after existing? tooltip)
+        /// </summary>
+        public void AppendToolTip(HtmlToolTip tip, Control control, string extraText, bool includeBase = true, string name = null, string title = null)
+            => BuildToolTip(tip, control, extraText, includeBase, prepend: false, name: name, title: title);
+
+        /// <summary>
+        ///     Tooltip with *prependable* text (added before existing? tooltip)
+        /// </summary>
+        public void PrependToolTip(HtmlToolTip tip, Control control, string extraText, bool includeBase = true, string name = null, string title = null)
+            => BuildToolTip(tip, control, extraText, includeBase, prepend: true, name: name, title: title);
+
+        /// <summary>
+        ///     Returns a localized tooltip string from the corresponding lang json for a control
+        /// </summary>
+        public void GetToolTip(HtmlToolTip tip, Control control, string text, string name = null)
+            => tip?.SetToolTip(control, html(String("t_" + control?.Name, "html"), name));
 
         /// <summary>
         /// Returns a localized string which changes depending on a boolean condition. This is the name of the string suffixed with "0" if false, or "1" if true.
         /// </summary>
-        public string Toggle(bool activated, string name, string sectionName = "")
-        {
+        public string Toggle(bool activated, string name, string sectionName = "") {
             if (activated && StringCheck(name + "1", sectionName)) return String(name + "1", sectionName);
             if (!activated && StringCheck(name + "0", sectionName)) return String(name + "0", sectionName);
             return String(name, sectionName);
