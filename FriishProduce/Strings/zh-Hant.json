@@ -169,8 +169,13 @@
 			"t_locsave_banner_tb": "{t_locsave_banner}",
 			"t_locsave_wad_tb": "{t_locsave_wad}",
 			"t_channel_name_l": "{t_channel_name}",
-			"t_warn_ban_reg": "所選的橫幅區域與所選的頻道區域、基礎 WAD 區域或兩者都不匹配。",
-			"t_warn_ch_reg": "所選的頻道區域與所選的橫幅區域、基礎 WAD 區域或兩者都不匹配。"
+			"t_warn_ban_reg": "<u>區域衝突：</u>\n所選 [橫幅區域] 與所選 [Base WAD] 區域不相符。這可能導致區域軟鎖定。",
+			"t_warn_ch_reg": "<u>區域衝突：</u>\n所選 [頻道區域] 與所選 [Base WAD] 區域不相符。這可能導致區域軟鎖定。",
+			"t_warn_vidmode": "<u>區域衝突：</u>\n所選 [影像模式] 與所選 [Base WAD] 區域不相符，或僅在 <i>巴西</i> 地區使用。這可能導致非原生顯示格式下的音訊與影像問題，例如色彩空間與刷新率不正確。",
+			"t_warn_vidgen": "若無使用手冊，無法修改，且並非所有 Wii 系統或 VC 都會遵循最佳或要求的刷新率。<hr>建議主要使用 <i>\"Original\"</i> 影像模式，或對 PAL 地區個別使用 <i>\"PAL50\"</i> 或 <i>\"PAL60\"</i>，對 NTSC 地區使用 <i>\"NTSC\"</i>。\n\n不正確的影像模式通常會造成明顯影響，包括但不限於：\n<i>  • 視訊/音訊快轉\n  • 視訊/音訊慢動作\n  • 影像卡頓或截斷</i>\n<u>視需要進行調整</u>。",
+			"t_warn_pal6050": "<u>警告：</u>\n所選 [影像模式] <i>\"PAL60 + PAL50\"</i> 不建議使用。{t_warn_vidgen}",
+			"t_warn_ntscpal60": "<u>警告：</u>\n所選 [影像模式] <i>\"NTSC + PAL60\"</i> 不建議使用。{t_warn_vidgen}",
+			"t_warn_savetitle": "<u>匯出衝突：</u>\n[儲存資料] 已啟用，但 <i>儲存資料標題</i> 為空或無效。使用儲存資料的頻道 [必須] 有有效的 <i>儲存資料標題</i>。"
 		}
 	},
 

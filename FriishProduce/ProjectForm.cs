@@ -30,7 +30,7 @@ namespace FriishProduce
 
         private void DrawGraphics(object sender, PaintEventArgs e) {
             if (banner_form.region.SelectedIndex != region.SelectedIndex)
-                e.Graphics.DrawImage(Properties.Resources.warn_reg_ico, new Point(10, 10));
+                e.Graphics.DrawImage(Properties.Resources.warn_ico, new Point(10, 10));
         }
 
         protected bool IsVirtualConsole
@@ -420,64 +420,6 @@ namespace FriishProduce
             }
         }
         #endregion
-
-        public static libWiiSharp.Region IntToRegion(int val) => val switch {
-            0 => libWiiSharp.Region.Japan, 2 => libWiiSharp.Region.Europe, 3 => libWiiSharp.Region.Korea, _ => libWiiSharp.Region.USA
-        };
-
-        public static int RegToInt(libWiiSharp.Region region) => region switch {
-            libWiiSharp.Region.Japan => 0, libWiiSharp.Region.Europe => 2, libWiiSharp.Region.Korea => 3, _ => 1
-        };
-
-        public static int ChRegToInt(string region) => region switch {
-            "Original" => 0, "Region-Free" => 1, "USA" => 2, "Europe" => 3, "Japan" => 4, "Korea" => 5, _ => 0
-        };
-
-        public static string IntToChReg(int val) => val switch {
-            0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
-        };
-
-        /// <summary>
-        ///     Trims whitespace and replaces occurences in the List with their shortforms for consistent matching
-        /// </summary>
-        private static string NormalizeRegion(string region) {
-            if (string.IsNullOrEmpty(region)) return "";
-            var replacements = new List<(string from, string to)> {
-                ("America", "USA"), ("United States", "USA"), ("Europe/Australia", "Europe"), ("Republic of Korea", "Korea")
-            };
-            replacements.ForEach(reg => region = region.Replace(reg.from, reg.to));
-            return region.Trim();
-        }
-
-        /// <summary>
-        ///     Compare base, banner, and channel regions after 'normalizing' the strings
-        ///         Uses #NormalizeRegions() to replace occurences in a List with their shortforms for consistent matching
-        /// </summary>
-        public static List<string> GetRegConflictSrcs(params string[] regions) {
-            string banner = NormalizeRegion(regions[0]);
-            string channel = NormalizeRegion(regions[1]);
-            string baseRegion = NormalizeRegion(regions[2]);
-            string[] wildcards = { "Original", "Automatic" };
-            var conflicts = new List<string>();
-
-            bool Matches(string a, string b) {
-                if (a == "Region-Free" || b == "Region-Free") return false; // always conflict, region-free doesn't work reliably
-                if (Array.Exists(wildcards, w => w == a) || Array.Exists(wildcards, w => w == b)) return true;
-                return a == b;
-            }
-            if (!Matches(banner, baseRegion))
-                conflicts.Add("Banner");
-            if (!Matches(channel, baseRegion))
-                conflicts.Add("Channel");
-
-            return conflicts;
-        }
-
-        /// <summary>
-        ///     Checks if there are *any* region conflicts in the string array
-        ///         Passed array should consist of banner, channel, and base region strings 
-        /// </summary>
-        public static bool HasRegConflict(params string[] regions) => GetRegConflictSrcs(regions).Count > 0;
         // -----------------------------------
 
         private void SetRecentProjects(string project)
@@ -651,6 +593,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, multifile_software);
             Program.Lang.ToolTip(tip, warn_ban_reg);
             Program.Lang.ToolTip(tip, warn_ch_reg);
+            Program.Lang.ToolTip(tip, warn_savetitle);
             #endregion
 
             if (Base.SelectedIndex >= 0)
@@ -966,7 +909,7 @@ namespace FriishProduce
                     }
                     else if (ext.Equals(".fppj", StringComparison.OrdinalIgnoreCase))
                     {
-                        try { banner_form.region.SelectedIndex = RegToInt(project.BannerRegion) + 1; }
+                        try { banner_form.region.SelectedIndex = WadMeta.RegToInt(project.BannerRegion) + 1; }
                         catch { banner_form.region.SelectedIndex = 0; }
                         finally {
                             linkSaveDataTitle();
@@ -1006,7 +949,7 @@ namespace FriishProduce
                     try { banner_form.released.Value = project.BannerYear; } catch { }
                     try { banner_form.players.Value = project.BannerPlayers; } catch { }
 
-                    var pjReg = File.Exists(project.OfflineWAD) ? RegToInt(project.BannerRegion) + 1 : Base.SelectedIndex;
+                    var pjReg = File.Exists(project.OfflineWAD) ? WadMeta.RegToInt(project.BannerRegion) + 1 : Base.SelectedIndex;
                     try { banner_form.region.SelectedIndex = pjReg; }
                     catch { banner_form.region.SelectedIndex = 0; }
                     finally {
@@ -1025,7 +968,15 @@ namespace FriishProduce
                     try { image_resize0.Checked = !project.ImageOptions.Item2; } catch { }
                     try { image_resize1.Checked = project.ImageOptions.Item2; } catch { }
                     try { region.SelectedIndex = project.WADRegion; } catch { }
-                    try { video_mode.SelectedIndex = project.VideoMode; } catch { }
+                    try { 
+                        video_mode.SelectedIndex = project.VideoMode;
+                        video_mode.SelectedIndexChanged += (s, e) => {
+                            ValueChanged(s, e);
+                            string pal6050 = video_mode.SelectedIndex == 6 ? "warn_pal6050" : warn_vidmode.Name;
+                            string vidtip_name = video_mode.SelectedIndex == 7 ? "warn_ntscpal60" : pal6050;
+                            Program.Lang.ToolTip(tip, warn_vidmode, vidtip_name);
+                        };
+                    } catch {}
                     try { wiiu_display.SelectedIndex = project.WiiUDisplay; } catch { }
 
                     if (contentOptionsForm != null) {
@@ -1135,12 +1086,23 @@ namespace FriishProduce
         }
 
         private void CheckWarnings() {
-            string[] regions = { banner_form.region.Text, IntToChReg(region.SelectedIndex), InBaseRegion.ToString() };
-            var conflicts = GetRegConflictSrcs(regions);
-            warn_ch_reg.Visible = conflicts.Contains("Channel");
-            warn_ch_reg.BringToFront();
-            warn_ban_reg.Visible = conflicts.Contains("Banner");
+            if (rom == null || string.IsNullOrEmpty(rom.FilePath)) return;
+            string[] matchParams = {
+                banner_form.region.Text,
+                WadMeta.IntToChReg(region.SelectedIndex),
+                InBaseRegion.ToString(),
+                video_mode.SelectedIndex.ToString(),
+                savedata.Lines[0]
+            };
+            var conflicts = WadMeta.GetRegConflictSrcs(matchParams);
+            warn_ban_reg.Visible = conflicts.Contains(WadMeta.BNR_WARN_TAG);
             warn_ban_reg.BringToFront();
+            warn_ch_reg.Visible = conflicts.Contains(WadMeta.CHL_WARN_TAG);
+            warn_ch_reg.BringToFront();
+            warn_vidmode.Visible = conflicts.Contains(WadMeta.VDM_WARN_TAG);
+            warn_vidmode.BringToFront();
+            warn_savetitle.Visible = conflicts.Contains(WadMeta.SVT_WARN_TAG);
+            warn_savetitle.BringToFront();
         }
 
         public bool[] ToolbarButtons

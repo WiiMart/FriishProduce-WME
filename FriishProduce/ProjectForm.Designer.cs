@@ -67,6 +67,8 @@ namespace FriishProduce
             this.title_id_random = new System.Windows.Forms.PictureBox();
             this.warn_ch_reg = new System.Windows.Forms.PictureBox();
             this.warn_ban_reg = new System.Windows.Forms.PictureBox();
+            this.warn_vidmode = new System.Windows.Forms.PictureBox();
+            this.warn_savetitle = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.use_offline_wad = new System.Windows.Forms.RadioButton();
             this.baseID = new System.Windows.Forms.Label();
@@ -98,6 +100,8 @@ namespace FriishProduce
             ((System.ComponentModel.ISupportInitialize)(this.title_id_random)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warn_ch_reg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warn_ban_reg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_vidmode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_savetitle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseRegion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkImg1)).BeginInit();
@@ -207,7 +211,7 @@ namespace FriishProduce
             this.edit_save_data.Click += new System.EventHandler(this.edit_save_data_Click);
 
             // warn_ch_reg icon WARNING
-            this.warn_ch_reg.Image = Properties.Resources.warn_reg_ico;
+            this.warn_ch_reg.Image = Properties.Resources.warn_ico;
             this.warn_ch_reg.Name = "warn_ch_reg";
             this.warn_ch_reg.Tag = "warn_ch_reg";
             this.warn_ch_reg.BackColor = Color.Transparent;
@@ -216,16 +220,39 @@ namespace FriishProduce
             this.warn_ch_reg.Visible = false;
             this.warn_ch_reg.Parent = groupBox4;
             this.Controls.Add(this.warn_ch_reg);
+
             // warn_ban_reg icon WARNING
-            this.warn_ban_reg.Image = Properties.Resources.warn_reg_ico;
+            this.warn_ban_reg.Image = Properties.Resources.warn_ico;
             this.warn_ban_reg.Name = "warn_ban_reg";
             this.warn_ban_reg.Tag = "warn_ban_reg";
             this.warn_ban_reg.BackColor = Color.Transparent;
             this.warn_ban_reg.Size = new Size(18, 18);
-            this.warn_ban_reg.Location = new Point(496, 333); //565, 334
+            this.warn_ban_reg.Location = new Point(496, 333); //496, 333
             this.warn_ban_reg.Visible = false;
             this.warn_ban_reg.Parent = groupBox4;
             this.Controls.Add(this.warn_ban_reg);
+
+            // warn_vidmode icon WARNING
+            this.warn_vidmode.Image = Properties.Resources.warn_ico;
+            this.warn_vidmode.Name = "warn_vidmode";
+            this.warn_vidmode.Tag = "warn_vidmode";
+            this.warn_vidmode.BackColor = Color.Transparent;
+            this.warn_vidmode.Size = new Size(18, 18);
+            this.warn_vidmode.Location = new Point(994, 400);
+            this.warn_vidmode.Visible = false;
+            this.warn_vidmode.Parent = groupBox4;
+            this.Controls.Add(this.warn_vidmode);
+
+            // warn_savetitle icon WARNING
+            this.warn_savetitle.Image = Properties.Resources.warn_ico;
+            this.warn_savetitle.Name = "warn_savetitle";
+            this.warn_savetitle.Tag = "warn_savetitle";
+            this.warn_savetitle.BackColor = Color.Transparent;
+            this.warn_savetitle.Size = new Size(18, 18);
+            this.warn_savetitle.Location = new Point(436, 414);
+            this.warn_savetitle.Visible = false;
+            this.warn_savetitle.Parent = groupBox4;
+            this.Controls.Add(this.warn_savetitle);
 
             // 
             // wiiu_display
@@ -616,6 +643,8 @@ namespace FriishProduce
             ((System.ComponentModel.ISupportInitialize)(this.title_id_random)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warn_ch_reg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warn_ban_reg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_vidmode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warn_savetitle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseRegion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkImg1)).EndInit();
@@ -642,6 +671,8 @@ namespace FriishProduce
         private System.Windows.Forms.PictureBox title_id_random;
         internal System.Windows.Forms.PictureBox warn_ch_reg;
         internal System.Windows.Forms.PictureBox warn_ban_reg;
+        internal System.Windows.Forms.PictureBox warn_vidmode;
+        internal System.Windows.Forms.PictureBox warn_savetitle;
         private System.Windows.Forms.TextBox title_id;
         private System.Windows.Forms.TextBox genre;
         private System.Windows.Forms.Label genre_l;

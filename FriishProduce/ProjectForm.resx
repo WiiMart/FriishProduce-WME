@@ -437,10 +437,10 @@
     <value>NoControl</value>
   </data>
   <data name="injection_method_options.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 200</value>
+    <value>33, 200</value>
   </data>
   <data name="injection_method_options.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 24</value>
+    <value>390, 24</value>
   </data>
   <data name="injection_method_options.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -519,10 +519,10 @@
     <value>NoControl</value>
   </data>
   <data name="edit_save_data.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 172</value>
+    <value>33, 172</value>
   </data>
   <data name="edit_save_data.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 24</value>
+    <value>390, 24</value>
   </data>
   <data name="edit_save_data.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
@@ -764,7 +764,7 @@
     <value>Tahoma, 11px</value>
   </data>
   <data name="genre.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 77</value>
+    <value>279, 77</value>
   </data>
   <!--L 283x77 S 267x21 ... og L 367x35 ... S 181x21-->
   <data name="genre.MaxLength" type="System.Int32, mscorlib">
@@ -801,7 +801,7 @@
     <value>NoControl</value>
   </data>
   <data name="genre_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>277, 61</value>
+    <value>278, 60</value>
   </data>
   <!--== L 280x60 -> S 65x13 og L 366x18 -> S 62x13 -->
   <data name="genre_l.Size" type="System.Drawing.Size, System.Drawing">
@@ -831,7 +831,7 @@
     <value>Lucida Console, 14px</value>
   </data>
   <data name="title_id.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 35</value>
+    <value>279, 35</value>
   </data>
   <data name="title_id.MaxLength" type="System.Int32, mscorlib">
     <value>4</value>
@@ -888,7 +888,7 @@
     <value>MPAL + PAL50</value>
   </data>
   <data name="video_mode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>345, 35</value>
+    <value>346, 35</value>
   </data>
   <!--== L 367x35 -> S 181x21 og L 283x77 -> S 267x21 -->
   <data name="video_mode.Size" type="System.Drawing.Size, System.Drawing">
@@ -941,7 +941,7 @@
     <value>NoControl</value>
   </data>
   <data name="video_mode_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>344, 19</value>
+    <value>345, 18</value>
   </data>
   <!--== L 366x18 -> S 62x13 og L 280x60 -> S 65x13 -->
   <data name="video_mode_l.Size" type="System.Drawing.Size, System.Drawing">
@@ -974,7 +974,7 @@
     <value>NoControl</value>
   </data>
   <data name="region_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 61</value>
+    <value>8, 60</value>
   </data>
   <data name="region_l.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 13</value>
@@ -1041,9 +1041,7 @@
   <data name="warn_ban_reg.AutoSize" type="System.Boolean, mscorlib">
     <value>true</value>
   </data>
-  <data name="warn_ban_reg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>564, 335</value>
-  </data>
+ <!-- 564 335 -->
   <data name="warn_ban_reg.Text" xml:space="preserve">
     <value>warn_ban_reg</value>
   </data>
@@ -1060,6 +1058,68 @@
     <value>67</value>
   </data>
   <!--==================================================================-->
+  <data name="warn_vidmode.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="warn_vidmode.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>White</value>
+  </data>
+  <data name="warn_vidmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>18, 18</value>
+  </data>
+  <data name="warn_vidmode.AutoSize" type="System.Boolean, mscorlib">
+    <value>true</value>
+  </data>
+  <data name="warn_vidmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>564, 335</value>
+  </data>
+  <data name="warn_vidmode.Text" xml:space="preserve">
+    <value>warn_vidmode</value>
+  </data>
+  <data name="warn_vidmode.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+  <data name="&gt;&gt;warn_vidmode.Name" xml:space="preserve">
+    <value>warn_vidmode</value>
+  </data>
+  <data name="&gt;&gt;warn_vidmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;warn_vidmode.ZOrder" xml:space="preserve">
+    <value>74</value>
+  </data>
+  <!--==================================================================-->
+  <data name="warn_savetitle.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="warn_savetitle.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>White</value>
+  </data>
+  <data name="warn_savetitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>18, 18</value>
+  </data>
+  <data name="warn_savetitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>true</value>
+  </data>
+  <data name="warn_savetitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 172</value>
+  </data>
+  <data name="warn_savetitle.Text" xml:space="preserve">
+    <value>warn_savetitle</value>
+  </data>
+  <data name="warn_savetitle.ZOrder" xml:space="preserve">
+    <value>67</value>
+  </data>
+  <data name="&gt;&gt;warn_savetitle.Name" xml:space="preserve">
+    <value>warn_savetitle</value>
+  </data>
+  <data name="&gt;&gt;warn_savetitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;warn_savetitle.ZOrder" xml:space="preserve">
+    <value>74</value>
+  </data>
+  <!--==================================================================-->
   <data name="title_id_l.AutoSize" type="System.Boolean, mscorlib">
     <value>true</value>
   </data>
@@ -1067,7 +1127,7 @@
     <value>NoControl</value>
   </data>
   <data name="title_id_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>277, 19</value>
+    <value>278, 18</value>
   </data>
   <data name="title_id_l.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 13</value>
@@ -1097,7 +1157,7 @@
     <value>NoControl</value>
   </data>
   <data name="channel_name_l.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 19</value>
+    <value>8, 18</value>
   </data>
   <data name="channel_name_l.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 13</value>
@@ -1174,7 +1234,7 @@
     <value>NoControl</value>
   </data>
   <data name="title_id_random.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 17</value>
+    <value>322, 17</value>
   </data>
   <data name="title_id_random.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>

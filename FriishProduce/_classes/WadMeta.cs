@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using libWiiSharp;
 
 namespace FriishProduce
 {
@@ -32,6 +33,12 @@ namespace FriishProduce
         private enum SharpiiTarget { WAD, U8 }
 
         /// <summary>
+        ///     Used to determine which WAD inject conflicts exists
+        /// </summary>
+        public static readonly string 
+            BNR_WARN_TAG = "$BANNER", CHL_WARN_TAG = "$CHANNEL", VDM_WARN_TAG = "$VIDMODE", SVT_WARN_TAG = "$SAVETITLE";
+
+        /// <summary>
         ///     Video mode array for 'pretty' printing
         /// </summary>
         public static readonly string[] VidModes = {
@@ -46,6 +53,18 @@ namespace FriishProduce
         }
 
         /// <summary>
+        ///     Gets the expected video mode for the region
+        /// </summary>
+        public static string[] GetVidModeFor(Region region) {
+            string[] ntsc = new[] { "Original", "NTSC" };
+            return region switch {
+                Region.USA => ntsc, Region.Japan => ntsc, Region.Korea => ntsc,
+                Region.Europe => new[] { "Original", "PAL50", "PAL60" },
+                _ => new[] { "Original" }
+            };
+        }
+
+        /// <summary>
         ///     Gets the byte value of the max blocks a WAD occupies
         /// </summary>
         static long BlocksToBytes(string blocks) =>
@@ -56,6 +75,81 @@ namespace FriishProduce
         /// </summary>
         public static string HexifyTID(string tid) => 
             $"{(tid.StartsWith("H") ? "00010002" : "00010001")}{string.Concat(tid.Select(c => ((int)c).ToString("X2")))}";
+
+        public static Region IntToRegion(int val) => val switch {
+            0 => Region.Japan, 2 => Region.Europe, 3 => Region.Korea, _ => Region.USA
+        };
+
+        public static int RegToInt(Region region) => region switch {
+            Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1
+        };
+
+        public static int ChRegToInt(string region) => region switch {
+            "Original" => 0, "Region-Free" => 1, "USA" => 2, "Europe" => 3, "Japan" => 4, "Korea" => 5, _ => 0
+        };
+
+        public static string IntToChReg(int val) => val switch {
+            0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
+        };
+
+        public static Region VidModeToRegion(string baseRegion) => NormalizeRegion(baseRegion) switch {
+            "USA" => Region.USA, "Europe" => Region.Europe, "Japan" => Region.Japan, "Korea" => Region.Korea, _ => Region.USA
+        };
+
+        /// <summary>
+        ///     Trims whitespace and replaces occurences in the List with their shortforms for consistent matching
+        /// </summary>
+        private static string NormalizeRegion(string region) {
+            if (string.IsNullOrEmpty(region)) return "";
+            var replacements = new List<(string from, string to)> {
+                ("America", "USA"), ("United States", "USA"), ("Europe/Australia", "Europe"), ("Republic of Korea", "Korea")
+            };
+            replacements.ForEach(reg => region = region.Replace(reg.from, reg.to));
+            return region.Trim();
+        }
+
+        /// <summary>
+        ///     Compare base, banner, and channel regions after 'normalizing' the strings
+        ///         Uses #NormalizeRegions() to replace occurences in a List with their shortforms for consistent matching
+        /// </summary>
+        public static List<string> GetRegConflictSrcs(params string[] matchParams) {
+            string banner = NormalizeRegion(matchParams.ElementAtOrDefault(0) ?? "");
+            string channel = NormalizeRegion(matchParams.ElementAtOrDefault(1) ?? "");
+            string baseRegion = matchParams.ElementAtOrDefault(2) ?? "";
+            string baseRegionTxt = NormalizeRegion(baseRegion);
+            int vidMode = (int.TryParse(matchParams.ElementAtOrDefault(3), out var idx) ? idx : -1);
+            string saveTitle = matchParams.ElementAtOrDefault(4) ?? "";
+            string[] wildcards = { "Original", "Automatic" };
+
+            bool Matches(string lhs, string rhs) {
+                if (lhs == "Region-Free" || rhs == "Region-Free") return false;
+                if (Array.Exists(wildcards, wc => wc == lhs) || Array.Exists(wildcards, wc => wc == rhs)) return true;
+                return lhs == rhs;
+            }
+            var conflictMap = new (string tag, bool condition)[] {
+                (BNR_WARN_TAG, !Matches(banner, baseRegionTxt)),
+                (CHL_WARN_TAG, !Matches(channel, baseRegionTxt)),
+                (VDM_WARN_TAG, vidMode >= 0 && HasVidModeConflict(vidMode, VidModeToRegion(baseRegion))),
+                (SVT_WARN_TAG, string.IsNullOrEmpty(saveTitle))
+            };
+            return conflictMap.Where(c => c.condition).Select(c => c.tag).ToList();
+        }
+
+        /// <summary>
+        ///     Checks if there are *any* region conflicts in the string array
+        ///         (arr should consist of banner, channel, and base wad regions)
+        /// </summary>
+        public static bool HasRegConflict(params string[] regions) => GetRegConflictSrcs(regions).Count > 0;
+
+        /// <summary>
+        ///     Compares the VidModes string array to the selected video mode to find any conflicts with WAD region 
+        /// </summary>
+        public static bool HasVidModeConflict(string selected, Region baseRegion) => Array.IndexOf(GetVidModeFor(baseRegion), selected) < 0;
+
+        /// <summary>
+        ///     Compares the VidModes SelectedIndex to the selected video mode using GetVidModeFor(int) to find any conflicts with WAD region 
+        /// </summary>
+        public static bool HasVidModeConflict(int selected, Region baseRegion) => Array.IndexOf(GetVidModeFor(baseRegion), GetVidModeFor(selected)) < 0;
 
         /// <summary>
         ///     Injects meta.json into the Banner U8 archive using LibWiiSharp dep
@@ -87,7 +181,7 @@ namespace FriishProduce
                 BannerBmp = base64Banner,
                 VideoMode = WadMeta.GetVidModeFor(md.WadVideoMode),
                 WadRegion = InWadRegion.ToString(),
-                ChannelRegion = ((libWiiSharp.Region) md.WadRegion).ToString(),
+                ChannelRegion = ((Region) md.WadRegion).ToString(),
                 BannerRegion = md.BannerRegion.ToString(),
                 WadVersion = md.WAD.TitleVersion.ToString(),
                 IOS = ((int)(md.WAD.StartupIOS & 0xFFFFFFFF)).ToString(),
