@@ -1108,7 +1108,7 @@ namespace FriishProduce
             warn_ch_reg.BringToFront();
             warn_vidmode.Visible = conflicts.Contains(Meta.VDM_WARN);
             warn_vidmode.BringToFront();
-            warn_savetitle.Visible = conflicts.Contains(Meta.SVT_WARN) && flashSave;
+            warn_savetitle.Visible = conflicts.Contains(Meta.SVT_WARN) && (flashSave || rom?.FilePath != null);
             warn_savetitle.BringToFront();
 
             if (imgConflict)
