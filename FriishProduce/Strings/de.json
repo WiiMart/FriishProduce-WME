@@ -40,6 +40,7 @@
 			"system":							"System",
 			"display":							"Anzeige",
 			"debug_mode":						"Im Debug-Modus ausgeführt",
+			"info_log": "Toggle [INFO] Logging",
 
 			"vc":								"Virtual Console",
 			"vc_options":						"Virtual Console-Optionen",

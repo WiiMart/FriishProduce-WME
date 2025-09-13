@@ -135,9 +135,6 @@
     <value>100, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="b_cancel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="b_cancel.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
   </data>
@@ -167,9 +164,6 @@
   </data>
   <data name="GetBanners.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 23</value>
-  </data>
-  <data name="GetBanners.TabIndex" type="System.Int32, mscorlib">
-    <value>57</value>
   </data>
   <data name="GetBanners.Text" xml:space="preserve">
     <value>Get VC banner files</value>
@@ -204,9 +198,6 @@
   <data name="b_ok.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
   </data>
-  <data name="b_ok.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="b_ok.Text" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
@@ -231,9 +222,6 @@
   <data name="bottomPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>754, 40</value>
   </data>
-  <data name="bottomPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;bottomPanel1.Name" xml:space="preserve">
     <value>bottomPanel1</value>
   </data>
@@ -254,9 +242,6 @@
   </data>
   <data name="bottomPanel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>754, 41</value>
-  </data>
-  <data name="bottomPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;bottomPanel2.Name" xml:space="preserve">
     <value>bottomPanel2</value>
@@ -335,9 +320,6 @@
   <data name="TreeView.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 500</value>
   </data>
-  <data name="TreeView.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
   <data name="&gt;&gt;TreeView.Name" xml:space="preserve">
     <value>TreeView</value>
   </data>
@@ -359,9 +341,6 @@
   <data name="debug_mode.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 17</value>
   </data>
-  <data name="debug_mode.TabIndex" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
   <data name="debug_mode.Text" xml:space="preserve">
     <value>Toggle debug mode</value>
   </data>
@@ -375,6 +354,31 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;debug_mode.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+
+  <data name="log_info.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="log_info.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 215</value>
+  </data>
+  <data name="log_info.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 18</value>
+  </data>
+  <data name="log_info.Text" xml:space="preserve">
+    <value>Toggle [INFO] Logging</value>
+  </data>
+  <data name="&gt;&gt;log_info.Name" xml:space="preserve">
+    <value>log_info</value>
+  </data>
+  <data name="&gt;&gt;log_info.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;log_info.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;log_info.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
 <!--======================================================================================================-->
@@ -393,9 +397,6 @@
   </data>
   <data name="publisher_opt.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
-  </data>
-  <data name="publisher_opt.TabIndex" type="System.Int32, mscorlib">
-    <value>68</value>
   </data>
   <data name="publisher_opt.Text" xml:space="preserve">
     <value>publisher_opt</value>
@@ -417,9 +418,6 @@
   </data>
   <data name="publisher_opt_tb.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 21</value>
-  </data>
-  <data name="publisher_opt_tb.TabIndex" type="System.Int32, mscorlib">
-    <value>70</value>
   </data>
   <data name="&gt;&gt;publisher_opt_tb.Name" xml:space="preserve">
     <value>publisher_opt_tb</value>
@@ -448,9 +446,6 @@
   <data name="write_metadata.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 17</value>
   </data>
-  <data name="write_metadata.TabIndex" type="System.Int32, mscorlib">
-    <value>52</value>
-  </data>
   <data name="write_metadata.Text" xml:space="preserve">
     <value>write_metadata</value>
   </data>
@@ -477,9 +472,6 @@
   <data name="themes.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="themes.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="&gt;&gt;themes.Name" xml:space="preserve">
     <value>themes</value>
   </data>
@@ -497,9 +489,6 @@
   </data>
   <data name="theme.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="theme.TabIndex" type="System.Int32, mscorlib">
-    <value>55</value>
   </data>
   <data name="theme.Text" xml:space="preserve">
     <value>theme</value>
@@ -528,9 +517,6 @@
   <data name="bypass_rom_size.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 17</value>
   </data>
-  <data name="bypass_rom_size.TabIndex" type="System.Int32, mscorlib">
-    <value>55</value>
-  </data>
   <data name="bypass_rom_size.Text" xml:space="preserve">
     <value>bypass_rom_size</value>
   </data>
@@ -557,9 +543,6 @@
   </data>
   <data name="use_online_wad_enabled.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 17</value>
-  </data>
-  <data name="use_online_wad_enabled.TabIndex" type="System.Int32, mscorlib">
-    <value>52</value>
   </data>
   <data name="use_online_wad_enabled.Text" xml:space="preserve">
     <value>use_online_wad_enabled</value>
@@ -588,9 +571,6 @@
   <data name="use_custom_database.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 17</value>
   </data>
-  <data name="use_custom_database.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
-  </data>
   <data name="use_custom_database.Text" xml:space="preserve">
     <value>use_custom_database</value>
   </data>
@@ -618,9 +598,6 @@
   <data name="reset_all_dialogs.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 17</value>
   </data>
-  <data name="reset_all_dialogs.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
   <data name="reset_all_dialogs.Text" xml:space="preserve">
     <value>reset_all_dialogs</value>
   </data>
@@ -645,9 +622,6 @@
   <data name="languages.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="languages.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="&gt;&gt;languages.Name" xml:space="preserve">
     <value>languages</value>
   </data>
@@ -665,9 +639,6 @@
   </data>
   <data name="language.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="language.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
   </data>
   <data name="language.Text" xml:space="preserve">
     <value>language</value>
@@ -689,9 +660,6 @@
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
-  </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
   </data>
   <data name="&gt;&gt;panel1.Name" xml:space="preserve">
     <value>panel1</value>
@@ -717,9 +685,6 @@
   <data name="forwarder_type.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="forwarder_type.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
-  </data>
   <data name="&gt;&gt;forwarder_type.Name" xml:space="preserve">
     <value>forwarder_type</value>
   </data>
@@ -737,9 +702,6 @@
   </data>
   <data name="forwarder_root_device.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="forwarder_root_device.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
   </data>
   <data name="forwarder_root_device.Text" xml:space="preserve">
     <value>forwarder_root_device</value>
@@ -768,9 +730,6 @@
   <data name="show_bios_screen.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
   </data>
-  <data name="show_bios_screen.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
-  </data>
   <data name="show_bios_screen.Text" xml:space="preserve">
     <value>show_bios_screen</value>
   </data>
@@ -792,9 +751,6 @@
   <data name="toggleSwitch2.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 15</value>
   </data>
-  <data name="toggleSwitch2.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
   <data name="&gt;&gt;toggleSwitch2.Name" xml:space="preserve">
     <value>toggleSwitch2</value>
   </data>
@@ -812,9 +768,6 @@
   </data>
   <data name="bios_settings.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 45</value>
-  </data>
-  <data name="bios_settings.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
   </data>
   <data name="bios_settings.Text" xml:space="preserve">
     <value>bios_settings</value>
@@ -836,9 +789,6 @@
   </data>
   <data name="forwarder.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
-  </data>
-  <data name="forwarder.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
   </data>
   <data name="&gt;&gt;forwarder.Name" xml:space="preserve">
     <value>forwarder</value>
@@ -866,9 +816,6 @@
   <data name="locsave_banner.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
   </data>
-  <data name="locsave_banner.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
   <data name="locsave_banner.Text" xml:space="preserve">
     <value>locsave_banner</value>
   </data>
@@ -890,9 +837,6 @@
   </data>
   <data name="locsave_banner_tb.Size" type="System.Drawing.Size, System.Drawing">
     <value>496, 21</value>
-  </data>
-  <data name="locsave_banner_tb.TabIndex" type="System.Int32, mscorlib">
-    <value>63</value>
   </data>
   <data name="&gt;&gt;locsave_banner_tb.Name" xml:space="preserve">
     <value>locsave_wad</value>
@@ -921,9 +865,6 @@
   <data name="locsave_wad.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
   </data>
-  <data name="locsave_wad.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
   <data name="locsave_wad.Text" xml:space="preserve">
     <value>locsave_wad</value>
   </data>
@@ -945,9 +886,6 @@
   </data>
   <data name="locsave_wad_tb.Size" type="System.Drawing.Size, System.Drawing">
     <value>496, 21</value>
-  </data>
-  <data name="locsave_wad_tb.TabIndex" type="System.Int32, mscorlib">
-    <value>63</value>
   </data>
   <data name="&gt;&gt;locsave_wad_tb.Name" xml:space="preserve">
     <value>locsave_wad</value>
@@ -974,9 +912,6 @@
   </data>
   <data name="auto_prefill.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
-  </data>
-  <data name="auto_prefill.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
   </data>
   <data name="auto_prefill.Text" xml:space="preserve">
     <value>auto_prefill</value>
@@ -1005,9 +940,7 @@
   <data name="auto_fill_save_data.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 17</value>
   </data>
-  <data name="auto_fill_save_data.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
+
   <data name="auto_fill_save_data.Text" xml:space="preserve">
     <value>auto_fill_save_data</value>
   </data>
@@ -1029,9 +962,6 @@
   <data name="image_interpolation_modes.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="image_interpolation_modes.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
-  </data>
   <data name="&gt;&gt;image_interpolation_modes.Name" xml:space="preserve">
     <value>image_interpolation_modes</value>
   </data>
@@ -1049,9 +979,6 @@
   </data>
   <data name="image_interpolation_mode.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="image_interpolation_mode.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
   </data>
   <data name="image_interpolation_mode.Text" xml:space="preserve">
     <value>image_interpolation_mode</value>
@@ -1074,9 +1001,6 @@
   <data name="banner_regions.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="banner_regions.TabIndex" type="System.Int32, mscorlib">
-    <value>47</value>
-  </data>
   <data name="&gt;&gt;banner_regions.Name" xml:space="preserve">
     <value>banner_regions</value>
   </data>
@@ -1094,9 +1018,6 @@
   </data>
   <data name="banner_region.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="banner_region.TabIndex" type="System.Int32, mscorlib">
-    <value>48</value>
   </data>
   <data name="banner_region.Text" xml:space="preserve">
     <value>banner_region</value>
@@ -1125,9 +1046,6 @@
   <data name="default_target_project.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 13</value>
   </data>
-  <data name="default_target_project.TabIndex" type="System.Int32, mscorlib">
-    <value>58</value>
-  </data>
   <data name="default_target_project.Text" xml:space="preserve">
     <value>default_target_project</value>
   </data>
@@ -1148,9 +1066,6 @@
   </data>
   <data name="default_target_project_tb.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
-  </data>
-  <data name="default_target_project_tb.TabIndex" type="System.Int32, mscorlib">
-    <value>55</value>
   </data>
   <data name="&gt;&gt;default_target_project_tb.Name" xml:space="preserve">
     <value>default_target_project_tb</value>
@@ -1182,9 +1097,6 @@
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>300, 13</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>57</value>
-  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>FILENAME, CHANNELNAME, FULLNAME, TITLEID, PLATFORM, GENRE</value>
   </data>
@@ -1215,9 +1127,6 @@
   <data name="lowerParams.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
   </data>
-  <data name="lowerParams.TabIndex" type="System.Int32, mscorlib">
-    <value>67</value>
-  </data>
   <data name="lowerParams.Text" xml:space="preserve">
     <value>lowerParams</value>
   </data>
@@ -1245,9 +1154,6 @@
   </data>
   <data name="transParams.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>
-  </data>
-  <data name="transParams.TabIndex" type="System.Int32, mscorlib">
-    <value>67</value>
   </data>
   <data name="transParams.Text" xml:space="preserve">
     <value>transParams</value>
@@ -1279,9 +1185,6 @@
   <data name="default_target_wad.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
   </data>
-  <data name="default_target_wad.TabIndex" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
   <data name="default_target_wad.Text" xml:space="preserve">
     <value>default_target_wad</value>
   </data>
@@ -1302,9 +1205,6 @@
   </data>
   <data name="default_target_wad_tb.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
-  </data>
-  <data name="default_target_wad_tb.TabIndex" type="System.Int32, mscorlib">
-    <value>59</value>
   </data>
   <data name="&gt;&gt;default_target_wad_tb.Name" xml:space="preserve">
     <value>default_target_wad_tb</value>
@@ -1333,9 +1233,6 @@
   <data name="default_target_parameters.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 19</value>
   </data>
-  <data name="default_target_parameters.TabIndex" type="System.Int32, mscorlib">
-    <value>56</value>
-  </data>
   <data name="default_target_parameters.Text" xml:space="preserve">
     <value>default_target_parameters</value>
   </data>
@@ -1356,9 +1253,6 @@
   </data>
   <data name="default_target_filename.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 160</value>
-  </data>
-  <data name="default_target_filename.TabIndex" type="System.Int32, mscorlib">
-    <value>61</value>
   </data>
   <data name="default_target_filename.Text" xml:space="preserve">
     <value>default_target_filename</value>
@@ -1381,9 +1275,6 @@
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
   </data>
-  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
-  </data>
   <data name="&gt;&gt;panel2.Name" xml:space="preserve">
     <value>panel2</value>
   </data>
@@ -1402,9 +1293,6 @@
   <data name="injection_methods_sega.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="injection_methods_sega.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="&gt;&gt;injection_methods_sega.Name" xml:space="preserve">
     <value>injection_methods_sega</value>
   </data>
@@ -1422,9 +1310,6 @@
   </data>
   <data name="sega_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="sega_default.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
   </data>
   <data name="sega_default.Text" xml:space="preserve">
     <value>sega</value>
@@ -1447,9 +1332,6 @@
   <data name="injection_methods_snes.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="injection_methods_snes.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="&gt;&gt;injection_methods_snes.Name" xml:space="preserve">
     <value>injection_methods_snes</value>
   </data>
@@ -1467,9 +1349,6 @@
   </data>
   <data name="snes_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="snes_default.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
   </data>
   <data name="snes_default.Text" xml:space="preserve">
     <value>snes</value>
@@ -1492,9 +1371,6 @@
   <data name="injection_methods_nes.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="injection_methods_nes.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="&gt;&gt;injection_methods_nes.Name" xml:space="preserve">
     <value>injection_methods_nes</value>
   </data>
@@ -1512,9 +1388,6 @@
   </data>
   <data name="nes_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="nes_default.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
   </data>
   <data name="nes_default.Text" xml:space="preserve">
     <value>nes</value>
@@ -1537,9 +1410,6 @@
   <data name="injection_methods_n64.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 21</value>
   </data>
-  <data name="injection_methods_n64.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="&gt;&gt;injection_methods_n64.Name" xml:space="preserve">
     <value>injection_methods_n64</value>
   </data>
@@ -1557,9 +1427,6 @@
   </data>
   <data name="n64_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="n64_default.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
   </data>
   <data name="n64_default.Text" xml:space="preserve">
     <value>n64</value>
@@ -1582,9 +1449,6 @@
   <data name="default_injection_methods.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
   </data>
-  <data name="default_injection_methods.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
-  </data>
   <data name="&gt;&gt;default_injection_methods.Name" xml:space="preserve">
     <value>default_injection_methods</value>
   </data>
@@ -1605,9 +1469,6 @@
   </data>
   <data name="browse_bios_neo.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
-  </data>
-  <data name="browse_bios_neo.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
   </data>
   <data name="browse_bios_neo.Text" xml:space="preserve">
     <value>...</value>
@@ -1630,9 +1491,6 @@
   <data name="bios_filename_neo.Size" type="System.Drawing.Size, System.Drawing">
     <value>435, 21</value>
   </data>
-  <data name="bios_filename_neo.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
-  </data>
   <data name="&gt;&gt;bios_filename_neo.Name" xml:space="preserve">
     <value>bios_filename_neo</value>
   </data>
@@ -1650,9 +1508,6 @@
   </data>
   <data name="bios_neo.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="bios_neo.TabIndex" type="System.Int32, mscorlib">
-    <value>53</value>
   </data>
   <data name="bios_neo.Text" xml:space="preserve">
     <value>neo</value>
@@ -1678,9 +1533,6 @@
   <data name="browse_bios_psx.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="browse_bios_psx.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <data name="browse_bios_psx.Text" xml:space="preserve">
     <value>...</value>
   </data>
@@ -1702,9 +1554,6 @@
   <data name="bios_filename_psx.Size" type="System.Drawing.Size, System.Drawing">
     <value>435, 21</value>
   </data>
-  <data name="bios_filename_psx.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
-  </data>
   <data name="&gt;&gt;bios_filename_psx.Name" xml:space="preserve">
     <value>bios_filename_psx</value>
   </data>
@@ -1722,9 +1571,6 @@
   </data>
   <data name="bios_psx.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 50</value>
-  </data>
-  <data name="bios_psx.TabIndex" type="System.Int32, mscorlib">
-    <value>52</value>
   </data>
   <data name="bios_psx.Text" xml:space="preserve">
     <value>psx</value>
@@ -1747,9 +1593,6 @@
   <data name="bios_files.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
   </data>
-  <data name="bios_files.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;bios_files.Name" xml:space="preserve">
     <value>bios_files</value>
   </data>
@@ -1768,9 +1611,6 @@
   <data name="border.Size" type="System.Drawing.Size, System.Drawing">
     <value>1, 500</value>
   </data>
-  <data name="border.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;border.Name" xml:space="preserve">
     <value>border</value>
   </data>
@@ -1788,9 +1628,6 @@
   </data>
   <data name="default_content_options_list.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 95</value>
-  </data>
-  <data name="default_content_options_list.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="&gt;&gt;default_content_options_list.Name" xml:space="preserve">
     <value>default_content_options_list</value>
@@ -1812,9 +1649,6 @@
   </data>
   <data name="default_content_options_l.Size" type="System.Drawing.Size, System.Drawing">
     <value>432, 33</value>
-  </data>
-  <data name="default_content_options_l.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="default_content_options_l.Text" xml:space="preserve">
     <value>default_content_options_l</value>
@@ -1840,9 +1674,6 @@
   <data name="default_content_options_e.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
   </data>
-  <data name="default_content_options_e.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
   <data name="default_content_options_e.Text" xml:space="preserve">
     <value>edit</value>
   </data>
@@ -1863,9 +1694,6 @@
   </data>
   <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
     <value>560, 410</value>
-  </data>
-  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
-    <value>62</value>
   </data>
   <data name="&gt;&gt;panel3.Name" xml:space="preserve">
     <value>panel3</value>

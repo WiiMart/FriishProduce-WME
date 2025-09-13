@@ -250,6 +250,7 @@ namespace FriishProduce
         public MainForm(string[] files = null)
         {
             InitializeComponent();
+            Utils.AddCtrlListeners(this);
             this.files = files;
         }
 
@@ -743,7 +744,7 @@ namespace FriishProduce
                     Project project;
 
                     if (legacy) {
-                        Logger.Log($"Opening legacy project: {file}");
+                        Logger.INFO($"Opening legacy project: {file}");
                         using Stream stream = File.Open(file, FileMode.Open);
                         var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                         binaryFormatter.Binder = new ProjectSerializationBinder();
@@ -755,7 +756,7 @@ namespace FriishProduce
                         string jfpp = File.ReadAllText(file);
                         project = JsonSerializer.Deserialize<Project>(jfpp, new JsonSerializerOptions {
                             Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
-                        }) ?? throw new Exception($"[!] Project deserialized to null.");
+                        }) ?? throw new Exception($"Project deserialized to null.");
                     }
                     // Sync project path
                     project.ProjectPath = file;
@@ -763,7 +764,7 @@ namespace FriishProduce
                 }
                 catch (Exception exc) {
                     MessageBox.Show(string.Format(Program.Lang.Msg(17, 1), Path.GetFileName(file)), MessageBox.Buttons.Ok, MessageBox.Icons.Error);
-                    Logger.Log($"Failed to open project '{file}': {exc.Message}\n{exc.StackTrace}");
+                    Logger.ERROR($"Failed to open project '{file}': {exc.Message}\n{exc.StackTrace}");
                 }
             }
         }
@@ -794,7 +795,7 @@ namespace FriishProduce
                 TitleID = lpj.TitleID,
                 Genre = lpj.Genre,
                 ChannelTitles = lpj.ChannelTitles,
-                BannerRegion = WadMeta.IntToRegion(lpj.BannerRegion == -1 ? lpj.WADRegion : lpj.BannerRegion + 1),
+                BannerRegion = Meta.IntToRegion(lpj.BannerRegion == -1 ? lpj.WADRegion : lpj.BannerRegion + 1),
                 BannerTitle = lpj.BannerTitle,
                 BannerYear = lpj.BannerYear,
                 BannerPlayers = lpj.BannerPlayers,

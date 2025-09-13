@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace FriishProduce
 {
@@ -24,24 +25,6 @@ namespace FriishProduce
         FAILED_INTERNET,
         FAILED_INJECTION,
         FAILED_DOWNLOADED_WAD
-    }
-    public static class Logger
-    {
-        private static string Text { get; set; }
-
-        public static void Log(string msg)
-        {
-            try { Text = File.ReadAllText(PathConstants.Log); } catch { }
-
-            if (!string.IsNullOrWhiteSpace(Text))
-                Text += Environment.NewLine;
-            Text += $"[{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2} {DateTime.Now.Hour:D2}:{DateTime.Now.Minute:D2}:{DateTime.Now.Second:D2}] {msg}";
-
-            // File.WriteAllText(Paths.Log, Text);
-#if DEBUG
-        Console.WriteLine(msg);
-#endif
-        }
     }
 
     public static class HTML
@@ -212,7 +195,7 @@ namespace FriishProduce
                 if (!URL.StartsWith("https://") && !URL.StartsWith("http://")) URL = "https://" + URL;
                 if (!URL.EndsWith("/")) URL += "/";
 
-                Logger.Log($"\nSending initial Web request to URL:\n\"{URL}\"");
+                Logger.INFO($"\nSending initial Web request to URL:\n\"{URL}\"");
                 var request = (HttpWebRequest)WebRequest.Create(URL);
 
                 URL = request.Address.Authority;
@@ -261,7 +244,7 @@ namespace FriishProduce
                 {
                     if (!CompatibilityMode)
                     {
-                        Logger.Log("Failed to send initial Web request. Starting over in compatibility mode.");
+                        Logger.WARN("Failed to send initial Web request. Starting over in compatibility mode.");
                         CompatibilityMode = true;
                         goto Start;
                     }
@@ -275,7 +258,7 @@ namespace FriishProduce
                 if (ex.GetType() == typeof(WebException) && (ex as WebException).Status == WebExceptionStatus.ProtocolError)
                     return true;
 
-                Logger.Log("Failed to send initial Web request. Process halted.");
+                Logger.ERROR("Failed to send initial Web request. Process halted.");
                 throw new Exception(string.Format(Program.Lang.Msg(0, 1), Message(ex, URL)));
             }
         }
@@ -343,7 +326,7 @@ namespace FriishProduce
         public static bool CheckHttp(string URL, string msg = "\nChecking URL:\n", int timeout = 200) {
             Start:
             if (!string.IsNullOrEmpty(msg))
-                Logger.Log($"{msg}\"{URL}\"\n");
+                Logger.INFO($"{msg}\"{URL}\"\n");
             try {
                 var request = (HttpWebRequest)WebRequest.Create(URL);
                 request.Method = "HEAD"; // Only fetch headers
@@ -354,7 +337,7 @@ namespace FriishProduce
                 // 200-399 means valid response
             }
             catch (WebException ex) when (!CompatibilityMode && ex.Status == WebExceptionStatus.SecureChannelFailure) {
-                Logger.Log("Failed to check URL. Starting over in compatibility mode.");
+                Logger.WARN("Failed to check URL. Starting over in compatibility mode.");
                 CompatibilityMode = true;
                 goto Start;
             }
@@ -367,7 +350,7 @@ namespace FriishProduce
         {
             Start:
             bool invalid = false;
-            Logger.Log($"{msg}\"{URL}\"\n");
+            Logger.INFO($"{msg}\"{URL}\"\n");
 
             // Actual web connection is done here
             // ****************
@@ -393,7 +376,7 @@ namespace FriishProduce
                     // ****************
                     if (!CompatibilityMode && ex.GetType() == typeof(WebException) && (ex as WebException).Status == WebExceptionStatus.SecureChannelFailure)
                     {
-                        Logger.Log("Failed to download from URL. Starting over in compatibility mode.");
+                        Logger.WARN("Failed to download from URL. Starting over in compatibility mode.");
                         CompatibilityMode = true;
                         goto Start;
                     }
@@ -515,7 +498,7 @@ namespace FriishProduce
                 File.Delete(testFile);
             }
             catch (Exception ex) {
-                Logger.Log($"Cannot write to folder '{folderPath}': {ex.Message}");
+                Logger.ERROR($"Cannot write to folder '{folderPath}': {ex.Message}");
                 throw new UnauthorizedAccessException($"Folder is not writable: {folderPath}", ex);
             }
         }
@@ -534,6 +517,45 @@ namespace FriishProduce
             int index = 0;
             form.Controls.OfType<GroupBox>().ToList().ForEach(gb => gb.Controls.Cast<Control>().ToList().ForEach(c => c.TabIndex = index++));
             form.Controls.Cast<Control>().Where(c => c is not GroupBox).ToList().ForEach(c => c.TabIndex = index++);
+        }
+
+        public static void AddCtrlListeners(Control parent) {
+            foreach (Control ctrl in parent.Controls) {
+                // Handle all controls
+                ctrl.Click += (s, e) => {
+                    if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control) // only log if Ctrl is held
+                        Logger.Log($"Clicked: {ctrl.Name} ({ctrl.GetType().Name}) " + $"Text='{ctrl.Text}' Tag='{ctrl.Tag ?? "null"}'");
+                };
+
+                // Specific listeners for input-type controls
+                if (ctrl is CheckBox cb)
+                    cb.CheckedChanged += (s, e) => {
+                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+                            Logger.Log($"Toggled: {cb.Name} (Checked={cb.Checked})");
+                    };
+
+                else if (ctrl is RadioButton rb)
+                    rb.CheckedChanged += (s, e) => {
+                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+                            Logger.Log($"Radio: {rb.Name} (Checked={rb.Checked})");
+                    };
+
+                else if (ctrl is ComboBox combo)
+                    combo.SelectedIndexChanged += (s, e) => {
+                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+                            Logger.Log($"Combo: {combo.Name} (Selected={combo.SelectedItem})");
+                    };
+
+                else if (ctrl is TextBox tb)
+                    tb.TextChanged += (s, e) => {
+                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+                            Logger.Log($"Text changed: {tb.Name} (Text='{tb.Text}')");
+                    };
+
+                // Get child elements too
+                if (ctrl.HasChildren)
+                    AddCtrlListeners(ctrl);
+            }
         }
 
         /// <summary>
@@ -604,19 +626,20 @@ namespace FriishProduce
             string exeArch = DetectPeArch(app);
 
             // OS proc info
-            Logger.Log($"\n[$Utils#Run] DEBUG:");
-            Logger.Log($"OS 64-bit: {Environment.Is64BitOperatingSystem}, Process 64-bit: {Environment.Is64BitProcess}");
+            Logger.Prnt();
+            Logger.Sub($"OS 64-bit: {Environment.Is64BitOperatingSystem}, Process 64-bit: {Environment.Is64BitProcess}");
 
             File.WriteAllBytes(targetPath, app);
             // app check head, must start with 'MZ'
             if (app.Length < 2 || app[0] != 'M' || app[1] != 'Z')
                 throw new InvalidOperationException($"{embed} is not a valid executable (missing MZ header).\n{emdet}");
             else
-                Logger.Log($"{embed}\n{emdet}\nEmbedded exe architecture: {DetectPeArch(app)}\n");
+                Logger.Sub($"{embed}\n{emdet}\nEmbedded exe architecture: {DetectPeArch(app)}");
 
             if (Environment.Is64BitOperatingSystem == false && exeArch.Contains("64-bit"))
-                Logger.Log("[WARNING] Cannot run 64-bit exe on 32-bit OS!");
+                Logger.WARN("Cannot run 64-bit exe on 32-bit OS!");
 
+            Logger.Prnt();
             string value = Run(targetPath, PathConstants.WorkingFolder, arguments, showWindow, redirectOutput);
             // try { File.Delete(targetPath); } catch { } // 
 
@@ -650,7 +673,7 @@ namespace FriishProduce
                 return redirectOutput ? p.StandardOutput.ReadToEnd() : null;
             }
             catch (System.ComponentModel.Win32Exception ex) {
-                Logger.Log($"Win32Exception: {ex.Message}, NativeErrorCode: {ex.NativeErrorCode}"); throw;
+                Logger.ERROR($"Win32Exception: {ex.Message}, NativeErrorCode: {ex.NativeErrorCode}"); throw;
             }
         }
 

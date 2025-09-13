@@ -40,6 +40,7 @@
 			"system": "系统",
 			"display": "显示",
 			"debug_mode": "正在调试模式下运行",
+			"info_log": "切换【INFO】日志",
 
 			"vc": "虚拟控制台",
 			"vc_options": "虚拟控制台选项",

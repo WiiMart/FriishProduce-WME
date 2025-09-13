@@ -21,7 +21,7 @@ namespace FriishProduce.Injectors
         private string GetSetting(string key) {
             if (HasSetting(key) && Settings.TryGetValue(key, out var value))
                 return value;
-            Logger.Log($"WARNING: Settings key missing or invalid: '{key}'");
+            Logger.WARN($"Settings key missing or invalid: '{key}'");
             return null;
         }
 
@@ -406,8 +406,8 @@ namespace FriishProduce.Injectors
 
            mouse						on
            qwerty_keyboard					on			# hardware keyboard
-           qwerty_events					off			# hardware keyboard sends flash events
-           use_keymap					off			# determines if the region's keymap.ini is used
+           qwerty_events					on			# hardware keyboard sends flash events
+           use_keymap					on			# determines if the region's keymap.ini is used
            navigation_model				4way			# 2way / 4way / 4waywrap
            quality						high			# low / medium / high
            looping						on
@@ -545,17 +545,21 @@ namespace FriishProduce.Injectors
 
         public WAD Inject(WAD wad, string[] lines, ImageHelper Img)
         {
-            Logger.Log(
-                $"SWF: {(SWF == null ? "null" : "set")}, " +
-                $"SWF.FilePath: {SWF?.FilePath ?? "null"}, " +
-                $"Keymap: {(Keymap == null ? "null" : string.Join(",", Keymap))}, " +
-                $"Keymap.Count: {(Keymap == null ? "null" : (Keymap.Count == 0 ? "empty" : Keymap.Count.ToString()))}, " +
-                $"WAD: {(wad == null ? "null" : wad.UpperTitleID)}, " +
+            Logger.Log("# Inject Vars:", true);
+            Logger.Sub(
+                $"SWF: {(SWF == null ? "null" : "set")}",
+                $"SWF.FilePath: {SWF?.FilePath ?? "null"}",
+                $"Keymap: {(Keymap == null ? "null" : string.Join(",", Keymap))}",
+                $"Keymap.Count: {(Keymap == null ? "null" : (Keymap.Count == 0 ? "empty" : Keymap.Count.ToString()))}",
+                $"WAD: {(wad == null ? "null" : wad.UpperTitleID)}",
                 $"WAD.Contents[2]: {(wad?.Contents.Length > 2 ? "02.app present" : "null")}"
             );
-            Logger.Log("[Settings map]:");
+            Logger.Prnt();
+
+            Logger.Log("# Settings map:");
             foreach (var kvp in Settings)
-                Logger.Log($"   {kvp.Key}: {(string.IsNullOrEmpty(kvp.Value) ? "missing/empty" : kvp.Value)}");
+                Logger.Sub($"{kvp.Key}: {(string.IsNullOrEmpty(kvp.Value) ? "missing/empty" : kvp.Value)}");
+            Logger.Prnt();
 
             MainContent = U8.Load(wad.Contents[2]);
             MainContent.Extract(PathConstants.FlashContents);
@@ -571,13 +575,13 @@ namespace FriishProduce.Injectors
                 .FirstOrDefault(fb => File.Exists(PathConstants.FlashContents + fb.Path));
 
             if (flMatch == null || flMatch == FlashBase.Invalid) {
-                Logger.Log($"flMatch is Invalid, cannot access path\nTarget: {swfTarget}");
+                Logger.ERROR($"flMatch is Invalid, cannot access target path:\n{swfTarget}");
                 throw new Exception(Program.Lang.Msg(13, 1));
             }
             // get our match
             flBase = flMatch;
             swfTarget = PathConstants.FlashContents + flMatch.Path;
-            Logger.Log($"flMatch.Content: {flMatch.Domain}\nflMatch.FullPath: {flMatch.FullPath}");
+            Logger.INFO($"flMatch.Content: {flMatch.Domain}", $"flMatch.FullPath: {flMatch.FullPath}");
 
             #endregion
 
@@ -687,7 +691,7 @@ namespace FriishProduce.Injectors
 
                         $"mouse                           {GetSetting("mouse")}",
                         $"qwerty_keyboard                 {GetSetting("qwerty_keyboard")}",
-                        "navigation_model                4way                # 2way / 4way / 4waywrap",
+                        $"navigation_model                {(GetSetting("qwerty_keyboard") == "on" ? "4way" : "2way")}                # 2way / 4way / 4waywrap",
                         $"quality                         {GetSetting("quality")}",
                         "looping                         on",
 
@@ -696,7 +700,7 @@ namespace FriishProduce.Injectors
                         $"midi                            {(HasSetting("midi") ? "on" : "off")}",
                         $"{(HasSetting("midi") ? "" : "# ")}dls_file                      dls/GM16.DLS",
 
-                        "key_input                       on",
+                        $"key_input					{GetSetting("qwerty_keyboard")}			# software keyboard -- requires hardware keyboard and mouse",
 
                         "cursor_archive                  cursor.arc",
                         "cursor_layout                   cursor.brlyt",
@@ -761,11 +765,11 @@ namespace FriishProduce.Injectors
                                 "content_mem1					no",
                                 "content_buffer_mode				copy",
                                 "",
-                                "mouse						on",
-                                "qwerty_keyboard					on			# hardware keyboard",
-                                "qwerty_events					on			# hardware keyboard sends flash events",
+                                $"mouse						{GetSetting("mouse")}",
+                                $"qwerty_keyboard					{GetSetting("qwerty_keyboard")}			# hardware keyboard",
+                                $"qwerty_events					{GetSetting("qwerty_keyboard")}			# hardware keyboard sends flash events",
                                 "use_keymap					on			# determines if the region's keymap.ini is used",
-                                "navigation_model				4way			# 2way / 4way / 4waywrap",
+                                $"navigation_model                {(GetSetting("qwerty_keyboard") == "on" ? "4way" : "2way")}                # 2way / 4way / 4waywrap",
                                 "quality						high			# low / medium / high",
                                 "looping						on",
                                 "",
@@ -774,7 +778,7 @@ namespace FriishProduce.Injectors
                                 $"midi						{(HasSetting("midi") ? "on" : "off")}",
                                 $"{(HasSetting("midi") ? "" : "# ")}dls_file					dls/GM16.DLS",
                                 "",
-                                "key_input					on			# software keyboard -- requires hardware keyboard and mouse",
+                                $"key_input					{GetSetting("qwerty_keyboard")}			# software keyboard -- requires hardware keyboard and mouse",
                                 "",
                                 "cursor_archive					cursor.arc",
                                 "cursor_layout					cursor.brlyt",
@@ -1077,10 +1081,10 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(wad.Contents[6]);
-            Logger.Log("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
+            Logger.INFO("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
 
             if (this.Manual != null && !this.UsesOrigManual) { // check SelectedIndex BROKEN ATM
-                Logger.Log("Attempting to replace Operation Manual for Flash inject, flBase = " + flBase);
+                Logger.INFO("Attempting to replace Operation Manual for Flash inject, flBase = " + flBase);
                 int start = -1;
                 int end = -1;
 

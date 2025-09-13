@@ -138,6 +138,7 @@ namespace FriishProduce
             public bool debug_mode { get; set; } = false;
             public bool force_update { get; set; } = false;
 #endif
+            public bool log_info { get; set; } = true;
             public bool auto_update { get; set; } = false;
             public int theme { get; set; } = 0;
             public bool donotshow_000 { get; set; } = false;

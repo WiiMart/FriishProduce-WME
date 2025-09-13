@@ -47,219 +47,142 @@ namespace FriishProduce.Properties {
         public static global::System.Globalization.CultureInfo Culture {
             get => resourceCulture; set => resourceCulture = value;
         }
+
+        /// <summary>
+        ///   Centralized method for fetching a ResourceManager object with safe casting
+        /// </summary>
+        public static T GetResource<T>(string name) where T : class {
+            object resource;
+            // Use GetStream for audio/binary resources
+            if (typeof(T) == typeof(System.IO.UnmanagedMemoryStream))
+                resource = ResourceManager.GetStream(name, resourceCulture);
+            else // Use GetObject for everything else
+                resource = ResourceManager.GetObject(name, resourceCulture);
+            return resource as T ?? throw new InvalidOperationException($"Resource '{name}' cannot be found or is not a valid {typeof(T).Name}.");
+        }
+
+        /// <summary>
+        ///   Simplified wrapped methods to look up a localized System.Drawing.Icon
+        /// </summary>
+        public static System.Drawing.Icon GetIcon(string name) => GetResource<System.Drawing.Icon>(name);
+
+        /// <summary>
+        ///   Simplified wrapped methods to look up a localized System.Drawing.Bitmap
+        /// </summary>
+        public static System.Drawing.Bitmap GetBitmap(string name) => GetResource<System.Drawing.Bitmap>(name);
+
+        /// <summary>
+        ///   Simplified wrapped methods to look up a localized System.Byte[]
+        /// </summary>
+        public static byte[] GetBytes(string name) => GetResource<byte[]>(name);
+
+// =====================================================================================================================>
+//                      Simplified type-specific resources using wrapper methods below
+// =====================================================================================================================>
+
+// Icon image resources
+//
+        /// <summary>The brick icon image</summary>
+        public static System.Drawing.Icon brick => GetIcon("brick");
+
+// Byte array resources
+//
+        public static byte[] Database => GetBytes("Database");
+
+        public static byte[] English => GetBytes("English");
+
+        public static byte[] Font => GetBytes("Font");
+
+        public static byte[] NeoGeo_VC1 => GetBytes("NeoGeo_VC1");
+
+        public static byte[] NeoGeo_VC2 => GetBytes("NeoGeo_VC2");
+
+        public static byte[] NeoGeo_VC3 => GetBytes("NeoGeo_VC3");
+
+        public static byte[] StaticBase => GetBytes("StaticBase");
+
+// Bitmap image resources
+//
+        /// <summary>The play control button bitmap image</summary>
+        public static System.Drawing.Bitmap control_play => GetBitmap("control_play");
+
+        /// <summary>The stop control button bitmap image</summary>
+        public static System.Drawing.Bitmap control_stop => GetBitmap("control_stop");
+
+        /// <summary>The cross button bitmap image</summary>
+        public static System.Drawing.Bitmap cross => GetBitmap("cross");
+
+        /// <summary>The EU flag bitmap image</summary>
+        public static System.Drawing.Bitmap flag_eu => GetBitmap("flag_eu");
+
+        /// <summary>The EU flag (50hz) bitmap image</summary>
+        public static System.Drawing.Bitmap flag_eu50 => GetBitmap("flag_eu50");
+
+        /// <summary>The EU flag (60hz) bitmap image</summary>
+        public static System.Drawing.Bitmap flag_eu60 => GetBitmap("flag_eu60");
+
+        /// <summary>The Japan flag bitmap image</summary>
+        public static System.Drawing.Bitmap flag_jp => GetBitmap("flag_jp");
+
+        /// <summary>The Korean flag bitmap image</summary>
+        public static System.Drawing.Bitmap flag_kr => GetBitmap("flag_kr");
+
+        /// <summary>The US flag bitmap image</summary>
+        public static System.Drawing.Bitmap flag_us => GetBitmap("flag_us");
+
+        /// <summary>The information icon bitmap image</summary>
+        public static System.Drawing.Bitmap information => GetBitmap("information");
+
+        /// <summary>The loading spinner bitmap image</summary>
+        public static System.Drawing.Bitmap loading => GetBitmap("loading");
+
+        /// <summary>The logo bitmap image</summary>
+        public static System.Drawing.Bitmap logo => GetBitmap("logo");
+
+        /// <summary>The Classic Controller mapping bitmap image</summary>
+        public static System.Drawing.Bitmap mapping_cc => GetBitmap("mapping_cc");
+
+        /// <summary>The GameCube mapping bitmap image</summary>
+        public static System.Drawing.Bitmap mapping_gc => GetBitmap("mapping_gc");
+
+        /// <summary>The *horizontal* Wii Remote mapping bitmap image</summary>
+        public static System.Drawing.Bitmap mapping_wiiremh => GetBitmap("mapping_wiiremh");
+
+        /// <summary>The *vertical* Wii Remote mapping bitmap image</summary>
+        public static System.Drawing.Bitmap mapping_wiiremv => GetBitmap("mapping_wiiremv");
         
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Icon brick =>
-            (System.Drawing.Icon) ResourceManager.GetObject("brick", resourceCulture);
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap control_play =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("control_play", resourceCulture);
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap control_stop =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("control_stop", resourceCulture);
+        /// <summary>The CD page bitmap image (select ROM)</summary>
+        public static System.Drawing.Bitmap page_white_cd => GetBitmap("page_white_cd");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap cross =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("cross", resourceCulture);
+        /// <summary>The warning icon bitmap image</summary>
+        public static System.Drawing.Bitmap warn_ico => GetBitmap("warn_ico");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Database =>
-            (byte[]) ResourceManager.GetObject("Database", resourceCulture);
+        /// <summary>The Flash page bitmap image (select SWF)</summary>
+        public static System.Drawing.Bitmap page_white_flash => GetBitmap("page_white_flash");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] English =>
-            (byte[]) ResourceManager.GetObject("English", resourceCulture);
+        /// <summary>The ZIP page bitmap image (select ZIP ROM archive)</summary>
+        public static System.Drawing.Bitmap page_white_zip => GetBitmap("page_white_zip");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_eu =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_eu", resourceCulture);
+        /// <summary>The RetroArch logo bitmap image</summary>
+        public static System.Drawing.Bitmap retroarch => GetBitmap("retroarch");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_eu50 =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_eu50", resourceCulture);
+        /// <summary>The RetroArch (white) logo bitmap image</summary>
+        public static System.Drawing.Bitmap retroarch_w => GetBitmap("retroarch_w");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_eu60 =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_eu60", resourceCulture);
+        /// <summary>The NES screenshot bitmap image</summary>
+        public static System.Drawing.Bitmap screen_nes => GetBitmap("screen_nes");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_jp =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_jp", resourceCulture);
+        /// <summary>The Sega Mega Drive screenshot bitmap image</summary>
+        public static System.Drawing.Bitmap screen_smd => GetBitmap("screen_smd");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_kr =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_kr", resourceCulture);
+        /// <summary>The Sega Master System screenshot bitmap image</summary>
+        public static System.Drawing.Bitmap screen_sms => GetBitmap("screen_sms");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap flag_us =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("flag_us", resourceCulture);
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Font => (byte[]) ResourceManager.GetObject("Font", resourceCulture);
+        public static System.Drawing.Bitmap tick => GetBitmap("tick");
+        public static System.Drawing.Bitmap tick_circle => GetBitmap("tick_circle");
+        public static System.Drawing.Bitmap x => GetBitmap("x");
 
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap information =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("information", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap loading =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("loading", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap logo =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("logo", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap mapping_cc =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("mapping_cc", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap mapping_gc =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("mapping_gc", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap mapping_wiiremh =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("mapping_wiiremh", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap mapping_wiiremv =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("mapping_wiiremv", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] NeoGeo_VC1 => (byte[]) ResourceManager.GetObject("NeoGeo_VC1", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] NeoGeo_VC2 => (byte[]) ResourceManager.GetObject("NeoGeo_VC2", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] NeoGeo_VC3 => (byte[]) ResourceManager.GetObject("NeoGeo_VC3", resourceCulture);
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap page_white_cd =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("page_white_cd", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap warn_ico =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("warn_ico", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap page_white_flash =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("page_white_flash", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap page_white_zip =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("page_white_zip", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap retroarch =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("retroarch", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap retroarch_w =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("retroarch_w", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap screen_nes =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("screen_nes", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap screen_smd =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("screen_smd", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap screen_sms =>
-            (System.Drawing.Bitmap) ResourceManager.GetObject("screen_sms", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        public static System.IO.UnmanagedMemoryStream Sound_WiiVC => ResourceManager.GetStream("Sound_WiiVC", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] StaticBase => (byte[]) ResourceManager.GetObject("StaticBase", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap tick => (System.Drawing.Bitmap) ResourceManager.GetObject("tick", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap tick_circle => (System.Drawing.Bitmap) ResourceManager.GetObject("tick_circle", resourceCulture);
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap x => (System.Drawing.Bitmap) ResourceManager.GetObject("x", resourceCulture);
-
+        /// <summary>The Wii Virtual Console sound as an UnmanagedMemoryStream resource</summary>
+        public static System.IO.UnmanagedMemoryStream Sound_WiiVC => GetResource<System.IO.UnmanagedMemoryStream>("Sound_WiiVC");
     }
 }

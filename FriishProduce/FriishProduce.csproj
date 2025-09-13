@@ -444,7 +444,8 @@
     <Compile Include="_classes\Helpers\SoundHelper.cs" />
     <Compile Include="_classes\Program\Settings.cs" />
     <Compile Include="_classes\Utilities.cs" />
-    <Compile Include="_classes\WadMeta.cs" />
+    <Compile Include="_classes\Meta.cs" />
+    <Compile Include="_classes\MetaLocalizations.cs" />
     <Compile Include="_classes\Platform.cs" />
     <Compile Include="_classes\SettingsConstant.cs" />
     <Compile Include="_classes\Creators\WiiVC\_base.cs" />
@@ -751,22 +752,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\apps\sharpii_1.7.3\Sharpii.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\apps\sharpii_1.7.3\LICENSE.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\apps\sharpii_1.7.3\WadInstaller.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="database.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Target Name="CopySharpiiLibs" AfterTargets="Build">
-    <Copy SourceFiles="Resources\apps\sharpii_1.7.3\libWiiSharp.dll" DestinationFolder="$(OutputPath)\Resources\apps\sharpii_1.7.3" />
-  </Target>
   <ItemGroup>
     <FileAssociation Include=".jfpp">
       <Visible>False</Visible>

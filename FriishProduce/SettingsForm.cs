@@ -16,9 +16,10 @@ namespace FriishProduce
         private int dirtyOption2;
         private bool dirtyOption3;
 
-        public SettingsForm()
-        {
+        public SettingsForm() {
             InitializeComponent();
+            Utils.SetTabIndices(this);
+            Utils.AddCtrlListeners(this);
         }
 
         public void RefreshForm()
@@ -201,6 +202,7 @@ namespace FriishProduce
             debug_mode.Visible = false;
 #endif
             theme.Enabled = Program.DebugMode;
+            log_info.Checked = Program.Config.application.log_info;
 
 #endregion
 
@@ -315,6 +317,7 @@ namespace FriishProduce
             // -------------------------------------------
             // Restart message box & save changes
             // -------------------------------------------
+            Program.Config.application.log_info = log_info.Checked;
             Program.Config.Save();
 
             bool isDirty = isShown

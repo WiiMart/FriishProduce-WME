@@ -8,6 +8,7 @@ namespace FriishProduce
         {
             AllowedKeymaps = Allowed.Wiimote | Allowed.Nunchuk | Allowed.Classic;
             InitializeComponent();
+            Utils.AddCtrlListeners(this);
             if (DesignMode) return;
 
             #region Modifiable values: Buttons

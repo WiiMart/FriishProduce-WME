@@ -40,6 +40,7 @@
 			"system": "系統",
 			"display": "顯示",
 			"debug_mode": "正在除錯模式下執行",
+			"info_log": "切換【INFO】日誌",
 
 			"vc": "虛擬主機",
 			"vc_options": "虛擬主機選項",

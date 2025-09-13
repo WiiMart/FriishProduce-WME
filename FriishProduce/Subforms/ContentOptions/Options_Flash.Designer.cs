@@ -29,6 +29,7 @@ namespace FriishProduce
         /// </summary>
         private void InitializeComponent()
         {
+            Utils.AddCtrlListeners(this);
             this.groupBox1 = new FriishProduce.GroupBoxEx();
             this.quality = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new FriishProduce.GroupBoxEx();
@@ -476,7 +477,7 @@ namespace FriishProduce
         private PlaceholderTextBox flash_vars;
         private System.Windows.Forms.Label flash_vars_l;
 
-        private System.Windows.Forms.CheckBox save_data_enable;
+        internal System.Windows.Forms.CheckBox save_data_enable;
         private System.Windows.Forms.CheckBox no_copy_save;
 
         private System.Windows.Forms.CheckBox qwerty_keyboard;

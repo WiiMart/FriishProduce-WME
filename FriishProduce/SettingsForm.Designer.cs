@@ -38,6 +38,7 @@ namespace FriishProduce
             this.TreeView = new System.Windows.Forms.TreeView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.debug_mode = new System.Windows.Forms.CheckBox();
+            this.log_info = new System.Windows.Forms.CheckBox();
             this.theme = new FriishProduce.GroupBoxEx();
             this.themes = new System.Windows.Forms.ComboBox();
             this.bypass_rom_size = new System.Windows.Forms.CheckBox();
@@ -179,6 +180,7 @@ namespace FriishProduce
             // panel1
             // 
             this.panel1.Controls.Add(this.debug_mode);
+            this.panel1.Controls.Add(this.log_info);
             this.panel1.Controls.Add(this.publisher_opt);
             this.panel1.Controls.Add(this.publisher_opt_tb);
             this.panel1.Controls.Add(this.theme);
@@ -199,6 +201,12 @@ namespace FriishProduce
             this.debug_mode.UseVisualStyleBackColor = true;
             this.debug_mode.Enabled = false;
             this.debug_mode.Checked = Program.DebugMode;
+
+            resources.ApplyResources(this.log_info, "log_info");
+            this.log_info.Name = "log_info";
+            this.log_info.Tag = "log_info";
+            this.log_info.UseVisualStyleBackColor = true;
+            this.log_info.Checked = true;
             // 
             // publisher
             resources.ApplyResources(this.publisher_opt, "publisher_opt");
@@ -749,5 +757,6 @@ namespace FriishProduce
         private System.Windows.Forms.Label default_content_options_l;
         private System.Windows.Forms.ListBox default_content_options_list;
         private System.Windows.Forms.CheckBox debug_mode;
+        private System.Windows.Forms.CheckBox log_info;
     }
 }

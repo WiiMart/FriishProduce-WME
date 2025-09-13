@@ -224,11 +224,11 @@ namespace FriishProduce.Databases
                         string localPath = Path.Combine(bannersDir, Path.GetFileName(new Uri(image).LocalPath));
 
                         if (File.Exists(localPath)) {
-                            Logger.Log($"Using existing local banner:\n{localPath}");
+                            Logger.INFO($"Using existing local banner:\n{localPath}");
                             image = localPath;
                         } 
                         else if (!Web.CheckHttp(image, null)) {
-                            Logger.Log($"Failed to fetch banner image for:\n{image}");
+                            Logger.WARN($"Failed to fetch banner image for:\n{image}");
                             image = null;
                         }
                     }
@@ -242,7 +242,7 @@ namespace FriishProduce.Databases
                                 break;
                             }
                             catch (Exception ex) {
-                                Logger.Log($"Failed to retrieve {imgdb}: {ex.Message}");
+                                Logger.WARN($"Failed to retrieve {imgdb}: {ex.Message}");
                             }
                         }
                         if (string.IsNullOrEmpty(image) && row.Table.Columns.Contains("image"))

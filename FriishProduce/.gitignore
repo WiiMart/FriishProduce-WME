@@ -12,6 +12,7 @@ legacy/
 
 /docs/site
 .vscode/settings.json
+debug.log
 /FriishProduce/obj
 /FriishProduce/FriishProduce/obj
 /FriishProduce/packages

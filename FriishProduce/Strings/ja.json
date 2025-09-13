@@ -34,6 +34,7 @@
 			"system": "本体",
 			"display": "画面",
 			"debug_mode": "デバッグモード",
+			"info_log": "【INFO】ログ切り替え",
 			"vc": "バーチャルコンソール",
 			"vc_options": "バーチャルコンソール設定",
 			"additional": "これらの設定は{0}にも適用されます。",

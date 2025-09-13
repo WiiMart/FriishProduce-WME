@@ -40,6 +40,7 @@
 			"system": "Sistema",
 			"display": "Exibição",
 			"debug_mode": "Executando em modo de depuração",
+			"info_log": "Toggle [INFO] Logging",
 
 			"vc": "Console Virtual",
 			"vc_options": "Opções do Console Virtual",

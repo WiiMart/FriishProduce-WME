@@ -15,6 +15,7 @@ namespace FriishProduce
         {
             InitializeComponent();
             Utils.SetTabIndices(this);
+            Utils.AddCtrlListeners(this);
             if (DesignMode) return;
 
             controllerForm = new Controller_Flash();
@@ -70,26 +71,22 @@ namespace FriishProduce
         {
             // Disable certain options if configuring application settings
             // *******
-            if (Binding != null)
-            {
-                if (Controls.Contains(controller_box))
-                {
+            if (Binding != null) {
+                if (Controls.Contains(controller_box)) {
                     Controls.Remove(controller_box);
-                    zoom.Location = controller_box.Location;
+                    //zoom.Location = controller_box.Location;
                 }
 
                 midi.Enabled = false;
                 swf_metadata.Enabled = false;
 
-                if (controls.Controls.Contains(midi))
-                {
-                    controls.Controls.Remove(midi);
+                if (controls.Controls.Contains(midi)) {
                     controls.Height -= midi.Height;
-                    zoom.Location = controller_box.Location = new(controller_box.Location.X, controller_box.Location.Y - midi.Height);
+                    //zoom.Location = controller_box.Location = new(controller_box.Location.X, controller_box.Location.Y - midi.Height);
+                    controls.Controls.Remove(midi);
                 }
 
-                if (Controls.Contains(swf_metadata))
-                {
+                if (Controls.Contains(swf_metadata)) {
                     Controls.Remove(swf_metadata);
                     Height = Height - swf_metadata.Height - strap_reminder.Height + zoom.Height;
                     strap_reminder.Location = swf_metadata.Location;

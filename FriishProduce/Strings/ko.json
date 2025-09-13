@@ -40,6 +40,7 @@
 			"system": "시스템",
 			"display": "화면",
 			"debug_mode": "디버그 모드에서 실행",
+			"info_log": "【INFO】 로그 전환",
 
 			"vc": "가상 콘솔",
 			"vc_options": "VC 옵션",

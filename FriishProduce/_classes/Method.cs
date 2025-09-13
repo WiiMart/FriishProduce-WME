@@ -70,7 +70,7 @@ namespace FriishProduce
         public ImageHelper Img { get; set; } = null;
 
         public int EmuVersion { get; set; } = 0;
-        private Platform Platform { get; set; } = 0;
+        public Platform Platform { get; set; } = 0;
 
         public Method(Platform platform)
         {
@@ -86,7 +86,7 @@ namespace FriishProduce
 
                 if (!string.IsNullOrWhiteSpace(path)) {
                     if (File.Exists(path)) {
-                        Logger.Log($"\nLoading imported WAD with title ID: {tid}");
+                        Logger.INFO($"Loading imported WAD with title ID: {tid}");
                         toLoad = path; SrcBase = path;
                     }
                     else if (path.ToLower().StartsWith("http")) {
@@ -101,7 +101,7 @@ namespace FriishProduce
                         Program.MainForm.Wait(true, true, true, 0, 1);
 
                         if (File.Exists(localPath)) {
-                            Logger.Log($"\nLoading existing downloaded WAD with title ID: {tid}");
+                            Logger.INFO($"\nLoading existing downloaded WAD with title ID: {tid}");
                             toLoad = localPath; SrcBase = localPath;
                         }
                         else {
@@ -112,18 +112,18 @@ namespace FriishProduce
                                 toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
                                 if (Program.Config.application.locsave_wad) {
                                     File.WriteAllBytes(localPath, wadData);
-                                    Logger.Log($"Saved WAD locally to:\n\"{localPath}\"\n");
+                                    Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
                                 }
                             }
                             catch (Exception ex) {
-                                Logger.Log($"Failed to download or save WAD from {path}: {ex.Message}");
+                                Logger.WARN($"Failed to download or save WAD from {path}: {ex.Message}");
                             }
                             _updateProgress();
                         }
                     }
                 }
                 else {
-                    Logger.Log($"Loading blank WAD.");
+                    Logger.INFO($"Loading blank WAD.");
                     toLoad = Properties.Resources.StaticBase;
                 }
 
@@ -139,11 +139,11 @@ namespace FriishProduce
                 if (WAD == null || WAD?.NumOfContents <= 1)
                     throw new Exception(Program.Lang.Msg(9, 1));
 
-                Logger.Log($"WAD base loaded.");
+                Logger.INFO($"WAD base loaded.");
             }
             catch (Exception ex) {
-                Logger.Log($"ERROR: Failed to load original WAD. {ex.Message}");
-                if (ex.InnerException != null) Logger.Log(ex.InnerException.Message);
+                Logger.ERROR($"Failed to load original WAD. {ex.Message}");
+                if (ex.InnerException != null) Logger.ERROR(ex.InnerException.Message);
                 throw;
             }
         }
@@ -162,7 +162,7 @@ namespace FriishProduce
                         Multifile = IsMultifile,
                     };
                     Flash.Manual = Manual;
-                    Logger.Log("Injecting Adobe Flash, Small Web File.");
+                    Logger.INFO("Injecting Adobe Flash, Small Web File.");
                     WAD = Flash.Inject(WAD, SaveDataTitle, Img);
                 }
 
@@ -171,7 +171,7 @@ namespace FriishProduce
                     // Create Wii VC injector to use
                     // *******
                     InjectorWiiVC VC = null;
-                    Logger.Log($"Injecting VC data for {Platform}.");
+                    Logger.INFO($"Injecting VC data for {Platform}.");
                     switch (Platform)
                     {
                         default:
@@ -241,26 +241,25 @@ namespace FriishProduce
                     // Get settings from relevant form
                     // *******
                     VC.Settings = Settings.List;
-                    Logger.Log("Applied injection method settings.");
+                    Logger.INFO("Applied injection method settings.");
                     VC.Keymap = Settings.Keymap;
-                    Logger.Log("Keymap.ini settings applied.");
+                    Logger.INFO("Keymap.ini settings applied.");
 
                     // Set path to manual (if it exists) and load WAD
                     //// *******
                     VC.Manual = Manual;
-                    Logger.Log("Operations Manual settings applied.");
+                    Logger.INFO("Operations Manual settings applied.");
 
                     // Actually inject everything
                     // *******
                     WAD = VC.Inject(WAD, ROM, SaveDataTitle, Img);
-                    Logger.Log("Flashed ROM data.\nSave data titles written.\nRecompressed channel, banner, and save images.");
+                    Logger.INFO("Flashed ROM data.", "Save data titles written.", "Recompressed channel, banner, and save images.");
                 }
                 _updateProgress();
             }
 
-            catch (Exception ex)
-            {
-                Logger.Log($"ERROR: {ex.Message}");
+            catch (Exception ex) {
+                Logger.ERROR($"{ex.Message}");
                 throw;
             }
         }
@@ -288,13 +287,13 @@ namespace FriishProduce
                 f.CreateZIP(Path.Combine(Path.GetDirectoryName(Out), Path.GetFileNameWithoutExtension(Out) + $" ({f.Storage}).zip"));
                 WAD = f.CreateWAD(WAD);
 
-                Logger.Log($"Created {emulator} forwarder.");
+                Logger.INFO($"Created {emulator} forwarder.");
                 _updateProgress();
             }
 
             catch (Exception ex)
             {
-                Logger.Log($"ERROR: Failed to create forwarder. {ex.Message}");
+                Logger.ERROR($"Failed to create forwarder. {ex.Message}");
                 throw;
             }
         }
@@ -306,8 +305,8 @@ namespace FriishProduce
             WAD.ChangeChannelTitles(ChannelTitles_Limit);
             WAD.ChangeTitleID(LowerTitleID.Channel, TitleID);
             WAD.FakeSign = true;
-            Logger.Log($"Changed WAD title ID to {TitleID}.");
-            Logger.Log("Fakesigned WAD.");
+            Logger.INFO($"Changed WAD title ID to {TitleID}.");
+            Logger.INFO("Fakesigned WAD.");
         }
 
         public void EditBanner()
@@ -341,17 +340,14 @@ namespace FriishProduce
 
             catch (Exception ex)
             {
-                Logger.Log($"ERROR: Failed to add VC banner. {ex.Message}");
+                Logger.ERROR($"Failed to add VC banner. {ex.Message}");
                 throw;
             }
         }
 
-        public void Save()
-        {
-            try
-            {
-                if (Directory.Exists(PathConstants.SDUSBRoot))
-                {
+        public void Save() {
+            try {
+                if (Directory.Exists(PathConstants.SDUSBRoot)) {
                     Directory.CreateDirectory(PathConstants.SDUSBRoot + "wad\\");
                     WAD.Save(PathConstants.SDUSBRoot + "wad\\" + Path.GetFileNameWithoutExtension(Out) + ".wad");
 
@@ -365,22 +361,17 @@ namespace FriishProduce
                     // Clean
                     // *******
                     Directory.Delete(PathConstants.SDUSBRoot, true);
-                }
+                } else 
+                    WAD.Save(Out);
 
-                else WAD.Save(Out);
-
-                string metaWait = "\nPlease wait while inject metadata is added...";
-                Logger.Log($"\nSUCCESS! Exported WAD to:\n\"{Out}\"{(Program.Config.application.write_metadata ? metaWait : "")}");
+                Logger.Log($"SUCCESS! Exported WAD to:\n\"{Out}\"");
                 _updateProgress();
                 _progress.step = _progress.max;
-
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-
-            catch (Exception ex)
-            {
-                Logger.Log($"ERROR: Failed to export. {ex.Message}");
+            catch (Exception ex) {
+                Logger.ERROR($"Failed to export. {ex.Message}");
                 throw;
             }
         }

@@ -27,6 +27,7 @@ namespace FriishProduce
 
         protected string Untitled;
         protected (string Letter, string[] Exclude) TIDPrefix;
+        private bool GameScanned { get; set; } = false;
 
         private void DrawGraphics(object sender, PaintEventArgs e) {
             if (banner_form.region.SelectedIndex != region.SelectedIndex)
@@ -502,7 +503,7 @@ namespace FriishProduce
             File.WriteAllText(updatedExt, jfpp);
 
             if (isLegacy && File.Exists(path))
-                try { File.Delete(path); } catch (Exception ex) { Logger.Log($"Failed to delete legacy project file (.fppj, binary-serialized): {ex.Message}"); }
+                try { File.Delete(path); } catch (Exception ex) { Logger.ERROR($"Failed to delete legacy project file (.fppj, binary-serialized): {ex.Message}"); }
 
             IsModified = false;
             _isMint = true;
@@ -720,6 +721,7 @@ namespace FriishProduce
             LoadChannelDatabase();
 
             InitializeComponent();
+            Utils.AddCtrlListeners(this);
             Setup();
             _isShown = true;
 
@@ -909,7 +911,7 @@ namespace FriishProduce
                     }
                     else if (ext.Equals(".fppj", StringComparison.OrdinalIgnoreCase))
                     {
-                        try { banner_form.region.SelectedIndex = WadMeta.RegToInt(project.BannerRegion) + 1; }
+                        try { banner_form.region.SelectedIndex = Meta.RegToInt(project.BannerRegion) + 1; }
                         catch { banner_form.region.SelectedIndex = 0; }
                         finally {
                             linkSaveDataTitle();
@@ -920,7 +922,7 @@ namespace FriishProduce
                     if (project == null)
                         throw new Exception("Failed to load project file.");
 
-                    Logger.Log($"\nOpened project at:\n\"{project.ProjectPath}\"");
+                    Logger.INFO($"Opened project at:\n\"{project.ProjectPath}\"");
                     SetRecentProjects(project.ProjectPath);
                     ProjectPath = project.ProjectPath;
 
@@ -949,7 +951,7 @@ namespace FriishProduce
                     try { banner_form.released.Value = project.BannerYear; } catch { }
                     try { banner_form.players.Value = project.BannerPlayers; } catch { }
 
-                    var pjReg = File.Exists(project.OfflineWAD) ? WadMeta.RegToInt(project.BannerRegion) + 1 : Base.SelectedIndex;
+                    var pjReg = File.Exists(project.OfflineWAD) ? Meta.RegToInt(project.BannerRegion) + 1 : Base.SelectedIndex;
                     try { banner_form.region.SelectedIndex = pjReg; }
                     catch { banner_form.region.SelectedIndex = 0; }
                     finally {
@@ -996,7 +998,7 @@ namespace FriishProduce
                 }
             }
             else {
-                Logger.Log($"Created new {TargetPlatform} project.");
+                Logger.INFO($"Created new {TargetPlatform} project.");
                 use_online_wad.Enabled = Program.Config.application.use_online_wad_enabled;
 
                 if (use_online_wad.Enabled) {
@@ -1089,23 +1091,24 @@ namespace FriishProduce
             if (rom == null || string.IsNullOrEmpty(rom.FilePath)) return;
             string[] matchParams = {
                 banner_form.region.Text,
-                WadMeta.IntToChReg(region.SelectedIndex),
+                Meta.IntToChReg(region.SelectedIndex),
                 InBaseRegion.ToString(),
                 video_mode.SelectedIndex.ToString(),
                 savedata.Lines[0],
                 BannerImg?.VCPic != null ? "img" : ""
             };
-            var conflicts = WadMeta.GetConflictSrcs(matchParams);
-            bool regConflict = conflicts.Contains(WadMeta.BNR_REG_WARN);
-            bool imgConflict = conflicts.Contains(WadMeta.BNR_IMG_WARN);
+            var conflicts = Meta.GetConflictSrcs(matchParams);
+            bool regConflict = conflicts.Contains(Meta.BNR_REG_WARN);
+            bool imgConflict = conflicts.Contains(Meta.BNR_IMG_WARN);
+            bool flashSave = contentOptionsForm is Options_Flash flashForm && flashForm.save_data_enable.Checked;
 
             warn_ban_reg.Visible = regConflict || imgConflict;
             warn_ban_reg.BringToFront();
-            warn_ch_reg.Visible = conflicts.Contains(WadMeta.CHL_REG_WARN);
+            warn_ch_reg.Visible = conflicts.Contains(Meta.CHL_REG_WARN);
             warn_ch_reg.BringToFront();
-            warn_vidmode.Visible = conflicts.Contains(WadMeta.VDM_WARN);
+            warn_vidmode.Visible = conflicts.Contains(Meta.VDM_WARN);
             warn_vidmode.BringToFront();
-            warn_savetitle.Visible = conflicts.Contains(WadMeta.SVT_WARN);
+            warn_savetitle.Visible = conflicts.Contains(Meta.SVT_WARN) && flashSave;
             warn_savetitle.BringToFront();
 
             if (imgConflict)
@@ -1281,7 +1284,6 @@ namespace FriishProduce
 
             string PLATFORM = TargetPlatform.ToString();
 
-            Logger.Log($"PLATFORM: {PLATFORM}");
             string GENRE = PLATFORM == "Flash" ? "Flash" : genre.Text;
             if (string.IsNullOrWhiteSpace(GENRE)) GENRE = "Unknown";
 
@@ -1961,7 +1963,7 @@ namespace FriishProduce
         ///     8). return the first matching row if there was one
         /// </remarks>
         private static DataRow DbLookup(DataTable dt, string romName, string romRegion) {
-            Logger.Log($"#DbLookup()-> Searching for ROM '{romName}' with detected region '{romRegion}'");
+            Logger.INFO($"Searching for game \"{romName}\" with detected region \"{romRegion}\"");
             string romTrim = FormatROMT(romName);
 
             var regions = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase) {
@@ -1994,7 +1996,7 @@ namespace FriishProduce
 
             if (titleMatches.Count == 0) {
                 // try fuzzy match
-                Logger.Log("#DbLookup()-> No matches found in DB");
+                Logger.INFO($"No direct matches found, attempting fuzzy match...");
                 string squished = Regex.Replace(romTrim, @"\s+", "").ToLowerInvariant();
                 int threshold = (int)(squished.Length * 0.1); // roughly ~10% difference allowed
 
@@ -2007,10 +2009,8 @@ namespace FriishProduce
                     string dbSquish = Regex.Replace(dbCopy, @"\s+", "").ToLowerInvariant();
 
                     // Use Levenshtein distance on normalized rom title & db title with threshold for the fuzzy match
-                    if (Utils.LevenshteinDistance(squished, dbSquish) <= threshold) {
-                        Logger.Log($"#DbLookup()-> Attempting fuzzy match: '{dbOgTitle}'");
+                    if (Utils.LevenshteinDistance(squished, dbSquish) <= threshold)
                         return row;
-                    }
                 }
                 // Nothing found even with fallback
                 return null;
@@ -2042,13 +2042,13 @@ namespace FriishProduce
                 string localPath = Path.Combine(bannersDir, fileName);
 
                 string skip = "Skipping banner download, already stored locally";
-                Logger.Log(!File.Exists(localPath) ? $"Downloading banner image:\n{path}" : skip);
+                Logger.INFO(!File.Exists(localPath) ? $"Downloading banner image:\n{path}" : skip);
 
                 if (!File.Exists(localPath))
                     cl.DownloadFile(path, localPath);
             }
             catch (Exception ex) {
-                Logger.Log($"[ERROR] Failed to fetch banner image {path}: {ex.Message}");
+                Logger.ERROR($"Failed to fetch banner image {path}: {ex.Message}");
             }
         }
 
@@ -2058,9 +2058,9 @@ namespace FriishProduce
         /// <param name="platform"></param>
         /// <param name="path">The ROM/ISO path.</param>
         /// <returns></returns>
-        protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path, bool genreOnly = false)
-        {
-            Logger.Log($"#GetGameData()-> Processing '{path}' for platform {platform}");
+        protected (string Name, string Serial, string Year, string Players, string Image, string Genre, bool IsComplete) GetGameData(Platform platform, string path, bool genreOnly = false) {
+            string fileName = Utils.GetFileCN(path);
+            Logger.INFO("Processing game data:", $"Game:\"{fileName}\", Platform: \"{platform}\"", $"Path:\"{path}\"");
 
             // disc-based
             if (platform is Platform.PCECD or Platform.GCN or Platform.SMCD or Platform.PSX) {
@@ -2073,7 +2073,7 @@ namespace FriishProduce
                     }
                 }
                 if (Path.GetExtension(path).ToLower() is not ".bin" and not ".iso") {
-                    Logger.Log($"#GetGameData()-> Unsupported disc file extension for {path}");
+                    Logger.WARN($"Unsupported disc file extension for {path}");
                     return (null, null, null, null, null, null, false);
                 }
             }
@@ -2082,13 +2082,13 @@ namespace FriishProduce
             //      then notify user if downloading or moving on to fetch game data
             bool dldb = Databases.LibRetro.IsWeb(platform);
             if (dldb) Web.InternetTest();
-            string fetching = $"Attempting to fetch game {(genreOnly ? " genre!" : " data!")}";
+            string fetching = $"Attempting to fetch game {(genreOnly ? "genre!" : "data!")}";
             Program.MainForm.Wait(dldb ? $"Downloading '{platform}' database..." : fetching);
 
             // attempt CRC match
             var result = Databases.LibRetro.Read(path, platform);
             if (!string.IsNullOrEmpty(result.Name)) {
-                Logger.Log($"#GetGameData()-> CRC match found for '{path}' -> '{result.Name}'");
+                Logger.INFO($"CRC match found for '{path}' -> '{result.Name}'");
                 result.Name = System.Text.RegularExpressions.Regex.Replace(result.Name?.Replace(": ", Environment.NewLine).Replace(" - ", Environment.NewLine), @"\((.*?)\)", "").Trim();
                 
                 if (result.Name.Contains(", The"))
@@ -2098,20 +2098,18 @@ namespace FriishProduce
                     LocSaveBanner(result.Image);
                 return result;
             }
-
+            Logger.INFO("No CRC match found, attempting name lookup...");
             DataTable dt = Databases.LibRetro.Parse(platform);
             if (dt == null) {
-                Logger.Log("#GetGameData()-> Database parsing failed or returned null.");
+                Logger.WARN("Database parsing failed or returned null.");
                 return (null, null, null, null, null, null, false);
             }
             // attempt filename lookup if CRC match fails
 
-            string fileName = Utils.GetFileCN(path);
             string region = ExtractRegion(ref fileName);
-
             DataRow row = DbLookup(dt, fileName, region);
             if (row == null) {
-                Logger.Log($"#GetGameData()-> No match found for '{fileName}' in database");
+                Logger.WARN($"No game title or CRC matches could be found in the database.");
                 return (null, null, null, null, null, null, false);
             }
 
@@ -2141,7 +2139,7 @@ namespace FriishProduce
             if (!genreOnly && !string.IsNullOrEmpty(data["image"]) && Program.Config.application.locsave_banner)
                 LocSaveBanner(data["image"]);
 
-            Logger.Log($"#GetGameData()-> Filename match successful for '{fileName}' -> '{data["name"]}'");
+            Logger.INFO($"Filename match successful for '{fileName}' -> '{data["name"]}'");
             return (data["name"], data["serial"], data["year"], data["players"], data["image"], FormatGenre(data["genre"]), complete);
         }
 
@@ -2151,6 +2149,7 @@ namespace FriishProduce
         /// </summary>
         /// <param name="imageOnly">Determines if we should fetch *only* the banner image</param>
         public async void GameScan(bool imageOnly) {
+            GameScanned = false;
             if (rom?.FilePath == null) return;
             try {
                 var gameData = await Task.Run(() => GetGameData(TargetPlatform, rom.FilePath));
@@ -2186,6 +2185,7 @@ namespace FriishProduce
                         MessageBox.Show(Program.Lang.Msg(4) + "  • " + string.Join("\n  • ", translations));
                     }
                 }
+                GameScanned = true;
             }
             catch (Exception ex) {
                 Program.MainForm.Wait(false, false, false);
@@ -2285,19 +2285,17 @@ namespace FriishProduce
                 }
                 backgroundWorker.ReportProgress(m.Progress);
 
-                try
-                {
-                    if (File.Exists(patch))
-                    {
+                try {
+                    if (File.Exists(patch)) {
                         try {
                             m.ROM.Patch(patch);
                         }
                         catch (Exception ex) {
-                            Logger.Log($"Error while patching ROM: {ex.Message}\n{ex.StackTrace}");
+                            Logger.ERROR($"Failed to patch ROM: {ex.Message}\n{ex.StackTrace}");
                             throw;
                         }
                     }
-                    Logger.Log($"Target Platform: {TargetPlatform}");
+                    Logger.INFO($"Target Platform: {TargetPlatform}");
                     switch (TargetPlatform) {
                         case Platform.NES:
                         case Platform.SNES:
@@ -2316,11 +2314,11 @@ namespace FriishProduce
                                     m.CreateForwarder(emulator, device);
                             }
                             catch (KeyNotFoundException ex) {
-                                Logger.Log($"KeyNotFoundException in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
+                                Logger.ERROR($"KeyNotFoundException in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
                                 throw; // rethrow to outer catch
                             }
                             catch (Exception ex) {
-                                Logger.Log($"Unexpected exception in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
+                                Logger.ERROR($"Unexpected exception in Inject/CreateForwarder for platform {TargetPlatform}:\n{ex.Message}\n{ex.StackTrace}");
                                 throw;
                             }
                             break;
@@ -2330,17 +2328,18 @@ namespace FriishProduce
                                 m.Inject();
                             }
                             catch (Exception ex) {
-                                Logger.Log($"Exception in Flash Inject(): {ex.Message}\n{ex.StackTrace}");
-                                Logger.Log("[Var details]:\n" +
-                                    $"   m.TitleID: {(m.TitleID == null ? "null" : "set")}, " +
-                                    $"   m.WAD: {(m.WAD == null ? "null" : "set")}, " +
-                                    $"   m.ROM: {(m.ROM == null ? "null" : "set")}, " +
-                                    $"   m.Img: {(m.Img == null ? "null" : "set")}\n" +
-                                    $"   m.Genre: {(m.Genre == null ? "null" : "set")}" +
-                                    $"   m.ChannelTitles: {(m.ChannelTitles == null ? "null" : "set")}, " +
-                                    $"   m.BannerTitle: {(m.BannerTitle == null ? "null" : "set")}\n" +
-                                    $"   Settings.List: {(contentOptions == null ? "null" : "set")}, " +
-                                    $"   Settings.Keymap: {(keymap.List == null ? "null" : "set")}\n"
+                                Logger.ERROR($"Exception in Flash Inject(): {ex.Message}\n{ex.StackTrace}");
+                                Logger.ERROR("# Var details:");
+                                Logger.ERROR(
+                                    $"m.TitleID: {(m.TitleID == null ? "null" : "set")}, ",
+                                    $"m.WAD: {(m.WAD == null ? "null" : "set")}, ",
+                                    $"m.ROM: {(m.ROM == null ? "null" : "set")}",
+                                    $"m.Img: {(m.Img == null ? "null" : "set")}",
+                                    $"m.Genre: {(m.Genre == null ? "null" : "set")}",
+                                    $"m.ChannelTitles: {(m.ChannelTitles == null ? "null" : "set")}",
+                                    $"m.BannerTitle: {(m.BannerTitle == null ? "null" : "set")}",
+                                    $"Settings.List: {(contentOptions == null ? "null" : "set")}",
+                                    $"Settings.Keymap: {(keymap.List == null ? "null" : "set")}"
                                 );
                                 throw;
                             }
@@ -2353,13 +2352,11 @@ namespace FriishProduce
                         case Platform.SMCD:
                         case Platform.PSX:
                         case Platform.RPGM:
-                            try
-                            {
+                            try {
                                 m.CreateForwarder(emulator, device);
                             }
-                            catch (Exception ex)
-                            {
-                                Logger.Log($"Exception in CreateForwarder for platform {TargetPlatform}: {ex.Message}\n{ex.StackTrace}");
+                            catch (Exception ex) {
+                                Logger.ERROR($"Exception in CreateForwarder for platform {TargetPlatform}: {ex.Message}\n{ex.StackTrace}");
                                 throw;
                             }
                             break;
@@ -2368,31 +2365,26 @@ namespace FriishProduce
                             throw new NotImplementedException($"Unhandled platform: {TargetPlatform}");
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     // Outer catch: log everything possible for debugging
-                    Logger.Log("=== Export failed with exception ===");
-                    Logger.Log($"Message: {ex.Message}");
-                    Logger.Log($"StackTrace: {ex.StackTrace}");
+                    Logger.ERROR("=== Export failed with exception ===");
+                    Logger.ERROR($"Message: {ex.Message}");
+                    Logger.ERROR($"StackTrace: {ex.StackTrace}");
                     if (ex.InnerException != null)
-                        Logger.Log($"InnerException: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
-                    Logger.Log($"Platform: {TargetPlatform}, isVC: {IsVirtualConsole}, PatchFile: {patch}");
+                        Logger.ERROR($"InnerException: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+                    Logger.ERROR($"Platform: {TargetPlatform}, isVC: {IsVirtualConsole}, PatchFile: {patch}");
                     
-                    if (!hasInWad && ex.Message.Contains("U8 Header: Invalid Magic!"))
-                    {
-                        if (wad_tries == 0)
-                        {
+                    if (!hasInWad && ex.Message.Contains("U8 Header: Invalid Magic!")) {
+                        if (wad_tries == 0) {
                             wad_tries++;
-                            Logger.Log("Retrying WAD download due to U8 Header: Invalid Magic!");
+                            Logger.ERROR("Retrying WAD download due to U8 Header: Invalid Magic!");
                             goto Start;
                         }
-                        else
-                        {
-                            Logger.Log("WAD invalid or failed twice. Process halted.");
+                        else {
+                            Logger.ERROR("WAD invalid or failed twice. Process halted.");
                             throw;
                         }
                     }
-
                     throw; // rethrow so outer code can handle it
                 }
                 backgroundWorker.ReportProgress(m.Progress);
@@ -2410,8 +2402,10 @@ namespace FriishProduce
                 backgroundWorker.ReportProgress(m.Progress);
 
                 // write inject/WAD meta.json to Banner U8
-                if (Program.Config.application.write_metadata) WadMeta.Write(m, targetFile, InBaseRegion);
-
+                if (Program.Config.application.write_metadata) {
+                    Logger.Sub("Please wait while inject metadata is added...");
+                    Meta.Write(m, targetFile, InBaseRegion);
+                }
                 if (File.Exists(targetFile) && File.ReadAllBytes(targetFile).Length > 10) error = null;
                 else throw new Exception(Program.Lang.Msg(7, 1));
             }

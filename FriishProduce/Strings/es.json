@@ -40,6 +40,7 @@
 			"system": "Sistema",
 			"display": "Pantalla",
 			"debug_mode": "modo depuración",
+			"info_log": "Alternar registro [INFO]",
 
 			"vc": "Consola Virtual",
 			"vc_options": "Ajustes de la Consola Virtual",
