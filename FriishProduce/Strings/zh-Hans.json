@@ -45,7 +45,8 @@
 			"vc": "虚拟控制台",
 			"vc_options": "虚拟控制台选项",
 			"additional": "这些设置同样适用于 {0}。",
-			"continue": "注入将按预期继续。"
+			"continue": "注入将按预期继续。",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "发现无效数据库条目：\n{0}\n\n请从 database.json 中删除这些条目。",
 			"014": "注入方法选项已重置。\n请重新配置。",
 			"015": "配置已重置。\n请重新设置您的选项。",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "请稍候...",
 			"b_001": "正在导出...",
@@ -272,6 +275,7 @@
 			"rom_label1": "游戏文件",
 			"rom_label2": "光盘映像",
 			"include_patch": "包含补丁",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "基础 WAD",
 			"import_wad": "从文件导入 WAD...",

@@ -40,12 +40,13 @@
 			"system": "Sistema",
 			"display": "Pantalla",
 			"debug_mode": "modo depuración",
-			"info_log": "Alternar registro [INFO]",
+			"info_log": "Alternar registro INFO",
 
 			"vc": "Consola Virtual",
 			"vc_options": "Ajustes de la Consola Virtual",
 			"additional": "Estas opciones también son válidas para {0}.",
-			"continue": "La exportación continuará según lo previsto."
+			"continue": "La exportación continuará según lo previsto.",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "Se han encontrado las siguientes entradas no válidas:\n{0}\n\nPor favor, elimínalas del archivo \"database.json\".",
 			"014": "Se han restablecido los ajustes del método de inyección.\nPor favor, vuelva a configurarlos.",
 			"015": "Se ha restablecida la configuración de FriishProduce.\nPor favor, vuelva a configurar tus ajustes.",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "Cargando...",
 			"b_001": "Exportación en curso...",
@@ -269,6 +272,7 @@
 			"rom_label1": "de juego",
 			"rom_label2": "de disco",
 			"include_patch": "Incluir parche",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "Canal de origen",
 			"import_wad": "Abrir un archivo WAD...",

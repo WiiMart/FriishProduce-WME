@@ -149,8 +149,11 @@ namespace FriishProduce
                 tabControl.BackHighColor = tabControl.BackLowColor = Color.Transparent;
             }
 
-            toolbarGameScan.Image = (Theme.Colors.ToolStrip_Top.GetBrightness() + Theme.Colors.ToolStrip_Bottom.GetBrightness()) / 2 > 0.66 ? Properties.Resources.retroarch : Properties.Resources.retroarch_w;
+            bool lightMode = (Theme.Colors.ToolStrip_Top.GetBrightness() + Theme.Colors.ToolStrip_Bottom.GetBrightness()) / 2 > 0.66;
+            toolbarGameScan.Image = lightMode ? Properties.Resources.retroarch : Properties.Resources.retroarch_w;
 
+            if (tabControl.SelectedForm is ProjectForm currentForm)
+                currentForm.fetch_patch_btn.Image = Properties.Resources.patch_go;
             #endregion
 
             /*var items = platformsMenuItemList();

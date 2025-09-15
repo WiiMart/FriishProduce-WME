@@ -55,7 +55,7 @@ namespace FriishProduce
         public IDictionary<string, string> InputSettings { get; set; }
         public IDictionary<string, string> InputKeymap { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("oss.common")]
+        [System.Text.Json.Serialization.JsonPropertyName("oss.common.js.games")]
         public List<Dictionary<string, object>> RegionalBlocks { get; set; }
 
 
@@ -69,7 +69,7 @@ namespace FriishProduce
         ///     Video mode array for 'pretty' printing
         /// </summary>
         public static readonly string[] VidModes = {
-            "Original", "NTSC", "MPAL", "PAL60", "PAL50", "NTSC+MPAL", "PAL60+PAL50", "NTSC+PAL60", "MPAL+PAL50"
+            Program.Lang.String("original"), "NTSC", "MPAL", "PAL60", "PAL50", "NTSC+MPAL", "PAL60+PAL50", "NTSC+PAL60", "MPAL+PAL50"
         };
         
         /// <summary>
@@ -83,11 +83,11 @@ namespace FriishProduce
         ///     Gets the expected video mode for the region
         /// </summary>
         public static string[] GetVidModeFor(Region region) {
-            string[] ntsc = new[] { "Original", "NTSC" };
+            string[] ntsc = new[] { Program.Lang.String("original"), "NTSC" };
             return region switch {
                 Region.USA => ntsc, Region.Japan => ntsc, Region.Korea => ntsc,
-                Region.Europe => new[] { "Original", "PAL50", "PAL60" },
-                _ => new[] { "Original" }
+                Region.Europe => new[] { Program.Lang.String("original"), "PAL50", "PAL60" },
+                _ => new[] { Program.Lang.String("original") }
             };
         }
 
@@ -112,15 +112,32 @@ namespace FriishProduce
         };
 
         public static int ChRegToInt(string region) => region switch {
-            "Original" => 0, "Region-Free" => 1, "USA" => 2, "Europe" => 3, "Japan" => 4, "Korea" => 5, _ => 0
+            var reg when reg == Program.Lang.String("original") => 0,
+            var reg when reg == Program.Lang.String("region_rf") => 1,
+            var reg when reg == Program.Lang.String("region_u") => 2,// || reg == "USA" => 2,
+            var reg when reg == Program.Lang.String("region_e") => 3,
+            var reg when reg == Program.Lang.String("region_j") => 4,
+            var reg when reg == Program.Lang.String("region_k") => 5,
+            _ => 0
         };
 
         public static string IntToChReg(int val) => val switch {
-            0 => "Original", 1 => "Region-Free", 2 => "USA", 3 => "Europe", 4 => "Japan", 5 => "Korea", _ => "Original"
+            0 => Program.Lang.String("original"),
+            1 => Program.Lang.String("region_rf"),
+            2 => Program.Lang.String("region_u"),
+            3 => Program.Lang.String("region_e"),
+            4 => Program.Lang.String("region_j"),
+            5 => Program.Lang.String("region_k"),
+            _ => Program.Lang.String("original")
         };
 
         public static Region VidModeToRegion(string baseRegion) => NormalizeRegion(baseRegion) switch {
-            "USA" => Region.USA, "Europe" => Region.Europe, "Japan" => Region.Japan, "Korea" => Region.Korea, _ => Region.USA
+            //"USA" => Region.USA,
+            var reg when reg == Program.Lang.String("region_u") => Region.USA,
+            var reg when reg == Program.Lang.String("region_e") => Region.Europe,
+            var reg when reg == Program.Lang.String("region_j") => Region.Japan,
+            var reg when reg == Program.Lang.String("region_k") => Region.Korea,
+            _ => Region.USA
         };
 
         /// <summary>
@@ -145,7 +162,10 @@ namespace FriishProduce
         private static string NormalizeRegion(string region) {
             if (string.IsNullOrEmpty(region)) return "";
             var replacements = new List<(string from, string to)> {
-                ("America", "USA"), ("United States", "USA"), ("Europe/Australia", "Europe"), ("Republic of Korea", "Korea")
+                ("America", "USA"), ("United States", "USA"), ("USA", Program.Lang.String("region_u")),
+                ("Europe", Program.Lang.String("region_e")),
+                ("Japan", Program.Lang.String("region_j")),
+                ("Korea", Program.Lang.String("region_k"))
             };
             replacements.ForEach(reg => region = region.Replace(reg.from, reg.to));
             return region.Trim();
@@ -163,13 +183,11 @@ namespace FriishProduce
             int vidMode = (int.TryParse(matchParams.ElementAtOrDefault(3), out var idx) ? idx : -1);
             string saveTitle = matchParams.ElementAtOrDefault(4) ?? "";
             string bannerImg = matchParams.ElementAtOrDefault(5) ?? "";
-            string[] wildcards = { "Original", "Automatic" };
+            string[] wildcards = { Program.Lang.String("original"), Program.Lang.String("automatic") };
 
-            bool Matches(string lhs, string rhs) {
-                if (lhs == "Region-Free" || rhs == "Region-Free") return false;
-                if (Array.Exists(wildcards, wc => wc == lhs) || Array.Exists(wildcards, wc => wc == rhs)) return true;
-                return lhs == rhs;
-            }
+            bool Matches(string lhs, string rhs) =>
+                lhs != "Region-Free" && rhs != "Region-Free" && (Array.Exists(wildcards, wc => wc == lhs) || Array.Exists(wildcards, wc => wc == rhs) || lhs == rhs);
+
             var conflictMap = new (string tag, bool condition)[] {
                 (BNR_REG_WARN, !Matches(banner, baseRegionTxt)),
                 (CHL_REG_WARN, !Matches(channel, baseRegionTxt)),
@@ -370,8 +388,7 @@ namespace FriishProduce
             // convert meta.json to bytes and pack
             var encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             string metaJson = JsonSerializer.Serialize(meta, new JsonSerializerOptions { WriteIndented = true, Encoder = encoder });
-            // Insert a blank line before GamesInfoBlocks
-            metaJson = metaJson.Replace("\"oss.common\": [", "\n  \"oss.common\": [");
+            metaJson = metaJson.Replace("\"oss.common.js.games\": [", "\n  \"oss.common.js.games\": [");
             byte[] metaBytes = Encoding.UTF8.GetBytes(metaJson);
 
             md.WAD.BannerApp.AddFile("meta/meta.json", metaBytes);

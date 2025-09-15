@@ -45,7 +45,8 @@
 			"vc": "가상 콘솔",
 			"vc_options": "VC 옵션",
 			"additional": "이러한 설정은 {0}에도 적용됩니다.",
-			"continue": "내보내기는 의도한 대로 계속됩니다."
+			"continue": "내보내기는 의도한 대로 계속됩니다.",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "잘못된 데이터베이스 항목이 발견되었습니다:\n{0}\n\ndatabase.json에서 이 항목을 제거하세요.",
 			"014": "주입 방법 옵션이 재설정되었습니다.\n 다시 구성해 주세요.",
 			"015": "구성이 재설정되었습니다.\n설정을 다시 구성해 주세요.",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "잠시만 기다리세요...",
 			"b_001": "내보내기 진행 중...",
@@ -269,6 +272,7 @@
 			"rom_label1": "게임 파일",
 			"rom_label2": "디스크 이미지",
 			"include_patch": "패치 포함",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "기반",
 			"import_wad": "WAD 가져오기...",

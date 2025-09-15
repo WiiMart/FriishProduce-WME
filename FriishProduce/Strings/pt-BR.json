@@ -40,12 +40,13 @@
 			"system": "Sistema",
 			"display": "Exibição",
 			"debug_mode": "Executando em modo de depuração",
-			"info_log": "Toggle [INFO] Logging",
+			"info_log": "Toggle INFO Logging",
 
 			"vc": "Console Virtual",
 			"vc_options": "Opções do Console Virtual",
 			"additional": "Essas configurações também se aplicam a {0}.",
-			"continue": "A injeção continuará conforme o esperado."
+			"continue": "A injeção continuará conforme o esperado.",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "Entradas inválidas encontradas no banco de dados:\n{0}\n\nPor favor, remova essas entradas do database.json.",
 			"014": "As opções de método de injeção foram redefinidas.\nConfigure-as novamente.",
 			"015": "A configuração foi redefinida.\nConfigure suas preferências novamente.",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "Por favor, aguarde...",
 			"b_001": "Exportando...",
@@ -272,6 +275,7 @@
 			"rom_label1": "arquivo de jogo",
 			"rom_label2": "imagem de disco",
 			"include_patch": "Incluir um patch",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "WAD base",
 			"import_wad": "Importar WAD de arquivo...",

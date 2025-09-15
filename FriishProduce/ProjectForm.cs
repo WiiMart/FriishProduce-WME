@@ -107,8 +107,7 @@ namespace FriishProduce
 
                 if (_isShown)
                 {
-                    title_id_random.Visible =
-                    Enabled = !value;
+                    title_id_random.Visible = Enabled = !value;
 
                     checkImg1.Visible = !value && use_offline_wad.Checked;
                     include_patch.Enabled = !value && showPatch;
@@ -730,6 +729,15 @@ namespace FriishProduce
 
             if (ROMpath != null && project == null)
                 rom.FilePath = ROMpath;
+
+            this.Load += (s, e) => AdjustLabels();
+            this.rom_label.SizeChanged += (s, e) => AdjustLabels();
+        }
+
+        private void AdjustLabels() {
+            // adjusts the filename position according to the rom label text width for localizations
+            this.rom_label_filename.Location = new Point(this.rom_label.Right + 2, this.rom_label.Top);
+            /// TODO add more auto-adjustments, chname, titleid etc
         }
 
         private string GetRegionSuffix(Region inWadRegion)
@@ -1020,6 +1028,10 @@ namespace FriishProduce
             if (savedata.Fill.Checked) linkSaveDataTitle();
             forwarder_root_device.SelectedIndex = loadProject ? project.ForwarderStorageDevice : Program.Config.forwarder.root_storage_device;
 
+            Program.Lang.ToolTip(tip, fetch_patch, null, fetch_patch.Text);
+            Program.Lang.ToolTip(tip, fetch_patch_l, null, fetch_patch.Text);
+            Program.Lang.ToolTip(tip, fetch_patch_btn, null, fetch_patch.Text);
+
             IsVisible = true;
 
             IsEmpty = !loadProject;
@@ -1176,8 +1188,8 @@ namespace FriishProduce
 
             groupBox1.Text = Program.Lang.Format(("main", Name), FileTypeName);
             rom_label.Text = Program.Lang.Format((rom_label.Name, Name), FileTypeName);
-            rom_label_filename.Text = hasRom ? rom?.FilePath : Program.Lang.String("none");
-            if (rom_label_filename.Text.Length > 80) rom_label_filename.Text = rom_label_filename.Text.Substring(0, 77) + "...";
+            rom_label_filename.Text = hasRom ? Utils.GetFileCN(rom?.FilePath) + Path.GetExtension(rom?.FilePath) : Program.Lang.String("none");
+            if (rom_label_filename.Text.Length > 65) rom_label_filename.Text = rom_label_filename.Text.Substring(0, 62) + "...";
 
             // WAD
             // ********
@@ -2460,6 +2472,41 @@ namespace FriishProduce
                     if (result) { LoadImage(); }
                     break;
             }
+        }
+        private void FetchPatchData(object sender, EventArgs e) {
+            var raw = fetch_patch.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(raw)) {
+                //string errInput = Program.Lang.String("err_patch_input");
+                //MessageBox.Show("Invalid Input", errInput, MessageBox.Buttons.Ok, MessageBox.Icons.Warning);
+                MessageBox.Show(Program.Lang.Msg(17));
+                return;
+            }
+            string url = null;
+            bool validUrl = Regex.IsMatch(raw, @"^https?://(www\.)?romhacking\.net/(hacks|translations)/\d+/?$", RegexOptions.IgnoreCase);
+
+            if (validUrl || Regex.IsMatch(raw, @"^/?(hacks|translations)/\d+/?$", RegexOptions.IgnoreCase))
+                url = validUrl ? raw : "https://www.romhacking.net/" + raw.TrimStart('/').TrimEnd('/') + "/";
+            else {
+                //string errUrl = Program.Lang.String("err_patch_url");
+                //MessageBox.Show(errUrl, "Unsupported URL", MessageBox.Buttons.Ok, MessageBox.Icons.Error);
+                MessageBox.Show(Program.Lang.Msg(18));
+                return;
+            }
+            var info = Romhacking.GetEntry(url);
+            var released = info.Released ?? "";
+            var match = Regex.Match(released, @"\b\d{4}\b");
+            banner_form.released.Value = match.Success && int.TryParse(match.Value, out var year) ? year : banner_form.released.Value;
+            banner_form.title.Text = info.Title ?? banner_form.title.Text;
+            savedata.Lines[0] = info.Title ?? savedata.Lines[0];
+            linkSaveDataTitle();
+            channel_name.Text = info.Title ?? channel_name.Text;
+            genre.Text = info.Genre;
+            LoadImage(info.ThumbUrl);
+
+            if (info.AllDLUrls != null)
+                Romhacking.PromptDLPatch(info.AllDLUrls);
+
+            resetImages();
         }
         #endregion
 

@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -386,6 +387,57 @@ namespace FriishProduce
                 }
             }
         }
+
+        public static string DownloadFile(string url, string outFolder, string referer = null) {
+            Directory.CreateDirectory(outFolder);
+            string currUrl = url;
+            string fileName = null;
+
+            for (int redirects = 0; redirects < 5; redirects++) {
+
+                try {
+                    var req = (HttpWebRequest)WebRequest.Create(currUrl);
+                    req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
+                    req.Referer = referer;
+                    req.AllowAutoRedirect = false; // handle manually to preserve headers
+
+                    using var resp = (HttpWebResponse)req.GetResponse();
+
+                    if (resp.StatusCode == HttpStatusCode.Found || resp.StatusCode == HttpStatusCode.Moved || resp.StatusCode == HttpStatusCode.Redirect) {
+                        currUrl = resp.Headers["Location"];
+                        continue;
+                    }
+
+                    // get filename from headers or URL
+                    string cd = resp.Headers["Content-Disposition"];
+                    if (!string.IsNullOrEmpty(cd)) {
+                        var match = Regex.Match(cd, "filename\\s*=\\s*\"?(?<name>[^\"]+)\"?", RegexOptions.IgnoreCase);
+                        if (match.Success)
+                            fileName = match.Groups["name"].Value;
+                    }
+
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = Path.GetFileName(resp.ResponseUri.LocalPath);
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = "file_" + Guid.NewGuid().ToString("N");
+
+                    string savePath = Path.Combine(outFolder, fileName);
+                    using var stream = resp.GetResponseStream();
+                    using var fs = new FileStream(savePath, FileMode.Create, FileAccess.Write);
+                    stream.CopyTo(fs);
+
+                    return savePath;
+                }
+                catch (WebException ex) when (ex.Response is HttpWebResponse r) {
+                    Logger.ERROR($"WebException: {(int)r.StatusCode} {r.StatusDescription}");
+                    using var sr = new StreamReader(r.GetResponseStream());
+                    string body = sr.ReadToEnd();
+                    Logger.ERROR($"Response body: {body}");
+                    throw new Exception($"Failed to download file from {currUrl}: {(int)r.StatusCode} {r.StatusDescription}");
+                }
+            }
+            throw new Exception("Too many redirects when trying to download file");
+        }
     }
 
     public static class Byte
@@ -520,38 +572,26 @@ namespace FriishProduce
         }
 
         public static void AddCtrlListeners(Control parent) {
+            var ctrlKey = System.Windows.Forms.Keys.Control;
+            var modKeys = System.Windows.Forms.Control.ModifierKeys;
             foreach (Control ctrl in parent.Controls) {
-                // Handle all controls
-                ctrl.Click += (s, e) => {
-                    if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control) // only log if Ctrl is held
-                        Logger.Log($"Clicked: {ctrl.Name} ({ctrl.GetType().Name}) " + $"Text='{ctrl.Text}' Tag='{ctrl.Tag ?? "null"}'");
-                };
+                if ((modKeys & ctrlKey) == ctrlKey) {
+                    // Handle all controls
+                    ctrl.Click += (s, e) => Logger.Log($"Clicked: {ctrl.Name} ({ctrl.GetType().Name}) " + $"Text='{ctrl.Text}' Tag='{ctrl.Tag ?? "null"}'");
 
-                // Specific listeners for input-type controls
-                if (ctrl is CheckBox cb)
-                    cb.CheckedChanged += (s, e) => {
-                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-                            Logger.Log($"Toggled: {cb.Name} (Checked={cb.Checked})");
-                    };
+                    // Specific listeners for input-type controls
+                    if (ctrl is CheckBox cb)
+                        cb.CheckedChanged += (s, e) => Logger.Log($"Toggled: {cb.Name} (Checked={cb.Checked})");
 
-                else if (ctrl is RadioButton rb)
-                    rb.CheckedChanged += (s, e) => {
-                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-                            Logger.Log($"Radio: {rb.Name} (Checked={rb.Checked})");
-                    };
+                    else if (ctrl is RadioButton rb)
+                        rb.CheckedChanged += (s, e) => Logger.Log($"Radio: {rb.Name} (Checked={rb.Checked})");
 
-                else if (ctrl is ComboBox combo)
-                    combo.SelectedIndexChanged += (s, e) => {
-                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-                            Logger.Log($"Combo: {combo.Name} (Selected={combo.SelectedItem})");
-                    };
+                    else if (ctrl is ComboBox combo)
+                        combo.SelectedIndexChanged += (s, e) => Logger.Log($"Combo: {combo.Name} (Selected={combo.SelectedItem})");
 
-                else if (ctrl is TextBox tb)
-                    tb.TextChanged += (s, e) => {
-                        if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-                            Logger.Log($"Text changed: {tb.Name} (Text='{tb.Text}')");
-                    };
-
+                    else if (ctrl is TextBox tb)
+                        tb.TextChanged += (s, e) => Logger.Log($"Text changed: {tb.Name} (Text='{tb.Text}')");
+                }
                 // Get child elements too
                 if (ctrl.HasChildren)
                     AddCtrlListeners(ctrl);

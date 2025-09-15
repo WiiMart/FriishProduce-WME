@@ -45,7 +45,8 @@
 			"vc": "虛擬主機",
 			"vc_options": "虛擬主機選項",
 			"additional": "這些設定同樣適用於 {0}。",
-			"continue": "注入將按預期繼續。"
+			"continue": "注入將按預期繼續。",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "發現無效資料庫條目：\n{0}\n\n請從 database.json 中刪除這些條目。",
 			"014": "注入方法選項已重設。\n請重新配置。",
 			"015": "組態已重設。\n請重新設定您的選項。",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "請稍候...",
 			"b_001": "正在匯出...",
@@ -272,6 +275,7 @@
 			"rom_label1": "遊戲檔案",
 			"rom_label2": "光碟映像",
 			"include_patch": "包含補丁",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "基礎 WAD",
 			"import_wad": "從檔案匯入 WAD...",

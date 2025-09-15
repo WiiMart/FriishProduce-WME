@@ -51,7 +51,10 @@ namespace FriishProduce
         public static readonly string PatchedSuffix = "-patched";
 
         public static readonly string DefaultLocSavePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads"));
+        public static readonly string RomhackPath = Path.GetFullPath(Path.Combine(DefaultLocSavePath, "Romhacking"));
         public static readonly string DefaultLocSaveBanners = Path.GetFullPath(Path.Combine(DefaultLocSavePath, "Banners"));
         public static readonly string DefaultLocSaveWADs = Path.GetFullPath(Path.Combine(DefaultLocSavePath, "WADs"));
+        public static readonly string RhTransPath = Path.GetFullPath(Path.Combine(RomhackPath, "Translations"));
+        public static readonly string RhHacksPath = Path.GetFullPath(Path.Combine(RomhackPath, "Hacks"));
     }
 }

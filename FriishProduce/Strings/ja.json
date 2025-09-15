@@ -38,7 +38,8 @@
 			"vc": "バーチャルコンソール",
 			"vc_options": "バーチャルコンソール設定",
 			"additional": "これらの設定は{0}にも適用されます。",
-			"continue": "エクスポート処理が続行されます。"
+			"continue": "エクスポート処理が続行されます。",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 		"platforms": {
 			"group0": "任天堂",
@@ -90,6 +91,8 @@
 			"013": "無効なデータベース項目が見つかりました。\n{0}\n\ndatabase.jsonから削除してください。",
 			"014": "インジェクト方法の設定がリセットされました。\n再度設定してください。",
 			"015": "初期設定がリセットされました。\n再度設定してください。",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "お待ちください。",
 			"b_001": "エクスポート中です。",
@@ -221,6 +224,7 @@
 			"rom_label1": "ゲーム",
 			"rom_label2": "ディスクイメージ",
 			"include_patch": "パッチを適用",
+			"fetch_patch": "Fetch patch/data from URL:",
 			"wad_base": "元のWAD",
 			"import_wad": "WADファイルを取り込む...",
 			"use_online_wad": "...またはダウンロード可能なWADを使用",

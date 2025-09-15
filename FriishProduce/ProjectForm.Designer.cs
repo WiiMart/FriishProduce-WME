@@ -89,6 +89,9 @@ namespace FriishProduce
             this.download_image = new System.Windows.Forms.Button();
             this.groupBox6 = new FriishProduce.GroupBoxEx();
             this.include_patch = new System.Windows.Forms.CheckBox();
+            this.fetch_patch_l = new System.Windows.Forms.Label();
+            this.fetch_patch = new System.Windows.Forms.TextBox();
+            this.fetch_patch_btn = new System.Windows.Forms.Button();
             this.groupBox1 = new FriishProduce.GroupBoxEx();
             this.rom_label_filename = new System.Windows.Forms.Label();
             this.rom_label = new System.Windows.Forms.Label();
@@ -590,17 +593,51 @@ namespace FriishProduce
             this.include_patch.Tag = "include_patch";
             this.include_patch.UseVisualStyleBackColor = true;
             this.include_patch.CheckedChanged += new System.EventHandler(this.include_patch_CheckedChanged);
+            //
+            // fetch_patch_l
+            resources.ApplyResources(this.fetch_patch_l, "fetch_patch_l");
+            this.fetch_patch_l.Name = "fetch_patch_l";
+            this.fetch_patch_l.Tag = "fetch_patch";
+            // 
+            // fetch_patch
+            // 
+            resources.ApplyResources(this.fetch_patch, "fetch_patch");
+            this.fetch_patch.Name = "fetch_patch";
+            this.fetch_patch.MaxLength = 80;
+            this.fetch_patch.TextChanged += new System.EventHandler(this.TextBox_Changed);
+            // 
+            // fetch_patch_btn
+            // 
+            resources.ApplyResources(this.fetch_patch_btn, "fetch_patch_btn");
+            this.fetch_patch_btn.Image = global::FriishProduce.Properties.Resources.patch_go;
+            //this.fetch_patch_btn.Location = new System.Drawing.Point(202, 15);
+            //this.fetch_patch_btn.Size = new System.Drawing.Size(23, 22);
+            this.fetch_patch_btn.Name = "fetch_patch_btn";
+            this.fetch_patch_btn.Tag = "fetch_patch_btn";
+            this.fetch_patch_btn.UseVisualStyleBackColor = true;
+            this.fetch_patch_btn.Click += new System.EventHandler(this.FetchPatchData);
+
+
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.rom_label_filename);
             this.groupBox1.Controls.Add(this.rom_label);
             this.groupBox1.Controls.Add(this.include_patch);
+            this.groupBox1.Controls.Add(this.fetch_patch);
+            this.groupBox1.Controls.Add(this.fetch_patch_l);
+            this.groupBox1.Controls.Add(this.fetch_patch_btn);
             this.groupBox1.Flat = false;
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             this.groupBox1.Tag = "main";
+            // 
+            // rom_label
+            // 
+            resources.ApplyResources(this.rom_label, "rom_label");
+            this.rom_label.Name = "rom_label";
+            this.rom_label.Tag = "rom_label";
             // 
             // rom_label_filename
             // 
@@ -608,12 +645,7 @@ namespace FriishProduce
             this.rom_label_filename.Name = "rom_label_filename";
             this.rom_label_filename.Tag = "";
             this.rom_label_filename.UseMnemonic = false;
-            // 
-            // rom_label
-            // 
-            resources.ApplyResources(this.rom_label, "rom_label");
-            this.rom_label.Name = "rom_label";
-            this.rom_label.Tag = "rom_label";
+            //this.rom_label_filename.Location = new System.Drawing.Point(rom_label.Size.Width + 8, 18);
             // 
             // ProjectForm
             // 
@@ -667,6 +699,7 @@ namespace FriishProduce
         private System.Windows.Forms.OpenFileDialog browseROM;
         private System.Windows.Forms.OpenFileDialog browseImage;
         private System.Windows.Forms.TextBox channel_name;
+        private System.Windows.Forms.Label channel_name_l;
         private System.Windows.Forms.ComboBox region;
         private System.Windows.Forms.PictureBox title_id_random;
         internal System.Windows.Forms.PictureBox warn_ch_reg;
@@ -677,7 +710,6 @@ namespace FriishProduce
         private System.Windows.Forms.TextBox genre;
         private System.Windows.Forms.Label genre_l;
         private System.Windows.Forms.ComboBox video_mode;
-        private System.Windows.Forms.Label channel_name_l;
         private System.Windows.Forms.Label title_id_l;
         private GroupBoxEx groupBox4;
         private System.Windows.Forms.PictureBox banner;
@@ -705,6 +737,9 @@ namespace FriishProduce
         private System.Windows.Forms.Button download_image;
         private GroupBoxEx groupBox6;
         private System.Windows.Forms.CheckBox include_patch;
+        internal System.Windows.Forms.TextBox fetch_patch;
+        internal System.Windows.Forms.Label fetch_patch_l;
+        internal System.Windows.Forms.Button fetch_patch_btn;
         private GroupBoxEx groupBox1;
         private System.Windows.Forms.Label video_mode_l;
         private System.Windows.Forms.Label region_l;

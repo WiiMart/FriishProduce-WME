@@ -355,6 +355,12 @@
   <data name="toolbarGameScan.Text" xml:space="preserve">
     <value>game_scan</value>
   </data>
+  <data name="&gt;&gt;toolbarGameScan.Name" xml:space="preserve">
+    <value>toolbarGameScan</value>
+  </data>
+  <data name="&gt;&gt;toolbarGameScan.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
   </data>
@@ -529,15 +535,6 @@
   </data>
   <data name="menuItem8.Text" xml:space="preserve">
     <value>-</value>
-  </data>
-  <data name="game_scan.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="game_scan.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
-    <value>CtrlG</value>
-  </data>
-  <data name="game_scan.Text" xml:space="preserve">
-    <value>game_scan</value>
   </data>
   <data name="export.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2872,12 +2869,6 @@
   <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolbarGameScan.Name" xml:space="preserve">
-    <value>toolbarGameScan</value>
-  </data>
-  <data name="&gt;&gt;toolbarGameScan.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
     <value>toolStripSeparator3</value>
   </data>
@@ -3003,6 +2994,15 @@
   </data>
   <data name="&gt;&gt;menuItem8.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="game_scan.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="game_scan.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
+    <value>CtrlG</value>
+  </data>
+  <data name="game_scan.Text" xml:space="preserve">
+    <value>game_scan</value>
   </data>
   <data name="&gt;&gt;game_scan.Name" xml:space="preserve">
     <value>game_scan</value>

@@ -40,12 +40,13 @@
 			"system": "System",
 			"display": "Display",
 			"debug_mode": "Running in debug mode",
-			"info_log": "Toggle [INFO] Logging",
+			"info_log": "Toggle INFO Logging",
 
 			"vc": "Virtual Console",
 			"vc_options": "Virtual Console options",
 			"additional": "These settings also apply to {0}.",
-			"continue": "Injection will continue as intended."
+			"continue": "Injection will continue as intended.",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "Invalid database entries found:\n{0}\n\nPlease remove these entries from database.json.",
 			"014": "The injection method options have been reset.\nPlease configure them again.",
 			"015": "Configuration has been reset.\nPlease configure your settings again.",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "Please wait...",
 			"b_001": "Exporting...",
@@ -177,7 +180,10 @@
 			"t_warn_vidgen": "Without Operation Manuals it cannot be changed, and not all Wii Systems or VCs respect the optimal or required refresh rate.<hr>It is recommended to primarily use <i>\"Original\"</i> video mode, or individually <i>\"PAL50\"</i> or <i>\"PAL60\"</i> for PAL regions, and <i>\"NTSC\"</i> for NTSC regions.\n\nIncorrect video modes typically have noticable consequences. This may include but is not limited to:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Adjust as needed</u>.",
 			"t_warn_pal6050": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"PAL60 + PAL50\"</i> is not recommended for use. {t_warn_vidgen}",
 			"t_warn_ntscpal60": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> is not recommended for use. {t_warn_vidgen}",
-			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>."
+			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>.",
+			"t_fetch_patch": "Enter a <i><u>Romhacking.net</u></i> URL to fetch the game data and optionally download the patch.\n\nGame data fetching includes:\n  • Title\n  • Title screen image\n  • Genre\n  • Date",
+			"t_fetch_patch_l": "{t_fetch_patch}",
+			"t_fetch_patch_btn": "{t_fetch_patch}"
 		}
 	},
 
@@ -271,7 +277,8 @@
 			"rom_label": "Current {0}:",
 			"rom_label1": "game file",
 			"rom_label2": "disc image",
-			"include_patch": "Include a patch",
+			"include_patch": "Include patch",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "Base WAD",
 			"import_wad": "Import WAD from file...",

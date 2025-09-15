@@ -267,18 +267,6 @@
   <data name="&gt;&gt;banner_tip.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;injection_method_options.Name" xml:space="preserve">
-    <value>injection_method_options</value>
-  </data>
-  <data name="&gt;&gt;injection_method_options.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;injection_method_options.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;injection_method_options.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;wiiu_display_l.Name" xml:space="preserve">
     <value>wiiu_display_l</value>
   </data>
@@ -290,18 +278,6 @@
   </data>
   <data name="&gt;&gt;wiiu_display_l.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;edit_save_data.Name" xml:space="preserve">
-    <value>edit_save_data</value>
-  </data>
-  <data name="&gt;&gt;edit_save_data.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;edit_save_data.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;edit_save_data.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;wiiu_display.Name" xml:space="preserve">
     <value>wiiu_display</value>
@@ -466,6 +442,18 @@
   <data name="&gt;&gt;injection_method_options.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;injection_method_options.Name" xml:space="preserve">
+    <value>injection_method_options</value>
+  </data>
+  <data name="&gt;&gt;injection_method_options.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;injection_method_options.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;injection_method_options.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="wiiu_display_l.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -498,6 +486,18 @@
   </data>
   <data name="&gt;&gt;wiiu_display_l.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;edit_save_data.Name" xml:space="preserve">
+    <value>edit_save_data</value>
+  </data>
+  <data name="&gt;&gt;edit_save_data.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;edit_save_data.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;edit_save_data.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="edit_save_data.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1234,7 +1234,7 @@
     <value>NoControl</value>
   </data>
   <data name="title_id_random.Location" type="System.Drawing.Point, System.Drawing">
-    <value>322, 17</value>
+    <value>263, 38</value>
   </data>
   <data name="title_id_random.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -1875,6 +1875,110 @@
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+
+  <data name="fetch_patch_l.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="fetch_patch_l.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="fetch_patch_l.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 39</value>
+  </data>
+<!-- 11 38 > 9 59 -->
+  <data name="fetch_patch_l.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 13</value>
+  </data>
+  <data name="fetch_patch_l.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="fetch_patch_l.Text" xml:space="preserve">
+    <value>fetch_patch</value>
+  </data>
+  <data name="fetch_patch_l.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 7.5pt</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_l.Name" xml:space="preserve">
+    <value>fetch_patch_l</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_l.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_l.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_l.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+
+  <data name="fetch_patch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 56</value>
+  </data>
+  <data name="fetch_patch.MaxLength" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="fetch_patch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 17</value>
+  </data>
+  <data name="fetch_patch.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="fetch_patch.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch.Name" xml:space="preserve">
+    <value>fetch_patch</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+<!--========================================================================================-->
+<!--========================================================================================-->
+  <data name="fetch_patch_btn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="fetch_patch_btn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 55</value>
+  </data>
+  <data name="fetch_patch_btn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 17</value>
+  </data>
+  <data name="fetch_patch_btn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="fetch_patch_btn.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="fetch_patch_btn.Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="fetch_patch_btn.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="fetch_patch_btn.Visble" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_btn.Name" xml:space="preserve">
+    <value>fetch_patch_btn</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_btn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_btn.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;fetch_patch_btn.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+<!--========================================================================================-->
+<!--========================================================================================-->
+
   <data name="include_patch.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1882,16 +1986,19 @@
     <value>NoControl</value>
   </data>
   <data name="include_patch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 59</value>
+    <value>352, 59</value>
   </data>
   <data name="include_patch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 17</value>
+    <value>90, 17</value>
   </data>
   <data name="include_patch.TabIndex" type="System.Int32, mscorlib">
     <value>53</value>
   </data>
   <data name="include_patch.Text" xml:space="preserve">
     <value>include_patch</value>
+  </data>
+  <data name="include_patch.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 7.5pt</value>
   </data>
   <data name="&gt;&gt;include_patch.Name" xml:space="preserve">
     <value>include_patch</value>
@@ -1905,6 +2012,28 @@
   <data name="&gt;&gt;include_patch.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+
+  <data name="rom_label_filename.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rom_label_filename.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 7pt</value>
+  </data>
+  <data name="rom_label_filename.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <!--<data name="rom_label_filename.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 18</value>
+  </data>-->
+  <data name="rom_label_filename.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 13</value>
+  </data>
+  <data name="rom_label_filename.TabIndex" type="System.Int32, mscorlib">
+    <value>55</value>
+  </data>
+  <data name="rom_label_filename.Text" xml:space="preserve">
+    <value>rom_label_filename</value>
+  </data>
   <data name="&gt;&gt;rom_label_filename.Name" xml:space="preserve">
     <value>rom_label_filename</value>
   </data>
@@ -1916,6 +2045,51 @@
   </data>
   <data name="&gt;&gt;rom_label_filename.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;rom_label_filename.Name" xml:space="preserve">
+    <value>rom_label_filename</value>
+  </data>
+  <data name="&gt;&gt;rom_label_filename.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rom_label_filename.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;rom_label_filename.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rom_label.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rom_label.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8pt, style=Bold</value>
+  </data>
+  <data name="rom_label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rom_label.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 19</value>
+  </data>
+  <!--<data name="rom_label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>-->
+  <data name="rom_label.TabIndex" type="System.Int32, mscorlib">
+    <value>54</value>
+  </data>
+  <data name="rom_label.Text" xml:space="preserve">
+    <value>rom_label</value>
+  </data>
+  <data name="&gt;&gt;rom_label.Name" xml:space="preserve">
+    <value>rom_label</value>
+  </data>
+  <data name="&gt;&gt;rom_label.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rom_label.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;rom_label.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;rom_label.Name" xml:space="preserve">
     <value>rom_label</value>
@@ -1955,72 +2129,6 @@
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="rom_label_filename.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rom_label_filename.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 7pt</value>
-  </data>
-  <data name="rom_label_filename.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rom_label_filename.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 37</value>
-  </data>
-  <data name="rom_label_filename.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 13</value>
-  </data>
-  <data name="rom_label_filename.TabIndex" type="System.Int32, mscorlib">
-    <value>55</value>
-  </data>
-  <data name="rom_label_filename.Text" xml:space="preserve">
-    <value>rom_label_filename</value>
-  </data>
-  <data name="&gt;&gt;rom_label_filename.Name" xml:space="preserve">
-    <value>rom_label_filename</value>
-  </data>
-  <data name="&gt;&gt;rom_label_filename.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rom_label_filename.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;rom_label_filename.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="rom_label.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rom_label.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="rom_label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rom_label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 19</value>
-  </data>
-  <data name="rom_label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 13</value>
-  </data>
-  <data name="rom_label.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
-  </data>
-  <data name="rom_label.Text" xml:space="preserve">
-    <value>rom_label</value>
-  </data>
-  <data name="&gt;&gt;rom_label.Name" xml:space="preserve">
-    <value>rom_label</value>
-  </data>
-  <data name="&gt;&gt;rom_label.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rom_label.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;rom_label.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

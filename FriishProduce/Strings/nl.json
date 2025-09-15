@@ -40,12 +40,13 @@
 			"system": "Systeem",
 			"display": "Beeldscherm",
 			"debug_mode": "Draait in debugmodus",
-			"info_log": "Toggle [INFO] Logging",
+			"info_log": "Toggle INFO Logging",
 
 			"vc": "Virtuele Console",
 			"vc_options": "Opties voor Virtuele Console",
 			"additional": "Deze instellingen gelden ook voor {0}.",
-			"continue": "Injectie gaat verder zoals bedoeld."
+			"continue": "Injectie gaat verder zoals bedoeld.",
+			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
 		},
 
 		"platforms": {
@@ -105,6 +106,8 @@
 			"013": "Ongeldige database-items gevonden:\n{0}\n\nVerwijder deze items uit database.json.",
 			"014": "De opties voor de injectiemethode zijn opnieuw ingesteld.\nConfigureer ze opnieuw.",
 			"015": "De configuratie is opnieuw ingesteld.\nStel uw instellingen opnieuw in.",
+			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000": "Even geduld...",
 			"b_001": "Bezig met exporteren...",
@@ -272,6 +275,7 @@
 			"rom_label1": "spelbestand",
 			"rom_label2": "schijfimage",
 			"include_patch": "Patch toevoegen",
+			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "Basis WAD",
 			"import_wad": "WAD uit bestand importeren...",

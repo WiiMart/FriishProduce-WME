@@ -169,6 +169,9 @@ namespace FriishProduce.Properties {
         /// <summary>The RetroArch (white) logo bitmap image</summary>
         public static System.Drawing.Bitmap retroarch_w => GetBitmap("retroarch_w");
 
+        /// <summary>The Patch button bitmap image</summary>
+        public static System.Drawing.Bitmap patch_go => GetBitmap("patch_go");
+
         /// <summary>The NES screenshot bitmap image</summary>
         public static System.Drawing.Bitmap screen_nes => GetBitmap("screen_nes");
 

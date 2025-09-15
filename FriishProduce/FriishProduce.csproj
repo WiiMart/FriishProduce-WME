@@ -29,6 +29,8 @@
     <ApplicationVersion>1.6.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -352,6 +354,7 @@
     <Compile Include="_classes\BIOS.cs" />
     <Compile Include="_classes\Creators\WiiVC\C64.cs" />
     <Compile Include="_classes\Databases\LibRetro.cs" />
+    <Compile Include="_classes\Databases\Romhacking.cs" />
     <Compile Include="_classes\Files\ROM\C64.cs" />
     <Compile Include="_classes\Files\ROM\RPGM.cs" />
     <Compile Include="_classes\Files\SWF.cs" />

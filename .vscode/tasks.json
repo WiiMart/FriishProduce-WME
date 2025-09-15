@@ -48,27 +48,20 @@
 //------------------------------------------------------------------------------------>
         {
             "label": "Compile FPWME",
-            "type": "shell",
-//<--------- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ------------------->
-            "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
+            "type": "process",
+            // <--------- CHANGE PATH TO MSBUILD.EXE IF NEEDED, WATCH OUT FOR THOSE PESKY ESCAPED QUOTATIONS AND BACKSLASHES ------------------->
+            "command": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/MSBuild.exe",
             "args": [
                 "${workspaceFolder}/FriishProduce.sln",
                 "/t:Build",
                 "/p:Configuration=${input:buildConfig}",
-                "/p:Platform=\"Any CPU\""
+                "/p:Platform=Any CPU"
             ],
-            "options": {
-                "shell": {
-                    "executable": "cmd.exe",
-                    "args": ["/c"]
-                }
-            },
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
             },
             "problemMatcher": "$msCompile",
-            // call debug message first then execute
             "group": "none"
         },
 //------------------------------------------------------------------------------------>
