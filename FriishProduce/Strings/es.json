@@ -78,7 +78,7 @@
 
 		"filters": {
 			"filter": "|Todos los archivos (*.*)|*.*",
-			"filter.project": "Proyectos de FriishProduce-WME (*.jfpp)|*.jfpp|Proyectos legaci (*.fppj)|*.fppj|FPWME & Legaca (*.jfpp, *.fppj)|*.jfpp;*.fppj",
+			"filter.project": "Proyectos de FriishProduce-WME (*.jfpp)|*.jfpp|Proyectos Legacy (*.fppj)|*.fppj|FPWME & Legaca (*.jfpp, *.fppj)|*.jfpp;*.fppj",
 			"filter.wad": "Canales Wii (*.wad)|*.wad",
 			"filter.img": "Imágenes (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
 			"filter.zip": "Archivos comprimidos ZIP (*.zip)|*.zip",
