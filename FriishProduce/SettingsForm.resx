@@ -367,7 +367,7 @@
     <value>128, 18</value>
   </data>
   <data name="log_info.Text" xml:space="preserve">
-    <value>Toggle [INFO] Logging</value>
+    <value>Toggle INFO Logging</value>
   </data>
   <data name="&gt;&gt;log_info.Name" xml:space="preserve">
     <value>log_info</value>

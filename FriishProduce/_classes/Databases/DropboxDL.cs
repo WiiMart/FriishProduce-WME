@@ -20,7 +20,9 @@ namespace FriishProduce
             new DropboxDL("XZ1E", "Kirby-TV-Channel-Base-v4", "rlm60x81w011vyk8wl95q", "8qycrnvpicipnttorx4qi3co2", "wcjlreeg"),
             new DropboxDL("XZ1P", "Kirby-TV-Channel-Base-v4", "68yu4pn7ubftt2lruwfgc", "spmnc1kjhukcjg6oztxbcv90v", "nz1jpbjh"),
             new DropboxDL("HCME", "Kirby-TV-Channel-USA", "llfa8dejqgdudxp9t8buo", "mp0m84feovo6urr0vvmpxp2fa", "yznvdz92"),
-            new DropboxDL("WNAE", "Flash-Placeholder-USA", "j4rvyxxbaatz1xa6oghwq", "pvawxkk3sd7jg35sqdtpdh7ta", "cqrem2a3")
+            new DropboxDL("WNAE", "Flash-Placeholder-USA", "j4rvyxxbaatz1xa6oghwq", "pvawxkk3sd7jg35sqdtpdh7ta", "cqrem2a3"),
+            new DropboxDL("FC9E", "Metal-Slader-Glory", "4d5v5sy3n8v04rndloy1z", "zsru8q4t1bcft75arxaab46lu", "nr6tdwcj"),
+            new DropboxDL("FC9P", "Metal-Slader-Glory", "0blznhdr6ow7488kseekj", "ufitvehjte1hhnaom6t2fo69w", "7k5afk74")
         };
 
         public DropboxDL(string tid, string name, string fi, string rlKey, string st) {

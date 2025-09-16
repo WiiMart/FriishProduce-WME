@@ -214,7 +214,8 @@
             "id": "00010001-464139__",
             "region": [0, 1, 3],
             "emu_ver": [1],
-            "titles": ["Zelda no Densetsu 2 - Link no Bouken", "Zelda II: The Adventure of Link"]
+            "titles": ["Zelda no Densetsu 2 - Link no Bouken", "Zelda II: The Adventure of Link"],
+            "wad_titles": ["Zelda no Densetsu 2 - Link no Bouken", "Zelda II: The Adventure of Link"]
         },
 		
         {
