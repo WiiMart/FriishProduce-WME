@@ -1,6 +1,6 @@
 ﻿{
 	"language": "es",
-	"author": "CatmanFan / saulfabreg",
+	"author": "CatmanFan / saulfabreg, ThatOneYoshi",
 	"application_title": "FriishProduce-WME",
 	
 	"global": {
@@ -46,7 +46,7 @@
 			"vc_options": "Ajustes de la Consola Virtual",
 			"additional": "Estas opciones también son válidas para {0}.",
 			"continue": "La exportación continuará según lo previsto.",
-			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
+			"fetch_patch_msg": "Descargue el parche e redirección en su navegador web?\n\n"
 		},
 
 		"platforms": {
@@ -78,7 +78,7 @@
 
 		"filters": {
 			"filter": "|Todos los archivos (*.*)|*.*",
-			"filter.project": "Proyectos de FriishProduce-WME (*.jfpp)|*.jfpp|Proyectos Legacy (*.fppj)|*.fppj|FPWME & Legacy (*.jfpp, *.fppj)|*.jfpp;*.fppj",
+			"filter.project": "Proyectos de FriishProduce-WME (*.jfpp)|*.jfpp|Proyectos legaci (*.fppj)|*.fppj|FPWME & Legaca (*.jfpp, *.fppj)|*.jfpp;*.fppj",
 			"filter.wad": "Canales Wii (*.wad)|*.wad",
 			"filter.img": "Imágenes (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
 			"filter.zip": "Archivos comprimidos ZIP (*.zip)|*.zip",
@@ -106,8 +106,8 @@
 			"013": "Se han encontrado las siguientes entradas no válidas:\n{0}\n\nPor favor, elimínalas del archivo \"database.json\".",
 			"014": "Se han restablecido los ajustes del método de inyección.\nPor favor, vuelva a configurarlos.",
 			"015": "Se ha restablecida la configuración de FriishProduce.\nPor favor, vuelva a configurar tus ajustes.",
-			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
-			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"017": "Por favor, entra un <Romhacking.net> parche URL o subpágina parcial (hack o traducción)\n\nEjemplos:\n  • https://www.romhacking.net/hacks/9141/\n  • traduccións/5454\n  • hacks/7121",
+			"018": "Solo parches de <Romhacking.net> esta soporte entra la momento.\n\nEjemplos:\n  • https://www.romhacking.net/hacks/9141/\n  • traduccións/5454\n  • hacks/7121",
 
 			"b_000": "Cargando...",
 			"b_001": "Exportación en curso...",
@@ -272,7 +272,7 @@
 			"rom_label1": "de juego",
 			"rom_label2": "de disco",
 			"include_patch": "Incluir parche",
-			"fetch_patch": "Fetch patch/data from URL:",
+			"fetch_patch": "Obtener parche/datos de URL:",
 
 			"wad_base": "Canal de origen",
 			"import_wad": "Abrir un archivo WAD...",
