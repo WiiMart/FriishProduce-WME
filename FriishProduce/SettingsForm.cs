@@ -220,34 +220,28 @@ namespace FriishProduce
             isShown = true;
         }
 
-        private void CustomDatabase_CheckedChanged(object sender, EventArgs e)
-        {
-            if (use_custom_database.Checked && (!File.Exists(Program.Config.paths.database) || string.IsNullOrWhiteSpace(Program.Config.paths.database)))
-            {
-                using OpenFileDialog dialog = new() { DefaultExt = ".json", CheckFileExists = true, AddExtension = true, Filter = "*.json|*.json", Title = use_custom_database.Text.Replace("&", "") };
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
+        private void CustomDatabase_CheckedChanged(object sender, EventArgs e) {
+            if (use_custom_database.Checked && (!File.Exists(Program.Config.paths.database) || string.IsNullOrWhiteSpace(Program.Config.paths.database))) {
+                using OpenFileDialog dialog = new() {
+                    DefaultExt = ".json", CheckFileExists = true, AddExtension = true,
+                    Filter = "JSON Files (*.json;*.jsonc)|*.json;*.jsonc|All Files (*.*)|*.*",
+                    Title = use_custom_database.Text.Replace("&", "")
+                };
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    use_custom_database.Checked = false;
+                else {
+                    try {
                         var database = new ChannelDatabase(Platform.NES, dialog.FileName);
                         Program.Config.paths.database = dialog.FileName;
                     }
-                    catch
-                    {
+                    catch {
                         MessageBox.Show(Program.Lang.Msg(2), 0, MessageBox.Icons.Warning);
-                        Program.Config.paths.database = null;
                         use_custom_database.Checked = false;
                     }
                 }
-                else
-                {
-                    Program.Config.paths.database = null;
-                    use_custom_database.Checked = false;
-                }
             }
-
-            else if (!use_custom_database.Checked) Program.Config.paths.database = null;
+            if (!use_custom_database.Checked)
+                Program.Config.paths.database = null;
         }
 
         private void OK_Click(object sender, EventArgs e)
