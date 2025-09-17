@@ -54,7 +54,7 @@ namespace FriishProduce.Injectors
             }
 
             // -----------------------
-            // Get PRG/CHR info from header
+            // Get PRG/CHR info from header and calc MaxSize
             // -----------------------
             int prgBanks = Contents[1][offset + 4];
             int chrBanks = Contents[1][offset + 5];
@@ -75,44 +75,25 @@ namespace FriishProduce.Injectors
             // -----------------------
             // Safe-expand dest byte array if needed
             // -----------------------
-            if (ROM.Bytes.Length > ROM.MaxSize && offset + ROM.MaxSize == Contents[1].Length) {
-                Logger.Log($"Injected ROM larger than MaxSize. Expanding from {ROM.MaxSize} to {ROM.Bytes.Length}...");
-                // Align to 0x1000 boundary for safety
-                int newSize = (ROM.Bytes.Length + 0xFFF) & ~0xFFF;
-                byte[] expand = new byte[Contents[1].Length + (newSize - ROM.MaxSize)];
-                Array.Copy(Contents[1], expand, Contents[1].Length);
-                Contents[1] = expand;
-                ROM.MaxSize = newSize;
-                Logger.Log($"Contents[1] expanded to {Contents[1].Length} bytes safely. New ROM.MaxSize={ROM.MaxSize}");
-            }
-            else {
-                string msg = $"Injected ROM too large and not at end of Contents[1] (offset={offset}, end={Contents[1].Length}). Expansion would corrupt offsets!";
-                throw new Exception(msg);
-            }
+            if (ROM.Bytes.Length > ROM.MaxSize) {
+                if (offset + ROM.MaxSize > Contents[1].Length)
+                    throw new Exception($"Injected ROM too large and not expandable (offset={offset}, eof={Contents[1].Length}).");
 
-            // -----------------------
-            // Pad and prep for injectg
-            // -----------------------
-            byte[] paddedROM;
-            if (ROM.Bytes.Length < ROM.MaxSize) {
-                paddedROM = new byte[ROM.MaxSize];
-                Array.Copy(ROM.Bytes, paddedROM, ROM.Bytes.Length);
-                // Pad remaining
-                for (int i = ROM.Bytes.Length; i < ROM.MaxSize; i++)
-                    paddedROM[i] = 0xFF;
-                Logger.Log($"ROM padded from {ROM.Bytes.Length} to {ROM.MaxSize} bytes.");
-            }
-            else {
-                paddedROM = ROM.Bytes;
+                Logger.Log($"Injected ROM larger than MaxSize. Expanding from {ROM.MaxSize} to {ROM.Bytes.Length}...");
+                int newSize = (ROM.Bytes.Length + 0xFFF) & ~0xFFF; // align to 0x1000
+                byte[] expanded = new byte[Contents[1].Length + (newSize - ROM.MaxSize)];
+                Array.Copy(Contents[1], expanded, Contents[1].Length);
+                Contents[1] = expanded;
+                ROM.MaxSize = newSize;
+                Logger.Log($"Contents[1] expanded to {Contents[1].Length} bytes. New ROM.MaxSize={ROM.MaxSize}");
             }
 
             // -----------------------
             // Write into DOL
             // -----------------------
             try {
-                paddedROM.CopyTo(Contents[1], offset);
-            }
-            catch (Exception ex) {
+                ROM.Bytes.CopyTo(Contents[1], offset);
+            } catch (Exception ex) {
                 Logger.ERROR($"Failed to copy or overwrite ROM bytes: {ex.Message}");
                 throw;
             }

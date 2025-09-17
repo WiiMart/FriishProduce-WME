@@ -223,7 +223,7 @@ namespace FriishProduce
         private void CustomDatabase_CheckedChanged(object sender, EventArgs e) {
             if (use_custom_database.Checked && (!File.Exists(Program.Config.paths.database) || string.IsNullOrWhiteSpace(Program.Config.paths.database))) {
                 using OpenFileDialog dialog = new() {
-                    DefaultExt = ".json", CheckFileExists = true, AddExtension = true,
+                    DefaultExt = ".jsonc", CheckFileExists = true, AddExtension = true,
                     Filter = "JSON Files (*.json;*.jsonc)|*.json;*.jsonc|All Files (*.*)|*.*",
                     Title = use_custom_database.Text.Replace("&", "")
                 };
