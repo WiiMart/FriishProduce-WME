@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -18,38 +19,33 @@ namespace FriishProduce.Injectors
         }
 
         /// <summary>
-        ///     Inserts ROM into main.dol.
+        ///     Inserts ROM into main.dol. 
         ///         For NES, this means 'flashing' the ROM by replacing the entire byte array and padding.
         /// </summary>
         protected override void ReplaceROM() {
-            Logger.Log("ReplaceROM called, attempting to flash ROM inside main.dol");
+            Logger.Log("ReplaceROM called for NES inject, attempting to flash ROM inside main.dol");
 
             // -----------------------
             // Header scan
             // -----------------------
-            int offset = -1;
             int headerLength = 16;
-            int[] candidateOffsets = { 0, 0x200 };
+            int offset = -1;
 
-            foreach (var baseOffset in candidateOffsets) {
-                for (int i = baseOffset; i < Contents[1].Length - headerLength; i++) {
-                    if (Contents[1][i] == 0x4E &&
-                        Contents[1][i + 1] == 0x45 &&
-                        Contents[1][i + 2] == 0x53 &&
-                        Contents[1][i + 3] == 0x1A) {
-                        offset = i;
-                        Logger.Log($"Primary NES header found at offset: {offset}");
-                        break;
-                    }
+            for (int i = 0; i < Contents[1].Length - headerLength; i++) {
+                if (Contents[1][i] == 0x4E &&
+                    Contents[1][i + 1] == 0x45 &&
+                    Contents[1][i + 2] == 0x53 &&
+                    Contents[1][i + 3] == 0x1A) {
+                    offset = i;
+                    break;
                 }
-                if (offset != -1) break;
             }
-
+            
             // If no typical/primary offset found, search for famicom, shifted offsets, etc and brute force scan
             if (offset == -1)
-                offset = ScanNESHead(Contents[1], headerLength);
+                offset = ScanROM(Contents[1], headerLength);
             if (offset == -1) {
-                Logger.ERROR("No primary or secondary NES headers could be resolved.");
+                Logger.ERROR("No primary or secondary header signatures could be resolved.");
                 throw new Exception(Program.Lang.Msg(2, 1));
             }
 
@@ -58,13 +54,23 @@ namespace FriishProduce.Injectors
             // -----------------------
             int prgBanks = Contents[1][offset + 4];
             int chrBanks = Contents[1][offset + 5];
-            if ((Contents[1][offset + 7] & 0x0C) == 0x08) {
+
+            if ((Contents[1][offset + 7] & 0x0C) == 0x08 && offset + 9 < Contents[1].Length) {
                 // NES2.0 header check and realloc
                 int prgMSB = Contents[1][offset + 9] & 0x0F;
-                int chrMSB = Contents[1][offset + 9] >> 4;
+                int chrMSB = (Contents[1][offset + 9] >> 4) & 0x0F;
                 prgBanks = (prgMSB << 8) | prgBanks;
                 chrBanks = (chrMSB << 8) | chrBanks;
             }
+
+            // clamp to valid limits - needs more testing
+            /*int rawPRG = prgBanks;
+            int rawCHR = chrBanks;
+            prgBanks = Math.Max(1, Math.Min(prgBanks, 128));
+            chrBanks = Math.Max(0, Math.Min(chrBanks, 64));
+            if (rawPRG != prgBanks || rawCHR != chrBanks)
+                Logger.Log($"Clamped PRG/CHR from {rawPRG}/{rawCHR} to {prgBanks}/{chrBanks}");*/
+
             int PRG = 16384 * prgBanks;
             int CHR = 8192 * chrBanks;
             ROM.MaxSize = PRG + CHR + 16;
@@ -73,19 +79,23 @@ namespace FriishProduce.Injectors
             Logger.Log($"ROM.Bytes.Length: {ROM.Bytes.Length}");
 
             // -----------------------
-            // Safe-expand dest byte array if needed
+            // Safe-expand dest byte array if needed amd only at EOF (very unlikely)
             // -----------------------
             if (ROM.Bytes.Length > ROM.MaxSize) {
-                if (offset + ROM.MaxSize > Contents[1].Length)
-                    throw new Exception($"Injected ROM too large and not expandable (offset={offset}, eof={Contents[1].Length}).");
-
-                Logger.Log($"Injected ROM larger than MaxSize. Expanding from {ROM.MaxSize} to {ROM.Bytes.Length}...");
                 int newSize = (ROM.Bytes.Length + 0xFFF) & ~0xFFF; // align to 0x1000
-                byte[] expanded = new byte[Contents[1].Length + (newSize - ROM.MaxSize)];
+                Logger.Log($"Injected ROM larger than MaxSize ({ROM.MaxSize}). Needs {ROM.Bytes.Length}, aligned {newSize}.");
+
+                if (offset + ROM.MaxSize < Contents[1].Length) {
+                    MessageBox.Show(Program.Lang.Msg(16));
+                    throw new Exception(Program.Lang.Msg(16) + $" (offset={offset}, eof={Contents[1].Length})");
+                }
+                Logger.Log($"Attempting to expand from {ROM.MaxSize} to {ROM.Bytes.Length}...");
+                int expandBy = newSize - ROM.MaxSize;
+                byte[] expanded = new byte[Contents[1].Length + expandBy];
                 Array.Copy(Contents[1], expanded, Contents[1].Length);
                 Contents[1] = expanded;
                 ROM.MaxSize = newSize;
-                Logger.Log($"Contents[1] expanded to {Contents[1].Length} bytes. New ROM.MaxSize={ROM.MaxSize}");
+                Logger.Log($"Contents expanded to {Contents[1].Length} bytes. New ROM.MaxSize={ROM.MaxSize}");
             }
 
             // -----------------------
@@ -99,28 +109,52 @@ namespace FriishProduce.Injectors
             }
         }
 
-        private int ScanNESHead(byte[] data, int headerLength) {
-            int[] commonOffsets = { 0, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000, 0x8000 };
+        /// <summary>
+        ///     Calls #HasHeader to check the entire contents of the byte array
+        /// </summary>
+        private int ScanROM(byte[] data, int headerLength) {
+            int index = Enumerable.Range(0, data.Length - headerLength).FirstOrDefault(i => HasHeader(data, i));
 
-            // Quick check at known offsets
-            foreach (var testOffset in commonOffsets) {
-                if (data.Length < testOffset + headerLength) continue;
-                if (HasNESHead(data, testOffset)) {
-                    Logger.Log($"Secondary NES header found at common offset: {testOffset}");
-                    return testOffset;
-                }
-            }
-            // brute force scan
-            for (int i = 0; i < data.Length - headerLength; i++) {
-                if (HasNESHead(data, i)) {
-                    Logger.Log($"Secondary NES header found at unusual offset: {i}");
-                    return i;
-                }
-            }
-            return -1;
+            if (index == 0 && !HasHeader(data, 0))
+                return -1;
+
+            Logger.Log($"NES header found at offset: {index}");
+            return index;
         }
-        private bool HasNESHead(byte[] data, int offset) =>
-            data[offset] == 0x4E && data[offset + 1] == 0x45 && data[offset + 2] == 0x53 && data[offset + 3] == 0x1A;
+
+        /// <summary>
+        ///     Checks if a given offset in a byte array contains a valid NES signature
+        /// </summary>
+        private bool HasHeader(byte[] data, int offset) {
+            const int MIN_HEADER = 16;
+            if (data == null || offset < 0 || offset + MIN_HEADER > data.Length)
+                return false;
+
+            static int bounds(byte[] d, int i) => i >= 0 && i < d.Length ? d[i] : 0;
+
+            // NES, iNES, NES2.0, "NES\x1A"
+            if (bounds(data, offset) == 0x4E && bounds(data, offset + 1) == 0x45 && bounds(data, offset + 2) == 0x53 && bounds(data, offset + 3) == 0x1A) {
+                int prgLSB = bounds(data, offset + 4);
+                int chrLSB = bounds(data, offset + 5);
+
+                if (prgLSB > 0 && prgLSB <= 512 && chrLSB <= 256)
+                    return true;
+
+                // NES2.0 extended
+                if ((bounds(data, offset + 7) & 0x0C) == 0x08 && offset + 9 < data.Length) {
+                    int prg = (bounds(data, offset + 9) & 0x0F << 8) | prgLSB;
+                    int chr = (((bounds(data, offset + 9) >> 4) & 0x0F) << 8) | chrLSB;
+                    if (prg > 0 && prg <= 512 && chr <= 256)
+                        return true;
+                }
+                return true;
+            }
+            // "NES" without 0x1A
+            if (bounds(data, offset) == 0x4E && bounds(data, offset + 1) == 0x45 && bounds(data, offset + 2) == 0x53 && bounds(data, offset + 4) > 0 && bounds(data, offset + 4) <= 512)
+                return true;
+
+            return false;
+        }
 
         protected override void ModifyEmulatorSettings() =>
             InsertPalette(int.Parse(Settings.ElementAt(0).Value));

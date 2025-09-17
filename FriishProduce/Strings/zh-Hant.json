@@ -106,6 +106,7 @@
 			"013": "發現無效資料庫條目：\n{0}\n\n請從 database.json 中刪除這些條目。",
 			"014": "注入方法選項已重設。\n請重新配置。",
 			"015": "組態已重設。\n請重新設定您的選項。",
+			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 

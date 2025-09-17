@@ -106,6 +106,7 @@
 			"013": "잘못된 데이터베이스 항목이 발견되었습니다:\n{0}\n\ndatabase.json에서 이 항목을 제거하세요.",
 			"014": "주입 방법 옵션이 재설정되었습니다.\n 다시 구성해 주세요.",
 			"015": "구성이 재설정되었습니다.\n설정을 다시 구성해 주세요.",
+			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 

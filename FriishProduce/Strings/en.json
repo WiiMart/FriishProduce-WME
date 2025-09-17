@@ -106,6 +106,7 @@
 			"013": "Invalid database entries found:\n{0}\n\nPlease remove these entries from database.json.",
 			"014": "The injection method options have been reset.\nPlease configure them again.",
 			"015": "Configuration has been reset.\nPlease configure your settings again.",
+			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 

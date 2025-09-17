@@ -1078,32 +1078,26 @@ namespace FriishProduce.Injectors
 
             MainContent.CreateFromDirectory(PathConstants.FlashContents);
             if (Directory.Exists(PathConstants.FlashContents)) Directory.Delete(PathConstants.FlashContents, true);
+            ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(wad.Contents[6]);
-            Logger.INFO("Checking Operation Manual injection options for Flash inject, flBase = " + flBase);
+            Logger.INFO("Checking Operation Manual injection options for Flash inject, flBase = " + flBase.ToString());
 
-            if (this.Manual != null && !this.UsesOrigManual) { // check SelectedIndex BROKEN ATM
-                Logger.INFO("Attempting to replace Operation Manual for Flash inject, flBase = " + flBase);
-                int start = -1;
-                int end = -1;
+            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0) {
+                Logger.INFO("Attempting to disablle Operation Manual for Flash inject, flBase = " + flBase.ToString());
+                try {
+                    int start = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton2", StringComparison.OrdinalIgnoreCase));
+                    int end = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton3", StringComparison.OrdinalIgnoreCase));
 
-                for (int i = 0; i < Content6.NumOfNodes; i++)
-                {
-                    if (Content6.StringTable[i].ToLower() == "homebutton2") start = i;
-                    else if (Content6.StringTable[i].ToLower() == "homebutton3") end = i;
+                    if (start <= 0 && end <= 0)
+                        throw new InvalidOperationException();
+
+                    Enumerable.Range(1, end - start - 1).ToList().ForEach(i => Content6.ReplaceFile(i + end, Content6.Data[i + start]));
                 }
-
-                try
-                {
-                    if (start <= 0 && end <= 0) throw new InvalidOperationException();
-                    else
-                    {
-                        for (int i = 1; i < end - start; i++)
-                            Content6.ReplaceFile(i + end, Content6.Data[i + start]);
-                    }
+                catch {
+                    Logger.ERROR("Unable to replace 00000006 U8 contents, \"homebutton\" content could not be found.");
                 }
-                catch { }
             }
             #endregion
 
@@ -1111,7 +1105,8 @@ namespace FriishProduce.Injectors
 
             wad.Unpack(PathConstants.WAD);
             File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
-            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
+            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0)
+                File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
             wad.CreateNew(PathConstants.WAD);
             Directory.Delete(PathConstants.WAD, true);
 

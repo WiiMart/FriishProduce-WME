@@ -716,7 +716,7 @@ namespace FriishProduce
         private GroupBoxEx groupBox5;
         private System.Windows.Forms.ComboBox forwarder_root_device;
         private System.Windows.Forms.Label extra;
-        private System.Windows.Forms.ComboBox manual_type;
+        internal System.Windows.Forms.ComboBox manual_type;
         private System.Windows.Forms.ComboBox injection_methods;
         private System.Windows.Forms.Button injection_method_options;
         private GroupBoxEx groupBox3;

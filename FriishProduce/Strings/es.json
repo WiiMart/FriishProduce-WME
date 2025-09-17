@@ -106,6 +106,7 @@
 			"013": "Se han encontrado las siguientes entradas no válidas:\n{0}\n\nPor favor, elimínalas del archivo \"database.json\".",
 			"014": "Se han restablecido los ajustes del método de inyección.\nPor favor, vuelva a configurarlos.",
 			"015": "Se ha restablecida la configuración de FriishProduce.\nPor favor, vuelva a configurar tus ajustes.",
+			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Por favor, entra un <Romhacking.net> parche URL o subpágina parcial (hack o traducción)\n\nEjemplos:\n  • https://www.romhacking.net/hacks/9141/\n  • traduccións/5454\n  • hacks/7121",
 			"018": "Solo parches de <Romhacking.net> esta soporte entra la momento.\n\nEjemplos:\n  • https://www.romhacking.net/hacks/9141/\n  • traduccións/5454\n  • hacks/7121",
 

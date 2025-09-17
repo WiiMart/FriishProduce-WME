@@ -667,7 +667,7 @@ namespace FriishProduce
         internal System.Windows.Forms.ToolStripButton toolbarImportGameFile;
         private System.Windows.Forms.MenuItem import_game_file;
         private System.Windows.Forms.MenuItem menuItem6;
-        private JacksiroKe.MdiTabCtrl.TabControl tabControl;
+        internal JacksiroKe.MdiTabCtrl.TabControl tabControl;
         private System.Windows.Forms.MenuItem menuItem8;
         private System.Windows.Forms.MenuItem check_for_updates;
         private System.Windows.Forms.MenuItem auto_update;

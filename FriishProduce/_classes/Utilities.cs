@@ -661,28 +661,17 @@ namespace FriishProduce
         /// </summary>
         public static string Run(byte[] app, string appName, string arguments, bool showWindow = false, bool redirectOutput = true) {
             string targetPath = PathConstants.WorkingFolder + Path.GetFileNameWithoutExtension(appName) + ".exe";
-            string embed = $"Embedded resource for {appName}";
-            string emdet = $"{app.Length} bytes\n{targetPath}";
-            string exeArch = DetectPeArch(app);
-
-            // OS proc info
-            Logger.Prnt();
-            Logger.Sub($"OS 64-bit: {Environment.Is64BitOperatingSystem}, Process 64-bit: {Environment.Is64BitProcess}");
-
             File.WriteAllBytes(targetPath, app);
+
             // app check head, must start with 'MZ'
             if (app.Length < 2 || app[0] != 'M' || app[1] != 'Z')
-                throw new InvalidOperationException($"{embed} is not a valid executable (missing MZ header).\n{emdet}");
-            else
-                Logger.Sub($"{embed}\n{emdet}\nEmbedded exe architecture: {DetectPeArch(app)}");
+                throw new InvalidOperationException($"Embedded resource for {appName} is not a valid executable (missing MZ header).\n{app.Length} bytes\n{targetPath}");
 
-            if (Environment.Is64BitOperatingSystem == false && exeArch.Contains("64-bit"))
+            if (Environment.Is64BitOperatingSystem == false && DetectPeArch(app).Contains("64-bit"))
                 Logger.WARN("Cannot run 64-bit exe on 32-bit OS!");
 
-            Logger.Prnt();
             string value = Run(targetPath, PathConstants.WorkingFolder, arguments, showWindow, redirectOutput);
             // try { File.Delete(targetPath); } catch { } // 
-
             return value;
         }
 
