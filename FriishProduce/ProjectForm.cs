@@ -287,7 +287,7 @@ namespace FriishProduce
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(delegate { value = genre.Text; }));
                 else
-                    value = project.Platform == Platform.Flash ? "Flash" : genre.Text;
+                    value = (project != null && project.Platform == Platform.Flash) ? "Flash" : genre.Text;
 
                 return value;
             }

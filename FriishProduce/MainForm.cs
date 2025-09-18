@@ -562,9 +562,9 @@ namespace FriishProduce
                 }
             }
 
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), form.Text), ex.Message, MessageBox.Buttons.Ok);
+            catch (Exception ex) {
+                Logger.ERROR($"#SaveAs_Trigger > save failure '{form?.Text ?? "NULL"}': {ex}");
+                MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), form?.Text ?? "Unknown"), ex.Message, MessageBox.Buttons.Ok);
             }
 
             return false;
@@ -580,7 +580,10 @@ namespace FriishProduce
             foreach (var tab in list)
             {
                 try { if (File.Exists(tab.ProjectPath)) tab.SaveProject(tab.ProjectPath); else SaveAs_Trigger(tab); }
-                catch (Exception ex) { MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), tab.Text), ex.Message, MessageBox.Buttons.Ok); }
+                catch (Exception ex) {
+                    Logger.ERROR($"#SaveAs_Click > save failure '{tab?.Text ?? "NULL"}': {ex}");
+                    MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), tab?.Text ?? "Unknown"), ex.Message, MessageBox.Buttons.Ok);
+                }
             }
         }
 
@@ -591,7 +594,10 @@ namespace FriishProduce
             if (File.Exists(currentForm.ProjectPath))
             {
                 try { currentForm.SaveProject(currentForm.ProjectPath); }
-                catch (Exception ex) { MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), currentForm.Text), ex.Message, MessageBox.Buttons.Ok); }
+                catch (Exception ex) {
+                    Logger.ERROR($"#Save_Click > save failure '{currentForm?.Text ?? "NULL"}': {ex}");
+                    MessageBox.Show(string.Format(Program.Lang.Msg(18, 1), currentForm?.Text ?? "Unknown"), ex.Message, MessageBox.Buttons.Ok);
+                }
             }
 
             else SaveAs_Trigger(currentForm);
