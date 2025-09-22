@@ -50,17 +50,13 @@ git clone https://github.com/JacksiroKe/MdiTabCtrl.git
 #
 
 #### TODO
+- Potential Myrient backup URLs
 - Verify ticket handling and fake sign procedures
-- Operation Manuals without Shop button
-- Manual ortho-rect configuring (left top right bottom)
+- Flash Operation Manuals, optional custom jpeg, 'Without Shop button'
+- Expand ortho-rect configuring (left top right bottom)
 - In-App ROM header & byte order converting
 - Optimize ROM patching
-- Refactor project files
-- TID detection, better randomizing, proper region suffixing, etc
-- FLASH
-  - Fix strap reminder and config issues in Flash injects
-  - Fix KirbyTV Flash injects (again)
-  - Remove GENRE param *if* Flash inject
+- Expand region suffixes for specific languages/imports/exports
 - MSX
   - Finish Operations Manual templates
   - Finish Regional support
