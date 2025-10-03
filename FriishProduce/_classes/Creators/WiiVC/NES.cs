@@ -19,7 +19,7 @@ namespace FriishProduce.Injectors
         }
 
         /// <summary>
-        ///     Inserts ROM into main.dol. 
+        ///     Inserts ROM into main.dol.
         ///         For NES, this means 'flashing' the ROM by replacing the entire byte array and padding.
         /// </summary>
         protected override void ReplaceROM() {
@@ -28,132 +28,175 @@ namespace FriishProduce.Injectors
             // -----------------------
             // Header scan
             // -----------------------
-            int headerLength = 16;
-            int offset = -1;
-
-            for (int i = 0; i < Contents[1].Length - headerLength; i++) {
-                if (Contents[1][i] == 0x4E &&
-                    Contents[1][i + 1] == 0x45 &&
-                    Contents[1][i + 2] == 0x53 &&
-                    Contents[1][i + 3] == 0x1A) {
-                    offset = i;
+            int headOfs = -1;
+            for (int idx = 0; idx < Contents[1].Length - 4; idx++) {
+                if (Contents[1][idx] == 0x4E && Contents[1][idx + 1] == 0x45 && Contents[1][idx + 2] == 0x53 && Contents[1][idx + 3] == 0x1A) {
+                    headOfs = idx;
                     break;
                 }
             }
-            
-            // If no typical/primary offset found, search for famicom, shifted offsets, etc and brute force scan
-            if (offset == -1)
-                offset = ScanROM(Contents[1], headerLength);
-            if (offset == -1) {
+            if (headOfs == -1) {
                 Logger.ERROR("No primary or secondary header signatures could be resolved.");
                 throw new Exception(Program.Lang.Msg(2, 1));
             }
+            Logger.Log($"Found NES header at offset 0x{headOfs:X}");
 
             // -----------------------
             // Get PRG/CHR info from header and calc MaxSize
             // -----------------------
-            int prgBanks = Contents[1][offset + 4];
-            int chrBanks = Contents[1][offset + 5];
-
-            if ((Contents[1][offset + 7] & 0x0C) == 0x08 && offset + 9 < Contents[1].Length) {
+            int prgBanks = Contents[1][headOfs + 4];
+            int chrBanks = Contents[1][headOfs + 5];
+            if ((Contents[1][headOfs + 7] & 0x0C) == 0x08 && headOfs + 9 < Contents[1].Length) {
                 // NES2.0 header check and realloc
-                int prgMSB = Contents[1][offset + 9] & 0x0F;
-                int chrMSB = (Contents[1][offset + 9] >> 4) & 0x0F;
+                int prgMSB = Contents[1][headOfs + 9] & 0x0F;
+                int chrMSB = (Contents[1][headOfs + 9] >> 4) & 0x0F;
                 prgBanks = (prgMSB << 8) | prgBanks;
                 chrBanks = (chrMSB << 8) | chrBanks;
             }
-
-            // clamp to valid limits - needs more testing
-            /*int rawPRG = prgBanks;
-            int rawCHR = chrBanks;
-            prgBanks = Math.Max(1, Math.Min(prgBanks, 128));
-            chrBanks = Math.Max(0, Math.Min(chrBanks, 64));
-            if (rawPRG != prgBanks || rawCHR != chrBanks)
-                Logger.Log($"Clamped PRG/CHR from {rawPRG}/{rawCHR} to {prgBanks}/{chrBanks}");*/
-
             int PRG = 16384 * prgBanks;
             int CHR = 8192 * chrBanks;
             ROM.MaxSize = PRG + CHR + 16;
 
-            Logger.Log($"Calculated PRG: {PRG}, CHR: {CHR}, MaxSize: {ROM.MaxSize}");
-            Logger.Log($"ROM.Bytes.Length: {ROM.Bytes.Length}");
+            Logger.Log($"PRG:[{PRG}], CHR:[{CHR}], Total Size:[{ROM.MaxSize}], New ROM:[{ROM.Bytes.Length}]");
 
             // -----------------------
-            // Safe-expand dest byte array if needed amd only at EOF (very unlikely)
+            // Parse the DOL header to get the entire section the ROM is contained within
             // -----------------------
-            if (ROM.Bytes.Length > ROM.MaxSize) {
-                int newSize = (ROM.Bytes.Length + 0xFFF) & ~0xFFF; // align to 0x1000
-                Logger.Log($"Injected ROM larger than MaxSize ({ROM.MaxSize}). Needs {ROM.Bytes.Length}, aligned {newSize}.");
+            byte[] targetROM = new byte[ROM.Bytes.Length];
+            Array.Copy(ROM.Bytes, targetROM, ROM.Bytes.Length);
+            var (flOffsets, sizes, loadAddrs) = DolUtils.ParseHeader(Contents[1]);
 
-                if (offset + ROM.MaxSize < Contents[1].Length) {
-                    MessageBox.Show(Program.Lang.Msg(16));
-                    throw new Exception(Program.Lang.Msg(16) + $" (offset={offset}, eof={Contents[1].Length})");
+            // Locate ROM section using file offsets in DOL header
+            int romSectIdx = -1;
+            for (int idx = 0; idx < flOffsets.Length; idx++) {
+                if (flOffsets[idx] != 0 && sizes[idx] > 0 &&
+                    headOfs >= flOffsets[idx] && headOfs < flOffsets[idx] + sizes[idx]) {
+                    romSectIdx = idx;
+                    break;
                 }
-                Logger.Log($"Attempting to expand from {ROM.MaxSize} to {ROM.Bytes.Length}...");
-                int expandBy = newSize - ROM.MaxSize;
-                byte[] expanded = new byte[Contents[1].Length + expandBy];
-                Array.Copy(Contents[1], expanded, Contents[1].Length);
-                Contents[1] = expanded;
-                ROM.MaxSize = newSize;
-                Logger.Log($"Contents expanded to {Contents[1].Length} bytes. New ROM.MaxSize={ROM.MaxSize}");
+            }
+            if (romSectIdx < 0) {
+                string sectInf = $" (ofs:[{headOfs}], rsi:[{romSectIdx}], eof:[{Contents[1].Length}])";
+                Logger.ERROR($"Could not locate ROM section inside DOL!{sectInf}");
+                MessageBox.Show(Program.Lang.Msg(16));
+                throw new Exception(Program.Lang.Msg(16) + $"{sectInf}");
             }
 
-            // -----------------------
-            // Write into DOL
-            // -----------------------
-            try {
-                ROM.Bytes.CopyTo(Contents[1], offset);
-            } catch (Exception ex) {
-                Logger.ERROR($"Failed to copy or overwrite ROM bytes: {ex.Message}");
-                throw;
+            // Calculate allocated section bounds
+            int sectStart = flOffsets[romSectIdx];
+            int sectEnd = DolUtils.GetSectEndFor(Contents[1], sectStart);
+            int alloc = sectEnd - sectStart;
+            int romEnd = headOfs + targetROM.Length;
+            int remain = sectEnd - romEnd;
+            Logger.Log($"ROM is in section {romSectIdx} (fileOfs:[0x{sectStart:X}], size:[0x{sizes[romSectIdx]:X}], load:[0x{loadAddrs[romSectIdx]:X}])");
+            Logger.Log($"Alloc Size:[{alloc}], New ROM Size:[{targetROM.Length}], ROM End:[0x{romEnd:X}], Sect End:[0x{sectEnd:X}], Remaining:[{remain}]");
+
+            // If ROM fits, overwrite the raw byte array inside the section,
+            //      this should hopefully prevent OOB inconsistencies experienced before due to only using PRG and CHR bank sizes
+            if (romEnd <= sectEnd) {
+                Array.Copy(targetROM, 0, Contents[1], headOfs, targetROM.Length);
+                Logger.Log("ROM fits within existing allocated section. Expansion skipped.");
+                return; // return and DO NOT touch header/offsets/sizes
             }
+            // else expand section for ROM
+            Logger.Log();
+            Logger.WARN("ROM does NOT fit in allocated section — performing expansion from ROM end.",
+                "This will shift all data after original ROM end.", "THIS IS HIGHLY EXPERIMENTAL, AND UNLIKELY TO WORK.");
+            Contents[1] = ExpandRomSection(Contents[1], romSectIdx, headOfs, targetROM, flOffsets, sizes, loadAddrs);
         }
 
         /// <summary>
-        ///     Calls #HasHeader to check the entire contents of the byte array
+        ///     Expand the DOL to hold a larger ROM, and shifts everything AFTER the ROM
+        ///         Updates section sizes, shifts later sections, patches size references, ROM itself stays at headerOffset (no relocation)
         /// </summary>
-        private int ScanROM(byte[] data, int headerLength) {
-            int index = Enumerable.Range(0, data.Length - headerLength).FirstOrDefault(i => HasHeader(data, i));
+        private byte[] ExpandRomSection(byte[] dol, int romSectIdx, int headOfs, byte[] targetROM, int[] fileOfs, int[] sizes, uint[] loadAddrs) {
+            // TODO ensure calculation of PRG and CHR
+            int sectStart = fileOfs[romSectIdx];
+            int sectSize = sizes[romSectIdx];
+            int sectEnd = sectStart + sectSize;
 
-            if (index == 0 && !HasHeader(data, 0))
-                return -1;
+            // bytes between section start and the ROM header (MUST be preserved)
+            int startLen = headOfs - sectStart;
+            if (startLen < 0) throw new InvalidOperationException("headerOffset is before section start!");
 
-            Logger.Log($"NES header found at offset: {index}");
-            return index;
-        }
+            // recorded payload in section after preRomLen, help calculate prev ROM length inside the section
+            int recPayload = Math.Max(0, sectSize - startLen);
 
-        /// <summary>
-        ///     Checks if a given offset in a byte array contains a valid NES signature
-        /// </summary>
-        private bool HasHeader(byte[] data, int offset) {
-            const int MIN_HEADER = 16;
-            if (data == null || offset < 0 || offset + MIN_HEADER > data.Length)
-                return false;
+            // oldRomLen (the ROM typically has padding/code before and after)
+            int oldRomLen = Math.Min(recPayload, Math.Max(0, dol.Length - headOfs));
 
-            static int bounds(byte[] d, int i) => i >= 0 && i < d.Length ? d[i] : 0;
+            // ROM section tail, bytes that were in the section after the old ROM
+            int sectTailLen = Math.Max(0, recPayload - oldRomLen);
 
-            // NES, iNES, NES2.0, "NES\x1A"
-            if (bounds(data, offset) == 0x4E && bounds(data, offset + 1) == 0x45 && bounds(data, offset + 2) == 0x53 && bounds(data, offset + 3) == 0x1A) {
-                int prgLSB = bounds(data, offset + 4);
-                int chrLSB = bounds(data, offset + 5);
+            Logger.Log($"Start:[0x{sectStart:X}], Head Ofs:[0x{headOfs:X}], End:[0x{sectEnd:X}]");
+            Logger.Log($"Start Len(preROM):[0x{startLen:X}], Rec Payload:[0x{recPayload:X}], Prev ROM Len:[0x{oldRomLen:X}], Sect Tail:[0x{sectTailLen:X}]");
+            Logger.Log();
 
-                if (prgLSB > 0 && prgLSB <= 512 && chrLSB <= 256)
-                    return true;
+            int newRomLen = targetROM.Length;
+            // how many bytes later sections must be shifted
+            int shift = Math.Max(0, newRomLen - oldRomLen);
 
-                // NES2.0 extended
-                if ((bounds(data, offset + 7) & 0x0C) == 0x08 && offset + 9 < data.Length) {
-                    int prg = (bounds(data, offset + 9) & 0x0F << 8) | prgLSB;
-                    int chr = (((bounds(data, offset + 9) >> 4) & 0x0F) << 8) | chrLSB;
-                    if (prg > 0 && prg <= 512 && chr <= 256)
-                        return true;
+            Logger.Log($"EXPANDING ROM SECTION {romSectIdx}",
+                $"fileOfs:[0x{sectStart:X}], sectEnd:[0x{sectEnd:X}], newRomLen:[0x{newRomLen:X}], shift:[0x{shift:X}]");
+
+            byte[] shifted = new byte[dol.Length + shift];
+
+            // copy everything up to headerOffset (preserve pre-ROM bytes inside section)
+            Array.Copy(dol, 0, shifted, 0, headOfs);
+
+            // copy the new ROM at the SAME headerOffset (we do not relocate ROM start)
+            Array.Copy(targetROM, 0, shifted, headOfs, newRomLen);
+
+            // copy the in-section tail (preserve bytes that lived between old ROM end and section end)
+            if (sectTailLen > 0) {
+                int oldTailSrc = headOfs + oldRomLen;
+                int newTailDest = headOfs + newRomLen;
+                // bounds check
+                if (oldTailSrc + sectTailLen <= dol.Length && newTailDest + sectTailLen <= shifted.Length) {
+                    Array.Copy(dol, oldTailSrc, shifted, newTailDest, sectTailLen);
+                } else {
+                    Logger.ERROR($"ROM section tail copy OOB, oldTailSrc:[0x{oldTailSrc:X}]"
+                        + $"len:[0x{sectTailLen:X}] dolLen:[0x{dol.Length:X}] newTailDest:[0x{newTailDest:X}] shiftedLen:[0x{shifted.Length:X}]");
+                    throw new InvalidOperationException("Section tail copy bounds failure");
                 }
-                return true;
             }
-            // "NES" without 0x1A
-            if (bounds(data, offset) == 0x4E && bounds(data, offset + 1) == 0x45 && bounds(data, offset + 2) == 0x53 && bounds(data, offset + 4) > 0 && bounds(data, offset + 4) <= 512)
-                return true;
 
-            return false;
+            // copy everything after original section end to its shifted location
+            int remSrc = sectEnd;
+            int remLen = Math.Max(0, dol.Length - remSrc);
+            int remDest = remSrc + shift;
+            if (remLen > 0) {
+                if (remSrc + remLen <= dol.Length && remDest + remLen <= shifted.Length)
+                    Array.Copy(dol, remSrc, shifted, remDest, remLen);
+                else {
+                    Logger.ERROR($"After-section tail copy out-of-bounds src:[0x{remSrc:X}]" 
+                        + $"len:[0x{remLen:X}] dolLen:[0x{dol.Length:X}] dest:[0x{remDest:X}] shiftedLen:[0x{shifted.Length:X}]");
+                    throw new InvalidOperationException("DOL remainder copy bounds failure");
+                }
+            }
+
+            // update file offsets for sections AFTER the original section
+            for (int idx = 0; idx < fileOfs.Length; idx++) {
+                if (fileOfs[idx] != 0 && fileOfs[idx] >= sectEnd)
+                    fileOfs[idx] += shift;
+                // write file offset into DOL header (file offsets table starts at 0x00)
+                DolUtils.WriteU32BE(shifted, idx * 4, (uint)fileOfs[idx]);
+            }
+
+            // update size for ROM section in the DOL header (sect start + ROM + sect tail)
+            sizes[romSectIdx] = startLen + newRomLen + sectTailLen;
+            int sizesBase = 0x90;
+            for (int s = 0; s < sizes.Length; s++)
+                DolUtils.WriteU32BE(shifted, sizesBase + s * 4, (uint)sizes[s]);
+
+            // update any remaining size refs
+            DolUtils.PatchSizeRefs(shifted, (uint)oldRomLen, (uint)newRomLen);
+            Logger.Log("Succesfully expanded ROM section in DOL!",
+                $"Prev ROM Len:[0x{oldRomLen:X}], New ROM Len:[0x{newRomLen:X}], New DOL Len:[0x{shifted.Length:X}]");
+
+            // Patch VA references — only patch VAs that belong to valid load sections.
+            DolUtils.PatchVARefs(shifted, shift);
+            return shifted;
         }
 
         protected override void ModifyEmulatorSettings() =>

@@ -554,12 +554,12 @@ namespace FriishProduce.Injectors
                 $"WAD: {(wad == null ? "null" : wad.UpperTitleID)}",
                 $"WAD.Contents[2]: {(wad?.Contents.Length > 2 ? "02.app present" : "null")}"
             );
-            Logger.Prnt();
+            Logger.Log();
 
             Logger.Log("# Settings map:");
             foreach (var kvp in Settings)
                 Logger.Sub($"{kvp.Key}: {(string.IsNullOrEmpty(kvp.Value) ? "missing/empty" : kvp.Value)}");
-            Logger.Prnt();
+            Logger.Log();
 
             MainContent = U8.Load(wad.Contents[2]);
             MainContent.Extract(PathConstants.FlashContents);

@@ -107,11 +107,14 @@ namespace FriishProduce
         ///         This is primarily for leftover Log messages that need converting to use severity levels
         public static void Log(string msg, bool prntln = false) => Log(Level.NONE, msg, prntln);
         /// <summary>
-        ///     Log multiple messages(string array) with no level</summary>
+        ///     Log multiple messages(string array) with no level and optionally print an extra line</summary>
         public static void Log(bool prntln = false, params string[] msgs) => Array.ForEach(msgs, msg => Log(Level.NONE, msg));
         /// <summary>
         ///     Log multiple messages with a severity level</summary>
         public static void Log(Level level, bool prntln = false, params string[] msgs) => Array.ForEach(msgs, msg => Log(level, msg));
+        /// <summary>
+        ///     Log multiple messages(string array) with no level</summary>
+        public static void Log(params string[] msgs) => Log(Level.NONE, false, msgs);
 
         // Specific severity level logging EOA methods
         public static void INFO(string msg, bool prntln = false) => Log(Level.INFO, prntln, msg);
@@ -141,7 +144,7 @@ namespace FriishProduce
             }
         }
         // Prints an empty line to the console
-        public static void Prnt() {
+        public static void Log() {
             lock (LockObj) Console.WriteLine();
         }
 

@@ -151,6 +151,257 @@ namespace FriishProduce
         }
     }
 
+    public static class DolUtils {
+        private const int SECT_COUNT = 18;
+
+        // Read big endian uint32 from byte array
+        public static uint ReadU32BE(byte[] data, int offset) =>
+            (uint)((data[offset] << 24) | (data[offset + 1] << 16) | (data[offset + 2] << 8) | data[offset + 3]);
+
+        // Write big endian uint32 to byte array
+        public static void WriteU32BE(byte[] data, int offset, uint value) {
+            data[offset + 0] = (byte)((value >> 24) & 0xFF);
+            data[offset + 1] = (byte)((value >> 16) & 0xFF);
+            data[offset + 2] = (byte)((value >> 8) & 0xFF);
+            data[offset + 3] = (byte)(value & 0xFF);
+        }
+
+        public static int GetSectLoadAddr(int sectionIndex) {
+            if (sectionIndex < 0 || sectionIndex >= SECT_COUNT)
+                throw new ArgumentOutOfRangeException(nameof(sectionIndex), "Section index must be 0–17.");
+            // file offsets: 0x00...0x47 - load addresses: 0x48...0x8F - sizes: 0x90...0xD7 - all (18 * 4)
+            // So the load address for ROM section index is at 0x48 + i*4.
+            return 0x48 + sectionIndex * 4;
+        }
+
+        /*public static int GetSectLoadAddr(int sectionIndex) {
+            if (sectionIndex < 0 || sectionIndex > 17)
+                throw new ArgumentOutOfRangeException(nameof(sectionIndex), "Section index must be 0–17.");
+            return sectionIndex <= 6 ? (0x100 + sectionIndex * 4) : (0x180 + (sectionIndex - 7) * 4);
+        }*/
+
+        public static uint ReadSectLoadAddr(byte[] dol, int sectionIndex)
+            => ReadU32BE(dol, GetSectLoadAddr(sectionIndex));
+
+        /// <summary>
+        ///     Parse DOL header and return file offsets and sizes for the 18 sections
+        /// </summary>
+        public static (int[] fileOfs, int[] sizes, uint[] loadAddrs) ParseHeader(byte[] dol) {
+            if (dol == null || dol.Length < 0x100)
+                throw new ArgumentException("Not a valid DOL or too small...");
+
+            int[] fileOfs = new int[SECT_COUNT];
+            int[] sizes = new int[SECT_COUNT];
+            uint[] loadAddrs = new uint[SECT_COUNT];
+
+            // file offsets start at 0x00, 18 * 4 bytes
+            for (int i = 0; i < SECT_COUNT; i++)
+                fileOfs[i] = (int)ReadU32BE(dol, i * 4);
+
+            // load addresses start at offset 0x48, 18 * 4 bytes
+            for (int i = 0; i < SECT_COUNT; i++)
+                loadAddrs[i] = ReadU32BE(dol, 0x48 + i * 4);
+
+            // sizes start at offset 0x90 (18 * 4 for offsets + 18 * 4 for addresses = 144 bytes)
+            int sizesBase = SECT_COUNT * 4 * 2; // = 144 (0x90)
+            for (int i = 0; i < SECT_COUNT; i++)
+                sizes[i] = (int)ReadU32BE(dol, sizesBase + i * 4);
+
+            return (fileOfs, sizes, loadAddrs);
+        }
+
+        /// <summary>
+        ///     Find allocated block end for a ROM at romOffset inside the DOL by parsing DOL sections.
+        ///         Returns the file offset of the end (exclusive) that is safe to write up to, or -1 if unknown.
+        /// </summary>
+        public static int GetSectEndFor(byte[] dol, int romOfs) {
+            var(fileOfs, sizes, loadAddrs) = ParseHeader(dol);
+
+            // Build list of existing sections (offset,size) that actually have data
+            var sections = new List<(int offset, int size)>();
+            for (int i = 0; i < SECT_COUNT; i++) {
+                if (fileOfs[i] > 0 && sizes[i] > 0)
+                    sections.Add((fileOfs[i], sizes[i]));
+            }
+
+            // Look for the section that contains the rom offset
+            foreach (var (offset, size) in sections) {
+                if (romOfs >= offset && romOfs < offset + size)
+                    return offset + size; // safe end (exclusive)
+            }
+
+            // If not inside any section, find next section start after romOffset
+            int? nextStart = sections.Where(s => s.offset > romOfs).Select(s => (int?)s.offset).OrderBy(x => x).FirstOrDefault();
+            if (nextStart.HasValue)
+                return nextStart.Value;
+
+            // No next section — likely in tail area so DOL length is the presumed end/limit..
+            return dol.Length;
+        }
+
+        private static List<uint> FilterValidVAs(IEnumerable<uint> vas, uint[] loadAddrs, int[] sizes) {
+            var result = new List<uint>();
+            foreach (var va in vas) {
+                bool inSect = false;
+                for (int idx = 0; idx < loadAddrs.Length; idx++) {
+                    if (sizes[idx] <= 0)
+                        continue;
+                    if (va >= loadAddrs[idx] && va < (loadAddrs[idx] + (uint)sizes[idx])) {
+                        inSect = true;
+                        break;
+                    }
+                }
+                if (inSect)
+                    result.Add(va);
+                //else
+                //    Logger.Log($"[SKIP] VA 0x{va:X} not in any section (likely runtime or junk)");
+            }
+            return result;
+        }
+        
+        public static int PatchVARef(byte[] dol, uint oldVA, uint newVA) {
+            if (dol == null || dol.Length < 4) return 0;
+
+            int count = 0;
+            for (int i = 0; i + 4 <= dol.Length; i += 4) {
+                uint found = ReadU32BE(dol, i);
+                if (found == oldVA) {
+                    WriteU32BE(dol, i, newVA);
+                    //Logger.Log($"[VA PATCH] 0x{oldVA:X8} -> 0x{newVA:X8} at offset 0x{i:X}");
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public static void PatchVARefs(byte[] dol, int shiftAmount, uint[] loadAddrs, int[] sizes) {
+            if (shiftAmount == 0) return;
+            var validCandidates = FilterValidVAs(VARefTable.VAs, loadAddrs, sizes);
+            foreach (var oldVA in validCandidates) {
+                uint newVA = oldVA + (uint)shiftAmount;
+                int patched = PatchVARef(dol, oldVA, newVA);
+                //if (patched == 0)
+                //    Logger.Log($"[VA PATCH] Candidate VA 0x{oldVA:X8} not found in DOL");
+            }
+        }
+
+        public static void PatchVARefs(byte[] dol, int shiftAmount) {
+            var (fileOfs, sizes, loadAddrs) = ParseHeader(dol);
+            PatchVARefs(dol, shiftAmount, loadAddrs, sizes);
+        }
+
+        public static void PatchSizeRefs(byte[] dol, uint oldSize, uint newSize, bool patch = true) {
+            byte[] oldBE = BitConverter.GetBytes(oldSize);
+            byte[] newBE = BitConverter.GetBytes(newSize);
+            Array.Reverse(oldBE);
+            Array.Reverse(newBE);
+            int found = 0, patched = 0;
+            
+            for (int i = 0; i < dol.Length - 3; i++) {
+                if (dol[i] == oldBE[0] && dol[i+1] == oldBE[1] && dol[i+2] == oldBE[2] && dol[i+3] == oldBE[3]) {
+                    Logger.Log($"[SIZE REF] Found ROM size 0x{oldSize:X} at offset 0x{i:X}");
+                    found++;
+                    if (patch) {
+                        Array.Copy(newBE, 0, dol, i, 4);
+                        patched++;
+                    }
+                }
+            }
+            Logger.Log($"Found {found} size refs, patched {patched}.");
+        }
+
+        public static void PatchAllSizeRefs(byte[] dol, params (uint oldSize, uint newSize)[] sizePairs) {
+            foreach (var (oldSize, newSize) in sizePairs) {
+                byte[] oldBE = BitConverter.GetBytes(oldSize);
+                byte[] newBE = BitConverter.GetBytes(newSize);
+                Array.Reverse(oldBE);
+                Array.Reverse(newBE);
+
+                int found = 0, patched = 0;
+                for (int i = 0; i < dol.Length - 3; i++) {
+                    if (dol[i] == oldBE[0] && dol[i + 1] == oldBE[1] && dol[i + 2] == oldBE[2] && dol[i + 3] == oldBE[3]) {
+                        Logger.Log($"[SIZE REF] Found 0x{oldSize:X} at offset 0x{i:X}");
+                        found++;
+                        Array.Copy(newBE, 0, dol, i, 4);
+                        patched++;
+                    }
+                }
+                Logger.Log($"Patched {patched}/{found} occurrences of 0x{oldSize:X} → 0x{newSize:X}");
+            }
+        }
+
+        public static void DumpSects(string tag, int[] fileOfs, int[] sizes, byte[] dol) {
+            Logger.Log($"DOL Sections ({tag}):");
+            for (int idx = 0; idx < fileOfs.Length; idx++) {
+                uint load = 0;
+                try {
+                    load = DolUtils.ReadSectLoadAddr(dol, idx);
+                } catch {}
+                Logger.Log($"  [{idx}] fileOfs=0x{fileOfs[idx]:X8} size=0x{sizes[idx]:X8} load=0x{load:X8}");
+            }
+        }
+
+        public static void DumpSectAdv(string tag, int sectionIndex, byte[] dol) {
+            var (fileOfs, sizes, loadAddrs) = DolUtils.ParseHeader(dol);
+            uint load = DolUtils.ReadSectLoadAddr(dol, sectionIndex);
+
+            int off = fileOfs[sectionIndex];
+            int size = sizes[sectionIndex];
+
+            Logger.Log($"[{tag}] Section {sectionIndex}: fileOfs=0x{off:X}, size=0x{size:X}, load=0x{load:X}");
+
+            // Dump first 64 bytes (or up to size if smaller)
+            int dumpLen = Math.Min(64, Math.Max(0, dol.Length - off));
+            if (dumpLen > 0 && off > 0 && size > 0) {
+                Logger.Log($"[{tag}] First {dumpLen} bytes of section {sectionIndex}:");
+                var sb = new System.Text.StringBuilder();
+                for (int idx = 0; idx < dumpLen; idx++) {
+                    if (idx % 16 == 0)
+                        sb.AppendFormat("\n{0:X04}: ", idx);
+
+                    sb.AppendFormat("{0:X2} ", dol[off + idx]);
+                }
+                Logger.Log(sb.ToString());
+            }
+            else
+                Logger.Log($"[{tag}] Section {sectionIndex} is empty or invalid.");
+        }
+
+        public static string DumpHead(byte[] dol) {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("DOL Header raw (hex):");
+            int headerLen = Math.Min(dol.Length, 0xE0); // first 0xE0 bytes (covers header)
+            for (int idx = 0; idx < headerLen; idx += 16) {
+                sb.AppendFormat("{0:X04}: ", idx);
+                for (int next = 0; next < 16 && idx + next < headerLen; next++)
+                    sb.AppendFormat("{0:X2} ", dol[idx + next]);
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+    }
+
+    public static class VARefTable {
+        public static readonly uint[] VAs = new uint[] {
+            // Known ROM base + execution PCs
+            0x80109260, // ROM load base
+            0x8002570C, 0x80025714, 0x80025724, 0x800329E4,
+
+            0x136B020, 0x1908180, 0x1921060, 0x1921080, 0x19210A0, 0x19210C0, 0x19210E0,
+            0x1921100, 0x1921160, 0x1921180, 0x19211A0, 0x19211C0, 0x19211E0, 0x1921200, 0x1921220,
+
+            // Mirrored high VAs (0x8190xxxx / 0x8192xxxx)
+            0x81908190, 0x81908198, 0x819210E8, 0x819210EC, 0x819210F4, 0x819211CC, 0x819211D0, 0x819211D4,
+
+            // Outliers
+            0xDC038DE0, 0x04A9FF8D, 0x04A9FF91,
+
+            // Very small constants (probably junk but harmless)
+            0x00000010, 0x00000012, 0x00000014, 0x00000018,
+        };
+    }
+
     public static class Web
     {
         private static bool _compatibilityMode;
