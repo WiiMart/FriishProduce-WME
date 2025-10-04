@@ -97,7 +97,7 @@ namespace FriishProduce
                             Directory.CreateDirectory(saveDir);
 
                         if (!hasInWad && !File.Exists(localPath))
-                            Web.InternetTest();
+                            Web.InternetTest(true);
 
                         Program.MainForm.Wait(true, true, true, 0, 1);
 

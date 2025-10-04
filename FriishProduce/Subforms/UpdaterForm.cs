@@ -65,7 +65,7 @@ namespace FriishProduce
             {
                 desc2.Text = Program.Lang.Msg(2, 2);
                 wait.Visible = true;
-                await Task.Run(() => { Web.InternetTest(null, false); });
+                await Task.Run(() => { Web.InternetTest(false); });
                 desc2.Visible = wait.Visible = false;
                 Progress.Visible = true;
 

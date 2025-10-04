@@ -285,9 +285,9 @@ namespace FriishProduce
                 string value = "";
 
                 if (InvokeRequired)
-                    Invoke(new MethodInvoker(delegate { value = genre.Text; }));
+                    Invoke(new MethodInvoker(delegate { value = FormatGenre(genre.Text); }));
                 else
-                    value = (project != null && project.Platform == Platform.Flash) ? "Flash" : genre.Text;
+                    value = (project != null && project.Platform == Platform.Flash) ? "Flash" : FormatGenre(genre.Text);
 
                 return value;
             }
@@ -455,7 +455,7 @@ namespace FriishProduce
             bool isLegacy = path.EndsWith(".fppj", StringComparison.OrdinalIgnoreCase);
             string updatedExt = isLegacy ? Path.ChangeExtension(path, ".jfpp") : path;
 
-            var p = new Project() {
+            var prj = new Project() {
                 ProjectPath = path,
 
                 Platform = TargetPlatform,
@@ -488,21 +488,28 @@ namespace FriishProduce
 
                 WADRegion = region.SelectedIndex,
             };
-            p.OfflineWAD = InBaseWAD;
-            p.OnlineWAD = (Base.SelectedIndex, 0);
+            prj.OfflineWAD = InBaseWAD;
+            prj.OnlineWAD = (Base.SelectedIndex, 0);
 
             for (int idx = 0; idx < baseRegionList.Items.Count; idx++)
                 if (baseRegionList.Items[idx] is ToolStripMenuItem item && item.Checked)
-                    p.OnlineWAD = (Base.SelectedIndex, idx);
+                    prj.OnlineWAD = (Base.SelectedIndex, idx);
 
-            string jfpp = JsonSerializer.Serialize(p, new JsonSerializerOptions { WriteIndented = true, 
-                Converters = { new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
+            string jfpp = JsonSerializer.Serialize(prj, new JsonSerializerOptions {
+                WriteIndented = true, 
+                Converters = {
+                    new DlBaseWadParser(), new ManualParser(), new BmpParser(), new KeyParser(), new ImgOptsParser(), new JsonStringEnumConverter() }
             });
+            try {
+                File.WriteAllText(updatedExt, jfpp);
 
-            File.WriteAllText(updatedExt, jfpp);
+                if (isLegacy && File.Exists(path))
+                    File.Delete(path);
 
-            if (isLegacy && File.Exists(path))
-                try { File.Delete(path); } catch (Exception ex) { Logger.ERROR($"Failed to delete legacy project file (.fppj, binary-serialized): {ex.Message}"); }
+            } catch (Exception ex) {
+                string legacyErr = "Failed to delete legacy project file (.fppj, binary-serialized)";
+                Logger.ERROR($"{(isLegacy && File.Exists(path) ? legacyErr : "Failed to write updated project file")} {ex.Message}");
+            }
 
             IsModified = false;
             _isMint = true;
@@ -1835,10 +1842,11 @@ namespace FriishProduce
             patch = null;
             Program.MainForm.toolbarGameScan.Enabled = Program.MainForm.game_scan.Enabled = ToolbarButtons[1];
 
-            if (rom != null) {
-                if (AutoScan && ToolbarButtons[1]) GameScan(false);
-                else if (string.IsNullOrEmpty(genre.Text)) GetDbGenre();
-            }
+            if (rom != null && AutoScan && ToolbarButtons[1])
+                GameScan(false);
+            else if (rom != null && string.IsNullOrEmpty(genre.Text) && Utils.HasNetwork())
+                GetDbGenre();
+
             setFilesText();
         }
 
@@ -2093,7 +2101,7 @@ namespace FriishProduce
             //  Download platform database if not found,
             //      then notify user if downloading or moving on to fetch game data
             bool dldb = Databases.LibRetro.IsWeb(platform);
-            if (dldb) Web.InternetTest();
+            if (dldb) Web.InternetTest(true);
             string fetching = $"Attempting to fetch game {(genreOnly ? "genre!" : "data!")}";
             Program.MainForm.Wait(dldb ? $"Downloading '{platform}' database..." : fetching);
 
@@ -2213,7 +2221,7 @@ namespace FriishProduce
             if (rom?.FilePath == null) return;
             try {
                 var gameData = await Task.Run(() => GetGameData(TargetPlatform, rom.FilePath, true));
-                genre.Text = string.IsNullOrEmpty(genre.Text) ? GetDbString(gameData.Genre, genre) : genre.Text;
+                genre.Text = FormatGenre(string.IsNullOrEmpty(genre.Text) ? GetDbString(gameData.Genre, genre) : genre.Text);
                 await Task.Run(() => resetImages(true)); // cosmetic, and slight pause allows reading
                 Program.MainForm.Wait(false, false, false);
             }
@@ -2303,7 +2311,6 @@ namespace FriishProduce
                         else
                             throw new InvalidOperationException($"{debug} not found for BaseID {baseID.Text}");
                     }
-                    backgroundWorker.ReportProgress(m.Progress);
                 }
                 catch (Exception ex) {
                     string baseIdTxt = $"BaseID.Text:[{(baseID != null && !string.IsNullOrEmpty(baseID.Text) ? baseID.Text : "null")}]";
@@ -2314,6 +2321,9 @@ namespace FriishProduce
                         $"{ex.Message}\n{ex.StackTrace}"
                     );
                     throw;
+                }
+                finally {
+                    backgroundWorker.ReportProgress(m.Progress);
                 }
 
                 try {

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -425,8 +426,42 @@ namespace FriishProduce
             }
         }
 
-        public static bool InternetTest(string URL = null, bool showDialog = true)
-        {
+        /// <summary>
+        ///     Simplified quiet method to return true on any valid reponse
+        /// </summary>
+        public static bool InternetTest() {
+            int timeout = 30;
+            string culture = System.Globalization.CultureInfo.InstalledUICulture.Name;
+            int region = culture.StartsWith("fa") ? 2 : culture.Contains("zh-CN") ? 1 : 0;
+            string URL = null;
+
+            if (string.IsNullOrWhiteSpace(URL))
+                URL = region == 2 ? "https://www.aparat.com/" : region == 1 ? "http://www.baidu.com/" : "https://www.google.com/";
+
+            // normalize URL a bit
+            if (!URL.ToLower().StartsWith("http://") && !URL.ToLower().StartsWith("https://"))
+                URL = "https://" + URL + (!URL.EndsWith("/") ? "/" : "");
+
+            try {
+                var request = (HttpWebRequest)WebRequest.Create(URL);
+                request.Method = "HEAD";
+                request.Timeout = timeout * 1000;
+                request.KeepAlive = false;
+                request.UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; WOW64; " +
+                                    "Trident/4.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; " +
+                                    ".NET CLR 3.5.21022; .NET CLR 3.5.30729; .NET CLR 3.0.30618; " +
+                                    "InfoPath.2; OfficeLiveConnector.1.3; OfficeLivePatch.0.0)";
+
+                using var response = (HttpWebResponse) request.GetResponse();
+                return true;
+            }
+            catch (Exception ex) {
+                return (ex is WebException wex && wex.Response is HttpWebResponse resp && resp.StatusCode == (HttpStatusCode) 429);
+            }
+        }
+
+        public static bool InternetTest(bool showDialog) {
+            string URL = null;
             if (showDialog)
                 Program.MainForm?.Wait(true, true, false, 0, 2);
 
@@ -768,6 +803,8 @@ namespace FriishProduce
 
     public static class Utils
     {
+        public static bool HasNetwork() => NetworkInterface.GetIsNetworkAvailable() && Web.InternetTest();
+
         /// <summary>
         ///     Safely quotes a path for Windows command line, wraps in quotes if path contains problem chars
         /// </summary>
