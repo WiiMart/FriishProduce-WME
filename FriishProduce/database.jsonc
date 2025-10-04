@@ -316,9 +316,9 @@
             "wad_titles": ["Street Fighter 2 Turbo"]
         },
 		
-		{
+        {
             "id": "00010001-4a4344__",
-            "region": [0, 1, 3, 7],
+            "region": [0, 1, 5, 7],
             "emu_ver": [0],
             "titles": ["Kirby's Dream Land 3"],
             "wad_titles": ["Kirby's Dream Land 3"]

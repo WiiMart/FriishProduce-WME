@@ -323,10 +323,14 @@ namespace FriishProduce
             return WAD;
         }
 
-        public WAD Inject(WAD wad, ROM rom, string[] SaveDataTitle, ImageHelper Img)
-        {
+        public WAD Inject(WAD wad, ROM rom, string[] SaveDataTitle, ImageHelper Img) {
             this.WAD = wad;
             this.ROM = rom;
+            
+            if (this.WAD == null)
+                throw new InvalidOperationException("WiiVC_base received null WAD!");
+            if (this.ROM == null)
+                throw new InvalidOperationException("WiiVC_base received null ROM!");
 
             Load();
             ReplaceROM();

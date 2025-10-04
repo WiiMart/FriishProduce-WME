@@ -78,18 +78,17 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
-        public void GetWAD(string path, string tid, bool hasInWad)
-        {
-            try{
-                WAD = new WAD();
+        public void GetWAD(string path, string tid, bool hasInWad) {
+            try {
                 object toLoad = null;
 
                 if (!string.IsNullOrWhiteSpace(path)) {
                     if (File.Exists(path)) {
                         Logger.INFO($"Loading imported WAD with title ID: {tid}");
-                        toLoad = path; SrcBase = path;
+                        toLoad = path;
+                        SrcBase = path;
                     }
-                    else if (path.ToLower().StartsWith("http")) {
+                    else if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase)) {
                         string saveDir = Program.Config.application.locsave_wad_tb ?? PathConstants.DefaultLocSaveWADs;
                         string fileUri = Path.GetFileName(new Uri(path).LocalPath);
                         string localPath = Path.Combine(saveDir, string.IsNullOrEmpty(fileUri) ? $"{tid}.wad" : fileUri);
@@ -97,12 +96,15 @@ namespace FriishProduce
                         if (!Directory.Exists(saveDir))
                             Directory.CreateDirectory(saveDir);
 
-                        if (!hasInWad && !File.Exists(localPath)) Web.InternetTest();
+                        if (!hasInWad && !File.Exists(localPath))
+                            Web.InternetTest();
+
                         Program.MainForm.Wait(true, true, true, 0, 1);
 
                         if (File.Exists(localPath)) {
-                            Logger.INFO($"\nLoading existing downloaded WAD with title ID: {tid}");
-                            toLoad = localPath; SrcBase = localPath;
+                            Logger.INFO($"\nLoading downloaded WAD base from local files with title ID: {tid}");
+                            toLoad = localPath;
+                            SrcBase = localPath;
                         }
                         else {
                             _progress.max += 1.0;
@@ -110,6 +112,7 @@ namespace FriishProduce
                                 byte[] wadData = Web.Get(path, "\nDownloading WAD from URL:\n");
                                 SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
                                 toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
+
                                 if (Program.Config.application.locsave_wad) {
                                     File.WriteAllBytes(localPath, wadData);
                                     Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
@@ -123,27 +126,32 @@ namespace FriishProduce
                     }
                 }
                 else {
-                    Logger.INFO($"Loading blank WAD.");
+                    Logger.INFO("Loading blank WAD.");
                     toLoad = Properties.Resources.StaticBase;
                 }
 
-                // actually load the path or bytes given from 'toLoad'
-                if (toLoad is string loadPath)
-                    WAD = WAD.Load(loadPath);
-                else if (toLoad is byte[] loadData)
-                    WAD = WAD.Load(loadData);
+                // load the path or bytes given from 'toLoad'
+                //      then perform some validity checks with proper debugging<3
+                WAD baseWad = ((toLoad is string loadPath) ? WAD.Load(loadPath) : (toLoad is byte[] loadData) ? WAD.Load(loadData) : null)
+                    ?? throw new Exception($"Failed to load WAD for TID:[{tid}] from {path ?? "embedded resource"}");
 
-                if (WAD.UpperTitleID.ToUpper() != tid || !WAD.HasBanner)
-                    WAD.Dispose();
+                if (!string.Equals(baseWad.UpperTitleID, tid, StringComparison.OrdinalIgnoreCase))
+                    throw new Exception($"TID:[{baseWad.UpperTitleID}] does not match expected TID:[{tid}]");
 
-                if (WAD == null || WAD?.NumOfContents <= 1)
-                    throw new Exception(Program.Lang.Msg(9, 1));
+                if (!baseWad.HasBanner)
+                    throw new Exception($"WAD for TID:[{tid}] does not have a valid banner file.");
 
-                Logger.INFO($"WAD base loaded.");
+                if (baseWad.NumOfContents <= 1)
+                    throw new Exception($"WAD for TID:[{tid}] seems to be missing contents or is corrupted.");
+
+                this.WAD = baseWad;
+                Logger.INFO("WAD base loaded successfully.");
             }
             catch (Exception ex) {
-                Logger.ERROR($"Failed to load original WAD. {ex.Message}");
-                if (ex.InnerException != null) Logger.ERROR(ex.InnerException.Message);
+                try { WAD?.Dispose(); } catch {}
+                Logger.ERROR($"Failed to load base WAD... {ex.Message}");
+                if (ex.InnerException != null)
+                    Logger.ERROR(ex.InnerException.Message);
                 throw;
             }
         }

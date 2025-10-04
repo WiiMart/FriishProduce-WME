@@ -2282,20 +2282,39 @@ namespace FriishProduce
                 }));
 
                 int wad_tries = 0;
-
                 Start:
                 bool hasInWad = InBaseWAD != null;
                 Program.MainForm.Wait(false, false, false);
 
                 // Get WAD data
                 // *******
-                if (hasInWad) m.GetWAD(InBaseWAD, baseID.Text, hasInWad);
-                else {
-                    var entry = channels.Entries.Where(x => x.GetUpperIDs().Contains(baseID.Text)).ToArray()[0];
-                    var index = Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
-                    m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad);
+                ChannelDatabase.ChannelEntry entry = null;
+                int index = -1;
+                try {
+                    if (hasInWad)
+                        m.GetWAD(InBaseWAD, baseID.Text, hasInWad);
+                    else {
+                        entry = channels.Entries.FirstOrDefault(x => x.GetUpperIDs().Contains(baseID.Text));
+                        index = entry == null ? -1 : Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
+                        string debug = $"Entry[{(entry != null ? entry.ToString() : "null")}] or index[{index}]";
+
+                        if (entry != null && index >= 0)
+                            m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad);
+                        else
+                            throw new InvalidOperationException($"{debug} not found for BaseID {baseID.Text}");
+                    }
+                    backgroundWorker.ReportProgress(m.Progress);
                 }
-                backgroundWorker.ReportProgress(m.Progress);
+                catch (Exception ex) {
+                    string baseIdTxt = $"BaseID.Text:[{(baseID != null && !string.IsNullOrEmpty(baseID.Text) ? baseID.Text : "null")}]";
+                    string entryIds = entry == null ? "null" : string.Join(",", entry.GetUpperIDs());
+                    Logger.ERROR(
+                        $"GetWAD failed! hasInWad?:[{hasInWad}], InBaseWAD:[{InBaseWAD}], {baseIdTxt}, " +
+                        $"Entry:[{(entry == null ? "null" : entry.ToString())}], Index:[{index}], EntryIDs:[{entryIds}]",
+                        $"{ex.Message}\n{ex.StackTrace}"
+                    );
+                    throw;
+                }
 
                 try {
                     if (File.Exists(patch)) {
