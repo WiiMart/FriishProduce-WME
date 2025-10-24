@@ -46,7 +46,7 @@
 			"vc_options":						"Virtual Console-Optionen",
 			"additional":						"Diese Einstellungen gelten ebenfalls für {0}.",
 			"continue":							"Die Injektion wird wie vorgesehen fortgesetzt.",
-			"fetch_patch_msg": "Download patch/redirect in your default browser?\n\n"
+			"fetch_patch_msg": "Patch herunterladen/im Standardbrowser umleiten?\n\n"
 		},
 
 		"platforms": {
@@ -81,7 +81,7 @@
 			"filter.project":					"FriishProduce-WME Projekte (*.jfpp)|*.jfpp|Legacy-Projekte (*.fppj)|*.fppj|FPWME & Legacy-Projekte (*.jfpp, *.fppj)|*.jfpp;*.fppj",
 			"filter.wad":						"Wii-Kanäle (*.wad)|*.wad",
 			"filter.img":						"Bilder (*.bmp, *.jpg, *.jpeg, *.png)|*.bmp;*.jpg;*.jpeg;*.png|  Bitmap (*.bmp)|*.bmp|  JPEG (*.jpg, *.jpeg)|*.jpg;*.jpeg|  PNG (*.png)|*.png",
-			"filter.zip":						"ZIP-Archive (*.zip)|*.zip",
+			"filter.zip":						"ZIP-Archiv (*.zip)|*.zip",
 			"filter.disc":						"Disc-Images (*.cue, *.bin)|*.cue;*.bin|  Cue-Sheet-Dateien (*.cue)|*.cue|  BIN-Dateien (*.bin)|*.bin",
 			"filter.swf":						"Adobe Flash-Dateien (*.swf)|*.swf",
 			"filter.rpgm":						"RPG Maker 2000/2003 Datenbankdateien (*.ldb)|*.ldb",
@@ -106,16 +106,16 @@
 			"013":								"Ungültige Datenbankeinträge gefunden:\n{0}\n\nBitte entfernen Sie diese Einträge aus database.json.",
 			"014":								"Die Injektionsmethode-Optionen wurden zurückgesetzt.\nBitte konfigurieren Sie sie erneut.",
 			"015":								"Die Konfiguration wurde zurückgesetzt.\nBitte konfigurieren Sie Ihre Einstellungen erneut.",
-			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
-			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
-			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"016": "Die Basis-ROM kann nicht erweitert werden und ist zu klein um mit dem beabsichtigten ROM zu flashen.",
+			"017": "Bitte geben Sie eine <Romhacking.net> Patch-URL oder Teilunterseite (Hack oder Übersetzung)\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"018": "Nur <Romhacking.net> Patches sind in diesem Moment unterstützt.\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 
 			"b_000":							"Bitte warten...",
 			"b_001":							"Exportiere...",
 			"b_002":							"Internetverbindung wird getestet...",
 			"b_003":							"{0}-Datenbank wird überprüft...",
 			"b_004":							"Aktualisiere...",
-            "b_005":                            "Please take a moment to set your Author/Publisher name in Preferences.",
+            "b_005":                            "Bitte nehmen Sie sich einen Moment Zeit, um Ihren Autoren-/Publishernamen in den Einstellungen festzulegen.",
 			"b_x":								"Drücken Sie Umschalt, um den aktuellen Vorgang abzubrechen.",
 
 			"error":							"Ein Fehler ist aufgetreten",
@@ -175,13 +175,13 @@
             "t_locsave_banner_tb": "{t_locsave_banner}",
             "t_locsave_wad_tb": "{t_locsave_wad}",
             "t_channel_name_l": "{t_channel_name}",
-			"t_warn_ban_reg": "<b><u>Region Conflict:</u></b>\nThe selected <b>Banner Region</b> does not match the selected <b>Base WAD</b> region. This may result in region soft-locking.",
-			"t_warn_ch_reg": "<b><u>Region Conflict:</u></b>\nThe selected <b>Channel Region</b> does not match the selected <b>Base WAD</b> region. This may result in region soft-locking.",
-			"t_warn_vidmode": "<b><u>Region Conflict:</u></b>\nThe selected <b>Video Mode</b> does not match the selected <b>Base WAD</b> region, <u>or</u> is regionally exclusive to <i>Brazil</i>. This may result in various audio and video issues regarding color spaces and refresh rates in non-native reception formats.",
-			"t_warn_vidgen": "Without Operation Manuals it cannot be changed, and not all Wii Systems or VCs respect the optimal or required refresh rate.<hr>It is recommended to primarily use <i>\"Original\"</i> video mode, or individually <i>\"PAL50\"</i> or <i>\"PAL60\"</i> for PAL regions, and <i>\"NTSC\"</i> for NTSC regions.\n\nIncorrect video modes typically have noticable consequences. This may include but is not limited to:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Adjust as needed</u>.",
-			"t_warn_pal6050": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"PAL60 + PAL50\"</i> is not recommended for use. {t_warn_vidgen}",
-			"t_warn_ntscpal60": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> is not recommended for use. {t_warn_vidgen}",
-			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>."
+			"t_warn_ban_reg": "<b><u>Region-Konflikt:</u></b>\nDie ausgewählte <b>Banner Region</b> passt nicht zu der ausgewählten <b>Base WAD</b> Region. Das kann zum Region Soft-locking führen.",
+			"t_warn_ch_reg": "<b><u>Region-Konflikt:</u></b>\nDie ausgewählte <b>Channel Region</b> passt nicht zu der ausgewählten <b>Base WAD</b> Region. Das kann zum Region Soft-locking führen.",
+			"t_warn_vidmode": "<b><u>Region-Konflikt:</u></b>\nDas ausgewählte <b>Video Modus</b> passt nicht zu der ausgewählten <b>Base WAD</b> Region, <u>oder</u> es ist regionell verfübar exklusiv in <i>Brasilien</i>. Das kann zu ernsten Audio und Video Problemen führen bezüglich Farbräume und Bildwiederholraten in nicht-nativen Empfangsformaten.",
+			"t_warn_vidgen": "Ohne Bedienungsanleitungen kann es nicht verändert werden, und nicht alle Wii-Systeme oder virtuellen Konsolen respektieren die optimale oder erforderliche Bildwiederholfrequenz.<hr>Es ist empfohlen primär das <i>\"Originale\"</i> Video Modus zu nutzen, oder individuell <i>\"PAL50\"</i> oder <i>\"PAL60\"</i> für PAL Regionen, und <i>\"NTSC\"</i> für NTSC Regionen.\n\nFalsche Videomodi haben typischerweise spürbare Konsequenzen. Dies kann unter anderem Folgendes umfassen:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Bei Bedarf anpassen</u>.",
+			"t_warn_pal6050": "<b><u>WARNUNG:</u></b>\nDas ausgewählte <b>Video Modus</b> <i>\"PAL60 + PAL50\"</i> wird zur Verwendung nicht empfohlen. {t_warn_vidgen}",
+			"t_warn_ntscpal60": "<b><u>WARNUNG:</u></b>\nDie ausgewählte <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> wird zur Verwendung nicht empfohlen. {t_warn_vidgen}",
+			"t_warn_savetitle": "<b><u>Export-Konflikt:</u></b>\n<b>Speichern</b> ist aktiviert aber der <i>Titel der Speicherdatei</i> ist leer oder ungültig. Kanäle mit Speicherdatei <b>müssen</b> einen gültigen <i>Titel der Speicherdatei<i> haben."
         }
 	},
     "strings": {
@@ -458,7 +458,7 @@
             "background_color": "Hintergrundfarbe",
             "anti_aliasing": "Kantenglättung",
             "no_copy_save": "Kopieren von Speicherdaten deaktivieren",
-			"flash_vars": "Flash Variables",
+			"flash_vars": "Flash Variablen",
             "zoom": "Zoom",
             "zoom0": "{by_default}",
             "zoom1": "{automatic}",
