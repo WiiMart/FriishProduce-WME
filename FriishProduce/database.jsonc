@@ -188,6 +188,22 @@
         },
 		
         {
+            "id": "00010001-464248__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["悪魔城伝説", "Castlevania"],
+            "wad_titles": ["Akumajou Dracula", "Castlevania"]
+        },
+		
+		{
+			"id": "00010001-464354__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["ロックマン", "Mega Man"],
+            "wad_titles": ["Rockman", "Mega Man"]
+		},
+		
+        {
             "id": "00010001-46444e__",
             "region": [0, 1, 3],
             "emu_ver": [1],
@@ -229,10 +245,26 @@
 
     "snes": [
         {
+            "id": "00010001-4a424b__",
+            "region": [0, 1, 3],
+            "emu_ver": [0],
+            "titles": ["[LoROM] ブレス オブ ファイアⅡ 使命の子", "[LoROM] Breath of Fire II"],
+            "wad_titles": ["Breath of Fire II - Shimei no Ko", "Breath of Fire II"]
+        },
+		
+		{
+            "id": "00010001-4a4543__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[SA-1] Chrono Trigger"],
+            "wad_titles": ["Chrono Trigger"]
+        },
+		
+        {
             "id": "00010001-4a4244__",
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
-            "titles": ["スーパードンキーコング２ ディクシー&ディディー", "Donkey Kong Country 2: Diddy's Kong Quest", "Donkey Kong Country 2: Diddy's Kong Quest", "동키콩 컨트리 2"],
+            "titles": ["[LoROM+M2] スーパードンキーコング２ ディクシー&ディディー", "[LoROM+M2] Donkey Kong Country 2: Diddy's Kong Quest", "[LoROM+M2] Donkey Kong Country 2: Diddy's Kong Quest", "[LoROM+M2] 동키콩 컨트리 2"],
             "wad_titles": ["Super Donkey Kong 2 - Dixie & Diddy", "Donkey Kong Country 2 - Diddy's Kong Quest"]
         },
 		
@@ -240,167 +272,87 @@
             "id": "00010001-4a4250__",
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
-            "titles": ["Donkey Kong Country 3: Dixie Kong's Double Trouble!"],
+            "titles": ["[LoROM+M3] Donkey Kong Country 3: Dixie Kong's Double Trouble!"],
             "wad_titles": ["Donkey Kong Country 3: Dixie Kong's Double Trouble!"]
         },
 		
-				{
-            "id": "00010001-4a4144__",
+		{
+			"id": "00010001-4a5041__",
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
-            "titles": ["Zelda no Densetsu - Kamigami no Triforce", "The Legend of Zelda: A Link to the Past"],
-            "wad_titles": ["Zelda no Densetsu - Kamigami no Triforce", "The Legend of Zelda: A Link to the Past"]
+            "titles": ["Earthbound"],
+            "wad_titles": ["Earthbound"]
+		},
+		
+	    {
+            "id": "00010001-4a4441__",
+            "region": [0, 1, 3],
+            "emu_ver": [2],
+            "titles": ["[LoROM+SPC700] ファイナルファンタジーⅥ", "[LoROM+SPC700] Final Fantasy III"],
+            "wad_titles": ["Final Fantasy VI", "Final Fantasy III"]
         },
 		
-		{
-            "id": "00010001-4a4141__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["Super Mario World"],
-            "wad_titles": ["Super Mario World"]
-        },
-		
-		{
-            "id": "00010001-4a4357__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["Super Mario Kart"],
-            "wad_titles": ["Super Mario Kart"]
-        },
-		
-		{
-            "id": "00010001-4a4543__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["Chrono Trigger"],
-            "wad_titles": ["Chrono Trigger"]
-        },
-		
-		{
-            "id": "00010001-4a4143__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["F-Zero"],
-            "wad_titles": ["F-Zero"]
+	    {
+            "id": "00010001-4a4338__",
+            "region": [0, 1, 5],
+            "emu_ver": [2],
+            "titles": ["[LoROM] Final Fantasy II"],
+            "wad_titles": ["Final Fantasy IV", "Final Fantasy II"]
         },
 		
 		{
             "id": "00010001-4a4445__",
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
-            "titles": ["Final Fight 3"],
+            "titles": ["[LoROM] Final Fight 3"],
             "wad_titles": ["Final Fight 3"]
         },
 		
 		{
-            "id": "00010001-4a414a__",
+            "id": "00010001-4a4143__",
             "region": [0, 1, 3, 7],
             "emu_ver": [0],
-            "titles": ["Street Fighter II: The World Warrior"],
-            "wad_titles": ["Street Fighter II: The World Warrior"]
-        },
-		
-		{
-            "id": "00010001-4a4443__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["Street Fighter Alpha 2"],
-            "wad_titles": ["Street Fighter Alpha 2"]
-        },
-		
-		{
-            "id": "00010001-4a4249__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["Street Fighter 2 Turbo"],
-            "wad_titles": ["Street Fighter 2 Turbo"]
+            "titles": ["[LoROM] F-Zero"],
+            "wad_titles": ["F-Zero"]
         },
 		
         {
             "id": "00010001-4a4344__",
             "region": [0, 1, 5, 7],
             "emu_ver": [0],
-            "titles": ["Kirby's Dream Land 3"],
+            "titles": ["[SA-1] Kirby's Dream Land 3"],
             "wad_titles": ["Kirby's Dream Land 3"]
-        },
-		
-        {
-            "id": "00010001-4a424b__",
-            "region": [0, 1, 3],
-            "emu_ver": [0],
-            "titles": ["ブレス オブ ファイアⅡ 使命の子", "Breath of Fire II"],
-            "wad_titles": ["Breath of Fire II - Shimei no Ko", "Breath of Fire II"]
         },
 
         {
             "id": "00010001-4a4343__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["星のカービィ スーパーデラックス", "Kirby Super Star", "Kirby's Fun Pak"],
+            "titles": ["[SA-1] 星のカービィ スーパーデラックス", "[SA-1] Kirby Super Star", "[SA-1]Kirby's Fun Pak"],
             "wad_titles": ["Hoshi no Kirby Super Deluxe", "Kirby Super Star", "Kirby's Fun Pak"]
         },
-
-
-        {
-            "id": "00010001-4a4157__",
-            "region": [0, 1],
-            "emu_ver": [0],
-            "titles": ["三國志Ⅳ", "Romance of the Three Kingdoms IV: Wall of Fire"],
-            "wad_titles": ["Sangokushi IV", "Romance of the Three Kingdoms IV - Wall of Fire"]
-        },
-
-        {
-            "id": "00010001-4a4156__",
-            "region": [0, 1, 3, 7],
-            "emu_ver": [0],
-            "titles": ["スーパーメトロイド", "Super Metroid", "Super Metroid", "슈퍼 메트로이드"]
-        },
-
-        {
-            "id": "00010001-4a4142__",
-            "region": [0, 4],
-            "emu_ver": [0],
-            "titles": ["マリオのスーパーピクロス", "Mario's Super Picross"],
-            "wad_titles": ["Mario no Super Picross", "Mario's Super Picross"]
-        },
-
-	    {
-            "id": "00010001-4a434c__",
-            "region": [0, 1, 3],
-            "emu_ver": [1],
-            "titles": ["聖剣伝説２ シークレット オブ マナ", "Secret of Mana"],
-            "wad_titles": ["Seiken Densetsu 2", "Secret of Mana"]
-        },
-
-        {
-            "id": "00010001-4a4342__",
-            "region": [0, 1, 5],
-            "emu_ver": [1],
-            "titles": ["スーパーマリオRPG", "Super Mario RPG: Legend of the Seven Stars"],
-            "wad_titles": ["Super Mario RPG"]
-        },
-
-	    {
-            "id": "00010001-4a4441__",
-            "region": [0, 1, 3],
-            "emu_ver": [2],
-            "titles": ["ファイナルファンタジーⅥ", "Final Fantasy III"],
-            "wad_titles": ["Final Fantasy VI", "Final Fantasy III"]
-        },
 		
-	    {
-            "id": "00010001-4a4338__",
+        {
+            "id": "00010001-4a4541__",
+            "region": [1, 5],
+            "emu_ver": [2],
+            "titles": ["[LoROM] Natsume Championship Wrestling"],
+			"wad_titles": ["Natsume Championship Wrestling"]
+        },
+
+        {
+            "id": "00010001-4a4356__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["Final Fantasy II"],
-            "wad_titles": ["Final Fantasy II"]
+            "titles": ["[DSP-1] パイロットウイングス", "[DSP-1] Pilotwings"],
+			"wad_titles": ["パイロットウイングス", "Pilotwings"]
         },
 		
         {
             "id": "00010001-4a4542__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["ロックマンＸ", "Mega Man X"],
+            "titles": ["[LoROM] ロックマンＸ", "[LoROM] Mega Man X"],
             "wad_titles": ["Rockman X", "Mega Man X"]
         },
 		
@@ -408,7 +360,7 @@
             "id": "00010001-4a4548__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["ロックマンＸ２", "Mega Man X2"],
+            "titles": ["[Cx4] ロックマンＸ２", "[Cx4] Mega Man X2"],
             "wad_titles": ["Rockman X2", "Mega Man X2"]
         },
 		
@@ -416,51 +368,144 @@
             "id": "00010001-4a4148__",
             "region": [0, 1, 3],
             "emu_ver": [0],
-            "titles": ["R-Type III"],
+            "titles": ["[SA-1] R-Type III"],
             "wad_titles": ["R-Type III"]
         },
 		
         {
-            "id": "00010001-4a4436__",
+            "id": "00010001-4a4157__",
+            "region": [0, 1],
+            "emu_ver": [0],
+            "titles": ["[LoROM] 三國志Ⅳ", "[LoROM] Romance of the Three Kingdoms IV: Wall of Fire"],
+            "wad_titles": ["Sangokushi IV", "Romance of the Three Kingdoms IV - Wall of Fire"]
+        },
+		
+	    {
+            "id": "00010001-4a434c__",
+            "region": [0, 1, 3],
+            "emu_ver": [1],
+            "titles": ["[DSP-1]聖剣伝説２ シークレット オブ マナ", "[DSP-1]Secret of Mana"],
+            "wad_titles": ["Seiken Densetsu 2", "Secret of Mana"]
+        },
+		
+		{
+            "id": "00010001-4a414a__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[LoROM] Street Fighter II: The World Warrior"],
+            "wad_titles": ["Street Fighter II: The World Warrior"]
+        },
+		
+		{
+            "id": "00010001-4a4443__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[S-DD1] Street Fighter Alpha 2"],
+            "wad_titles": ["Street Fighter Alpha 2"]
+        },
+		
+		{
+            "id": "00010001-4a4249__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[LoROM] Street Fighter 2 Turbo"],
+            "wad_titles": ["Street Fighter 2 Turbo"]
+        },
+		
+        {
+            "id": "00010001-4a4149__",
+            "region": [0, 1, 3],
+            "emu_ver": [0],
+            "titles": ["[LoROM] 悪魔城ドラキュラ", "[LoROM] Super Castlevania IV"],
+            "wad_titles": ["Akumajou Dracula", "Super Castlevania IV"]
+        },
+
+        {
+            "id": "00010001-4a4342__",
             "region": [0, 1, 5],
-            "emu_ver": [2],
-            "titles": ["ファイヤー・ファイティング", "The Ignition Factor"],
-            "wad_titles": ["Fire Fighting", "Ignition Factor, The"]
+            "emu_ver": [1],
+            "titles": ["[SA-1] スーパーマリオRPG", "[SA-1] Super Mario RPG: Legend of the Seven Stars"],
+            "wad_titles": ["Super Mario RPG"]
+        },
+		
+		{
+            "id": "00010001-4a4141__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[LoROM] Super Mario World"],
+            "wad_titles": ["Super Mario World"]
+        },
+		
+		{
+            "id": "00010001-4a4357__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[DSP-1] Super Mario Kart"],
+            "wad_titles": ["Super Mario Kart"]
+        },
+		
+        {
+            "id": "00010001-4a4142__",
+            "region": [0, 4],
+            "emu_ver": [0],
+            "titles": ["[LoROM] マリオのスーパーピクロス", "[LoROM] Mario's Super Picross"],
+            "wad_titles": ["Mario no Super Picross", "Mario's Super Picross"]
+        },
+		
+        {
+            "id": "00010001-4a4156__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[HiROM] スーパーメトロイド", "[HiROM] Super Metroid", "[HiROM] Super Metroid", "[HiROM] 슈퍼 메트로이드"],
+			"wad_titles": ["スーパーメトロイド", "Super Metroid", "Super Metroid", "슈퍼 메트로이드"]
         },
 		
         {
             "id": "00010001-4a4449__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["スーパースター・ウォーズ", "Super Star Wars"]
+            "titles": ["[LoROM] スーパースター・ウォーズ", "[LoROM] Super Star Wars"],
+			"wad_titles": ["スーパースター・ウォーズ", "Super Star Wars"]
         },
 		
         {
             "id": "00010001-4a444a__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["Super Star Wars - The Empire Strikes Back"]
+            "titles": ["[LoROM] Super Star Wars - The Empire Strikes Back"],
+			"wad_titles": ["Super Star Wars - The Empire Strikes Back"]
         },
 		
         {
             "id": "00010001-4a444c__",
             "region": [0, 1, 3],
             "emu_ver": [2],
-            "titles": ["Super Star Wars - Return of the Jedi"]
+            "titles": ["[LoROM] Super Star Wars - Return of the Jedi"],
+			"wad_titles": ["Super Star Wars - Return of the Jedi"]
         },
-
-        {
-            "id": "00010001-4a4356__",
-            "region": [0, 1, 3],
-            "emu_ver": [2],
-            "titles": ["パイロットウイングス", "Pilotwings"]
+		
+		{
+            "id": "00010001-4a4144__",
+            "region": [0, 1, 3, 7],
+            "emu_ver": [0],
+            "titles": ["[HiROM] Zelda no Densetsu - Kamigami no Triforce", "[HiROM] The Legend of Zelda: A Link to the Past"],
+            "wad_titles": ["Zelda no Densetsu - Kamigami no Triforce", "Legend of Zelda, The - A Link to the Past"]
         },
-
-        {
-            "id": "00010001-4a4541__",
-            "region": [1, 5],
+		
+		{
+            "id": "00010001-4a4136__",
+            "region": [1, 3],
             "emu_ver": [2],
-            "titles": ["Natsume Championship Wrestling"]
+			"titles": ["[LoROM] Zombies Ate My Neighbors"],
+            "wad_titles": ["Zombies Ate My Neighbors", "Zombies"]
+		},
+		
+        {
+            "id": "00010001-4a4436__",
+            "region": [0, 1, 5],
+            "emu_ver": [2],
+            "titles": ["[LoROM] ファイヤー・ファイティング", "[LoROM] The Ignition Factor"],
+            "wad_titles": ["Fire Fighting", "Ignition Factor, The"]
         }
     ],
 
@@ -604,6 +649,13 @@
             "emu_ver": [3],
             "titles": ["ゼルダの伝説 ムジュラの仮面", "The Legend of Zelda: Majora's Mask"],
             "wad_titles": ["Zelda no Densetsu - Mujura no Kamen", "Legend of Zelda, The - Majora's Mask"]
+        },
+		
+        {
+            "id": "00010001-4e3158__",
+            "region": [0, 1, 3],
+            "emu_ver": [3],
+            "titles": ["Majora's Mask Tensei-ban"]
         },
         
         {

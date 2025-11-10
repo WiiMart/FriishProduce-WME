@@ -163,9 +163,9 @@ namespace FriishProduce
             if (string.IsNullOrEmpty(region)) return "";
             var replacements = new List<(string from, string to)> {
                 ("America", "USA"), ("United States", "USA"), ("USA", Program.Lang.String("region_u")),
-                ("Europe", Program.Lang.String("region_e")),
+                ("Europe/Australia", "Europe"), ("Europe", Program.Lang.String("region_e")),
                 ("Japan", Program.Lang.String("region_j")),
-                ("Korea", Program.Lang.String("region_k"))
+                ("Republic of Korea", "Korea"), ("Korea", Program.Lang.String("region_k"))
             };
             replacements.ForEach(reg => region = region.Replace(reg.from, reg.to));
             return region.Trim();
@@ -195,6 +195,7 @@ namespace FriishProduce
                 (SVT_WARN, string.IsNullOrEmpty(saveTitle)),
                 (BNR_IMG_WARN, string.IsNullOrEmpty(bannerImg))
             };
+            var conflicts = conflictMap.Where(c => c.condition).Select(c => c.tag).ToList();
             return conflictMap.Where(c => c.condition).Select(c => c.tag).ToList();
         }
 
@@ -264,9 +265,9 @@ namespace FriishProduce
         private static string NormalizeWadReg(string wadRegion) {
             return wadRegion switch {
                 "US" or "USA" or "America" => "USA",
-                "EU" or "EUR" or "Europe" => "Europe",
+                "EU" or "EUR" or "Europe" or "Europe/Australia" => "Europe",
                 "JP" or "Japan" => "Japan",
-                "KR" or "Korea" => "Korea",
+                "KR" or "Korea" or "Republic of Korea" => "Korea",
                 _ => wadRegion
             };
         }

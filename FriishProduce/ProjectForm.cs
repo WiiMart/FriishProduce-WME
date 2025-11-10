@@ -388,7 +388,8 @@ namespace FriishProduce
                     Invoke(new MethodInvoker(delegate { value = banner_form.region.SelectedIndex - 1; }));
                 else value = banner_form.region.SelectedIndex - 1;
 
-                if (value == -1 || banner_form.region.Text == "Automatic")
+                //if (value == -1 || banner_form.region.Text == "Automatic")
+                if (value == -1)
                 {
                     value = channels != null ? InBaseRegion switch { Region.Japan => 0, Region.Europe => 2, Region.Korea => 3, _ => 1 } : 1;
 
@@ -1107,7 +1108,7 @@ namespace FriishProduce
         }
 
         private void CheckWarnings() {
-            if (rom == null || string.IsNullOrEmpty(rom.FilePath)) return;
+            if (rom == null || string.IsNullOrEmpty(rom.FilePath) || !IsVisible) return;
             string[] matchParams = {
                 banner_form.region.Text,
                 Meta.IntToChReg(region.SelectedIndex),
