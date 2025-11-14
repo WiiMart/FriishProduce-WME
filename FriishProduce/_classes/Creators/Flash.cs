@@ -1079,13 +1079,13 @@ namespace FriishProduce.Injectors
             MainContent.CreateFromDirectory(PathConstants.FlashContents);
             if (Directory.Exists(PathConstants.FlashContents)) Directory.Delete(PathConstants.FlashContents, true);
             ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
+            bool disableOm = (currentForm != null && currentForm.manual_type.SelectedIndex <= 0);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
             U8 Content6 = U8.Load(wad.Contents[6]);
-            Logger.INFO("Checking Operation Manual injection options for Flash inject, flBase = " + flBase.ToString());
 
-            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0) {
-                Logger.INFO("Attempting to disablle Operation Manual for Flash inject, flBase = " + flBase.ToString());
+            if (disableOm) {
+                Logger.INFO("Attempting to disable Operation Manual for " + flBase.Name);
                 try {
                     int start = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton2", StringComparison.OrdinalIgnoreCase));
                     int end = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton3", StringComparison.OrdinalIgnoreCase));
@@ -1099,14 +1099,18 @@ namespace FriishProduce.Injectors
                     Logger.ERROR("Unable to replace 00000006 U8 contents, \"homebutton\" content could not be found.");
                 }
             }
+            else
+                Logger.INFO("Enabling original Operation Manual for " + flBase.Name);
+
             #endregion
 
             #region ---------------- Finally, replace the relevant files ----------------
 
             wad.Unpack(PathConstants.WAD);
             File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
-            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0)
+            if (disableOm)
                 File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
+                
             wad.CreateNew(PathConstants.WAD);
             Directory.Delete(PathConstants.WAD, true);
 
