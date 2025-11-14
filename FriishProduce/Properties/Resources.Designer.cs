@@ -93,7 +93,7 @@ namespace FriishProduce.Properties {
 
         public static byte[] Font => GetBytes("Font");
 
-        public static byte[] FlashOpmPatch => GetBytes("flomp_v1");
+        public static byte[] FlashOpmPatch => GetBytes("flopm_v1");
 
         public static byte[] NeoGeo_VC1 => GetBytes("NeoGeo_VC1");
 

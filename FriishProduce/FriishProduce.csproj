@@ -709,7 +709,7 @@
     <None Include="Resources\sound.wave.wav" />
     <None Include="Resources\icons\consoles\sony playstation.ico" />
     <None Include="Resources\subforms\screen_smd.png" />
-    <None Include="Resources\vc\fl_opm_v1.bin" />
+    <None Include="Resources\vc\flopm_v1.bin" />
     <None Include="Resources\vc\NeoGeo_VC1.bin" />
     <None Include="Resources\vc\NeoGeo_VC2.bin" />
     <None Include="Resources\vc\NeoGeo_VC3.bin" />
