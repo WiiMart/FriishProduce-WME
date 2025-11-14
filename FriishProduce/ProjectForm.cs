@@ -2317,7 +2317,7 @@ namespace FriishProduce
                     string baseIdTxt = $"BaseID.Text:[{(baseID != null && !string.IsNullOrEmpty(baseID.Text) ? baseID.Text : "null")}]";
                     string entryIds = entry == null ? "null" : string.Join(",", entry.GetUpperIDs());
                     Logger.ERROR(
-                        $"GetWAD failed! hasInWad?:[{hasInWad}], InBaseWAD:[{InBaseWAD}], {baseIdTxt}, " +
+                        $"GetWAD failed! hasInWad?:[{hasInWad}], InBaseWAD:[{InBaseWAD}], {baseIdTxt}, \n" +
                         $"Entry:[{(entry == null ? "null" : entry.ToString())}], Index:[{index}], EntryIDs:[{entryIds}]",
                         $"{ex.Message}\n{ex.StackTrace}"
                     );

@@ -108,6 +108,13 @@ namespace FriishProduce
                         }
                         else {
                             _progress.max += 1.0;
+                            byte[] wadData2;
+                            try {
+                                wadData2 = Web.Get(path, "\nDownloading WAD from URL:\n");
+                            } catch {
+                                
+                            }
+                            
                             try {
                                 byte[] wadData = Web.Get(path, "\nDownloading WAD from URL:\n");
                                 SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
@@ -117,10 +124,7 @@ namespace FriishProduce
                                     File.WriteAllBytes(localPath, wadData);
                                     Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
                                 }
-                            }
-                            catch (Exception ex) {
-                                Logger.WARN($"Failed to download or save WAD from {path}: {ex.Message}");
-                            }
+                            } catch {}
                             _updateProgress();
                         }
                     }
@@ -148,8 +152,10 @@ namespace FriishProduce
                 Logger.INFO("WAD base loaded successfully.");
             }
             catch (Exception ex) {
-                try { WAD?.Dispose(); } catch {}
-                Logger.ERROR($"Failed to load base WAD... {ex.Message}");
+                try {
+                    WAD?.Dispose();
+                } catch {}
+
                 if (ex.InnerException != null)
                     Logger.ERROR(ex.InnerException.Message);
                 throw;

@@ -1076,15 +1076,21 @@ namespace FriishProduce.Injectors
 
             #endregion
 
-            MainContent.CreateFromDirectory(PathConstants.FlashContents);
-            if (Directory.Exists(PathConstants.FlashContents)) Directory.Delete(PathConstants.FlashContents, true);
             ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
-            bool disableOm = (currentForm != null && currentForm.manual_type.SelectedIndex <= 0);
+            MainContent.CreateFromDirectory(PathConstants.FlashContents);
+
+            if (Directory.Exists(PathConstants.FlashContents))
+                Directory.Delete(PathConstants.FlashContents, true);
+
+            wad.Unpack(PathConstants.WAD);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
+
+            // Patch Operation Manual files in 06 to ensure cross-compatibility
+            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Properties.Resources.FlashOpmPatch);
             U8 Content6 = U8.Load(wad.Contents[6]);
 
-            if (disableOm) {
+            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0) {
                 Logger.INFO("Attempting to disable Operation Manual for " + flBase.Name);
                 try {
                     int start = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton2", StringComparison.OrdinalIgnoreCase));
@@ -1106,17 +1112,18 @@ namespace FriishProduce.Injectors
 
             #region ---------------- Finally, replace the relevant files ----------------
 
-            wad.Unpack(PathConstants.WAD);
+            // Write SWF and related content patches to 02
             File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
-            if (disableOm)
-                File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
-                
+
+            // Write patched 06 with togglable opm
+            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
+            
             wad.CreateNew(PathConstants.WAD);
             Directory.Delete(PathConstants.WAD, true);
 
             #endregion
 
-            if (Content6 != null) Content6.Dispose();
+            Content6?.Dispose();
             MainContent.Dispose();
             Settings = null;
             Keymap = null;
