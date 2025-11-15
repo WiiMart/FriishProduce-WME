@@ -1076,54 +1076,44 @@ namespace FriishProduce.Injectors
 
             #endregion
 
-            ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
             MainContent.CreateFromDirectory(PathConstants.FlashContents);
-
             if (Directory.Exists(PathConstants.FlashContents))
                 Directory.Delete(PathConstants.FlashContents, true);
 
-            wad.Unpack(PathConstants.WAD);
-
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
 
-            // Patch Operation Manual files in 06 to ensure cross-compatibility
-            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Properties.Resources.FlashOpmPatch);
-            U8 Content6 = U8.Load(wad.Contents[6]);
+            ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
+            bool disableOm = (currentForm != null && currentForm.manual_type.SelectedIndex <= 0);
 
-            if (currentForm != null && currentForm.manual_type.SelectedIndex <= 0) {
-                Logger.INFO("Attempting to disable Operation Manual for " + flBase.Name);
-                try {
-                    int start = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton2", StringComparison.OrdinalIgnoreCase));
-                    int end = Array.FindIndex(Content6.StringTable, s => string.Equals(s, "homebutton3", StringComparison.OrdinalIgnoreCase));
+            U8 patchedManual = U8.Load(Properties.Resources.FlashOpmPatch);
+            patchedManual.Extract(PathConstants.FlashManual);
 
-                    if (start <= 0 && end <= 0)
-                        throw new InvalidOperationException();
+            string hb2 = Path.Combine(PathConstants.FlashManual, "HomeButton2");
+            string hb3 = Path.Combine(PathConstants.FlashManual, "HomeButton3");
+            
+            if (Directory.Exists(disableOm ? hb3 : hb2))
+                Directory.Delete(disableOm ? hb3 : hb2, true);
+                
+            if (Directory.Exists(disableOm ? hb2 : hb3))
+                Utils.CopyDir(disableOm ? hb2 : hb3, disableOm ? hb3 : hb2);
 
-                    Enumerable.Range(1, end - start - 1).ToList().ForEach(i => Content6.ReplaceFile(i + end, Content6.Data[i + start]));
-                }
-                catch {
-                    Logger.ERROR("Unable to replace 00000006 U8 contents, \"homebutton\" content could not be found.");
-                }
-            }
-            else
-                Logger.INFO("Enabling original Operation Manual for " + flBase.Name);
+            patchedManual.CreateFromDirectory(PathConstants.FlashManual);
+
+            if (Directory.Exists(PathConstants.FlashManual))
+                Directory.Delete(PathConstants.FlashManual, true);
 
             #endregion
 
             #region ---------------- Finally, replace the relevant files ----------------
 
-            // Write SWF and related content patches to 02
+            wad.Unpack(PathConstants.WAD);
             File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
-
-            // Write patched 06 with togglable opm
-            File.WriteAllBytes(PathConstants.WAD + "00000006.app", Content6.ToByteArray());
-            
+            File.WriteAllBytes(PathConstants.WAD + "00000006.app", patchedManual.ToByteArray()); 
             wad.CreateNew(PathConstants.WAD);
             Directory.Delete(PathConstants.WAD, true);
 
             #endregion
 
-            Content6?.Dispose();
             MainContent.Dispose();
             Settings = null;
             Keymap = null;

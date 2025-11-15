@@ -602,6 +602,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, warn_ban_reg);
             Program.Lang.ToolTip(tip, warn_ch_reg);
             Program.Lang.ToolTip(tip, warn_savetitle);
+            Program.Lang.ToolTip(tip, toggleMyrient);
             #endregion
 
             if (Base.SelectedIndex >= 0)
@@ -1039,6 +1040,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, fetch_patch, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_l, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_btn, null, fetch_patch.Text);
+            toggleMyrient.Left = use_online_wad.Right + 10; // padding
 
             IsVisible = true;
 
@@ -1485,6 +1487,8 @@ namespace FriishProduce
             SystemSounds.Beep.Play();
             e.Handled = true;
         }
+
+        private void ToggleMyrient(object sender, EventArgs e) => ValueChanged(sender, e);
 
         private void OpenWAD_CheckedChanged(object sender, EventArgs e)
         {
@@ -2301,14 +2305,14 @@ namespace FriishProduce
                 int index = -1;
                 try {
                     if (hasInWad)
-                        m.GetWAD(InBaseWAD, baseID.Text, hasInWad);
+                        m.GetWAD(InBaseWAD, baseID.Text, hasInWad, toggleMyrient.Checked);
                     else {
                         entry = channels.Entries.FirstOrDefault(x => x.GetUpperIDs().Contains(baseID.Text));
                         index = entry == null ? -1 : Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
                         string debug = $"Entry[{(entry != null ? entry.ToString() : "null")}] or index[{index}]";
 
                         if (entry != null && index >= 0)
-                            m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad);
+                            m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad, toggleMyrient.Checked);
                         else
                             throw new InvalidOperationException($"{debug} not found for BaseID {baseID.Text}");
                     }

@@ -405,6 +405,9 @@ namespace FriishProduce
 
     public static class Web
     {
+        public static readonly string NO_INTRO = "https://myrient.erista.me/files/No-Intro/";
+        public static readonly string DEP_WADS = "Unofficial%20-%20Nintendo%20-%20Wii%20%28Digital%29%20%28Deprecated%29%20%28WAD%29/";
+
         private static bool _compatibilityMode;
         private static bool CompatibilityMode
         {
@@ -848,6 +851,22 @@ namespace FriishProduce
         /// </summary>
         public static void EnsureTempWritable() {
             EnsureWritable(Path.GetTempPath());
+        }
+
+        public static void CopyDir(string sourceDir, string targetDir) {
+            if (!Directory.Exists(sourceDir))
+                throw new DirectoryNotFoundException($"Source directory not found: {sourceDir}");
+
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir)) {
+                string destFile = Path.Combine(targetDir, Path.GetFileName(file));
+                File.Copy(file, destFile, overwrite: true);
+            }
+            foreach (var dir in Directory.GetDirectories(sourceDir)) {
+                string destDir = Path.Combine(targetDir, Path.GetFileName(dir));
+                CopyDir(dir, destDir);
+            }
         }
 
         /// <summary>

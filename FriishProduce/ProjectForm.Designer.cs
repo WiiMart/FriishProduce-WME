@@ -77,6 +77,7 @@ namespace FriishProduce
             this.baseName = new System.Windows.Forms.Label();
             this.current_wad = new System.Windows.Forms.Label();
             this.use_online_wad = new System.Windows.Forms.RadioButton();
+            this.toggleMyrient = new System.Windows.Forms.CheckBox();
             this.checkImg1 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new FriishProduce.GroupBoxEx();
             this.import_wad = new System.Windows.Forms.Button();
@@ -481,6 +482,14 @@ namespace FriishProduce
             this.use_online_wad.UseVisualStyleBackColor = true;
             this.use_online_wad.CheckedChanged += new System.EventHandler(this.OpenWAD_CheckedChanged);
             // 
+            // use_myrient
+            // 
+            resources.ApplyResources(this.toggleMyrient, "toggleMyrient");
+            this.toggleMyrient.Name = "toggleMyrient";
+            this.toggleMyrient.Tag = "toggleMyrient";
+            this.toggleMyrient.UseVisualStyleBackColor = true;
+            this.toggleMyrient.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
             // checkImg1
             // 
             this.checkImg1.Image = global::FriishProduce.Properties.Resources.cross;
@@ -493,6 +502,7 @@ namespace FriishProduce
             this.groupBox2.Controls.Add(this.import_wad);
             this.groupBox2.Controls.Add(this.checkImg1);
             this.groupBox2.Controls.Add(this.use_online_wad);
+            this.groupBox2.Controls.Add(this.toggleMyrient);
             this.groupBox2.Controls.Add(this.BaseRegion);
             this.groupBox2.Controls.Add(this.Base);
             this.groupBox2.Controls.Add(this.use_offline_wad);
@@ -752,6 +762,7 @@ namespace FriishProduce
         private System.Windows.Forms.PictureBox injection_method_help;
         private System.Windows.Forms.Label using_default_wad;
         internal System.Windows.Forms.RadioButton use_online_wad;
+        private System.Windows.Forms.CheckBox toggleMyrient;
         private System.Windows.Forms.ComboBox wiiu_display;
         private System.Windows.Forms.Label wiiu_display_l;
         private System.Windows.Forms.Label banner_tip;

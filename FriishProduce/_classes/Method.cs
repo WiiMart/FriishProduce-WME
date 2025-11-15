@@ -78,7 +78,7 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
-        public void GetWAD(string path, string tid, bool hasInWad) {
+        public void GetWAD(string path, string tid, bool hasInWad, bool ToggleMyrient = false) {
             try {
                 object toLoad = null;
 
@@ -108,23 +108,24 @@ namespace FriishProduce
                         }
                         else {
                             _progress.max += 1.0;
-                            byte[] wadData2;
+                            byte[] wadData;
+                            string pattern = @"https://repo\.mariocube\.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/[A-Z]/";
+                            string nointro = System.Text.RegularExpressions.Regex.Replace(path, pattern, Web.NO_INTRO + Web.DEP_WADS);
+                            string finalPath = ToggleMyrient ? nointro : path;
                             try {
-                                wadData2 = Web.Get(path, "\nDownloading WAD from URL:\n");
+                                wadData = Web.Get(ToggleMyrient ? nointro : path, "\nDownloading WAD from URL:\n");
                             } catch {
-                                
+                                Logger.WARN($"Failed to download from initial source, trying alternative...\n");
+                                wadData = Web.Get(ToggleMyrient ? path : nointro, "\nDownloading WAD from URL:\n");
                             }
-                            
-                            try {
-                                byte[] wadData = Web.Get(path, "\nDownloading WAD from URL:\n");
-                                SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
-                                toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
+                            SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
+                            toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
 
-                                if (Program.Config.application.locsave_wad) {
-                                    File.WriteAllBytes(localPath, wadData);
-                                    Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
-                                }
-                            } catch {}
+                            if (Program.Config.application.locsave_wad) {
+                                File.WriteAllBytes(localPath, wadData);
+                                Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
+                            }
+
                             _updateProgress();
                         }
                     }
