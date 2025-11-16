@@ -306,6 +306,7 @@ namespace FriishProduce
             {
                 Program.Config.application.donotshow_000 = false;
                 Program.Config.application.donotshow_001 = false;
+                Program.Config.application.donotshow_002 = false;
             }
 
             // -------------------------------------------

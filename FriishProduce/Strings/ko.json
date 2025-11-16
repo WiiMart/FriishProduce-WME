@@ -109,6 +109,8 @@
 			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 
 			"b_000": "잠시만 기다리세요...",
 			"b_001": "내보내기 진행 중...",
@@ -147,6 +149,7 @@
 			"001": "SNES VC 정보 (작업 중)",
 			"002": "N64 VC 정보 (작업 중)",
 			"t_use_online_wad_enabled": "현재 데이터베이스에서 사용할 수 있는 WAD를 이미 WAD 파일이 없어도 가져올 수 있습니다. libWiiSharp의 NUS 클라이언트는 VC WAD를 암호 해제할 수 없으므로 웹 다운로드 기능만 사용됩니다.\n\n법적 문제의 소지가 있으므로 이 옵션은 비활성화하는 것이 좋습니다.",
+			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "각 인젝션의 데이터를 포함한 meta.json 파일을 Banner U8 아카이브에 작성합니다. WiiMart는 데이터 자동 수집을 위해 필요합니다.",
 			"t_publisher_opt": "이 WAD/inject의 제작자를 지정합니다. Banner U8 아카이브에 작성되는 meta.json에서 사용됩니다.",
 			"t_use_custom_database": "자체 'database.json'을 지정하여 애플리케이션이 기본으로 로드하도록 맞춤 WAD 데이터베이스를 사용합니다.",
@@ -278,6 +281,7 @@
 			"wad_base": "기반",
 			"import_wad": "WAD 가져오기...",
 			"use_online_wad": "...또는 다운로드 가능한 기반 사용",
+			"toggleMCLite": "MarioCubeLite 전환",
 			"using_default_wad": "빈 WAD 사용",
 			"current_wad": "현재 WAD:",
 			

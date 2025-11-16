@@ -14,6 +14,8 @@
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <IsTestProject>false</IsTestProject>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,8 +31,6 @@
     <ApplicationVersion>1.6.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -709,7 +709,7 @@
     <None Include="Resources\sound.wave.wav" />
     <None Include="Resources\icons\consoles\sony playstation.ico" />
     <None Include="Resources\subforms\screen_smd.png" />
-    <None Include="Resources\vc\flopm_v1.bin" />
+    <None Include="Resources\vc\hbm_patch.bin" />
     <None Include="Resources\vc\NeoGeo_VC1.bin" />
     <None Include="Resources\vc\NeoGeo_VC2.bin" />
     <None Include="Resources\vc\NeoGeo_VC3.bin" />
@@ -760,7 +760,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU">
+      <Version>8.1.0</Version>
+    </PackageReference>
     <FileAssociation Include=".jfpp">
       <Visible>False</Visible>
       <Description>JSON FriishProduce Project</Description>

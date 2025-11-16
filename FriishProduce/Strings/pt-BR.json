@@ -109,6 +109,8 @@
 			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 
 			"b_000": "Por favor, aguarde...",
 			"b_001": "Exportando...",
@@ -148,6 +150,7 @@
 			"001": "Sobre SNES VC (em construção)",
 			"002": "Sobre N64 VC (em construção)",
 			"t_use_online_wad_enabled": "Isto pode ser usado para recuperar qualquer WAD disponível no banco de dados atual sem precisar já ter um arquivo WAD. Usa apenas a funcionalidade de download pela Web, pois o cliente NUS do libWiiSharp não permite descriptografar WADs de Console Virtual.\n\nA legalidade disso é duvidosa, então é melhor manter esta opção desativada.",
+			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "Escreve um arquivo meta.json no arquivo Banner U8 contendo os dados de cada injeção. O WiiMart requer isso para automatizar a recuperação de dados.",
 			"t_publisher_opt": "Especifica o criador deste WAD/inject. Usado no meta.json gravado no arquivo Banner U8.",
 			"t_use_custom_database": "Usar um banco de dados WAD personalizado especificando seu próprio 'database.json' para o aplicativo carregar por padrão.",
@@ -281,6 +284,7 @@
 			"wad_base": "WAD base",
 			"import_wad": "Importar WAD de arquivo...",
 			"use_online_wad": "...ou usar uma base baixável",
+			"toggleMCLite": "Alternar MarioCubeLite",
 			"using_default_wad": "Usando WAD em branco",
 			"current_wad": "WAD atual:",
 			

@@ -39,11 +39,13 @@ namespace FriishProduce
             Close = 9
         }
 
+        public static bool LastMsgOptChecked { get; set; } = false;
+
         public static Result Show(string mainText, Buttons buttons, Icons icon) => Show(mainText, null, buttons, icon);
 
         public static Result Show(string mainText, string description, Buttons buttons, System.Drawing.Icon icon, int dontShow = -1, bool isLinkStyle = false) => Show(mainText, description, buttons, 0, dontShow, isLinkStyle, icon);
 
-        public static Result Show(string mainText, string description, Buttons buttons, Icons icon = 0, int dontShow = -1, bool isLinkStyle = false, System.Drawing.Icon ico = null)
+        public static Result Show(string mainText, string description, Buttons buttons, Icons icon = 0, int dontShow = -1, bool isLinkStyle = false, System.Drawing.Icon ico = null, string optionText = null)
         {
             List<string> b = new();
 
@@ -91,64 +93,61 @@ namespace FriishProduce
 
             }
 
-            return Show(mainText, description, b.ToArray(), icon, isLinkStyle, dontShow, ico);
+            return Show(mainText, description, b.ToArray(), icon, isLinkStyle, dontShow, ico, optionText);
         }
 
-        public static Result Show(string mainText, string description, string[] buttons, Icons icon = 0, bool isLinkStyle = false, int dontShow = -1, System.Drawing.Icon ico = null)
+        public static Result Show(string mainText, string description, string[] buttons, Icons icon = 0, bool isLinkStyle = false, int dontShow = -1, System.Drawing.Icon ico = null, string optionText = null)
         {
             Result? result = null;
             if (Program.GUI)
                 Program.MainForm.Invoke(new System.Windows.Forms.MethodInvoker(() =>
                 {
-                    using (Msg d = new()
+                    using Msg d = new()
                     {
                         MsgText = mainText,
                         Description = description,
                         Buttons = buttons,
                         IconType = icon,
                         Icon = ico,
-                        DoNotShow_Index = dontShow
-                    })
+                        DoNotShow_Index = dontShow,
+                        MsgOptText = optionText
+                    };
+                    if (string.IsNullOrWhiteSpace(description))
                     {
-                        if (string.IsNullOrWhiteSpace(description))
+                        var lines = mainText.Replace("\r\n", "\n").Split('\n');
+
+                        if (lines.Length >= 2)
                         {
-                            var lines = mainText.Replace("\r\n", "\n").Split('\n');
+                            var secondary = new List<string>();
 
-                            if (lines.Length >= 2)
-                            {
-                                var secondary = new List<string>();
+                            for (int i = 1; i < lines.Length; i++)
+                                secondary.Add(lines[i]);
 
-                                for (int i = 1; i < lines.Length; i++)
-                                    secondary.Add(lines[i]);
-
-                                d.MsgText = lines[0];
-                                d.Description = string.Join("\n", secondary.ToArray()).Trim();
-                            }
-
-                            else
-                            {
-                                d.MsgText = null;
-                                d.Description = lines[0].Trim();
-                            }
+                            d.MsgText = lines[0];
+                            d.Description = string.Join("\n", secondary.ToArray()).Trim();
                         }
 
-                        Language.ScriptType script = Program.Lang.GetScript(mainText);
-                        d.RightToLeft = script == Language.ScriptType.RTL ? System.Windows.Forms.RightToLeft.Yes : System.Windows.Forms.RightToLeft.No;
-
-                        d.ShowDialog(Program.MainForm);
-
-                        if (d.DoNotShow_Clicked)
+                        else
                         {
-                            var setting = Program.Config.application.GetType().GetField($"donotshow_{d.DoNotShow_Index:000}");
-
-                            if (setting != null)
-                                setting.SetValue(typeof(bool), true);
-
-                            Program.Config.Save();
+                            d.MsgText = null;
+                            d.Description = lines[0].Trim();
                         }
-
-                        result = d.Result;
                     }
+
+                    Language.ScriptType script = Program.Lang.GetScript(mainText);
+                    d.RightToLeft = script == Language.ScriptType.RTL ? System.Windows.Forms.RightToLeft.Yes : System.Windows.Forms.RightToLeft.No;
+
+                    d.ShowDialog(Program.MainForm);
+
+                    if (d.DoNotShow_Clicked) {
+                        var setting = Program.Config.application.GetType().GetProperty($"donotshow_{d.DoNotShow_Index:000}");
+                        //Logger.INFO(setting == null ? "PROP NOT FOUND" : $"Property found, current value = {setting.GetValue(Program.Config.application)}");
+                        setting?.SetValue(Program.Config.application, true);
+                        //Logger.INFO($"Value after set = {setting.GetValue(Program.Config.application)}");
+                        Program.Config.Save();
+                    }
+
+                    result = d.Result;
                 }));
 
             return result ?? Result.Cancel;
@@ -167,6 +166,12 @@ namespace FriishProduce
         public static void Show(string mainText, int dontShow) => Show(mainText, null, Buttons.Ok, 0, dontShow);
 
         public static void Show(string mainText) => Show(mainText, null, Buttons.Ok, 0, -1);
+
+        public static Result Show(string mainText, string description, int dontShow, string optionText) => Show(mainText, description, Buttons.Ok, 0, dontShow, false, null, optionText);
+
+        public static Result Show(string mainText, string description, string optionText) => Show(mainText, description, -1, optionText);
+
+        public static Result Show(string mainText, string optionText) => Show(mainText, null, optionText);
 
         public static void Error(int msg) => Error(Program.Lang.Msg(msg, 1));
 

@@ -109,6 +109,8 @@
 			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 			
 			"b_000": "Veuillez patienter ...",
 			"b_001": "Exportation en cours ...",
@@ -147,6 +149,7 @@
 			"001": "À propos de SNES VC (en construction)",
 			"002": "À propos de N64 VC (en construction)",
 			"t_use_online_wad_enabled": "Cela peut être utilisé pour récupérer n'importe quel WAD disponible dans la base de données actuelle sans avoir besoin de posséder déjà un fichier WAD. Cela utilise uniquement la fonctionnalité de téléchargement Web, car le client NUS de libWiiSharp ne permet pas de décrypter les WAD VC.\n\nLa légalité de cette opération est douteuse, il est donc préférable de désactiver cette option.",
+			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "Écrit un fichier meta.json dans l'archive Banner U8 contenant les données de chaque injection. WiiMart nécessite cela pour automatiser la récupération des données.",
 			"t_publisher_opt": "Spécifie le créateur de cet WAD/inject. Utilisé dans le meta.json écrit dans l'archive Banner U8.",
 			"t_use_custom_database": "Utilisez une base de données WAD personnalisée en spécifiant votre propre 'database.json' que l'application chargera par défaut.",
@@ -276,6 +279,7 @@
 			"wad_base": "WAD de base",
 			"import_wad": "Ouvrir un fichier WAD ...",
 			"use_online_wad": "... ou télécharger une chaîne",
+			"toggleMCLite": "MarioCubeLite activer/désactiver",
 			"using_default_wad": "Utilisant une chaîne Wii blanche",
 			"current_wad": "WAD actuel :",
 			

@@ -1528,34 +1528,34 @@
     <value>2</value>
   </data>
 
-  <data name="toggleMyrient.AutoSize" type="System.Boolean, mscorlib">
+  <data name="toggleMCLite.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="toggleMyrient.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="toggleMCLite.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="toggleMyrient.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="toggleMCLite.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 78</value>
   </data>
-  <data name="toggleMyrient.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="toggleMCLite.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 17</value>
   </data>
-  <data name="toggleMyrient.TabIndex" type="System.Int32, mscorlib">
+  <data name="toggleMCLite.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
   </data>
-  <data name="toggleMyrient.Text" xml:space="preserve">
-    <value>toggleMyrient</value>
+  <data name="toggleMCLite.Text" xml:space="preserve">
+    <value>toggleMCLite</value>
   </data>
-  <data name="&gt;&gt;toggleMyrient.Name" xml:space="preserve">
-    <value>toggleMyrient</value>
+  <data name="&gt;&gt;toggleMCLite.Name" xml:space="preserve">
+    <value>toggleMCLite</value>
   </data>
-  <data name="&gt;&gt;toggleMyrient.Type" xml:space="preserve">
+  <data name="&gt;&gt;toggleMCLite.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toggleMyrient.Parent" xml:space="preserve">
+  <data name="&gt;&gt;toggleMCLite.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;toggleMyrient.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;toggleMCLite.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
 

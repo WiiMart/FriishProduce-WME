@@ -143,6 +143,7 @@ namespace FriishProduce
             public int theme { get; set; } = 0;
             public bool donotshow_000 { get; set; } = false;
             public bool donotshow_001 { get; set; } = false;
+            public bool donotshow_002 { get; set; } = false;
             public bool auto_prefill { get; set; } = true;
 
             public string publisher_opt { get; set; }

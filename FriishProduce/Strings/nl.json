@@ -109,6 +109,8 @@
 			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 
 			"b_000": "Even geduld...",
 			"b_001": "Bezig met exporteren...",
@@ -148,6 +150,7 @@
 			"001": "Over SNES VC (in aanbouw)",
 			"002": "Over N64 VC (in aanbouw)",
 			"t_use_online_wad_enabled": "Dit kan worden gebruikt om een WAD op te halen die beschikbaar is in de huidige database zonder dat je al een WAD-bestand nodig hebt. Het gebruikt alleen webdownloadfunctionaliteit, aangezien de NUS-client van libWiiSharp VC WADs niet kan ontsleutelen.\n\nDe legaliteit hiervan is twijfelachtig, dus het is beter deze optie uit te schakelen.",
+			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "Schrijft een meta.json-bestand naar het Banner U8-archief met de gegevens van elke injectie. WiiMart heeft dit nodig om gegevens automatisch op te halen.",
 			"t_publisher_opt": "Specificeert de maker van deze WAD/inject. Wordt gebruikt in het meta.json-bestand dat naar het Banner U8-archief wordt geschreven.",
 			"t_use_custom_database": "Gebruik een aangepaste WAD-database door je eigen 'database.json' op te geven zodat de applicatie deze standaard laadt.",
@@ -281,6 +284,7 @@
 			"wad_base": "Basis WAD",
 			"import_wad": "WAD uit bestand importeren...",
 			"use_online_wad": "...of gebruik een downloadbare basis",
+			"toggleMCLite": "MarioCubeLite schakelen",
 			"using_default_wad": "Lege WAD wordt gebruikt",
 			"current_wad": "Huidige WAD:",
 			

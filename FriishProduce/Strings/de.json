@@ -109,6 +109,8 @@
 			"016": "Die Basis-ROM kann nicht erweitert werden und ist zu klein um mit dem beabsichtigten ROM zu flashen.",
 			"017": "Bitte geben Sie eine <Romhacking.net> Patch-URL oder Teilunterseite (Hack oder Übersetzung)\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Nur <Romhacking.net> Patches sind in diesem Moment unterstützt.\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 
 			"b_000":							"Bitte warten...",
 			"b_001":							"Exportiere...",
@@ -148,6 +150,7 @@
             "001": "Über SNES VC (im Aufbau)",
             "002": "Über N64 VC (im Aufbau)",
             "t_use_online_wad_enabled": "Dies kann verwendet werden, um beliebige WADs aus der aktuellen Datenbank abzurufen, ohne bereits eine WAD-Datei besitzen zu müssen. Es wird nur die Web-Download-Funktion genutzt, da der NUS-Client von libWiiSharp keine VC-WADs entschlüsseln kann.\n\nDie Rechtmäßigkeit ist fragwürdig, daher ist es besser, diese Option deaktiviert zu lassen.",
+            "t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
             "t_write_metadata": "Schreibt eine meta.json-Datei in das Banner-U8-Archiv, die die Daten jeder Injektion enthält. WiiMart benötigt dies zur automatisierten Datenerfassung.",
             "t_publisher_opt": "Gibt den Ersteller dieses WAD/Inject an. Wird in der meta.json verwendet, die ins Banner-U8-Archiv geschrieben wird.",
             "t_use_custom_database": "Verwenden Sie eine benutzerdefinierte WAD-Datenbank, indem Sie Ihre eigene 'database.json' angeben, die die Anwendung standardmäßig laden soll.",
@@ -280,6 +283,7 @@
             "wad_base": "Basis-WAD",
             "import_wad": "WAD aus Datei importieren...",
             "use_online_wad": "...oder eine herunterladbare Basis verwenden",
+            "toggleMCLite": "MarioCubeLite ein/aus",
             "using_default_wad": "Leeres WAD wird verwendet",
             "current_wad": "Aktuelles WAD:",
 

@@ -232,7 +232,7 @@
     <value>2, 3, 2, 3</value>
   </data>
   <data name="do_not_show.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 20</value>
+    <value>94, 20</value>
   </data>
   <data name="do_not_show.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -255,6 +255,44 @@
   <data name="&gt;&gt;do_not_show.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+
+  <data name="msgOpt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="msgOpt.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="msgOpt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="msgOpt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 10</value>
+  </data>
+  <data name="msgOpt.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 3, 2, 3</value>
+  </data>
+  <data name="msgOpt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 20</value>
+  </data>
+  <data name="msgOpt.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="msgOpt.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;msgOpt.Name" xml:space="preserve">
+    <value>msgOpt</value>
+  </data>
+  <data name="&gt;&gt;msgOpt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;msgOpt.Parent" xml:space="preserve">
+    <value>bottomPanel1</value>
+  </data>
+  <data name="&gt;&gt;msgOpt.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+
   <data name="button3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>

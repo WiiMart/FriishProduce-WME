@@ -602,7 +602,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, warn_ban_reg);
             Program.Lang.ToolTip(tip, warn_ch_reg);
             Program.Lang.ToolTip(tip, warn_savetitle);
-            Program.Lang.ToolTip(tip, toggleMyrient);
+            Program.Lang.ToolTip(tip, toggleMCLite);
             #endregion
 
             if (Base.SelectedIndex >= 0)
@@ -896,7 +896,7 @@ namespace FriishProduce
             // ********
             RefreshForm();
 
-            bool removeManual = true;
+            /*bool removeManualOpt = true;
             foreach (var manualConsole in new List<Platform>() {
                 // Confirmed to have an algorithm exist for NES, SNES, N64, SEGA, PCE, NEO
                 Platform.NES,
@@ -907,8 +907,10 @@ namespace FriishProduce
                 Platform.Flash,
                 // Platform.PCE,
                 // Platform.NEO
-            }) removeManual = !(TargetPlatform == manualConsole);
-            if (removeManual) manual_type.Items.RemoveAt(2);
+            })
+            removeManualOpt = !(TargetPlatform == manualConsole);
+            if (removeManualOpt)
+                manual_type.Items.RemoveAt(2);*/
 
             // *****************************************************
             // LOADING PROJECT
@@ -1040,7 +1042,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, fetch_patch, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_l, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_btn, null, fetch_patch.Text);
-            toggleMyrient.Left = use_online_wad.Right + 10; // padding
+            toggleMCLite.Left = use_online_wad.Right + 10; // padding
 
             IsVisible = true;
 
@@ -2305,14 +2307,14 @@ namespace FriishProduce
                 int index = -1;
                 try {
                     if (hasInWad)
-                        m.GetWAD(InBaseWAD, baseID.Text, hasInWad, toggleMyrient.Checked);
+                        m.GetWAD(InBaseWAD, baseID.Text, hasInWad, toggleMCLite.Checked);
                     else {
                         entry = channels.Entries.FirstOrDefault(x => x.GetUpperIDs().Contains(baseID.Text));
                         index = entry == null ? -1 : Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
                         string debug = $"Entry[{(entry != null ? entry.ToString() : "null")}] or index[{index}]";
 
                         if (entry != null && index >= 0)
-                            m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad, toggleMyrient.Checked);
+                            m.GetWAD(entry.GetWAD(index), entry.GetUpperID(index), hasInWad, toggleMCLite.Checked);
                         else
                             throw new InvalidOperationException($"{debug} not found for BaseID {baseID.Text}");
                     }
@@ -2885,17 +2887,45 @@ namespace FriishProduce
         }
         #endregion
 
-        private void CustomManual_CheckedChanged(object sender, EventArgs e)
-        {
-            if (manual_type.Enabled && manual_type.SelectedIndex == 2 && manual == null)
-            {
-                if (!Program.Config.application.donotshow_000) MessageBox.Show((sender as Control).Text, Program.Lang.Msg(6), 0);
+        private void ImportFlashManual(bool autoScale = false) {
+            using OpenFileDialog prompt = new();
+            prompt.Title = "Select an Image";
+            prompt.Filter = "Image Files (*.jpg; *.jpeg; *.png)|*.jpg;*.jpeg;*.png";
 
-                if (browseManual.ShowDialog() == DialogResult.OK) LoadManual(manual_type.SelectedIndex, browseManual.SelectedPath, true);
-                else manual_type.SelectedIndex = 0;
+            if (prompt.ShowDialog() != DialogResult.OK)
+                return;
+
+            using var srcImg = new ImageMagick.MagickImage(prompt.FileName);
+            srcImg.Format = ImageMagick.MagickFormat.Jpeg;
+            string rescaled = autoScale ? "\nImage rescaled to W:554, H:257" : "";
+
+            if (autoScale)
+                srcImg.Resize(554, 257);
+
+            MessageBox.Show($"Import custom manual\nSelected image: '{prompt.FileName}'{rescaled}");
+            srcImg.Write(PathConstants.FlashManualTempPath);
+        }
+
+        private void CustomManual_CheckedChanged(object sender, EventArgs e) {
+            if (manual_type.Enabled && manual_type.SelectedIndex == 2 && manual == null) {
+                if (TargetPlatform == Platform.Flash) {
+                    if (!Program.Config.application.donotshow_002)
+                        MessageBox.Show((sender as Control).Text, Program.Lang.Msg(19), 2, Program.Lang.Msg(20));
+
+                    ImportFlashManual(MessageBox.LastMsgOptChecked);
+                } else {
+                    if (!Program.Config.application.donotshow_000)
+                        MessageBox.Show((sender as Control).Text, Program.Lang.Msg(6), 0);
+
+                    if (browseManual.ShowDialog() == DialogResult.OK)
+                        LoadManual(manual_type.SelectedIndex, browseManual.SelectedPath, true);
+
+                    else manual_type.SelectedIndex = 0;
+                }
             }
 
-            if (manual_type.Enabled && manual_type.SelectedIndex < 2) LoadManual(manual_type.SelectedIndex);
+            if (manual_type.Enabled && manual_type.SelectedIndex < 2)
+                LoadManual(manual_type.SelectedIndex);
 
             ValueChanged(sender, e);
         }

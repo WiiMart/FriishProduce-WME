@@ -109,6 +109,8 @@
 			"016": "The base ROM cannot be expanded and is too small to flash with the intended ROM.",
 			"017": "Please enter a <Romhacking.net> patch URL or partial subpage (hack or translation)\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"020": "Rescale image?",
 
 			"b_000": "請稍候...",
 			"b_001": "正在匯出...",
@@ -148,6 +150,7 @@
 			"001": "關於 SNES VC（建置中）",
 			"002": "關於 N64 VC（建置中）",
 			"t_use_online_wad_enabled": "此功能可用於從當前資料庫中擷取任何可用的 WAD，而無需已擁有 WAD 檔。它僅使用網路下載功能，因為 libWiiSharp 的 NUS 用戶端不允許解密 VC WAD。\n\n此操作的合法性存在爭議，因此最好停用此選項。",
+			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "向 Banner U8 封存寫入 meta.json 檔，其中包含每個注入的資料。WiiMart 需要此操作來自動化資料擷取。",
 			"t_publisher_opt": "指定此 WAD/inject 的建立者。用於寫入 Banner U8 封存的 meta.json 中。",
 			"t_use_custom_database": "透過指定自訂 'database.json' 檔來使用自訂 WAD 資料庫，應用程式將預設載入該檔案。",
@@ -281,6 +284,7 @@
 			"wad_base": "基礎 WAD",
 			"import_wad": "從檔案匯入 WAD...",
 			"use_online_wad": "...或使用可下載基礎",
+			"toggleMCLite": "切換 MarioCubeLite",
 			"using_default_wad": "使用空白 WAD",
 			"current_wad": "目前 WAD:",
 

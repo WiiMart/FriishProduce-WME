@@ -29,7 +29,6 @@ namespace FriishProduce
         // Extracted paths
         public static readonly string WAD = WorkingFolder + "wad\\";
         public static readonly string Manual = WorkingFolder + "manual\\";
-        public static readonly string FlashManual = WorkingFolder + "flash_manual\\";
         public static readonly string DataCCF = WorkingFolder + "data_ccf\\";
         public static readonly string MiscCCF = DataCCF + "misc_ccf\\";
 
@@ -43,6 +42,8 @@ namespace FriishProduce
         public static readonly string FlashContents = WorkingFolder + "flash\\";
         public static readonly string FlashSWF = FlashContents + "content\\menu.swf";
         public static readonly string FlashConfig = FlashContents + "config\\config.common.pcf";
+        public static readonly string FlashHBM = WorkingFolder + "flash_manual\\";
+        public static readonly string FlashManualTempPath = Path.Combine(Path.GetTempPath(), "Friish_FlashManualImport_temp.jpg");
 
         // Forwarder paths
         public static readonly string SDUSBRoot = WorkingFolder + "root\\";

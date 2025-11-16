@@ -78,7 +78,7 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
-        public void GetWAD(string path, string tid, bool hasInWad, bool ToggleMyrient = false) {
+        public void GetWAD(string path, string tid, bool hasInWad, bool ToggleMCLite = false) {
             try {
                 object toLoad = null;
 
@@ -109,14 +109,17 @@ namespace FriishProduce
                         else {
                             _progress.max += 1.0;
                             byte[] wadData;
-                            string pattern = @"https://repo\.mariocube\.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/[A-Z]/";
-                            string nointro = System.Text.RegularExpressions.Regex.Replace(path, pattern, Web.NO_INTRO + Web.DEP_WADS);
-                            string finalPath = ToggleMyrient ? nointro : path;
+                            string pattern = @"https://repo\.mariocube\.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/";
+                            string mclite = System.Text.RegularExpressions.Regex.Replace(path, pattern, Web.MCLITE + Web.MCL_WADS);
                             try {
-                                wadData = Web.Get(ToggleMyrient ? nointro : path, "\nDownloading WAD from URL:\n");
+                                string finalPath = ToggleMCLite ? mclite : path;
+                                byte[] dlFile = Web.Get(finalPath, "\nDownloading WAD from URL:\n");
+                                wadData = Path.GetExtension(new Uri(finalPath).AbsolutePath).Equals(".zip", StringComparison.OrdinalIgnoreCase) ? Zip.ExtractWADFrom(dlFile) : dlFile;
                             } catch {
                                 Logger.WARN($"Failed to download from initial source, trying alternative...\n");
-                                wadData = Web.Get(ToggleMyrient ? path : nointro, "\nDownloading WAD from URL:\n");
+                                string finalPath = ToggleMCLite ? path : mclite;
+                                byte[] dlFile = Web.Get(finalPath, "\nDownloading WAD from URL:\n");
+                                wadData = Path.GetExtension(new Uri(finalPath).AbsolutePath).Equals(".zip", StringComparison.OrdinalIgnoreCase) ? Zip.ExtractWADFrom(dlFile) : dlFile;
                             }
                             SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
                             toLoad = Program.Config.application.locsave_wad ? localPath : wadData;

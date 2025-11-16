@@ -59,6 +59,17 @@ namespace FriishProduce
             }
         }
 
+        private string msgOptText;
+        public string MsgOptText {
+            get => msgOptText;
+            set {
+                msgOptText = value;
+                msgOption.Visible = !string.IsNullOrWhiteSpace(value);
+                msgOption.Text = value ?? "";
+            }
+        }
+        public bool MsgOpt_Checked => msgOption.Visible && msgOption.Checked;
+
         public Msg()
         {
             InitializeComponent();
@@ -98,6 +109,10 @@ namespace FriishProduce
 
             DoNotShow_Clicked = do_not_show.Visible && do_not_show.Checked
                              && Result is not MessageBox.Result.No and not MessageBox.Result.Cancel;
+
+            Logger.INFO($"Result = {Result}, Checkbox = {do_not_show.Checked}, Visible = {do_not_show.Visible}");
+
+            MessageBox.LastMsgOptChecked = msgOption.Visible && msgOption.Checked;
 
             Close();
         }
@@ -232,6 +247,17 @@ namespace FriishProduce
                     Size = SizeFromClientSize(ClientSize);
                 do_not_show.MaximumSize = new Size(button1.Location.X - do_not_show.Location.X - dns_spacing, 0);
             }
+
+            msgOption.Visible = !string.IsNullOrWhiteSpace(MsgOptText);
+            do_not_show.Visible = DoNotShow_Index >= 0;
+            int x = dns_spacing;
+
+            if (DoNotShow_Index >= 0) {
+                do_not_show.Location = new Point(x, do_not_show.Location.Y);
+                x += do_not_show.Width + 3;
+            }
+            if (!string.IsNullOrWhiteSpace(MsgOptText))
+                msgOption.Location = new Point(x, do_not_show.Location.Y);
         }
 
         private void Msg_Shown(object sender, EventArgs e)

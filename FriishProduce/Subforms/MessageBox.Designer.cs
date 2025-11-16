@@ -35,6 +35,7 @@ namespace FriishProduce
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.do_not_show = new System.Windows.Forms.CheckBox();
+            this.msgOption = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textLabel = new System.Windows.Forms.Label();
             this.descriptionLabel = new System.Windows.Forms.Label();
@@ -59,6 +60,7 @@ namespace FriishProduce
             this.bottomPanel1.Controls.Add(this.button1);
             this.bottomPanel1.Controls.Add(this.button2);
             this.bottomPanel1.Controls.Add(this.do_not_show);
+            this.bottomPanel1.Controls.Add(this.msgOption);
             this.bottomPanel1.Controls.Add(this.button3);
             resources.ApplyResources(this.bottomPanel1, "bottomPanel1");
             this.bottomPanel1.Name = "bottomPanel1";
@@ -85,6 +87,14 @@ namespace FriishProduce
             this.do_not_show.Name = "do_not_show";
             this.do_not_show.Tag = "do_not_show";
             this.do_not_show.UseVisualStyleBackColor = true;
+            // 
+            // msgOpt
+            // 
+            resources.ApplyResources(this.msgOption, "msgOpt");
+            this.msgOption.Name = "msgOpt";
+            this.msgOption.Tag = "msgOpt";
+            this.msgOption.Text = "";
+            this.msgOption.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -157,6 +167,7 @@ namespace FriishProduce
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label textLabel;
         private System.Windows.Forms.CheckBox do_not_show;
+        private System.Windows.Forms.CheckBox msgOption;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label descriptionLabel;

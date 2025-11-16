@@ -563,6 +563,7 @@ namespace FriishProduce.Injectors
 
             MainContent = U8.Load(wad.Contents[2]);
             MainContent.Extract(PathConstants.FlashContents);
+            ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
 
             #region ---------------- Determining the Flash emulator type ----------------
 
@@ -1015,7 +1016,6 @@ namespace FriishProduce.Injectors
                     if (stretch && (GetSetting("fullscreen").ToLower() is "yes" or "on" or "true") && File.Exists(file.Replace(".pcf", ".wide.pcf")))
                         File.Copy(file, file.Replace(".pcf", ".wide.pcf"), true);
                 }
-
                 #endregion
             }
 
@@ -1076,31 +1076,50 @@ namespace FriishProduce.Injectors
 
             #endregion
 
+            #region ---------------- Replace Flash Operations Manual JPEG -------------------
+            List<string> replacedManuals = new();
+            
+            foreach (string file in Directory.EnumerateFiles(PathConstants.FlashContents, "*.*", SearchOption.AllDirectories)) {
+                string relPath = file.Substring(PathConstants.FlashContents.Length).Replace('/', '\\');
+                if (currentForm != null && currentForm.manual_type.SelectedIndex == 2 && relPath.EndsWith("manual.jpg")) {
+                    Utils.ReplaceManualJPEG(file, PathConstants.FlashManualTempPath);
+
+                    string[] dirs = relPath.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (dirs.Length >= 3)
+                        replacedManuals.Add(dirs[dirs.Length - 3] + "-" + dirs[dirs.Length - 2]);
+                }
+            }
+            if (replacedManuals.Count > 0)
+                Logger.INFO($"Replaced Operations Manual JPEG images for:\n{string.Join(", ", replacedManuals)}");
+
+            #endregion
+
             MainContent.CreateFromDirectory(PathConstants.FlashContents);
             if (Directory.Exists(PathConstants.FlashContents))
                 Directory.Delete(PathConstants.FlashContents, true);
 
             #region ---------------- Dispose of "Operations Guide" button on HOME Menu. ----------------
 
-            ProjectForm currentForm = Program.MainForm.tabControl.SelectedForm as ProjectForm;
-            bool disableOm = (currentForm != null && currentForm.manual_type.SelectedIndex <= 0);
+            bool disableGuide = (currentForm != null && currentForm.manual_type.SelectedIndex <= 0);
+            if (currentForm != null)
+                Logger.INFO("manual_type.SelectedIndex = " + currentForm.manual_type.SelectedIndex);
 
-            U8 patchedManual = U8.Load(Properties.Resources.FlashOpmPatch);
-            patchedManual.Extract(PathConstants.FlashManual);
+            U8 patchedHBM = U8.Load(Properties.Resources.FlashHBMPatch);
+            patchedHBM.Extract(PathConstants.FlashHBM);
 
-            string hb2 = Path.Combine(PathConstants.FlashManual, "HomeButton2");
-            string hb3 = Path.Combine(PathConstants.FlashManual, "HomeButton3");
+            string hb2 = Path.Combine(PathConstants.FlashHBM, "HomeButton2");
+            string hb3 = Path.Combine(PathConstants.FlashHBM, "HomeButton3");
             
-            if (Directory.Exists(disableOm ? hb3 : hb2))
-                Directory.Delete(disableOm ? hb3 : hb2, true);
+            if (Directory.Exists(disableGuide ? hb3 : hb2))
+                Directory.Delete(disableGuide ? hb3 : hb2, true);
                 
-            if (Directory.Exists(disableOm ? hb2 : hb3))
-                Utils.CopyDir(disableOm ? hb2 : hb3, disableOm ? hb3 : hb2);
+            if (Directory.Exists(disableGuide ? hb2 : hb3))
+                Utils.CopyDir(disableGuide ? hb2 : hb3, disableGuide ? hb3 : hb2);
 
-            patchedManual.CreateFromDirectory(PathConstants.FlashManual);
+            patchedHBM.CreateFromDirectory(PathConstants.FlashHBM);
 
-            if (Directory.Exists(PathConstants.FlashManual))
-                Directory.Delete(PathConstants.FlashManual, true);
+            if (Directory.Exists(PathConstants.FlashHBM))
+                Directory.Delete(PathConstants.FlashHBM, true);
 
             #endregion
 
@@ -1108,7 +1127,7 @@ namespace FriishProduce.Injectors
 
             wad.Unpack(PathConstants.WAD);
             File.WriteAllBytes(PathConstants.WAD + "00000002.app", MainContent.ToByteArray());
-            File.WriteAllBytes(PathConstants.WAD + "00000006.app", patchedManual.ToByteArray()); 
+            File.WriteAllBytes(PathConstants.WAD + "00000006.app", patchedHBM.ToByteArray()); 
             wad.CreateNew(PathConstants.WAD);
             Directory.Delete(PathConstants.WAD, true);
 

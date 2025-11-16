@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using ImageMagick;
 
 namespace FriishProduce
 {
@@ -407,6 +408,9 @@ namespace FriishProduce
     {
         public static readonly string NO_INTRO = "https://myrient.erista.me/files/No-Intro/";
         public static readonly string DEP_WADS = "Unofficial%20-%20Nintendo%20-%20Wii%20%28Digital%29%20%28Deprecated%29%20%28WAD%29/";
+
+        public static readonly string MCLITE = "https://archive.org/download/MarioCubeLite/";
+        public static readonly string MCL_WADS = "WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/";
 
         private static bool _compatibilityMode;
         private static bool CompatibilityMode
@@ -806,6 +810,25 @@ namespace FriishProduce
 
     public static class Utils
     {
+
+        public static void ReplaceManualJPEG(string ogImgPath, string newImgPath) {
+            using var newImg = new MagickImage(newImgPath);
+            using var srcImg = new MagickImage(ogImgPath);
+
+            if (srcImg.GetColorProfile() is {} color)
+                newImg.SetProfile(color);
+            if (srcImg.GetExifProfile() is {} exif)
+                newImg.SetProfile(exif);
+            if (srcImg.GetIptcProfile() is {} iptc)
+                newImg.SetProfile(iptc);
+            if (srcImg.GetXmpProfile() is {} xmp)
+                newImg.SetProfile(xmp);
+
+            newImg.Quality = 90;
+            newImg.Write(ogImgPath);
+        }
+
+
         public static bool HasNetwork() => NetworkInterface.GetIsNetworkAvailable() && Web.InternetTest();
 
         /// <summary>
@@ -1448,6 +1471,16 @@ namespace FriishProduce
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        ///     Extracts the first WAD found to a byte array
+        /// </summary>
+        public static byte[] ExtractWADFrom(byte[] zipBytes) {
+            using var ms = new MemoryStream(zipBytes);
+            using var zip = ZipArchive.Open(ms);
+            var wadEntry = zip.Entries.FirstOrDefault(e => !e.IsDirectory && e.Key.EndsWith(".wad", System.StringComparison.OrdinalIgnoreCase));
+            return (wadEntry != null) ? Extract(wadEntry) : null;
         }
 
         /// <summary>
