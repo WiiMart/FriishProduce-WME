@@ -110,8 +110,7 @@ namespace FriishProduce
             DoNotShow_Clicked = do_not_show.Visible && do_not_show.Checked
                              && Result is not MessageBox.Result.No and not MessageBox.Result.Cancel;
 
-            Logger.INFO($"Result = {Result}, Checkbox = {do_not_show.Checked}, Visible = {do_not_show.Visible}");
-
+            //Logger.INFO($"Result = {Result}, Checkbox = {do_not_show.Checked}, Visible = {do_not_show.Visible}");
             MessageBox.LastMsgOptChecked = msgOption.Visible && msgOption.Checked;
 
             Close();

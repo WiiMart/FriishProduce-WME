@@ -142,7 +142,7 @@ namespace FriishProduce
                     if (d.DoNotShow_Clicked) {
                         var setting = Program.Config.application.GetType().GetProperty($"donotshow_{d.DoNotShow_Index:000}");
                         //Logger.INFO(setting == null ? "PROP NOT FOUND" : $"Property found, current value = {setting.GetValue(Program.Config.application)}");
-                        setting?.SetValue(Program.Config.application, true);
+                        setting?.SetValue(Program.Config.application, !(bool) setting.GetValue(Program.Config.application));
                         //Logger.INFO($"Value after set = {setting.GetValue(Program.Config.application)}");
                         Program.Config.Save();
                     }

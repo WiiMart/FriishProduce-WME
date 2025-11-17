@@ -109,7 +109,7 @@
 			"016": "Die Basis-ROM kann nicht erweitert werden und ist zu klein um mit dem beabsichtigten ROM zu flashen.",
 			"017": "Bitte geben Sie eine <Romhacking.net> Patch-URL oder Teilunterseite (Hack oder Übersetzung)\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"018": "Nur <Romhacking.net> Patches sind in diesem Moment unterstützt.\n\nZum Beispiel:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
-			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.",
+			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.\nTHIS FEATURE IS A WORK IN PROGRESS.",
 			"020": "Rescale image?",
 
 			"b_000":							"Bitte warten...",
