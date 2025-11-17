@@ -161,8 +161,8 @@ namespace FriishProduce
             public bool bypass_rom_size { get; set; } = true;
             public int image_interpolation { get; set; } = 2;
             public bool image_fit_aspect_ratio { get; set; } = false;
-            public string default_target_filename = "(PLATFORM)_CHANNELNAME_REGION";
-            public string default_export_filename { get; set; } = "PLATFORM_TITLEID_REGION";
+            public string default_target_filename = "(PLATFORM) CHANNELNAME REGION";
+            public string default_export_filename { get; set; } = "PLATFORM_CHANNELNAME_REGION_GENRE_PUBLISHER";
             public int default_banner_region { get; set; } = 0;
             public int default_wiiu_display { get; set; } = 0;
             public int default_injection_method_nes { get; set; } = 0;
