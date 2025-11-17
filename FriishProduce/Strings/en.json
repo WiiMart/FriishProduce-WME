@@ -150,6 +150,7 @@
 			"001": "About SNES VC (under construction)",
 			"002": "About N64 VC (under construction)",
 			"t_use_online_wad_enabled": "This can be used to retrieve any WAD that is available from the current database without already requiring to have a WAD file. It only uses Web download functionality, as libWiiSharp's NUS client does not allow decrypting VC WADs.\n\nThe legality of this is shady so it is better to have this option disabled.",
+			"t_use_online_wad": "<b><u>Downloads the WAD file directly into memory.</u></b>\n\nIf saving downloadable bases to local storage is <i>enabled</i>, this will save the WAD to the assigned path.\n\nIf the WAD is already present in the assigned path, it will be used instead.",
 			"t_toggleMCLite": "Fetches WADs from MarioCubeLite on Internet Archive instead of directly from the MarioCube repo. This may be useful if the main repository is offline.",
 			"t_write_metadata": "Writes a meta.json file to the Banner U8 archive containing the data of each inject. WiiMart requires this for automating data retrieval.",
 			"t_publisher_opt": "Specifies the creator of this WAD/inject. Used in the meta.json written to the Banner U8 archive.",
@@ -187,7 +188,8 @@
 			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>.",
 			"t_fetch_patch": "Enter a <i><u>Romhacking.net</u></i> URL to fetch the game data and optionally download the patch.\n\nGame data fetching includes:\n  • Title\n  • Title screen image\n  • Genre\n  • Date",
 			"t_fetch_patch_l": "{t_fetch_patch}",
-			"t_fetch_patch_btn": "{t_fetch_patch}"
+			"t_fetch_patch_btn": "{t_fetch_patch}",
+			"t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
 		}
 	},
 
@@ -285,8 +287,8 @@
 			"fetch_patch": "Fetch patch/data from URL:",
 
 			"wad_base": "Base WAD",
-			"import_wad": "Import WAD from file...",
-			"use_online_wad": "...or use a downloadable base",
+			"import_wad": "Import WAD file...",
+			"use_online_wad": "Load online WAD",
 			"toggleMCLite": "Toggle MarioCubeLite",
 			"using_default_wad": "Using blank WAD",
 			"current_wad": "Current WAD:",
@@ -333,6 +335,7 @@
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "Import custom manual",
+			"patchRomId": "Patch ROM header game ID",
 			"forwarder_root_device": "Root storage device:",
 			"wiiu_display": "Wii U display format:",
 			"wiiu_display0": "{original}",

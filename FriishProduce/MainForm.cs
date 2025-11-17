@@ -156,11 +156,11 @@ namespace FriishProduce
                 currentForm.fetch_patch_btn.Image = Properties.Resources.patch_go;
             #endregion
 
-            /*var items = platformsMenuItemList();
+            var menuItems = platformsMenuItemList();
             new_project.MenuItems.Clear();
-            new_project.MenuItems.AddRange(items.Items);
-            new_project_menu.MenuItems.Clear();
-            new_project_menu.MenuItems.AddRange(platformsMenuItemList().Items);*/
+            new_project.MenuItems.AddRange(menuItems.Items);
+            /*new_project_menu.Items.Clear();
+            new_project_menu.Items.AddRange(platformsMenuItemList().Items);*/
 
             // hmm, for now restore legacy icons...?
             var items = platformsStripItemList();
@@ -168,11 +168,11 @@ namespace FriishProduce
             new_project_menu.Items.AddRange(items);
 
             // -- System icons --
-            /* for (int i = 0; i < new_project.MenuItems.OfType<MenuItem>().Count(); i++)
+            /*for (int i = 0; i < new_project.MenuItems.OfType<MenuItem>().Count(); i++)
             {
                 vistaMenu.SetImage(new_project.MenuItems[i], items.Icons[i]);
                 vistaMenu.SetImage(new_project_menu.MenuItems[i], items.Icons[i]);
-            } */
+            }*/
 
             #region -- Localization --
 

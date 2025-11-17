@@ -27,7 +27,7 @@ namespace FriishProduce.Injectors
         /// <summary>
         /// Replaces ROM within extracted content5 directory. (compressed formats not supported yet)
         /// </summary>
-        protected override void ReplaceROM()
+        protected override void ReplaceROM(ChannelDatabase.ChannelEntry entry = null)
         {
             ROM.CheckSize();
 

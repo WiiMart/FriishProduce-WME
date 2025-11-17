@@ -184,7 +184,8 @@
 			"t_warn_vidgen": "若無使用手冊，無法修改，且並非所有 Wii 系統或 VC 都會遵循最佳或要求的刷新率。<hr>建議主要使用 <i>\"Original\"</i> 影像模式，或對 PAL 地區個別使用 <i>\"PAL50\"</i> 或 <i>\"PAL60\"</i>，對 NTSC 地區使用 <i>\"NTSC\"</i>。\n\n不正確的影像模式通常會造成明顯影響，包括但不限於：\n<i>  • 視訊/音訊快轉\n  • 視訊/音訊慢動作\n  • 影像卡頓或截斷</i>\n<u>視需要進行調整</u>。",
 			"t_warn_pal6050": "<u>警告：</u>\n所選 [影像模式] <i>\"PAL60 + PAL50\"</i> 不建議使用。{t_warn_vidgen}",
 			"t_warn_ntscpal60": "<u>警告：</u>\n所選 [影像模式] <i>\"NTSC + PAL60\"</i> 不建議使用。{t_warn_vidgen}",
-			"t_warn_savetitle": "<u>匯出衝突：</u>\n[儲存資料] 已啟用，但 <i>儲存資料標題</i> 為空或無效。使用儲存資料的頻道 [必須] 有有效的 <i>儲存資料標題</i>。"
+			"t_warn_savetitle": "<u>匯出衝突：</u>\n[儲存資料] 已啟用，但 <i>儲存資料標題</i> 為空或無效。使用儲存資料的頻道 [必須] 有有效的 <i>儲存資料標題</i>。",
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
 		}
 	},
 
@@ -330,6 +331,7 @@
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "匯入自訂手冊",
+			"patchRomId": "Patch ROM header game ID",
 			"forwarder_root_device": "根存儲裝置:",
 			"wiiu_display": "Wii U 顯示格式:",
 			"wiiu_display0": "{original}",

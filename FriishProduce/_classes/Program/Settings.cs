@@ -169,6 +169,7 @@ namespace FriishProduce
             public int default_injection_method_snes { get; set; } = 0;
             public int default_injection_method_n64 { get; set; } = 0;
             public int default_injection_method_sega { get; set; } = 0;
+            public bool PatchRomID { get; set; } = false;
         }
 
         public class Paths

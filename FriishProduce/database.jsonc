@@ -512,6 +512,7 @@
     "n64": [
         {
             "id": "00010001-4e4141__",
+            "romIds": ["NSM"],
             "region": [0, 1, 3],
             "emu_ver": [0],
             "titles": ["スーパーマリオ64", "Super Mario 64"]
@@ -519,6 +520,7 @@
 
         {
             "id": "00010001-4e4146__",
+            "romIds": ["CFZ"],
             "region": [0, 1, 3],
             "emu_ver": [0],
             "titles": ["F-ZERO X", "F-Zero X"]
@@ -526,6 +528,7 @@
 
         {
             "id": "00010001-4e4142__",
+            "romIds": ["NKT"],
             "region": [0, 1, 3, 7],
             "emu_ver": [1, 1, 1, 3],
             "titles": ["マリオカート64", "Mario Kart 64", "Mario Kart 64", "마리오 카트 64"]
@@ -533,6 +536,7 @@
 		
         {
             "id": "00010001-4e4153__",
+            "romIds": ["NCU"],
             "region": [0, 1, 3, 7],
             "emu_ver": [1, 1, 1, 3],
             "titles": ["Cruis'n USA"],
@@ -541,6 +545,7 @@
 		
         {
             "id": "00010001-4e4154__",
+            "romIds": ["NM8"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["マリオテニス64", "Mario Tennis"],
@@ -549,6 +554,7 @@
 
         {
             "id": "00010001-4e4143__",
+            "romIds": ["NZL"],
             "region": [0, 1, 3],
             "emu_ver": [1],
             "titles": ["ゼルダの伝説 時のオカリナ", "The Legend of Zelda: Ocarina of Time"],
@@ -557,6 +563,7 @@
 		
         {
             "id": "00010001-4E5554__",
+            "romIds": ["NZL"],
             "region": [0, 1, 3],
             "emu_ver": [1],
             "titles": ["Ultimate Trial"],
@@ -565,6 +572,7 @@
 
         {
             "id": "00010001-4e4144__",
+            "romIds": ["NFX", "NFP", "NFP", "NFP"],
             "region": [0, 1, 3, 7],
             "emu_ver": [1, 1, 1, 3],
             "titles": ["スターフォックス64", "Star Fox 64", "Lylat Wars", "스타폭스 64"],
@@ -573,6 +581,7 @@
 
         {
             "id": "00010001-4e4148__",
+            "romIds": ["NYS"],
             "region": [0, 1, 3],
             "emu_ver": [2],
             "titles": ["ヨッシーストーリー", "Yoshi's Story"],
@@ -581,6 +590,7 @@
 
         {
             "id": "00010001-4e4149__",
+            "romIds": ["NWR"],
             "region": [0, 1, 3],
             "emu_ver": [2],
             "titles": ["ウエーブレース64", "Wave Race 64"],
@@ -589,6 +599,7 @@
 
         {
             "id": "00010001-4e414a__",
+            "romIds": ["NGU"],
             "region": [0, 2, 4],
             "emu_ver": [2],
             "titles": ["罪と罰 〜地球の継承者〜", "Sin and Punishment"],
@@ -597,6 +608,7 @@
 
         {
             "id": "00010001-4e414b__",
+            "romIds": ["NPF"],
             "region": [0, 1, 2, 4],
             "emu_ver": [2],
             "titles": ["ポケモンスナップ", "Pokémon Snap"],
@@ -605,6 +617,7 @@
 
         {
             "id": "00010001-4e414f__",
+            "romIds": ["NTE"],
             "region": [0, 1, 3, 7],
             "emu_ver": [2, 2, 2, 3],
             "titles": ["テン・エイティ スノーボーディング", "1080° Snowboarding", "1080° Snowboarding", "1080°스노보딩"],
@@ -613,6 +626,7 @@
 
         {
             "id": "00010001-4e4145__",
+            "romIds": ["NMQ"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["マリオストーリー", "Paper Mario"],
@@ -621,6 +635,7 @@
 
         {
             "id": "00010001-4e414c__",
+            "romIds": ["NAL"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["大乱闘スマッシュブラザーズ", "Super Smash Bros."],
@@ -629,6 +644,7 @@
 
         {
             "id": "00010001-4e414d__",
+            "romIds": ["NK4"],
             "region": [0, 1, 3, 7],
             "emu_ver": [3],
             "titles": ["星のカービィ64", "Kirby 64: The Crystal Shards", "Kirby 64: The Crystal Shards", "별의 커비 64"],
@@ -637,6 +653,7 @@
 
         {
             "id": "00010001-4e414e__",
+            "romIds": ["NPN"],
             "region": [1, 3],
             "emu_ver": [3],
             "titles": ["Pokémon Puzzle League"],
@@ -645,6 +662,7 @@
 
         {
             "id": "00010001-4e4152__",
+            "romIds": ["NZS"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["ゼルダの伝説 ムジュラの仮面", "The Legend of Zelda: Majora's Mask"],
@@ -653,6 +671,7 @@
 		
         {
             "id": "00010001-4e3158__",
+            "romIds": ["NZS"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["Majora's Mask Tensei-ban"]
@@ -660,6 +679,7 @@
         
         {
             "id": "00010001-4e4155__",
+            "romIds": ["NMF"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["マリオゴルフ64", "Mario Golf"],
@@ -668,6 +688,7 @@
         
         {
             "id": "00010001-4e4159__",
+            "romIds": ["NOB"],
             "region": [0, 1, 5],
             "emu_ver": [3],
             "titles": ["オウガバトル64", "Ogre Battle 64: Person of Lordly Caliber"]
@@ -675,6 +696,7 @@
         
         {
             "id": "00010001-4e415a__",
+            "romIds": ["NMW"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["マリオパーティ2", "Mario Party 2"],
@@ -683,14 +705,16 @@
         
         {
             "id": "00010001-4e4133__",
+            "romIds": ["NBD"],
             "region": [0, 1, 3],
             "emu_ver": [3],
             "titles": ["ボンバーマンヒーロー ミリアン王女を救え!", "Bomberman Hero"],
-            "wad_titles": ["Bomberman Hero - Millian-Oujo wo Sukue!", "Bomberman Hero"]
+            "wad_titles": ["Bomberman Hero - Millian-Oujo wo Sukue!", "Bomberman Hero"],
         },
         
         {
             "id": "00010001-4e4150__",
+            "romIds": ["NCZ"],
             "region": [0],
             "emu_ver": [3],
             "titles": ["カスタムロボV2", "Custom Robo V2"],

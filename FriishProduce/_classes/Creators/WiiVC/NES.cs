@@ -22,7 +22,7 @@ namespace FriishProduce.Injectors
         ///     Inserts ROM into main.dol.
         ///         For NES, this means 'flashing' the ROM by replacing the entire byte array and padding.
         /// </summary>
-        protected override void ReplaceROM() {
+        protected override void ReplaceROM(ChannelDatabase.ChannelEntry entry = null) {
             Logger.Log("ReplaceROM called for NES inject, attempting to flash ROM inside main.dol");
 
             // -----------------------

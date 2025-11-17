@@ -183,7 +183,8 @@
 			"t_warn_vidgen": "Sin los Manuales de Operación no se puede cambiar, y no todos los sistemas Wii o VC respetan la frecuencia de actualización óptima o requerida.<hr>Se recomienda usar principalmente el modo de video <i>\"Original\"</i>, o individualmente <i>\"PAL50\"</i> o <i>\"PAL60\"</i> para regiones PAL, y <i>\"NTSC\"</i> para regiones NTSC.\n\nLos modos de video incorrectos suelen tener consecuencias notables. Esto puede incluir, pero no se limita a:\n<i>  • Video/audio en avance rápido\n  • Video/audio en cámara lenta\n  • Tartamudeo o recorte</i>\n<u>Ajustar según sea necesario</u>.",
 			"t_warn_pal6050": "<b><u>ADVERTENCIA:</u></b>\nEl <b>Modo de Video</b> seleccionado <i>\"PAL60 + PAL50\"</i> no se recomienda para su uso. {t_warn_vidgen}",
 			"t_warn_ntscpal60": "<b><u>ADVERTENCIA:</u></b>\nEl <b>Modo de Video</b> seleccionado <i>\"NTSC + PAL60\"</i> no se recomienda para su uso. {t_warn_vidgen}",
-			"t_warn_savetitle": "<b><u>Conflicto de Exportación:</u></b>\nLos <b>datos guardados</b> están habilitados, pero el <i>título de los datos guardados</i> está vacío o es inválido. Los canales que usan datos guardados <b>deben</b> tener un <i>título de datos guardados</i> válido."
+			"t_warn_savetitle": "<b><u>Conflicto de Exportación:</u></b>\nLos <b>datos guardados</b> están habilitados, pero el <i>título de los datos guardados</i> está vacío o es inválido. Los canales que usan datos guardados <b>deben</b> tener un <i>título de datos guardados</i> válido.",
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
 		}
 	},
 
@@ -327,6 +328,7 @@
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "Utilizar manual personalizado",
+			"patchRomId": "Patch ROM header game ID",
 			"forwarder_root_device": "Dispositivo de almacenamiento:",
 			"wiiu_display": "Formato de pantalla en Wii U:",
 			"wiiu_display1": "4:3 con barras negras",

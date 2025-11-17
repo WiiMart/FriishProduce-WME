@@ -52,6 +52,7 @@ namespace FriishProduce
             this.multifile_software = new System.Windows.Forms.CheckBox();
             this.extra = new System.Windows.Forms.Label();
             this.manual_type = new System.Windows.Forms.ComboBox();
+            this.patchRomId = new System.Windows.Forms.CheckBox();
             this.forwarder_root_device = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new FriishProduce.GroupBoxEx();
             this.video_mode = new System.Windows.Forms.ComboBox();
@@ -185,6 +186,7 @@ namespace FriishProduce
             this.groupBox3.Controls.Add(this.multifile_software);
             this.groupBox3.Controls.Add(this.extra);
             this.groupBox3.Controls.Add(this.manual_type);
+            this.groupBox3.Controls.Add(this.patchRomId);
             this.groupBox3.Controls.Add(this.forwarder_root_device);
             this.groupBox3.Flat = false;
             resources.ApplyResources(this.groupBox3, "groupBox3");
@@ -307,6 +309,15 @@ namespace FriishProduce
             this.manual_type.Name = "manual_type";
             this.manual_type.Tag = "manual_type";
             this.manual_type.SelectedIndexChanged += new System.EventHandler(this.CustomManual_CheckedChanged);
+            // 
+            // patchRomId
+            // 
+            resources.ApplyResources(this.patchRomId, "patchRomId");
+            this.patchRomId.Name = "patchRomId";
+            this.patchRomId.Tag = "patchRomId";
+            this.patchRomId.UseVisualStyleBackColor = true;
+            this.patchRomId.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            this.patchRomId.Visible = false;
             // 
             // forwarder_root_device
             // 
@@ -727,6 +738,7 @@ namespace FriishProduce
         private System.Windows.Forms.ComboBox forwarder_root_device;
         private System.Windows.Forms.Label extra;
         internal System.Windows.Forms.ComboBox manual_type;
+        internal System.Windows.Forms.CheckBox patchRomId;
         private System.Windows.Forms.ComboBox injection_methods;
         private System.Windows.Forms.Button injection_method_options;
         private GroupBoxEx groupBox3;

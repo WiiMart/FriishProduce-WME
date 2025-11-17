@@ -30,7 +30,6 @@ namespace FriishProduce.Injectors
             mainContentIndex = 5;
             needsManualLoaded = true;
             SaveTextEncoding = Encoding.Unicode;
-
             base.Load();
 
             if (MainContent.GetNodeIndex("romc") != -1)
@@ -63,8 +62,9 @@ namespace FriishProduce.Injectors
         /// Injection of ROM from base file
         /// </summary>
         /// <param name="ROM">Path to ROM</param>
-        protected override void ReplaceROM()
+        protected override void ReplaceROM(ChannelDatabase.ChannelEntry entry = null)
         {
+
             // -----------------------
             // Check filesize
             // Maximum ROM limit allowed: 64 MB for ROMC, otherwise 32 MB unless allocated in main.dol (maximum possible: ~56 MB)
@@ -72,6 +72,14 @@ namespace FriishProduce.Injectors
             ROM.MaxSize = EmuType == 3 ? 67108864 : Allocate ? 56623104 : 33554432;
             ROM.CheckSize();
             var data = (ROM as ROM_N64).ToBigEndian();
+
+            if (Program.Config.application.PatchRomID && entry != null && entry.RomIDs.Count > 0) {
+                int regionIdx = Math.Max(0, entry.Regions.FindIndex(r => r == (int) Program.Lang.GetRegion()));
+                string baseRomId = entry.RomIDs.Count > regionIdx ? entry.RomIDs[regionIdx] : entry.RomIDs[0];
+                byte[] patchedId = Encoding.ASCII.GetBytes(baseRomId.Substring(0, 3).ToUpper() + (ROM as ROM_N64).ID[3]);
+                Logger.INFO($"Patching ROM ID:({(ROM as ROM_N64).ID}) with base ROM ID:({Encoding.ASCII.GetString(patchedId).ToUpper()})");
+                Array.Copy(patchedId, 0, data, 0x3B, 4);
+            }
 
             // -----------------------
             // Actually replace original ROM
@@ -413,6 +421,9 @@ namespace FriishProduce.Injectors
             // ****************
             int start = 0;
             bool autoSearch = WAD.Region == Region.Korea;
+
+            if (WAD.UpperTitleID.Substring(0, 3).ToUpper() == "N1X")
+                return false;
 
             if (!autoSearch)
             {

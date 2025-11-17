@@ -184,7 +184,8 @@
 			"t_warn_vidgen": "Without Operation Manuals it cannot be changed, and not all Wii Systems or VCs respect the optimal or required refresh rate.<hr>It is recommended to primarily use <i>\"Original\"</i> video mode, or individually <i>\"PAL50\"</i> or <i>\"PAL60\"</i> for PAL regions, and <i>\"NTSC\"</i> for NTSC regions.\n\nIncorrect video modes typically have noticable consequences. This may include but is not limited to:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Adjust as needed</u>.",
 			"t_warn_pal6050": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"PAL60 + PAL50\"</i> is not recommended for use. {t_warn_vidgen}",
 			"t_warn_ntscpal60": "<b><u>WARNING:</u></b>\nThe selected <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> is not recommended for use. {t_warn_vidgen}",
-			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>."
+			"t_warn_savetitle": "<b><u>Export Conflict:</u></b>\n<b>Save data</b> is enabled but <i>Save data title</i> is empty or invalid. Channels using Save data <b>must</b> have a valid <i>Save data tite<i>.",
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
 		}
 	},
 
@@ -330,6 +331,7 @@
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "Importa manuale personalizzato",
+			"patchRomId": "Patch ROM header game ID",
 			"forwarder_root_device": "Dispositivo di archiviazione principale:",
 			"wiiu_display": "Formato display Wii U:",
 			"wiiu_display0": "{original}",

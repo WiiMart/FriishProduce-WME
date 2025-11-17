@@ -828,6 +828,23 @@ namespace FriishProduce
             newImg.Write(ogImgPath);
         }
 
+        public static string GetHexTIDFor(ulong tid) {
+            string hex = tid.ToString("X16"); // "000100014E413345"
+            string header = hex.Substring(0, 8); // "00010001"
+            string title  = hex.Substring(8, 8); // "4E413345"
+            return $"{header}-{title}";
+        }
+
+        public static string GetHexTIDFor(string asciiTid) {
+            if (string.IsNullOrWhiteSpace(asciiTid) || asciiTid.Length != 4)
+                throw new ArgumentException("ASCII TID must be 4 characters.");
+
+            var hex = new StringBuilder();
+            foreach (char c in asciiTid)
+                hex.Append(((int)c).ToString("X2"));
+
+            return $"00010001-{hex}".ToUpper();
+        }
 
         public static bool HasNetwork() => NetworkInterface.GetIsNetworkAvailable() && Web.InternetTest();
 

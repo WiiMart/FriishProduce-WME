@@ -83,7 +83,7 @@ namespace FriishProduce.Injectors
             return base.Write();
         }
 
-        protected override void ReplaceROM()
+        protected override void ReplaceROM(ChannelDatabase.ChannelEntry entry = null)
         {
             // -----------------------
             // Check filesize of input ROM

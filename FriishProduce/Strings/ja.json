@@ -159,7 +159,8 @@
 			"t_warn_vidgen": "操作マニュアルがない場合、変更できず、すべての Wii システムや VC が最適または要求されたリフレッシュレートを遵守するわけではありません。<hr>PAL 地域では <i>\"PAL50\"</i> または <i>\"PAL60\"</i>、NTSC 地域では <i>\"NTSC\"</i> を使用し、主に <i>\"Original\"</i> ビデオモードを推奨します。\n\n不正確なビデオモードは通常、以下のような影響を及ぼします:\n<i>  • 映像/音声の早送り\n  • 映像/音声のスローモーション\n  • カクつきや切り取り</i>\n<u>必要に応じて調整してください</u>。",
 			"t_warn_pal6050": "<u>警告：</u>\n選択された [ビデオモード] <i>\"PAL60 + PAL50\"</i> は推奨されません。{t_warn_vidgen}",
 			"t_warn_ntscpal60": "<u>警告：</u>\n選択された [ビデオモード] <i>\"NTSC + PAL60\"</i> は推奨されません。{t_warn_vidgen}",
-			"t_warn_savetitle": "<u>エクスポート衝突：</u>\n[セーブデータ] が有効ですが、<i>セーブデータタイトル</i> が空または無効です。セーブデータを使用するチャンネルは、[必ず] 有効な <i>セーブデータタイトル</i> を持つ必要があります。"
+			"t_warn_savetitle": "<u>エクスポート衝突：</u>\n[セーブデータ] が有効ですが、<i>セーブデータタイトル</i> が空または無効です。セーブデータを使用するチャンネルは、[必ず] 有効な <i>セーブデータタイトル</i> を持つ必要があります。",
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
 		}
 	},
 	"strings": {
@@ -269,6 +270,7 @@
 			"fill_save_data": "自動入力",
 			"manual_type": "説明書:",
 			"manual_type2": "外部ディレクトリ",
+			"patchRomId": "Patch ROM header game ID",
 			"forwarder_root_device": "デフォルト記憶装置:"
 		},
 		"banner": {

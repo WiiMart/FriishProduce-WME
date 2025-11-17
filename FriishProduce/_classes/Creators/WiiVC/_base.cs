@@ -323,7 +323,7 @@ namespace FriishProduce
             return WAD;
         }
 
-        public WAD Inject(WAD wad, ROM rom, string[] SaveDataTitle, ImageHelper Img) {
+        public WAD Inject(WAD wad, ROM rom, string[] SaveDataTitle, ImageHelper Img, ChannelDatabase.ChannelEntry entry = null) {
             this.WAD = wad;
             this.ROM = rom;
             
@@ -333,13 +333,13 @@ namespace FriishProduce
                 throw new InvalidOperationException("WiiVC_base received null ROM!");
 
             Load();
-            ReplaceROM();
+            ReplaceROM(entry);
             ReplaceSaveData(SaveDataTitle, Img);
             ModifyEmulatorSettings();
             return Write();
         }
 
-        protected abstract void ReplaceROM();
+        protected abstract void ReplaceROM(ChannelDatabase.ChannelEntry entry = null);
 
         protected abstract void ReplaceSaveData(string[] lines, ImageHelper Img);
 

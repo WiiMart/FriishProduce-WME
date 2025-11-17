@@ -339,6 +339,7 @@
   <data name="&gt;&gt;extra.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+
   <data name="&gt;&gt;manual_type.Name" xml:space="preserve">
     <value>manual_type</value>
   </data>
@@ -351,6 +352,65 @@
   <data name="&gt;&gt;manual_type.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="manual_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 65</value>
+  </data>
+  <data name="manual_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 21</value>
+  </data>
+  <data name="manual_type.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;manual_type.Name" xml:space="preserve">
+    <value>manual_type</value>
+  </data>
+  <data name="&gt;&gt;manual_type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;manual_type.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;manual_type.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+
+  <data name="&gt;&gt;patchRomId.Name" xml:space="preserve">
+    <value>patchRomId</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="patchRomId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 93</value>
+  </data>
+  <data name="patchRomId.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="patchRomId.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="patchRomId.Text" xml:space="preserve">
+    <value>patchRomId</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.Name" xml:space="preserve">
+    <value>patchRomId</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;patchRomId.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+
   <data name="&gt;&gt;forwarder_root_device.Name" xml:space="preserve">
     <value>forwarder_root_device</value>
   </data>
@@ -709,27 +769,6 @@
   </data>
   <data name="&gt;&gt;extra.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="manual_type.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 65</value>
-  </data>
-  <data name="manual_type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 21</value>
-  </data>
-  <data name="manual_type.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;manual_type.Name" xml:space="preserve">
-    <value>manual_type</value>
-  </data>
-  <data name="&gt;&gt;manual_type.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;manual_type.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;manual_type.ZOrder" xml:space="preserve">
-    <value>8</value>
   </data>
   <data name="forwarder_root_device.Items" xml:space="preserve">
     <value>SD</value>

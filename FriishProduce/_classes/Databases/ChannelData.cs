@@ -17,6 +17,7 @@ namespace FriishProduce
             public List<string> Titles = new();
             public List<int> EmuRevs = new();
             public List<string> MarioCube = new();
+            public List<string> RomIDs { get; set; } = new(); 
 
             public string GetID(int index, bool raw = false)
             {
@@ -280,7 +281,9 @@ namespace FriishProduce
 
                 foreach (var item in x.EnumerateArray())
                 {
-                    ChannelEntry y = new() { ID = item.GetProperty("id").GetString() };
+                    ChannelEntry y = new() {
+                        ID = item.GetProperty("id").GetString() 
+                    };
                     var reg = item.GetProperty("region");
 
                     for (int i = 0; i < reg.GetArrayLength(); i++)
@@ -296,6 +299,17 @@ namespace FriishProduce
                             try { y.EmuRevs.Add(item.GetProperty("emu_ver")[0].GetInt32()); }
                             catch { y.EmuRevs.Add(0); }
                         }
+
+                        if (item.TryGetProperty("romIds", out JsonElement romIds) && romIds.ValueKind == JsonValueKind.Array) {
+                            try { 
+                                y.RomIDs.Add(romIds[i].GetString() ?? ""); 
+                            }
+                            catch {
+                                y.RomIDs.Add(romIds.GetArrayLength() > 0 ? romIds[0].GetString() ?? "" : ""); 
+                            }
+                        }
+                        else
+                            y.RomIDs.Add("");
 
                         // ************************************************************************************************************-
 

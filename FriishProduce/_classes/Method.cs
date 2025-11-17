@@ -166,7 +166,7 @@ namespace FriishProduce
             }
         }
             
-        public void Inject(bool useOrigManual = false)
+        public void Inject(ChannelDatabase.ChannelEntry entry = null)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace FriishProduce
 
                     // Actually inject everything
                     // *******
-                    WAD = VC.Inject(WAD, ROM, SaveDataTitle, Img);
+                    WAD = VC.Inject(WAD, ROM, SaveDataTitle, Img, entry);
                     Logger.INFO("Flashed ROM data.", "Save data titles written.", "Recompressed channel, banner, and save images.");
                 }
                 _updateProgress();

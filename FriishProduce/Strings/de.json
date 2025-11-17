@@ -184,7 +184,8 @@
 			"t_warn_vidgen": "Ohne Bedienungsanleitungen kann es nicht verändert werden, und nicht alle Wii-Systeme oder virtuellen Konsolen respektieren die optimale oder erforderliche Bildwiederholfrequenz.<hr>Es ist empfohlen primär das <i>\"Originale\"</i> Video Modus zu nutzen, oder individuell <i>\"PAL50\"</i> oder <i>\"PAL60\"</i> für PAL Regionen, und <i>\"NTSC\"</i> für NTSC Regionen.\n\nFalsche Videomodi haben typischerweise spürbare Konsequenzen. Dies kann unter anderem Folgendes umfassen:\n<i>  • 'fast-forward' video/audio\n  • 'slow-mo' video/audio\n  • 'stuttering' or 'clipping'</i>\n<u>Bei Bedarf anpassen</u>.",
 			"t_warn_pal6050": "<b><u>WARNUNG:</u></b>\nDas ausgewählte <b>Video Modus</b> <i>\"PAL60 + PAL50\"</i> wird zur Verwendung nicht empfohlen. {t_warn_vidgen}",
 			"t_warn_ntscpal60": "<b><u>WARNUNG:</u></b>\nDie ausgewählte <b>Video Mode</b> <i>\"NTSC + PAL60\"</i> wird zur Verwendung nicht empfohlen. {t_warn_vidgen}",
-			"t_warn_savetitle": "<b><u>Export-Konflikt:</u></b>\n<b>Speichern</b> ist aktiviert aber der <i>Titel der Speicherdatei</i> ist leer oder ungültig. Kanäle mit Speicherdatei <b>müssen</b> einen gültigen <i>Titel der Speicherdatei<i> haben."
+			"t_warn_savetitle": "<b><u>Export-Konflikt:</u></b>\n<b>Speichern</b> ist aktiviert aber der <i>Titel der Speicherdatei</i> ist leer oder ungültig. Kanäle mit Speicherdatei <b>müssen</b> einen gültigen <i>Titel der Speicherdatei<i> haben.",
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
         }
 	},
     "strings": {
@@ -329,6 +330,7 @@
             "manual_type0": "{disabled}",
             "manual_type1": "{original}",
             "manual_type2": "Eigene Anleitung importieren",
+			"patchRomId": "Patch ROM header game ID",
             "forwarder_root_device": "Root-Speichergerät:",
             "wiiu_display": "Wii U-Anzeigeformat:",
             "wiiu_display0": "{original}",

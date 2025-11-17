@@ -603,6 +603,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, warn_ch_reg);
             Program.Lang.ToolTip(tip, warn_savetitle);
             Program.Lang.ToolTip(tip, toggleMCLite);
+            Program.Lang.ToolTip(tip, use_online_wad);
             #endregion
 
             if (Base.SelectedIndex >= 0)
@@ -1039,6 +1040,7 @@ namespace FriishProduce
             if (savedata.Fill.Checked) linkSaveDataTitle();
             forwarder_root_device.SelectedIndex = loadProject ? project.ForwarderStorageDevice : Program.Config.forwarder.root_storage_device;
 
+            Program.Lang.ToolTip(tip, patchRomId);
             Program.Lang.ToolTip(tip, fetch_patch, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_l, null, fetch_patch.Text);
             Program.Lang.ToolTip(tip, fetch_patch_btn, null, fetch_patch.Text);
@@ -1107,6 +1109,7 @@ namespace FriishProduce
             if (!IsEmpty)
                 IsModified = true;
 
+            Program.Config.application.PatchRomID = patchRomId.Checked;
             CheckWarnings();
             setFilesText();
         }
@@ -2303,14 +2306,13 @@ namespace FriishProduce
 
                 // Get WAD data
                 // *******
-                ChannelDatabase.ChannelEntry entry = null;
-                int index = -1;
+                bool baseText = string.IsNullOrEmpty(baseID.Text);
+                ChannelDatabase.ChannelEntry entry = !baseText ? channels.Entries.FirstOrDefault(x => x.GetUpperIDs().Contains(baseID.Text)) : null;
+                int index = !baseText ? (entry == null ? -1 : Array.IndexOf(entry.GetUpperIDs(), baseID.Text)) : -1;
                 try {
                     if (hasInWad)
                         m.GetWAD(InBaseWAD, baseID.Text, hasInWad, toggleMCLite.Checked);
                     else {
-                        entry = channels.Entries.FirstOrDefault(x => x.GetUpperIDs().Contains(baseID.Text));
-                        index = entry == null ? -1 : Array.IndexOf(entry.GetUpperIDs(), baseID.Text);
                         string debug = $"Entry[{(entry != null ? entry.ToString() : "null")}] or index[{index}]";
 
                         if (entry != null && index >= 0)
@@ -2357,7 +2359,7 @@ namespace FriishProduce
                         case Platform.MSX:
                             try {
                                 if (IsVirtualConsole)
-                                    m.Inject();
+                                    m.Inject(entry);
                                 else
                                     m.CreateForwarder(emulator, device);
                             }
@@ -2373,7 +2375,7 @@ namespace FriishProduce
 
                         case Platform.Flash:
                             try {
-                                m.Inject();
+                                m.Inject(entry);
                             }
                             catch (Exception ex) {
                                 Logger.ERROR($"Exception in Flash Inject(): {ex.Message}\n{ex.StackTrace}");
@@ -2832,6 +2834,7 @@ namespace FriishProduce
                     case Platform.SNES:
                         break;
                     case Platform.N64:
+                        patchRomId.Visible = true;
                         break;
                     case Platform.SMS:
                         break;

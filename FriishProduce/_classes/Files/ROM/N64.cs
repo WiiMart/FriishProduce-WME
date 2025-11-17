@@ -4,22 +4,18 @@ namespace FriishProduce
 {
     public class ROM_N64 : ROM
     {
-        public ROM_N64() : base() { }
+        public ROM_N64() : base() {}
 
-        protected override void Load()
-        {
-        }
+        protected override void Load() {}
 
-        public override bool CheckValidity(string path)
-        {
+        public override bool CheckValidity(string path) {
             var data = ToBigEndian(System.IO.File.ReadAllBytes(path));
             if (data.Length < 4) return false;
             else return data[0] == 0x80 && data[1] == 0x37 && data[2] == 0x12 && data[3] == 0x40 /* && data[4] == 0x00 && data[5] == 0x00 && data[6] == 0x00 && data[7] == 0x0F */;
         }
 
-        public byte[] ToBigEndian(byte[] romData = null)
-        {
-            var ROM = romData != null ? romData : patched?.Length > 0 ? patched : origData;
+        public byte[] ToBigEndian(byte[] romData = null) {
+            var ROM = romData ?? (patched?.Length > 0 ? patched : origData);
             if (ROM == null || ROM?.Length < 57) return ROM;
 
             // -----------------------
@@ -52,10 +48,8 @@ namespace FriishProduce
             return ROM;
         }
 
-        public string ID
-        {
-            get
-            {
+        public string ID {
+            get {
                 var ROM = ToBigEndian();
                 if (ROM == null || ROM?.Length < 57) return null;
 
