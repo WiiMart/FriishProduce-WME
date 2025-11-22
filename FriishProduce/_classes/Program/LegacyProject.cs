@@ -25,6 +25,7 @@ namespace FriishProduce
         public int WADRegion { get; set; }
         public bool LinkSaveDataTitle { get; set; } = Program.Config.application.auto_fill_save_data;
         public (int, bool) ImageOptions { get; set; } = (Program.Config.application.image_interpolation, Program.Config.application.image_fit_aspect_ratio);
+        public bool FilletFilter { get; set; } = Program.Config.application.ApplyFilletFilter;
         public int VideoMode { get; set; }
         public int WiiUDisplay { get; set; } = Program.Config.application.default_wiiu_display;
 
@@ -57,6 +58,7 @@ namespace FriishProduce
             WADRegion = 0;
             LinkSaveDataTitle = Program.Config.application.auto_fill_save_data;
             ImageOptions = (Program.Config.application.image_interpolation, Program.Config.application.image_fit_aspect_ratio);
+            FilletFilter = Program.Config.application.ApplyFilletFilter;
             VideoMode = 0;
 
             TitleID = null;

@@ -43,6 +43,7 @@ namespace FriishProduce
 
         [JsonConverter(typeof(ImgOptsParser))]
         public (int, bool) ImageOptions { get; set; } = (Program.Config.application.image_interpolation, Program.Config.application.image_fit_aspect_ratio);
+        public bool FilletFilter { get; set; } = Program.Config.application.ApplyFilletFilter;
 
         public int VideoMode { get; set; }
         public int WiiUDisplay { get; set; } = Program.Config.application.default_wiiu_display;

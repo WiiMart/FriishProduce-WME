@@ -355,23 +355,73 @@
   <data name="manual_type.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 65</value>
   </data>
+  <data name="manual_type.AutoSize" type="System.Boolean, mscorlib">
+    <value>false</value>
+  </data>
   <data name="manual_type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 21</value>
+    <value>215, 21</value>
   </data>
   <data name="manual_type.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;manual_type.Name" xml:space="preserve">
-    <value>manual_type</value>
+
+  <data name="&gt;&gt;cursor_type.Name" xml:space="preserve">
+    <value>cursor_type</value>
   </data>
-  <data name="&gt;&gt;manual_type.Type" xml:space="preserve">
+  <data name="&gt;&gt;cursor_type.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;manual_type.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cursor_type.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;manual_type.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;cursor_type.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="cursor_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 65</value>
+  </data>
+  <data name="cursor_type.AutoSize" type="System.Boolean, mscorlib">
+    <value>false</value>
+  </data>
+  <data name="cursor_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 21</value>
+  </data>
+  <data name="cursor_type.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+
+  <data name="cursor_type_l.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cursor_type_l.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cursor_type_l.Location" type="System.Drawing.Point, System.Drawing">
+    <value>233, 47</value>
+  </data>
+  <data name="cursor_type_l.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="cursor_type_l.TabIndex" type="System.Int32, mscorlib">
+    <value>53</value>
+  </data>
+  <data name="cursor_type_l.Text" xml:space="preserve">
+    <value>cursor_type</value>
+  </data>
+  <data name="cursor_type_l.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+    <data name="&gt;&gt;cursor_type_l.Name" xml:space="preserve">
+    <value>cursor_type</value>
+  </data>
+  <data name="&gt;&gt;cursor_type_l.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cursor_type_l.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;cursor_type_l.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
 
   <data name="&gt;&gt;patchRomId.Name" xml:space="preserve">
@@ -1889,6 +1939,32 @@
   <data name="&gt;&gt;image_resize1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+
+  <data name="filletFilter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="filletFilter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="filletFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>307, 49</value>
+  </data>
+  <data name="filletFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>55</value>
+  </data>
+  <data name="filletFilter.Text" xml:space="preserve">
+    <value>filletFilter</value>
+  </data>
+  <data name="&gt;&gt;filletFilter.Name" xml:space="preserve">
+    <value>filletFilter</value>
+  </data>
+  <data name="&gt;&gt;filletFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;filletFilter.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+
   <data name="download_image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>

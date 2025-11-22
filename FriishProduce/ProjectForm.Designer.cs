@@ -52,6 +52,8 @@ namespace FriishProduce
             this.multifile_software = new System.Windows.Forms.CheckBox();
             this.extra = new System.Windows.Forms.Label();
             this.manual_type = new System.Windows.Forms.ComboBox();
+            this.cursor_type = new System.Windows.Forms.ComboBox();
+            this.cursor_type_l = new System.Windows.Forms.Label();
             this.patchRomId = new System.Windows.Forms.CheckBox();
             this.forwarder_root_device = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new FriishProduce.GroupBoxEx();
@@ -88,6 +90,7 @@ namespace FriishProduce
             this.image_interpolation_mode = new System.Windows.Forms.ComboBox();
             this.image_resize0 = new System.Windows.Forms.RadioButton();
             this.image_resize1 = new System.Windows.Forms.RadioButton();
+            this.filletFilter = new System.Windows.Forms.CheckBox();
             this.download_image = new System.Windows.Forms.Button();
             this.groupBox6 = new FriishProduce.GroupBoxEx();
             this.include_patch = new System.Windows.Forms.CheckBox();
@@ -186,6 +189,8 @@ namespace FriishProduce
             this.groupBox3.Controls.Add(this.multifile_software);
             this.groupBox3.Controls.Add(this.extra);
             this.groupBox3.Controls.Add(this.manual_type);
+            this.groupBox3.Controls.Add(this.cursor_type_l);
+            this.groupBox3.Controls.Add(this.cursor_type);
             this.groupBox3.Controls.Add(this.patchRomId);
             this.groupBox3.Controls.Add(this.forwarder_root_device);
             this.groupBox3.Flat = false;
@@ -309,6 +314,24 @@ namespace FriishProduce
             this.manual_type.Name = "manual_type";
             this.manual_type.Tag = "manual_type";
             this.manual_type.SelectedIndexChanged += new System.EventHandler(this.CustomManual_CheckedChanged);
+            //this.manual_type.Width = cursor_type.Visible ? 215 : 410;
+            // 
+            // cursor_type
+            // 
+            this.cursor_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cursor_type.FormattingEnabled = true;
+            resources.ApplyResources(this.cursor_type, "cursor_type");
+            this.cursor_type.Name = "cursor_type";
+            this.cursor_type.Tag = "cursor_type";
+            this.cursor_type.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
+            this.cursor_type.Visible = false;
+            // 
+            // cursor_type_l
+            // 
+            resources.ApplyResources(this.cursor_type_l, "cursor_type_l");
+            this.cursor_type_l.Name = "cursor_type_l";
+            this.cursor_type_l.Tag = "cursor_type";
+            this.cursor_type_l.Visible = false;
             // 
             // patchRomId
             // 
@@ -584,7 +607,15 @@ namespace FriishProduce
             this.image_resize1.Tag = "image_resize1";
             this.image_resize1.UseVisualStyleBackColor = true;
             this.image_resize1.CheckedChanged += new System.EventHandler(this.SwitchAspectRatio);
-            // 
+
+            //
+            // filletFilter (round corners + feather + light vignette)
+            resources.ApplyResources(this.filletFilter, "filletFilter");
+            this.filletFilter.Name = "filletFilter";
+            this.filletFilter.Tag = "filletFilter";
+            this.filletFilter.UseVisualStyleBackColor = true;
+            this.filletFilter.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            //
             // download_image
             // 
             resources.ApplyResources(this.download_image, "download_image");
@@ -597,6 +628,7 @@ namespace FriishProduce
             // 
             this.groupBox6.Controls.Add(this.download_image);
             this.groupBox6.Controls.Add(this.image_resize1);
+            this.groupBox6.Controls.Add(this.filletFilter);
             this.groupBox6.Controls.Add(this.image_resize0);
             this.groupBox6.Controls.Add(this.image_interpolation_mode);
             this.groupBox6.Controls.Add(this.import_image);
@@ -738,6 +770,8 @@ namespace FriishProduce
         private System.Windows.Forms.ComboBox forwarder_root_device;
         private System.Windows.Forms.Label extra;
         internal System.Windows.Forms.ComboBox manual_type;
+        internal System.Windows.Forms.ComboBox cursor_type;
+        private System.Windows.Forms.Label cursor_type_l;
         internal System.Windows.Forms.CheckBox patchRomId;
         private System.Windows.Forms.ComboBox injection_methods;
         private System.Windows.Forms.Button injection_method_options;
@@ -756,6 +790,7 @@ namespace FriishProduce
         private System.Windows.Forms.ComboBox image_interpolation_mode;
         private System.Windows.Forms.RadioButton image_resize0;
         private System.Windows.Forms.RadioButton image_resize1;
+        private System.Windows.Forms.CheckBox filletFilter;
         private System.Windows.Forms.Button download_image;
         private GroupBoxEx groupBox6;
         private System.Windows.Forms.CheckBox include_patch;
@@ -774,7 +809,7 @@ namespace FriishProduce
         private System.Windows.Forms.PictureBox injection_method_help;
         private System.Windows.Forms.Label using_default_wad;
         internal System.Windows.Forms.RadioButton use_online_wad;
-        private System.Windows.Forms.CheckBox toggleMCLite;
+        internal System.Windows.Forms.CheckBox toggleMCLite;
         private System.Windows.Forms.ComboBox wiiu_display;
         private System.Windows.Forms.Label wiiu_display_l;
         private System.Windows.Forms.Label banner_tip;

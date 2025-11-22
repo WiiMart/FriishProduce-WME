@@ -14,7 +14,7 @@ namespace FriishProduce
                 return value;
             }
         }
-        public static readonly string Update = Path.Combine(EnvironmentFolder, "latest.zip");
+        public static readonly string Update = Path.Combine(EnvironmentFolder, "fpwme_latest.zip");
         public static readonly string WorkingFolder = Path.Combine(EnvironmentFolder, "resources\\temp\\");
         public static readonly string Banners = Path.Combine(EnvironmentFolder, "resources\\tools\\banners\\");
 

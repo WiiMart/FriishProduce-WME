@@ -170,6 +170,7 @@ namespace FriishProduce
             public int default_injection_method_n64 { get; set; } = 0;
             public int default_injection_method_sega { get; set; } = 0;
             public bool PatchRomID { get; set; } = false;
+            public bool ApplyFilletFilter { get; set; } = false;
         }
 
         public class Paths
@@ -271,7 +272,7 @@ namespace FriishProduce
             public string hbm_no_save { get; set; } = "yes";
             public string strap_reminder { get; set; } = "none";
             public string anti_aliasing { get; set; } = "on";
-            public string zoom { get; set; } = "default";
+            public string zoom { get; set; } = "Original";
             public string fullscreen { get; set; } = "no";
             public string no_copy_save { get; set; } = "off";
             public string flash_vars { get; set; } = "#flash_vars";

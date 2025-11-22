@@ -16,7 +16,8 @@ namespace FriishProduce
 
         public byte[] ToBigEndian(byte[] romData = null) {
             var ROM = romData ?? (patched?.Length > 0 ? patched : origData);
-            if (ROM == null || ROM?.Length < 57) return ROM;
+            if (ROM == null || ROM?.Length < 57)
+                return ROM;
 
             // -----------------------
             // Byteswap ROM first
@@ -29,21 +30,15 @@ namespace FriishProduce
 
             // Byte Swapped to Big Endian
             // ****************
-            if ((ROM[56] == 0x4E && ROM[57] == 0x00 && ROM[58] == 0x00 && ROM[59] == 0x00)
-                || (ROM[0] == 0x40 && ROM[1] == 0x12 && ROM[2] == 0x37 && ROM[3] == 0x80))
-            {
+            if ((ROM[56] == 0x4E && ROM[57] == 0x00 && ROM[58] == 0x00 && ROM[59] == 0x00) || (ROM[0] == 0x40 && ROM[1] == 0x12 && ROM[2] == 0x37 && ROM[3] == 0x80))
                 for (int i = 0; i < ROM.Length; i += 4)
                     (ROM[i], ROM[i + 1], ROM[i + 2], ROM[i + 3]) = (ROM[i + 3], ROM[i + 2], ROM[i + 1], ROM[i]);
-            }
 
             // Little Endian to Big Endian
             // ****************
-            else if ((ROM[56] == 0x00 && ROM[57] == 0x00 && ROM[58] == 0x4E && ROM[59] == 0x00)
-                || (ROM[0] == 0x37 && ROM[1] == 0x80 && ROM[2] == 0x40 && ROM[3] == 0x12))
-            {
+            else if ((ROM[56] == 0x00 && ROM[57] == 0x00 && ROM[58] == 0x4E && ROM[59] == 0x00) || (ROM[0] == 0x37 && ROM[1] == 0x80 && ROM[2] == 0x40 && ROM[3] == 0x12))
                 for (int i = 0; i < ROM.Length; i += 2)
                     (ROM[i], ROM[i + 1]) = (ROM[i + 1], ROM[i]);
-            }
 
             return ROM;
         }
@@ -51,10 +46,8 @@ namespace FriishProduce
         public string ID {
             get {
                 var ROM = ToBigEndian();
-                if (ROM == null || ROM?.Length < 57) return null;
-
-                byte[] id = ROM.Skip(0x3B).Take(4).ToArray();
-                return System.Text.Encoding.ASCII.GetString(id).ToUpper();
+                byte[] id = ROM?.Skip(0x3B).Take(4).ToArray();
+                return (ROM == null || ROM?.Length < 57) ? null : System.Text.Encoding.ASCII.GetString(ROM.Skip(0x3B).Take(4).ToArray()).ToUpper();
             }
         }
     }

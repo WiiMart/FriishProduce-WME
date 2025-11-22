@@ -78,6 +78,27 @@ namespace FriishProduce
             Program.CleanTemp();
         }
 
+        private byte[] DownloadWAD(string path) {
+            const string repo = "https://repo.mariocube.com/WADs/";
+            const string lite = "https://archive.org/download/MarioCubeLite/WADs/";
+            bool mainRepo = path.StartsWith(repo, StringComparison.OrdinalIgnoreCase);
+            string altUrl = mainRepo ? path.Replace(repo, lite) : path.Replace(lite, repo);
+
+            string usedUrl = null;
+            byte[] data = null;
+            try {
+                data = Web.Get(path, "\nDownloading WAD from URL:\n");
+                usedUrl = path;
+            }
+            catch {
+                Logger.WARN($"Failed to download from primary download source! Trying alternate domain...\n");
+                data = Web.Get(altUrl, "\nDownloading WAD from alternate URL:\n");
+                usedUrl = altUrl;
+            }
+            string ext = Path.GetExtension(new Uri(usedUrl).AbsolutePath);
+            return ext.Equals(".zip", StringComparison.OrdinalIgnoreCase) ? Zip.ExtractWADFrom(data) : data;
+        }
+
         public void GetWAD(string path, string tid, bool hasInWad, bool ToggleMCLite = false) {
             try {
                 object toLoad = null;
@@ -93,7 +114,7 @@ namespace FriishProduce
                         string fileUri = Path.GetFileName(new Uri(path).LocalPath);
                         string localPath = Path.Combine(saveDir, string.IsNullOrEmpty(fileUri) ? $"{tid}.wad" : fileUri);
 
-                        if (!Directory.Exists(saveDir))
+                        if (!Directory.Exists(saveDir) && Program.Config.application.locsave_wad)
                             Directory.CreateDirectory(saveDir);
 
                         if (!hasInWad && !File.Exists(localPath))
@@ -108,19 +129,7 @@ namespace FriishProduce
                         }
                         else {
                             _progress.max += 1.0;
-                            byte[] wadData;
-                            string pattern = @"https://repo\.mariocube\.com/WADs/_WiiWare,%20VC,%20DLC,%20Channels%20&%20IOS/";
-                            string mclite = System.Text.RegularExpressions.Regex.Replace(path, pattern, Web.MCLITE + Web.MCL_WADS);
-                            try {
-                                string finalPath = ToggleMCLite ? mclite : path;
-                                byte[] dlFile = Web.Get(finalPath, "\nDownloading WAD from URL:\n");
-                                wadData = Path.GetExtension(new Uri(finalPath).AbsolutePath).Equals(".zip", StringComparison.OrdinalIgnoreCase) ? Zip.ExtractWADFrom(dlFile) : dlFile;
-                            } catch {
-                                Logger.WARN($"Failed to download from initial source, trying alternative...\n");
-                                string finalPath = ToggleMCLite ? path : mclite;
-                                byte[] dlFile = Web.Get(finalPath, "\nDownloading WAD from URL:\n");
-                                wadData = Path.GetExtension(new Uri(finalPath).AbsolutePath).Equals(".zip", StringComparison.OrdinalIgnoreCase) ? Zip.ExtractWADFrom(dlFile) : dlFile;
-                            }
+                            byte[] wadData = DownloadWAD(path);
                             SrcBase = !Program.Config.application.locsave_wad ? path : localPath;
                             toLoad = Program.Config.application.locsave_wad ? localPath : wadData;
 
@@ -128,7 +137,6 @@ namespace FriishProduce
                                 File.WriteAllBytes(localPath, wadData);
                                 Logger.INFO($"Saved WAD locally to:\n\"{localPath}\"\n");
                             }
-
                             _updateProgress();
                         }
                     }

@@ -34,6 +34,7 @@ namespace FriishProduce
             Program.Lang.ToolTip(tip, vff_cache_size, null, vff_cache_size_l.Text, Program.Lang.Format(("t_unsure_s", "html"), Program.Config.flash.vff_cache_size));
             Program.Lang.ToolTip(tip, persistent_storage_total, null, persistent_storage_total_l.Text, Program.Lang.Format(("t_unsure_s", "html"), Program.Config.flash.persistent_storage_total));
             Program.Lang.ToolTip(tip, persistent_storage_per_movie, null, persistent_storage_per_movie_l.Text, Program.Lang.Format(("t_unsure_s", "html"), Program.Config.flash.persistent_storage_per_movie));
+            Program.Lang.ToolTip(tip, zoom_list, null, zoom_list.Text, Program.Lang.Format(("t_unsure_s", "html"), Program.Config.flash.zoom));
 
             Theme.ChangeColors(this, false);
             Theme.BtnSizes(b_ok, b_cancel);
@@ -130,7 +131,7 @@ namespace FriishProduce
 
                 // Zoom / Ortho rect
                 // ****************
-                if (Options["zoom"].Contains('_'))
+                if (Options["zoom"].Contains('_') && !Options["zoom"].Contains("auto"))
                 {
                     zoom_list.SelectedIndex = zoom_list.Items.Count - 1;
 
@@ -141,8 +142,7 @@ namespace FriishProduce
                 }
                 else
                 {
-                    zoom_list.SelectedIndex = Options["zoom"] == "auto" ? 1 : 0;
-
+                    zoom_list.SelectedIndex = Options["zoom"] == "auto_stretch" ? 1 : Options["zoom"] == "auto_fit" ? 2 : 0;
                     zoom_h.Enabled = zoom_v.Enabled = false;
                     zoom_h.Value = zoom_v.Value = 100;
                 }
@@ -203,7 +203,8 @@ namespace FriishProduce
             Options["content_domain"] = content_domain.Text;
             Options["background_color"] = BGColor.Color.R + BGColor.Color.G + BGColor.Color.B > 0 ? $"{BGColor.Color.R} {BGColor.Color.G} {BGColor.Color.B} 255" : "0 0 0 0";
             Options["anti_aliasing"] = anti_aliasing.Checked ? "on" : "off";
-            Options["zoom"] = zoom_h.Enabled && zoom_v.Enabled ? $"{zoom_h.Value}_{zoom_v.Value}" : zoom_list.SelectedIndex == 1 ? "auto" : "default";
+            string zoomType = zoom_list.SelectedIndex == 1 ? "auto_stretch" : zoom_list.SelectedIndex == 2 ? "auto_fit" : "original";
+            Options["zoom"] = zoom_h.Enabled && zoom_v.Enabled ? $"{zoom_h.Value}_{zoom_v.Value}" : zoomType;
             Options["fullscreen"] = standard.Checked ? "yes" : "no";
             Options["no_copy_save"] = no_copy_save.Checked ? "on" : "off";
             Options["flash_vars"] = flash_vars.Text;

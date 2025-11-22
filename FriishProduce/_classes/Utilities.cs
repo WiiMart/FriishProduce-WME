@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using ImageMagick;
+using System.Text.Json;
 
 namespace FriishProduce
 {
@@ -406,12 +407,6 @@ namespace FriishProduce
 
     public static class Web
     {
-        public static readonly string NO_INTRO = "https://myrient.erista.me/files/No-Intro/";
-        public static readonly string DEP_WADS = "Unofficial%20-%20Nintendo%20-%20Wii%20%28Digital%29%20%28Deprecated%29%20%28WAD%29/";
-
-        public static readonly string MCLITE = "https://archive.org/download/MarioCubeLite/";
-        public static readonly string MCL_WADS = "WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/";
-
         private static bool _compatibilityMode;
         private static bool CompatibilityMode
         {
@@ -622,7 +617,7 @@ namespace FriishProduce
             if (!string.IsNullOrEmpty(msg))
                 Logger.INFO($"{msg}\"{URL}\"\n");
             try {
-                var request = (HttpWebRequest)WebRequest.Create(URL);
+                var request = (HttpWebRequest) WebRequest.Create(URL);
                 request.Method = "HEAD"; // Only fetch headers
                 request.Timeout = timeout * 1000;
 
@@ -637,6 +632,42 @@ namespace FriishProduce
             }
             catch {
                 return false;
+            }
+        }
+
+        public static bool ValidURL(string url, int timeoutSeconds = 5) {
+            Start:
+            using (WebClient x = new())
+            using (MemoryStream stream = new()) {
+                try {
+                    var readTask = Task.Run(() => {
+                        try {
+                            using var stream = x.OpenRead(url);
+                            if (stream == null) return false;
+                            stream.CopyTo(stream);
+                            return true;
+                        }
+                        catch {
+                            return false;
+                        }
+                    });
+                    if (Task.WaitAny(new[] { readTask }, timeoutSeconds * 1000) == -1)
+                        return false;
+
+                    if (!readTask.Result)
+                        throw new WebException();
+
+                    // Check actual content; treat empty as failure
+                    return stream.ToArray().Length > 0;
+                }
+                catch (Exception ex) {
+                    if (!CompatibilityMode && ex is WebException wex && wex.Status == WebExceptionStatus.SecureChannelFailure) {
+                        Logger.WARN("URL test failed due to TLS. Retrying in compatibility mode.");
+                        CompatibilityMode = true;
+                        goto Start;
+                    }
+                    return false;
+                }
             }
         }
 
@@ -805,6 +836,28 @@ namespace FriishProduce
         public static bool IsSame(byte[] first, byte[] second)
         {
             return first.Length == second.Length && System.Collections.StructuralComparisons.StructuralEqualityComparer.Equals(first, second);
+        }
+    }
+
+    public static class JsonUtils {
+
+        public static JsonElement GetOrDefault(JsonElement parent, string propertyName) =>
+            parent.TryGetProperty(propertyName, out var prop) && prop.ValueKind == JsonValueKind.Array ? prop : default;
+
+        public static T GetOrDefault<T>(JsonElement array, int index, Func<JsonElement, T> getter, T defaultTo) {
+            if (array.ValueKind != JsonValueKind.Array || index >= array.GetArrayLength())
+                return defaultTo;
+            try {
+                return getter(array[index]);
+            } catch {
+                return defaultTo;
+            }
+        }
+
+        public static T GetOrDefault<T>(JsonElement parent, string propertyName, int index, Func<JsonElement, T> getter, T defTo) {
+            var prop = GetOrDefault(parent, propertyName);
+            bool isArr = prop.ValueKind == JsonValueKind.Array && prop.GetArrayLength() > 0;
+            return GetOrDefault(prop, index, getter, isArr ? getter(prop[Math.Min(index, prop.GetArrayLength() - 1)]) : defTo);
         }
     }
 

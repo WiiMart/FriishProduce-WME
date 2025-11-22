@@ -1,16 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <item>
-<!-- Prepare for potential updater/launcher -->
-	<version>1.6.0.2</version>
-	<url>https://www.dropbox.com/scl/fi/uyv952dyo20xaoeznjq7v/Debug_091525.zip?rlkey=legp79fxya3cpf9jk54fkv6i3&st=3zlyhfmh&dl=1</url>
+	<version>1.6.1.1</version>
+	<url>https://www.dropbox.com/scl/fi/uzvbv73tlr4rfo6j310k3/FriishWME-1.6.1.1.zip?rlkey=2ludefr8ohjex7dn2lclsqi8g&amp;st=bvj3whye&amp;dl=0</url>
 	<changelog>https://wiilab.wiimart.org/wiimart/friishproduce-wme/-/blob/main/CHANGELOG</changelog>
 	<mandatory>true</mandatory>
-<!--
-	Original, no longer available, outdated with recent development
-
-	<version>1.6.0.0</version>
-	<url>https://github.com/CatmanFan/FriishProduce/releases/download/v1.6/FriishProduce_v1.6.zip</url>
-	<changelog>https://github.com/CatmanFan/FriishProduce/releases</changelog>
-	<mandatory>false</mandatory>
--->
 </item>

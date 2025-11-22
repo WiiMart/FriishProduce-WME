@@ -96,6 +96,8 @@
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.\nTHIS FEATURE IS A WORK IN PROGRESS.",
 			"020": "Rescale image?",
+			"021": "The SWF selected is ActionScript 3 and will NOT work on the Wii!",
+			"022": "The SWF selected is invalid, or of an unknown compression type...",
 
 			"b_000": "お待ちください。",
 			"b_001": "エクスポート中です。",
@@ -160,7 +162,9 @@
 			"t_warn_pal6050": "<u>警告：</u>\n選択された [ビデオモード] <i>\"PAL60 + PAL50\"</i> は推奨されません。{t_warn_vidgen}",
 			"t_warn_ntscpal60": "<u>警告：</u>\n選択された [ビデオモード] <i>\"NTSC + PAL60\"</i> は推奨されません。{t_warn_vidgen}",
 			"t_warn_savetitle": "<u>エクスポート衝突：</u>\n[セーブデータ] が有効ですが、<i>セーブデータタイトル</i> が空または無効です。セーブデータを使用するチャンネルは、[必ず] 有効な <i>セーブデータタイトル</i> を持つ必要があります。",
-            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
+            "t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu.",
+			"t_filletFilter": "<b>Also called the \"<i>Nintendo Filter</i>\".</b>\nFillets and feathers the edges of the image then applies a low intensity vignette and softening filter.\n\nThis <u>only</u> affects the IconVCPic image, and is hardly noticable.",
+			"t_zoom_list": "<b>Automatic (Stretch)</b> is <u>recommended</u> for most injects.\nDisproportionately wide or tall SWFs may have reduced resolution with Stretch. Fit to Aspect may fix the resolution, but may also make the display small."
 		}
 	},
 	"strings": {
@@ -270,7 +274,14 @@
 			"fill_save_data": "自動入力",
 			"manual_type": "説明書:",
 			"manual_type2": "外部ディレクトリ",
+			"cursor_type": "Cursor / Pointer:",
+			"cursor_type0": "{original}",
+			"cursor_type1": "Medium size",
+			"cursor_type2": "Small size",
+			"cursor_type3": "Red Dot",
+			"cursor_type4": "Hidden",
 			"patchRomId": "Patch ROM header game ID",
+			"filletFilter": "Apply Fillet && Filter",
 			"forwarder_root_device": "デフォルト記憶装置:"
 		},
 		"banner": {
@@ -351,10 +362,11 @@
 			"anti_aliasing": "アンチエイリアス",
 			"flash_vars": "Flash変数",
 			"no_copy_save": "セーブコピー禁止",
-			"zoom": "拡大縮小",
-			"zoom0": "{by_default}",
-			"zoom1": "{automatic}",
-			"zoom2": "カスタム",
+			"zoom": "Zoom",
+			"zoom0": "{original}",
+			"zoom1": "{automatic} (Stretch)",
+			"zoom2": "{automatic} (Fit to Aspect)",
+			"zoom3": "Custom",
 			"standard": "4:3表示を強制"
 		},
 

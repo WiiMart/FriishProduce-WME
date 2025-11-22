@@ -799,6 +799,7 @@ namespace FriishProduce
                 WADRegion = lpj.WADRegion,
                 LinkSaveDataTitle = lpj.LinkSaveDataTitle,
                 ImageOptions = lpj.ImageOptions,
+                FilletFilter = lpj.FilletFilter,
                 VideoMode = lpj.VideoMode,
                 WiiUDisplay = lpj.WiiUDisplay,
                 TitleID = lpj.TitleID,

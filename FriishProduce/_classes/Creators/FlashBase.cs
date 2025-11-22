@@ -2,8 +2,7 @@ using System;
 
 namespace FriishProduce.Injectors
 {
-    public class FlashBase
-    {
+    public class FlashBase {
         public static readonly FlashBase BackToNature = new(0, "content\\menu.swf", "Back To Nature");
         public static readonly FlashBase iPlayer = new(1, "trusted\\startup.swf", "BBC iPlayer");
         public static readonly FlashBase YouTube = new(2, "trusted\\wii_shim.swf", "YouTube");

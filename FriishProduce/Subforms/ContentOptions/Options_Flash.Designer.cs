@@ -407,7 +407,7 @@ namespace FriishProduce
             // zoom_list
             this.zoom_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.zoom_list.FormattingEnabled = true;
-            this.zoom_list.Items.AddRange(new object[] {"auto"});
+            this.zoom_list.Items.AddRange(new object[] {"auto_stretch", "auto_fit"});
             this.zoom_list.Location = new System.Drawing.Point(10, 18);
             this.zoom_list.Name = "zoom_list";
             this.zoom_list.Size = new System.Drawing.Size(186, 21);
@@ -499,7 +499,7 @@ namespace FriishProduce
         private System.Windows.Forms.CheckBox vff_sync_on_write;
         private System.Windows.Forms.CheckBox anti_aliasing;
 
-        private System.Windows.Forms.ComboBox zoom_list;
+        internal System.Windows.Forms.ComboBox zoom_list;
         private NumericUpDownEx zoom_h;
         private NumericUpDownEx zoom_v;
         private System.Windows.Forms.Label zoom_hl;

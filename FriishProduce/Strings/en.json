@@ -111,6 +111,8 @@
 			"018": "Only <Romhacking.net> patches are supported at the moment.\n\nExamples:\n  • https://www.romhacking.net/hacks/9141/\n  • translations/5454\n  • hacks/7121",
 			"019": "Select an Operations Manual image in the next prompt...\n\nSize is typically: W: 554px, H: 257px\nWARNING: Experiment with sizes at your own risk!\n\nAuto rescale recommended. Original images are unaffected.\nTHIS FEATURE IS A WORK IN PROGRESS.",
 			"020": "Rescale image?",
+			"021": "The SWF selected is ActionScript 3 and will NOT work on the Wii!",
+			"022": "The SWF selected is invalid, or of an unknown compression type...",
 
 			"b_000": "Please wait...",
 			"b_001": "Exporting...",
@@ -189,7 +191,9 @@
 			"t_fetch_patch": "Enter a <i><u>Romhacking.net</u></i> URL to fetch the game data and optionally download the patch.\n\nGame data fetching includes:\n  • Title\n  • Title screen image\n  • Genre\n  • Date",
 			"t_fetch_patch_l": "{t_fetch_patch}",
 			"t_fetch_patch_btn": "{t_fetch_patch}",
-			"t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu."
+			"t_patchRomId": "<b>Toggle patching the game ID in the <u>injected ROMs header</u> in memory to match the game ID of the <u>ROM in the base WAD</u>.</b>\n\nThe source ROM file itself is unaffected. This <i>may</i> prevent various crashes, such as opening the Home Button Menu.",
+			"t_filletFilter": "<b>Also called the \"<i>Nintendo Filter</i>\".</b>\nFillets and feathers the edges of the image then applies a low intensity vignette and softening filter.\n\nThis <u>only</u> affects the IconVCPic image, and is hardly noticable.",
+			"t_zoom_list": "<b>Automatic (Stretch)</b> is <u>recommended</u> for most injects.\nDisproportionately wide or tall SWFs may have reduced resolution with Stretch. Fit to Aspect may fix the resolution, but may also make the display small."
 		}
 	},
 
@@ -274,8 +278,8 @@
 			"publisher_opt": "Author/Publisher Tag:",
 			"locsave_banner": "Save downloaded banner images locally:",
 			"locsave_wad": "Save downloaded WAD files locally:",
-			"lowerParams": "Lowercase export names",
-			"transParams": "Translate export names"
+			"lowerParams": "Lowercase export params",
+			"transParams": "Translate export file names"
 		},
 
 		"projectform": {
@@ -288,7 +292,7 @@
 
 			"wad_base": "Base WAD",
 			"import_wad": "Import WAD file...",
-			"use_online_wad": "Load online WAD",
+			"use_online_wad": "Load Online WAD",
 			"toggleMCLite": "Toggle MarioCubeLite",
 			"using_default_wad": "Using blank WAD",
 			"current_wad": "Current WAD:",
@@ -335,7 +339,14 @@
 			"manual_type0": "{disabled}",
 			"manual_type1": "{original}",
 			"manual_type2": "Import custom manual",
+			"cursor_type": "Cursor / Pointer:",
+			"cursor_type0": "{original}",
+			"cursor_type1": "Medium size",
+			"cursor_type2": "Small size",
+			"cursor_type3": "Red Dot",
+			"cursor_type4": "Hidden",
 			"patchRomId": "Patch ROM header game ID",
+			"filletFilter": "Apply Fillet && Filter",
 			"forwarder_root_device": "Root storage device:",
 			"wiiu_display": "Wii U display format:",
 			"wiiu_display0": "{original}",
@@ -471,9 +482,10 @@
 			"flash_vars": "Flash Variables",
 			"no_copy_save": "Disable save copies",
 			"zoom": "Zoom",
-			"zoom0": "{by_default}",
-			"zoom1": "{automatic}",
-			"zoom2": "Custom",
+			"zoom0": "{original}",
+			"zoom1": "{automatic} (Stretch)",
+			"zoom2": "{automatic} (Fit to Aspect)",
+			"zoom3": "Custom",
 			"standard": "Force 4:3 display"
 		},
 

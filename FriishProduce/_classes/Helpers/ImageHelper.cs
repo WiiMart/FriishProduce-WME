@@ -153,19 +153,14 @@ namespace FriishProduce
         /// <summary>
         /// Generates VCPic, IconVCPic and saveicon bitmaps for use in injection.
         /// </summary>
-        public void Generate(Bitmap src = null)
-        {
-            if (src == null) src = Source;
+        public void Generate(Bitmap src = null) {
 
-            bool NintendoFilter = platform is Platform.NES
-                                           or Platform.SNES
-                                           or Platform.N64
-                                           or Platform.Flash
-                                           or Platform.GB
-                                           or Platform.GBC
-                                           or Platform.GBA
-                                           or Platform.GCN
-                                           or Platform.RPGM;
+            System.Collections.Generic.HashSet<Platform> FilletPlatforms = new() {
+                Platform.NES, Platform.SNES, Platform.N64, Platform.Flash,
+                Platform.GB, Platform.GBC, Platform.GBA, Platform.GCN, Platform.RPGM
+            };
+            src ??= Source;
+            bool filletFilter = FilletPlatforms.Contains(platform) && Program.Config.application.ApplyFilletFilter;
 
             // --------------------------------------------------
 
@@ -180,10 +175,8 @@ namespace FriishProduce
             IconVCPic = new Bitmap(128, 96);
             SaveIconPic = new Bitmap(saveIconL.width, saveIconL.height);
 
-            using (Bitmap Working = new Bitmap(256, 192, PixelFormat.Format32bppRgb))
-            {
-                using (Graphics g = Graphics.FromImage(Working))
-                {
+            using (Bitmap Working = new(256, 192, PixelFormat.Format32bppRgb)) {
+                using (Graphics g = Graphics.FromImage(Working)) {
                     g.Clear(Color.Black);
                     Working.SetResolution(src.HorizontalResolution, src.VerticalResolution);
                     VCPic.SetResolution(Working.HorizontalResolution, src.VerticalResolution);
@@ -232,13 +225,15 @@ namespace FriishProduce
                     g.Clear(Color.White);
                     g.DrawImage(Working, 0, 0, 128, 96);
 
-                    if (NintendoFilter)
-                    {
-                        for (int a = 0; a <= 4; a++)
-                            for (int b = 0; b <= 4; b++)
-                                g.DrawImage(Working, a, b, 128 - (a * 2), 96 - (b * 2));
-                        for (int i = 1; i <= 4; i++)
-                            g.DrawImage(Working, 4, i, 120, 96 - (i * 2));
+                    if (filletFilter) {
+                        // Feather edges by repeatedly drawing scaled-in versions of the image
+                        for (int xInset = 0; xInset <= 4; xInset++) {
+                            for (int yInset = 0; yInset <= 4; yInset++)
+                                g.DrawImage(Working, xInset, yInset, 128 - (xInset * 2), 96  - (yInset * 2));
+                        }
+                        // Additional vertical blending pass on the left edge
+                        for (int y = 1; y <= 4; y++)
+                            g.DrawImage(Working, 4, y, 120, 96 - (y * 2));
                     }
 
                     g.Dispose();

@@ -21,12 +21,33 @@ namespace FriishProduce
 
         public static bool DebugMode { get => Config?.application?.debug_mode ?? false; }
         public static bool GUI { get => MainForm != null; }
+        private static bool NoUpdate { get; set; } = false;
+
+        private static void LaunchUpdater() {
+            string updatePath = Path.Combine(AppContext.BaseDirectory, "fpwme.update.exe");
+            if (File.Exists(updatePath)) {
+                try {
+                    Process.Start(new ProcessStartInfo(updatePath) {
+                        UseShellExecute = true, // shows console window for updater
+                        WorkingDirectory = AppContext.BaseDirectory
+                    });
+                    Environment.Exit(0); // Exit so updater can safely replace files
+                }
+                catch {}
+            }
+            else NoUpdate = true;
+            return;
+        }
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args) {
+
+            if (!NoUpdate && !args.Contains("--updated"))
+                LaunchUpdater();
+                
             Config = new(PathConstants.Config);
             bool invalidOs = Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0);
             bool runCLM = false;//System.Windows.Forms.MessageBox.Show("Do you want to run FriishProduce in command-line mode?", "Select Mode", 
@@ -57,6 +78,10 @@ namespace FriishProduce
             }
 
             // **********************************************************************************
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            if (NoUpdate || (args.Contains("--updated") && version != null))
+                Logger.Log($"FriishProduce-WME is up-to-date! Current version: {version}");
+
             Logger.Log("Opening FriishProduce-WME.");
             Lang = new Language();
 

@@ -1098,7 +1098,7 @@
     <value>300, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>FILENAME, CHANNELNAME, FULLNAME, TITLEID, PLATFORM, GENRE</value>
+    <value>FILENAME, CHANNELNAME, FULLNAME, TITLEID, PLATFORM, GENRE, PUBLISHER</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -1150,7 +1150,7 @@
     <value>NoControl</value>
   </data>
   <data name="transParams.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 233</value>
+    <value>310, 233</value>
   </data>
   <data name="transParams.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 17</value>

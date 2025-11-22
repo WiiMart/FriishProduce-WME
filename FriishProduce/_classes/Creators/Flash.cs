@@ -904,32 +904,41 @@ namespace FriishProduce.Injectors
                     List<string> txt = new();
                     bool modified = false;
                     bool notYouTube = flBase != FlashBase.YouTube && Path.GetFileNameWithoutExtension(file).Length == 11;
+                    bool fullscreen = GetSetting("fullscreen").ToLower() is "yes" or "on" or "true";
+                    bool widescreen = !fullscreen && Path.GetFileNameWithoutExtension(file).ToLower().EndsWith(".wide");
 
-                    foreach (string line in pcf)
-                    {
-                        if (line.Contains("ortho_rect"))
-                        {
-                            bool widescreen = Path.GetFileNameWithoutExtension(file).ToLower().EndsWith(".wide") && (GetSetting("fullscreen").ToLower() is not "yes" and not "on" and not "true");
-                            (double Width, double Height) swfSize = new(SWF.Header.Width, SWF.Header.Height);
-                            // Default rectangle size values in Flash Placeholder: 304 (H) 228 (V) for SD resolution, 416 (H) for wide
-                            (double Width, double Height) defaultSize = new(widescreen ? 416.0 : 304.0, 228.0);
-                            (double Width, double Height) frameSize = new(widescreen ? 832.0 : 608.0, 456.0);
+                    (double Width, double Height) swfSize = new(SWF.SWFMeta.Width, SWF.SWFMeta.Height);
+                    // Default rectangle size values in Flash Placeholder: 304 (H) 228 (V) for SD resolution, 416 (H) for wide
+                    (double Width, double Height) defaultSize = new(widescreen ? 416.0 : 304.0, 228.0);
+                    // This will be replaced later when parsing the PCF
+
+                    double baseWidth = widescreen ? 854.0 : 640.0;
+                    double baseHeight = flBase == FlashBase.KirbyTV ? 480.0 : 456.0;
+                    (double Width, double Height) frameSize = new(flBase == FlashBase.KirbyTV ? baseWidth : widescreen ? 832 : 608, baseHeight);
+                    bool zodiak = GetSetting("zoom").Contains("stretch");
+
+                    foreach (string line in pcf) {
+
+                        if (line.StartsWith("frame_buffer_size")) {
+                            var match = System.Text.RegularExpressions.Regex.Match(line, @"frame_buffer_size\s+(\d+)\s+(\d+)");
+                            if (match.Success)
+                                frameSize = (double.Parse(match.Groups[1].Value), double.Parse(match.Groups[2].Value));
+                        }
+
+                        if (line.Contains("ortho_rect")) {
 
                             // Custom value
                             // **********************************************
-                            if (GetSetting("zoom").Contains('_'))
-                            {
-                                (int h_setting, int v_setting) = (int.Parse(GetSetting("zoom").Substring(0, GetSetting("zoom").IndexOf('_'))), int.Parse(GetSetting("zoom").Substring(GetSetting("zoom").IndexOf('_') + 1)));
-
+                            if (GetSetting("zoom").Contains('_') && !GetSetting("zoom").Contains("auto")) {
+                                int angle = GetSetting("zoom").IndexOf('_');
+                                (int h_setting, int v_setting) = (int.Parse(GetSetting("zoom").Substring(0, angle)), int.Parse(GetSetting("zoom").Substring(angle + 1)));
                                 // The smaller the rectangle, the larger the SWF appears
                                 (double Width, double Height) = (swfSize.Width, swfSize.Height);
 
                                 Width /= h_setting / 100.0;
+                                Width *= widescreen ? 416.0 / 304.0 : 1;
+                                // adjust for widescreen presets to avoid being stretched out on 16:9 display
                                 Height /= v_setting / 100.0;
-
-                                // The value is automatically adjusted for widescreen presets to avoid being stretched out on 16:9 display
-                                if (widescreen)
-                                    Width *= 416.0 / 304.0;
 
                                 (int h, int v) = (Convert.ToInt32(Math.Round(Width)), Convert.ToInt32(Math.Round(Height)));
 
@@ -939,34 +948,40 @@ namespace FriishProduce.Injectors
 
                             // Automatic adjustment
                             // **********************************************
-                            else if (GetSetting("zoom").Contains("auto"))
-                            {
+                            else if (GetSetting("zoom").Contains("auto") && !zodiak) {
                                 // Do calculation
                                 (double Width, double Height) = (frameSize.Width, frameSize.Height);
-                                if (swfSize.Width > swfSize.Height)
-                                {
-                                    Width *= swfSize.Width / frameSize.Width;
-                                    Height *= swfSize.Width / frameSize.Width;
-                                }
-                                else
-                                {
-                                    Width *= swfSize.Height / frameSize.Height;
-                                    Height *= swfSize.Height / frameSize.Height;
-                                }
+                                bool wider = swfSize.Width > swfSize.Height;
+                                Width *= wider ? swfSize.Width / frameSize.Width : swfSize.Height / frameSize.Height;
+                                Height *= wider ? swfSize.Width / frameSize.Width : swfSize.Height / frameSize.Height;
 
                                 // Round and convert to integer
                                 double padding = 5.0;
                                 int h = Convert.ToInt32(Math.Round(Width + padding) / 2);
                                 int v = Convert.ToInt32(Math.Round(Height + padding) / 2);
+                                int hnp = Convert.ToInt32(Math.Round(Width) / 2);
+                                int vnp = Convert.ToInt32(Math.Round(Height) / 2);
 
                                 txt.Add($"ortho_rect                      -{h} +{v} +{h} -{v} # left top right bottom (608 x 456)");
                                 modified = true;
                             }
 
+                            // Automatic adjustment (Stretch)
+                            // Big thanks and credits to ZodiaKGalXy
+                            // **********************************************
+                            else if (GetSetting("zoom").Contains("auto") && zodiak) {
+                                // Scale factor
+                                double scale = Math.Min(frameSize.Width / swfSize.Width, frameSize.Height / swfSize.Height);
+                                int h = (int) Math.Round((swfSize.Width * scale) / 2.0);
+                                int v = (int) Math.Round((swfSize.Height * scale) / 2.0);
+                                // Half sizes, ortho rectangle bounds
+                                txt.Add($"ortho_rect                      -{h} +{v} +{h} -{v} # left top right bottom ({frameSize.Width} x {frameSize.Height})");
+                                modified = true;
+                            }
+
                             // Default adjustment
                             // **********************************************
-                            else
-                            {
+                            else {
                                 txt.Add($"ortho_rect                      -{defaultSize.Width} +{defaultSize.Height} +{defaultSize.Width} -{defaultSize.Height} # left top right bottom (608 x 456)");
                                 modified = true;
                             }

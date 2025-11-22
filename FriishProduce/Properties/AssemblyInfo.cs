@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FriishProduce")]
+[assembly: AssemblyTitle("FriishProduce-WME")]
 [assembly: AssemblyDescription("Wii Virtual Console injector")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FriishProduce")]
-[assembly: AssemblyCopyright("Copyright © CatmanFan / Mr._Lechkar")]
+[assembly: AssemblyProduct("FriishProduce-WME")]
+[assembly: AssemblyCopyright("Copyright © WiiMart && CatmanFan / Mr._Lechkar")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 // To increment the version number, specify a number and tag for the
 // informational version, then enter the same number for the other two
 // assembly versions.
-[assembly: AssemblyInformationalVersion("1.6.0.1-debug")]
-[assembly: AssemblyFileVersion("1.6.0.1")]
-[assembly: AssemblyVersion("1.6.0.1")]
+[assembly: AssemblyInformationalVersion("1.6.1.1-debug")]
+[assembly: AssemblyFileVersion("1.6.1.1")]
+[assembly: AssemblyVersion("1.6.1.1")]
 [assembly: NeutralResourcesLanguage("en")]
