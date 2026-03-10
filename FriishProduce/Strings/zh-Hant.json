@@ -473,6 +473,7 @@
 			"strap_reminder2": "{enabled} (無擴充控制器)",
 			"swf_metadata": "SWF 元資料",
 			"content_domain": "內容網域",
+			"content_url": "Content URL",
 			"background_color": "背景顏色",
 			"anti_aliasing": "抗鋸齒",
 			"flash_vars": "變數 Flash",

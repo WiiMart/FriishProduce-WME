@@ -40,6 +40,8 @@ namespace FriishProduce
             this.persistent_storage_per_movie = new System.Windows.Forms.ComboBox();
             this.persistent_storage_total_l = new System.Windows.Forms.Label();
             this.persistent_storage_total = new System.Windows.Forms.ComboBox();
+            this.flash_version_l = new System.Windows.Forms.Label();
+            this.flash_version = new FriishProduce.PlaceholderTextBox();
             this.flash_vars_l = new System.Windows.Forms.Label();
             this.flash_vars = new FriishProduce.PlaceholderTextBox();
             this.save_data_enable = new System.Windows.Forms.CheckBox();
@@ -66,6 +68,8 @@ namespace FriishProduce
             this.background_color_l = new System.Windows.Forms.Label();
             this.content_domain_l = new System.Windows.Forms.Label();
             this.content_domain = new FriishProduce.PlaceholderTextBox();
+            this.content_url_l = new System.Windows.Forms.Label();
+            this.content_url = new FriishProduce.PlaceholderTextBox();
             this.zoom = new FriishProduce.GroupBoxEx();
             this.zoom_list = new System.Windows.Forms.ComboBox();
             this.bottomPanel1.SuspendLayout();
@@ -336,6 +340,10 @@ namespace FriishProduce
             this.swf_metadata.Controls.Add(this.background_color_img);
             this.swf_metadata.Controls.Add(this.content_domain);
             this.swf_metadata.Controls.Add(this.content_domain_l);
+            this.swf_metadata.Controls.Add(this.content_url);
+            this.swf_metadata.Controls.Add(this.content_url_l);
+            this.swf_metadata.Controls.Add(this.flash_version_l);
+            this.swf_metadata.Controls.Add(this.flash_version);
             this.swf_metadata.Controls.Add(this.flash_vars_l);
             this.swf_metadata.Controls.Add(this.flash_vars);
             this.swf_metadata.Location = new System.Drawing.Point(378, 186);
@@ -348,15 +356,15 @@ namespace FriishProduce
 
             // background_color
             this.background_color.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.background_color.Location = new System.Drawing.Point(15, 79);
+            this.background_color.Location = new System.Drawing.Point(255, 79);
             this.background_color.MaxLength = 6;
             this.background_color.Name = "background_color";
-            this.background_color.Size = new System.Drawing.Size(290, 21);
+            this.background_color.Size = new System.Drawing.Size(52, 21);
             this.background_color.TextChanged += new System.EventHandler(this.valueChanged);
 
             // background_color_l
             this.background_color_l.AutoSize = true;
-            this.background_color_l.Location = new System.Drawing.Point(7, 61);
+            this.background_color_l.Location = new System.Drawing.Point(252, 61);
             this.background_color_l.Name = "background_color_l";
             this.background_color_l.Size = new System.Drawing.Size(92, 13);
             this.background_color_l.Tag = "background_color";
@@ -375,6 +383,33 @@ namespace FriishProduce
             this.content_domain.Name = "content_domain";
             this.content_domain.PlaceholderText = "file:///trusted/";
             this.content_domain.Size = new System.Drawing.Size(157, 21);
+
+            // content_url_l
+            this.content_url_l.AutoSize = true;
+            this.content_url_l.Location = new System.Drawing.Point(7, 61);
+            this.content_url_l.Name = "content_url_l";
+            this.content_url_l.Size = new System.Drawing.Size(84, 13);
+            this.content_url_l.Tag = "content_url";
+            this.content_url_l.Text = "content_url";
+
+            // content_url
+            this.content_url.Location = new System.Drawing.Point(15, 79);
+            this.content_url.Name = "content_url";
+            this.content_url.PlaceholderText = "file:///trusted/menu.swf";
+            this.content_url.Size = new System.Drawing.Size(157, 21);
+
+            // flash_version_l
+            this.flash_version_l.AutoSize = true;
+            this.flash_version_l.Location = new System.Drawing.Point(190, 61);
+            this.flash_version_l.Name = "flash_version_l";
+            this.flash_version_l.Size = new System.Drawing.Size(57, 13);
+            this.flash_version_l.Tag = "flash_version";
+            this.flash_version_l.Text = "flash_version";
+            // flash_version
+            this.flash_version.Location = new System.Drawing.Point(193, 79);
+            this.flash_version.Name = "flash_version";
+            this.flash_version.PlaceholderText = "0";
+            this.flash_version.Size = new System.Drawing.Size(52, 21);
 
             // flash_vars_l
             this.flash_vars_l.AutoSize = true;
@@ -473,6 +508,12 @@ namespace FriishProduce
 
         private PlaceholderTextBox content_domain;
         private System.Windows.Forms.Label content_domain_l;
+
+        private PlaceholderTextBox content_url;
+        private System.Windows.Forms.Label content_url_l;
+
+        private PlaceholderTextBox flash_version;
+        private System.Windows.Forms.Label flash_version_l;
 
         private PlaceholderTextBox flash_vars;
         private System.Windows.Forms.Label flash_vars_l;

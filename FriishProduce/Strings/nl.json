@@ -474,6 +474,7 @@
 			"strap_reminder2": "{enabled} (zonder uitbreiding)",
 			"swf_metadata": "SWF metadata",
 			"content_domain": "Inhoudsdomein",
+			"content_url": "Content URL",
 			"background_color": "Achtergrondkleur",
 			"anti_aliasing": "Anti-aliasing",
 			"flash_vars": "Flash Variables",

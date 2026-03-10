@@ -358,6 +358,7 @@
 			"strap_reminder2": "{enabled} (拡張コントローラなし)",
 			"swf_metadata": "SWFメタデータ",
 			"content_domain": "コンテンツドメイン",
+			"content_url": "Content URL",
 			"background_color": "背景色",
 			"anti_aliasing": "アンチエイリアス",
 			"flash_vars": "Flash変数",

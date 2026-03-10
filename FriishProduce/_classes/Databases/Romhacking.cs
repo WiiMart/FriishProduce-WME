@@ -67,17 +67,12 @@ namespace FriishProduce
             var mainMatch = Regex.Match(html, @"<div id=""main""\s*>(.*?)</div>\s*</div>", RX_SI);
             if (mainMatch.Success) {
                 string mainHtml = mainMatch.Groups[1].Value;
-                Console.WriteLine("Main HTML snippet: " + mainHtml.Substring(0, Math.Min(300, mainHtml.Length)));
-
                 // match h2 inside topbar within #main
                 var h2Match = Regex.Match(mainHtml, @"<div class=""topbar"">\s*<h2>(?<val>.*?)</h2>", RX_SI);
                 if (h2Match.Success) {
                     entry.UpperTitle = CleanInner(h2Match.Groups["val"].Value);
-                    Console.WriteLine("Matched H2: " + entry.UpperTitle);
-                } else
-                    Console.WriteLine("Failed to match H2 inside #main .topbar");
-            } else
-                Console.WriteLine("Failed to match #main div");
+                }
+            }
 
             // title after the image, find the center div that appears after imageGallery
             if (igMatch.Success) {

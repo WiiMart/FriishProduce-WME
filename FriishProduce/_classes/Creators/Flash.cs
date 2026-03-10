@@ -11,11 +11,18 @@ namespace FriishProduce.Injectors
 
         private U8 MainContent { get; set; }
 
-        private bool HasSetting(string key) {
+        /*private bool HasSetting(string key) {
             // null, and key check and empty key:val check
             if (Settings == null || !Settings.TryGetValue(key, out var val) || string.IsNullOrWhiteSpace(val))
                 return false;
             return !(val.Contains("\\") || val.Contains("/") || System.IO.Path.HasExtension(val)) || File.Exists(val);
+        }*/
+
+        private bool HasSetting(string key) {
+            // null, and key check and empty key:val check
+            if (Settings == null || !Settings.TryGetValue(key, out var val) || string.IsNullOrWhiteSpace(val))
+                return false;
+            return Uri.IsWellFormedUriString(val, UriKind.Absolute) || (!val.Any(c => c == '\\' || c == '/') || File.Exists(val));
         }
 
         private string GetSetting(string key) {
@@ -582,7 +589,7 @@ namespace FriishProduce.Injectors
             // get our match
             flBase = flMatch;
             swfTarget = PathConstants.FlashContents + flMatch.Path;
-            Logger.INFO($"flMatch.Content: {flMatch.Domain}", $"flMatch.FullPath: {flMatch.FullPath}");
+            Logger.INFO($"flMatch.Content: {flMatch.Domain}", $"flMatch.FullPath: {flMatch.FullPath}", $"");
 
             #endregion
 
@@ -682,6 +689,7 @@ namespace FriishProduce.Injectors
 
                 else if (Path.GetFileName(item).Contains("common.pcf"))
                 {
+                    // Create our initial pcf
                     List<string> txt = new()
                     {
                         "# Comments (text preceded by #) and line breaks will be ignored",
@@ -724,8 +732,11 @@ namespace FriishProduce.Injectors
 
                         $"hbm_no_save                     {(flBase == FlashBase.BackToNature ? "yes" : GetSetting("hbm_no_save"))}",
 
+                        $"content_domain                  {GetSetting("content_domain") ?? flBase.Domain}				#Local Data",
+
                         (flBase == FlashBase.YouTube ? $"debug_content_url" : $"content_url") + $"                     {flBase.FullPath}",
                     };
+
                     if (flBase == FlashBase.iPlayer)
                     {
                         txt.AddRange(new string[]

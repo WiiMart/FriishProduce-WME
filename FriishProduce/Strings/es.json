@@ -466,6 +466,7 @@
 			"strap_reminder2": "{enabled} (sin pantalla de mandos complementarios)",
 			"swf_metadata": "Metadatos del SWF",
 			"content_domain": "Dominio de contenido",
+			"content_url": "Content URL",
 			"background_color": "Color de fondo",
 			"anti_aliasing": "Antialias",
 			"flash_vars": "Flash Variables",

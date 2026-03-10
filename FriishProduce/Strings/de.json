@@ -472,6 +472,7 @@
             "strap_reminder2": "{enabled} (ohne Erweiterungscontroller)",
             "swf_metadata": "SWF-Metadaten",
             "content_domain": "Inhaltsdomain",
+			"content_url": "Content URL",
             "background_color": "Hintergrundfarbe",
             "anti_aliasing": "Kantenglättung",
             "no_copy_save": "Kopieren von Speicherdaten deaktivieren",
