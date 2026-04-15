@@ -78,7 +78,7 @@ namespace FriishProduce
             {
                 bool verified = false;
 
-                using (var zip = SharpCompress.Archives.Zip.ZipArchive.OpenArchive(file))
+                using (var zip = SharpCompress.Archives.Zip.ZipArchive.Open(file))
                 {
                     foreach (var entry in zip.Entries.Where(x => !x.IsDirectory))
                     {
