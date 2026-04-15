@@ -122,6 +122,9 @@
     <Reference Include="System.Text" />
     <Reference Include="System.Text.Json" />
     <Reference Include="System.Text.Json.Serialization" />
+    <Reference Include="TheArtOfDev" />
+    <Reference Include="TheArtOfDev.HtmlRenderer" />
+    <Reference Include="TheArtOfDev.HtmlRenderer.WinForms" />
     <Reference Include="System.Formats.Nrbf, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Formats.Nrbf.9.0.2\lib\net462\System.Formats.Nrbf.dll</HintPath>
     </Reference>
