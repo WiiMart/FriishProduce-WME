@@ -784,6 +784,7 @@
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.48</Version>
     </PackageReference>
+    <PackageReference Include="HtmlRenderer.WinForms" Version="1.5.2" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU">
       <Version>8.1.0</Version>
     </PackageReference>
